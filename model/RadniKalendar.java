@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  RadniKalendar.java
  * Author:  User

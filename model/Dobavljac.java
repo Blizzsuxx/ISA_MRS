@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  Dobavljac.java
  * Author:  rajta

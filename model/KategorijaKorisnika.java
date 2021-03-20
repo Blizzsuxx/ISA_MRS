@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  KategorijaKorisnika.java
  * Author:  rajta

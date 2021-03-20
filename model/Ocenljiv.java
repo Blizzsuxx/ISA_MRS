@@ -1,11 +1,12 @@
+package model;
 /***********************************************************************
- * Module:  Akcija.java
+ * Module:  Ocenljiv.java
  * Author:  rajta
- * Purpose: Defines the Class Akcija
+ * Purpose: Defines the Interface Ocenljiv
  ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid 30cefa45-8610-439a-b2cf-2408380dcb98 */
-public class Akcija {
+/** @pdOid 04d823e6-9d61-499a-ab95-9ab5e2c0dc0a */
+public interface Ocenljiv {
 }

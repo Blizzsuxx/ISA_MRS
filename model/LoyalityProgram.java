@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  LoyalityProgram.java
  * Author:  rajta

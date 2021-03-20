@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  RezimIzdavanja.java
  * Author:  User

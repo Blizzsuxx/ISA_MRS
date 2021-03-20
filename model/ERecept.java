@@ -1,15 +1,23 @@
+package model;
 /***********************************************************************
- * Module:  Narucbenica.java
- * Author:  rajta
- * Purpose: Defines the Class Narucbenica
+ * Module:  ERecept.java
+ * Author:  User
+ * Purpose: Defines the Class ERecept
  ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid 20933e3b-7024-4dc6-ac30-983e38e7cbbd */
-public class Narucbenica {
-   /** @pdRoleInfo migr=no name=Lek assc=association16 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
+/** @pdOid eedad80d-67f0-4ce0-ab88-4410f56c57ff */
+public class ERecept {
+   /** @pdOid e8d3bf6f-af77-4dad-adc9-cddcf611e31a */
+   private int sifra;
+   /** @pdOid f26febfc-6ebe-4e68-a3d7-bbb9bfa29c53 */
+   private Date datum;
+   
+   /** @pdRoleInfo migr=no name=Lek assc=association10 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
    public java.util.Collection<Lek> lekovi;
+   /** @pdRoleInfo migr=no name=Poseta assc=association9 mult=0..1 side=A */
+   public Poseta poseta;
    
    
    /** @pdGenerated default getter */
@@ -59,6 +67,29 @@ public class Narucbenica {
    public void removeAllLekovi() {
       if (lekovi != null)
          lekovi.clear();
+   }
+   /** @pdGenerated default parent getter */
+   public Poseta getPoseta() {
+      return poseta;
+   }
+   
+   /** @pdGenerated default parent setter
+     * @param newPoseta */
+   public void setPoseta(Poseta newPoseta) {
+      if (this.poseta == null || !this.poseta.equals(newPoseta))
+      {
+         if (this.poseta != null)
+         {
+            Poseta oldPoseta = this.poseta;
+            this.poseta = null;
+            oldPoseta.removeRecept(this);
+         }
+         if (newPoseta != null)
+         {
+            this.poseta = newPoseta;
+            this.poseta.addRecept(this);
+         }
+      }
    }
 
 }

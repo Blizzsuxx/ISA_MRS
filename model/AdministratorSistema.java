@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  AdministratorSistema.java
  * Author:  User

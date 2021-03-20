@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  Pacijent.java
  * Author:  rajta

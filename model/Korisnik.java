@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  Korisnik.java
  * Author:  User

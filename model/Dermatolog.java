@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  Dermatolog.java
  * Author:  User

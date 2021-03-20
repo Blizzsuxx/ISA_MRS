@@ -1,9 +1,9 @@
+package model;
 /***********************************************************************
  * Module:  AdministratorApoteke.java
  * Author:  User
  * Purpose: Defines the Class AdministratorApoteke
  ***********************************************************************/
-
 import java.util.*;
 
 /** @pdOid 56b3ebae-3efb-4723-9a14-fc8dc140c91a */

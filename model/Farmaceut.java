@@ -1,11 +1,12 @@
+package model;
 /***********************************************************************
- * Module:  GodisnjiOdmor.java
+ * Module:  Farmaceut.java
  * Author:  User
- * Purpose: Defines the Class GodisnjiOdmor
+ * Purpose: Defines the Class Farmaceut
  ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid 44f5e9d4-4f05-4f2d-9fa1-0b59c44f0523 */
-public class GodisnjiOdmor {
+/** @pdOid eb7dba84-541b-4f51-bf83-7c0982c90b3b */
+public class Farmaceut extends Radnik {
 }

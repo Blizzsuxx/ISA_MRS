@@ -1,3 +1,4 @@
+package model;
 /***********************************************************************
  * Module:  Cenovnik.java
  * Author:  User

@@ -1,11 +1,12 @@
+package model;
 /***********************************************************************
- * Module:  Ocenljiv.java
- * Author:  rajta
- * Purpose: Defines the Interface Ocenljiv
+ * Module:  Ocena.java
+ * Author:  User
+ * Purpose: Defines the Class Ocena
  ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid 04d823e6-9d61-499a-ab95-9ab5e2c0dc0a */
-public interface Ocenljiv {
+/** @pdOid a68e68e3-2f7e-46b6-9fad-16ac23c774e0 */
+public class Ocena {
 }

@@ -1,11 +1,13 @@
+package model;
+
 /***********************************************************************
- * Module:  Ocena.java
- * Author:  User
- * Purpose: Defines the Class Ocena
+ * Module:  Akcija.java
+ * Author:  rajta
+ * Purpose: Defines the Class Akcija
  ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid a68e68e3-2f7e-46b6-9fad-16ac23c774e0 */
-public class Ocena {
+/** @pdOid 30cefa45-8610-439a-b2cf-2408380dcb98 */
+public class Akcija {
 }
