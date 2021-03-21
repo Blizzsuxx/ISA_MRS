@@ -1,19 +1,19 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
+import lijekovi from'./modules/APlijekovi';
+
 
 export default createStore({
-    state:{
-
-    },
-    mutation:{
-
-    },
-    actions:{
-
-    },
-    getters:{
-
-    },
-    modules:{
-
-    }
-})
+    state () {
+        return {
+          count: 0
+        }
+      },
+      mutations: {
+        increment (state) {
+          state.count++
+        }
+      },
+      modules:{
+        lijekovi
+      }
+  })
