@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import APlijekovi from'./modules/APlijekovi';
-
+import APApoteke from'./modules/APApoteke';
 
 export default createStore({
     state () {
@@ -10,6 +10,7 @@ export default createStore({
       },
       
       modules:{
-        APlijekovi
+        APlijekovi,
+        APApoteke
       }
   })

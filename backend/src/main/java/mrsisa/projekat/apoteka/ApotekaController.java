@@ -1,15 +1,15 @@
 package mrsisa.projekat.apoteka;
 
 
-import mrsisa.projekat.lijek.Lijek;
-import mrsisa.projekat.lijek.StanjeLijeka;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import mrsisa.projekat.lijek.StanjeLijeka;
 
 
 @CrossOrigin
@@ -27,4 +27,12 @@ public class ApotekaController {
     public List<StanjeLijeka> dobaviLijekove(){
         return apotekaService.dobaviStanjaLijekova();
     }
+    @GetMapping(path="/dobaviApoteke")
+    public List<Apoteka> dobaviApoteke(){
+    	
+
+    	return apotekaService.dobaviApoteke();
+    }
+    
+
 }

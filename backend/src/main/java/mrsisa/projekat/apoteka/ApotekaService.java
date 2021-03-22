@@ -1,10 +1,12 @@
 package mrsisa.projekat.apoteka;
 
 
+import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.StanjeLijeka;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -60,5 +62,15 @@ public class ApotekaService {
         );
         apoteka.setLijekovi(stanjaLijekova);
         return apoteka.getLijekovi();
+    }
+    public List<Apoteka> dobaviApoteke(){
+    	//ovde treba ucitati apoteke
+    	List<Apoteka> apoteke=List.of(
+    			new Apoteka(1,"Apoteka1",null),new Apoteka(2,"Apoteka2",null),new Apoteka(3,"Apoteka3",null),new Apoteka(4,"Apoteka4",null));
+    	Adresa ad=new Adresa("Kazahstan","ptt","Ulica",5,50, 50);
+    	for(Apoteka a : apoteke) {
+    		a.setAdresa(ad);
+    	}
+    	return apoteke;
     }
 }

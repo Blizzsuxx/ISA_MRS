@@ -1,6 +1,7 @@
 package mrsisa.projekat.apoteka;
 
 
+import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.lijek.StanjeLijeka;
 
 import java.util.List;
@@ -9,7 +10,15 @@ public class Apoteka {
     private List<StanjeLijeka> lijekovi;
     private String ime;
     private int id;
-    public Apoteka(){
+    private Adresa adresa;
+    
+    public Adresa getAdresa() {
+		return adresa;
+	}
+	public void setAdresa(Adresa adresa) {
+		this.adresa = adresa;
+	}
+	public Apoteka(){
 
     }
     public Apoteka(int id, String ime,List<StanjeLijeka> lijekovi){

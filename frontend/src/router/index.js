@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 import APLijekovi from '../components/APLijekovi'
+import APApoteke from '../components/APApoteke'
 const routes = [
   
   
@@ -9,6 +10,11 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/ap/apoteke',
+    name: 'APApoteke',
+    component: APApoteke,
   },
 ]
 
