@@ -2,8 +2,9 @@
 <h2>Sve registrovane apoteke</h2>
 <div style="margin-top: 20px">
     <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button> -->
-    <el-input @input="pretrazi()" ></el-input>
-    <el-button @click="removeFromPharmacy()">Pretrazi</el-button>
+    <el-input  type="text" id="trazi" v-model="text" ></el-input>
+    <button v-on:click="pretrazi">Pretrazi</button>
+	
   </div>
   <el-table
     ref="multipleTable"
@@ -53,7 +54,7 @@ export default {
   name: 'APPostojeceApoteke',
   data() {
       return {
-       
+       inputData: "",
         multipleSelection: []
       }
     },
@@ -68,11 +69,13 @@ export default {
           this.$refs.multipleTable.clearSelection();
         }
       },
-     pretrazi: {
+     pretrazi() {
        //ovde ili instalirati onu glupost, koja nzm cemu sluzi, ili poslati beku
        //https://www.npmjs.com/package/vue-input-search
        //https://vuejs.org/v2/guide/forms.html
-       //bdw ako stavim : bez () mogu da unesem tekst, ako stavim samo () ne moze ha ha
+       //bdw ako stavim : bez () mogu da unesem tekst, ako stavim samo () ne moze ha ha;
+        this.inputData=this.text;
+        console.log(this.inputData);
      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
