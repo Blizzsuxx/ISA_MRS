@@ -11,7 +11,7 @@ const getters = {
 
 const actions = {
     dobaviLijekove (contex) {
-        axios.get('http://localhost:8080/api/v1/apoteka')
+        axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
         let lijekoviMagacin =response.data.filter(lijek=>lijek.prodaja===false)
         let lijekoviProdaja = response.data.filter(lijek=>lijek.prodaja===true)
