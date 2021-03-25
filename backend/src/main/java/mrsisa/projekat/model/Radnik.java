@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  Radnik.java
  * Author:  rajta
@@ -6,19 +6,27 @@ package model;
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid 6c7c4bc6-5d4f-4f8b-9192-e5a299b19e3c */
+@Entity
 public class Radnik extends Korisnik implements Ocenljiv {
-   /** @pdRoleInfo migr=no name=RadniKalendar assc=association2 mult=1..1 type=Composition */
-   public RadniKalendar kalendar;
-   /** @pdRoleInfo migr=no name=GodisnjiOdmor assc=association3 mult=1..1 type=Composition */
-   public GodisnjiOdmor godisnjiOdmor;
-   /** @pdRoleInfo migr=no name=Ocena assc=association19 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Composition */
-   public java.util.Collection<Ocena> ocena;
-   /** @pdRoleInfo migr=no name=Apoteka assc=association1 mult=1..* side=A */
-   public Apoteka[] apoteka;
-   /** @pdRoleInfo migr=no name=Pacijent assc=association18 mult=0..1 side=A */
-   public Pacijent pregledaniPacijenti;
+
+   @OneToOne(mappedBy = "radnik", cascade = CascadeType.ALL)
+   private RadniKalendar kalendar;
+
+   @OneToOne(mappedBy = "radnik", cascade = CascadeType.ALL)
+   private GodisnjiOdmor godisnjiOdmor;
+
+   @OneToMany(mappedBy = "radnik", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   private java.util.Collection<Ocena> ocena;
+
+   @ManyToMany
+	@JoinTable(name = "radi", joinColumns = @JoinColumn(name = "apoteka_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "radnik_id", referencedColumnName = "id"))
+   private Apoteka[] apoteka;
+
+   @OneToMany(mappedBy = "radnik", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   private java.util.Collection<Pacijent> pregledaniPacijenti;
    
    
    /** @pdGenerated default getter */
@@ -70,27 +78,28 @@ public class Radnik extends Korisnik implements Ocenljiv {
          ocena.clear();
    }
    /** @pdGenerated default parent getter */
-   public Pacijent getPregledaniPacijenti() {
+   public Collection<Pacijent> getPregledaniPacijenti() {
       return pregledaniPacijenti;
+   }
+
+
+   public void addPacijent(Pacijent pacijent){
+
+      if (pacijent != null){
+         return;
+      }
+
+      this.pregledaniPacijenti.add(pacijent);
+
+
    }
    
    /** @pdGenerated default parent setter
      * @param newPacijent */
-   public void setPregledaniPacijenti(Pacijent newPacijent) {
-      if (this.pregledaniPacijenti == null || !this.pregledaniPacijenti.equals(newPacijent))
-      {
-         if (this.pregledaniPacijenti != null)
-         {
-            Pacijent oldPacijent = this.pregledaniPacijenti;
-            this.pregledaniPacijenti = null;
-            oldPacijent.removeIstorijaPoseta(this);
-         }
-         if (newPacijent != null)
-         {
-            this.pregledaniPacijenti = newPacijent;
-            this.pregledaniPacijenti.addIstorijaPoseta(this);
-         }
-      }
+   public void setPregledaniPacijenti(Collection<Pacijent> newPacijent) {
+      this.pregledaniPacijenti.clear();
+      for (java.util.Iterator iter = newPacijent.iterator(); iter.hasNext();)
+         addPacijent((Pacijent)iter.next());
    }
 
 }

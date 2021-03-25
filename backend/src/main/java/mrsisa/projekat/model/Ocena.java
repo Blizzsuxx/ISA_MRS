@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  Ocena.java
  * Author:  User

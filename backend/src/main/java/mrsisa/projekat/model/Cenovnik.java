@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  Cenovnik.java
  * Author:  User

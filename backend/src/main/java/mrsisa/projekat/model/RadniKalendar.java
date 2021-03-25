@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  RadniKalendar.java
  * Author:  User
@@ -6,11 +6,20 @@ package model;
  ***********************************************************************/
 
 import java.util.*;
+import javax.persistence.*;
 
 /** @pdOid 1f7aff46-1ce4-400f-9348-4dd6441bc87e */
+
+@Entity
 public class RadniKalendar {
+
+   @Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
    /** @pdRoleInfo migr=no name=Poseta assc=association11 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
-   public java.util.Collection<Poseta> poseta;
+   @OneToMany(mappedBy = "radni_kalendar", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+   private java.util.Collection<Poseta> poseta;
    
    
    /** @pdGenerated default getter */

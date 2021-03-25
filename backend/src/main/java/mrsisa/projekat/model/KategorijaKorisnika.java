@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  KategorijaKorisnika.java
  * Author:  rajta

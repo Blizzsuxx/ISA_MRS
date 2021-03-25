@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  ERecept.java
  * Author:  User
@@ -72,24 +72,6 @@ public class ERecept {
    public Poseta getPoseta() {
       return poseta;
    }
-   
-   /** @pdGenerated default parent setter
-     * @param newPoseta */
-   public void setPoseta(Poseta newPoseta) {
-      if (this.poseta == null || !this.poseta.equals(newPoseta))
-      {
-         if (this.poseta != null)
-         {
-            Poseta oldPoseta = this.poseta;
-            this.poseta = null;
-            oldPoseta.removeRecept(this);
-         }
-         if (newPoseta != null)
-         {
-            this.poseta = newPoseta;
-            this.poseta.addRecept(this);
-         }
-      }
-   }
+
 
 }

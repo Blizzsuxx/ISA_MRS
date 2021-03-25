@@ -1,4 +1,4 @@
-package model;
+package mrsisa.projekat.model;
 /***********************************************************************
  * Module:  Pacijent.java
  * Author:  rajta
@@ -7,22 +7,29 @@ package model;
 
 import java.util.*;
 
+import javax.persistence.*;
+
 /** @pdOid a3edc026-25bb-4551-8da4-2007119bdf84 */
 public class Pacijent extends Korisnik {
    /** @pdOid 3e22637d-2efd-4398-8cac-572aab4fdb49 */
+   @Column(name = "poeni", nullable = false)
    private int poeni;
    /** @pdOid 97b2336a-e11a-4403-9f86-3e5302a625c3 */
+   @Column(name = "email", nullable = false)
    private String email;
    
-   /** @pdRoleInfo migr=no name=Poseta assc=association8 coll=java.util.Collection impl=java.util.HashSet mult=0..* type=Composition */
+   @OneToMany(mappedBy = "pacijent", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public java.util.Collection<Poseta> posete;
    /** @pdRoleInfo migr=no name=Lek assc=association12 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
+   @ManyToMany
+	@JoinTable(name = "alergije", joinColumns = @JoinColumn(name = "pacijent_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "lek_id", referencedColumnName = "id"))
    public java.util.Collection<Lek> alerije;
    /** @pdRoleInfo migr=no name=Zalba assc=association17 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
+   @OneToMany(mappedBy = "pacijent", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
    public java.util.Collection<Zalba> Zalbe;
-   /** @pdRoleInfo migr=no name=Radnik assc=association18 coll=java.util.Collection impl=java.util.HashSet mult=0..* */
-   public java.util.Collection<Radnik> istorijaPoseta;
    /** @pdRoleInfo migr=no name=Lek assc=izdatiLekovi coll=java.util.Collection impl=java.util.HashSet mult=0..* */
+   @ManyToMany
+	@JoinTable(name = "radi", joinColumns = @JoinColumn(name = "pacijent_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "lek_id", referencedColumnName = "id"))
    public java.util.Collection<Lek> izdatLek;
    
    
@@ -184,68 +191,8 @@ public class Pacijent extends Korisnik {
       if (Zalbe != null)
          Zalbe.clear();
    }
-   /** @pdGenerated default getter */
-   public java.util.Collection<Radnik> getIstorijaPoseta() {
-      if (istorijaPoseta == null)
-         istorijaPoseta = new java.util.HashSet<Radnik>();
-      return istorijaPoseta;
-   }
+  
    
-   /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorIstorijaPoseta() {
-      if (istorijaPoseta == null)
-         istorijaPoseta = new java.util.HashSet<Radnik>();
-      return istorijaPoseta.iterator();
-   }
-   
-   /** @pdGenerated default setter
-     * @param newIstorijaPoseta */
-   public void setIstorijaPoseta(java.util.Collection<Radnik> newIstorijaPoseta) {
-      removeAllIstorijaPoseta();
-      for (java.util.Iterator iter = newIstorijaPoseta.iterator(); iter.hasNext();)
-         addIstorijaPoseta((Radnik)iter.next());
-   }
-   
-   /** @pdGenerated default add
-     * @param newRadnik */
-   public void addIstorijaPoseta(Radnik newRadnik) {
-      if (newRadnik == null)
-         return;
-      if (this.istorijaPoseta == null)
-         this.istorijaPoseta = new java.util.HashSet<Radnik>();
-      if (!this.istorijaPoseta.contains(newRadnik))
-      {
-         this.istorijaPoseta.add(newRadnik);
-         newRadnik.setPregledaniPacijenti(this);      
-      }
-   }
-   
-   /** @pdGenerated default remove
-     * @param oldRadnik */
-   public void removeIstorijaPoseta(Radnik oldRadnik) {
-      if (oldRadnik == null)
-         return;
-      if (this.istorijaPoseta != null)
-         if (this.istorijaPoseta.contains(oldRadnik))
-         {
-            this.istorijaPoseta.remove(oldRadnik);
-            oldRadnik.setPregledaniPacijenti((Pacijent)null);
-         }
-   }
-   
-   /** @pdGenerated default removeAll */
-   public void removeAllIstorijaPoseta() {
-      if (istorijaPoseta != null)
-      {
-         Radnik oldRadnik;
-         for (java.util.Iterator iter = getIteratorIstorijaPoseta(); iter.hasNext();)
-         {
-            oldRadnik = (Radnik)iter.next();
-            iter.remove();
-            oldRadnik.setPregledaniPacijenti((Pacijent)null);
-         }
-      }
-   }
    /** @pdGenerated default getter */
    public java.util.Collection<Lek> getIzdatLek() {
       if (izdatLek == null)
