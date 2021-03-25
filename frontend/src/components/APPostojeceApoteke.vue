@@ -2,12 +2,13 @@
 <h2>Sve registrovane apoteke</h2>
 <div style="margin-top: 20px">
     <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button> -->
-    <el-input @input="pretrazi()" ></el-input>
-    <el-button @click="removeFromPharmacy()">Pretrazi</el-button>
+    <el-input placeholder="Search" v-model="input"></el-input>
+    <button v-on:click="pretrazi">Pretrazi</button>
+	
   </div>
   <el-table
     ref="multipleTable"
-    :data="this.$store.state.APApoteke.sveApoteke"
+    :data="this.zaTabelu"
     style="width: 100%"
     @selection-change="handleSelectionChange">
     <el-table-column
@@ -48,16 +49,24 @@
   
 </template>
 
+const { defineComponent, ref } = Vue;
 <script>
-export default {
-  name: 'APPostojeceApoteke',
+
+   import { defineComponent, ref } from 'vue'
+export default defineComponent ({
+  setup() {
+    return {
+      input: ref('')
+    }
+  },
   data() {
+      
       return {
-       
-        multipleSelection: []
+       zaTabelu: this.$store.state.APApoteke.sveApoteke,
       }
     },
-    
+
+    name: 'APPostojeceApoteke',
     methods: {
       toggleSelection(rows) {
         if (rows) {
@@ -68,16 +77,19 @@ export default {
           this.$refs.multipleTable.clearSelection();
         }
       },
-     pretrazi: {
+     pretrazi() {
        //ovde ili instalirati onu glupost, koja nzm cemu sluzi, ili poslati beku
        //https://www.npmjs.com/package/vue-input-search
        //https://vuejs.org/v2/guide/forms.html
-       //bdw ako stavim : bez () mogu da unesem tekst, ako stavim samo () ne moze ha ha
+       //bdw ako stavim : bez () mogu da unesem tekst, ako stavim samo () ne moze ha ha;
+        
+        if(this.input===""){return;}
+        this.zaTabelu = this.$store.state.APApoteke.sveApoteke.filter( (item) => {return item.ime.includes( this.input)} );
      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
       }
     }
-  }
+  })
 
 </script>
