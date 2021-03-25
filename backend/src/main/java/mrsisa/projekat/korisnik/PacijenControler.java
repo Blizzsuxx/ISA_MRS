@@ -26,6 +26,7 @@ public class PacijenControler {
 
 	    @GetMapping()
 	    public Pacijent dobaviPacijenta(){
+	    	System.out.println("hhh");
 	    	return pacijentService.dobaviPacijenta();
 	    }
 

@@ -23,7 +23,8 @@ const routes = [
     path: '/ap/profil',
     name: 'IznemaLicnihInfoKorisnik',
     component: IznemaLicnihInfoKorisnik,
-  }, {
+  },
+  {
     path: '/ap/farmaceut',
     name: 'APFarmaceut',
     component: APFarmaceut,

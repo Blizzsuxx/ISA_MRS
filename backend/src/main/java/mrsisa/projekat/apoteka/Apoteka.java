@@ -4,14 +4,24 @@ package mrsisa.projekat.apoteka;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.lijek.StanjeLijeka;
 
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Apoteka {
-    private List<StanjeLijeka> lijekovi;
-    private String ime;
-    private int id;
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @ManyToOne(fetch = FetchType.EAGER)
     private Adresa adresa;
-    
+    @Column(name = "ime", nullable = false)
+    private String ime;
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StanjeLijeka> lijekovi;
+
+
     public Adresa getAdresa() {
 		return adresa;
 	}

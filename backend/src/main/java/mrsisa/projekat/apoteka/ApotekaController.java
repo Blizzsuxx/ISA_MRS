@@ -4,12 +4,11 @@ package mrsisa.projekat.apoteka;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import mrsisa.projekat.lijek.StanjeLijeka;
+
+import javax.websocket.server.PathParam;
 
 
 @CrossOrigin
@@ -23,8 +22,8 @@ public class ApotekaController {
     }
 
 
-    @GetMapping()
-    public List<StanjeLijeka> dobaviLijekove(){
+    @GetMapping("/dobaviLijekove/{id}")
+    public List<StanjeLijeka> dobaviLijekove(@PathVariable Integer id){
         return apotekaService.dobaviStanjaLijekova();
     }
     @GetMapping(path="/dobaviApoteke")

@@ -1,7 +1,12 @@
 <template>
   
-    <APTrenutniLijekovi/>
-    <APMagacinLijekovi/>
+    
+    
+    <el-row :gutter="20">
+  <el-col :span="12"><APTrenutniLijekovi/></el-col>
+  <el-col :span="12"><APMagacinLijekovi/></el-col>
+  
+    </el-row>
 </template>
 
 <script>
@@ -16,7 +21,8 @@ export default {
     },
   components:{
       APTrenutniLijekovi,
-      APMagacinLijekovi
+      APMagacinLijekovi,
+      
   }
 
 }

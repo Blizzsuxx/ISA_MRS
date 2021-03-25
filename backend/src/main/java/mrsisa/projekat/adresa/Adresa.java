@@ -1,7 +1,21 @@
 package mrsisa.projekat.adresa;
 
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Adresa {
-	public String Mesto, ptt, ulica;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long id;
+
+	public String Mesto;
+	public String ptt;
+	public String ulica;
 	public int broj;
 	public double gDuzina, gSirina;
 	public String getMesto() {
@@ -53,6 +67,9 @@ public class Adresa {
 		super();
 		this.gDuzina = gDuzina;
 		this.gSirina = gSirina;
+	}
+	public Adresa(){
+
 	}
 	
 	
