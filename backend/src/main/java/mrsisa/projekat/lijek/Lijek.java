@@ -1,5 +1,7 @@
 package mrsisa.projekat.lijek;
 
+import mrsisa.projekat.akcija.Akcija;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,6 +23,16 @@ public class Lijek {
     //private RezimIzdavanja rezimIzdavanja;
     @Column(name = "napomena", nullable = false)
     private String napomena;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Akcija akcija;
+
+
+    public Akcija getAkcija(){
+        return this.akcija;
+    }
+    public void setAkcija(Akcija akcija){
+        this.akcija = akcija;
+    }
 
     public Long getId() {
         return id;

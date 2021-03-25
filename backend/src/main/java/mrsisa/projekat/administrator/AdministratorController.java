@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 @RequestMapping(path="api/v1/administrator")
-public class AdministratorControler  {
+public class AdministratorController {
  
 }

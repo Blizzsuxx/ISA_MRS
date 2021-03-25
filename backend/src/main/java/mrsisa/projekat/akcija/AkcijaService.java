@@ -1,4 +1,4 @@
-package mrsisa.projekat.Akcija;
+package mrsisa.projekat.akcija;
 
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package mrsisa.projekat.Radnik;
+package mrsisa.projekat.radnik;
 
 import mrsisa.projekat.korisnik.Korisnik;
 

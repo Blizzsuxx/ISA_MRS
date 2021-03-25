@@ -2,7 +2,7 @@ package mrsisa.projekat.Dermatolog;
 
 import javax.persistence.*;
 
-import mrsisa.projekat.Radnik.Radnik;
+import mrsisa.projekat.radnik.Radnik;
 
 @Entity
 public class Dermatolog extends Radnik{

@@ -2,6 +2,7 @@ package mrsisa.projekat.apoteka;
 
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
@@ -21,6 +22,16 @@ public class Apoteka {
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> lijekovi;
 
+    public List<Narudzbenica> getNarudzbenice() {
+        return narudzbenice;
+    }
+
+    public void setNarudzbenice(List<Narudzbenica> narudzbenice) {
+        this.narudzbenice = narudzbenice;
+    }
+
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Narudzbenica> narudzbenice;
 
     public Adresa getAdresa() {
 		return adresa;

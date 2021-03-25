@@ -1,6 +1,7 @@
 package mrsisa.projekat.korisnik;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public abstract class  Korisnik {
@@ -10,7 +11,12 @@ public abstract class  Korisnik {
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
-
+    @Column(name = "firstName", nullable = false)
+    private String firstName;
+    @Column(name = "lastName", nullable = false)
+    private String lastName;
+    @Column(name = "birthday", nullable = false)
+    private LocalDateTime birthday;
     public String getUsername() {
         return username;
     }
