@@ -1,16 +1,12 @@
-package mrsisa.projekat.korisnik;
+package mrsisa.projekat.pacijent;
 
-import java.util.List;
-
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import mrsisa.projekat.apoteka.Apoteka;
-import mrsisa.projekat.apoteka.ApotekaService;
-import mrsisa.projekat.lijek.StanjeLijeka;
 
 @CrossOrigin
 @RestController
@@ -26,7 +22,7 @@ public class PacijenControler {
 
 	    @GetMapping()
 	    public Pacijent dobaviPacijenta(){
-	    	System.out.println("hhh");
+	    	System.out.println(pacijentService.dobaviPacijenta().getIme());
 	    	return pacijentService.dobaviPacijenta();
 	    }
 

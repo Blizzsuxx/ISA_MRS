@@ -32,7 +32,7 @@ public class Apoteka {
 
     }
     public Apoteka(int id, String ime,List<StanjeLijeka> lijekovi){
-        this.id = id;
+        this.id = (long)id;
         this.ime  = ime;
         this.lijekovi = lijekovi;
     }
@@ -58,11 +58,11 @@ public class Apoteka {
         this.ime = ime;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id = (long)id;
     }
 }

@@ -1,4 +1,4 @@
-package mrsisa.projekat.korisnik;
+package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.adresa.Adresa;
 
@@ -52,6 +52,8 @@ public Pacijent(String username, String password,String ime,String prezime) {
 	super();
 	this.username = username;
 	this.password = password;
+	this.ime = ime;
+	this.prezime = prezime;
 }
 
 }

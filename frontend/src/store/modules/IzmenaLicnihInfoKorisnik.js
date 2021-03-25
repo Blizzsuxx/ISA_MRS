@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const state = {    
-    korisnik :null,
+    form :null,
   
 };
 
@@ -14,9 +14,9 @@ const actions = {
        
         axios.get('http://localhost:8080/api/v1/profil')
         .then(response => {
-            let profil1 =response.data
-            console.log(profil1.adresa.ulica)
-            context.commit('postaviProfil',profil1)
+            let form =response.data
+            console.log(form.ime)
+            context.commit('postaviProfil',form)
         })
     },
     izmeniPodatke () {
@@ -32,7 +32,7 @@ const actions = {
 }
 
 const mutations = {
-    postaviProfil:(state, kor) => (state.korisnik = kor),
+    postaviProfil:(state, kor) => (state.form = kor),
 }
 
 export default{
