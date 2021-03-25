@@ -1,16 +1,31 @@
-package mrsisa.projekat.lijek;
+package mrsisa.projekat.stanjelijeka;
 
+
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.lijek.Lijek;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name="stanje_lijeka")
 public class StanjeLijeka {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne(cascade = CascadeType.ALL)
     private Lijek lijek;
+    @Column(name = "kolicina", nullable = false)
     private int kolicina;
+    @Column(name = "prodaja", nullable = false)
     private boolean prodaja;
-
-    public int getId() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Apoteka apoteka;
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,7 +59,7 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
-    public StanjeLijeka(int id, Lijek lijek, int kolicina, boolean prodaja) {
+    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja) {
         this.id = id;
         this.lijek = lijek;
         this.kolicina = kolicina;

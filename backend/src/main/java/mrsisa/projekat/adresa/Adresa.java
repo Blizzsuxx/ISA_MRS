@@ -1,10 +1,9 @@
 package mrsisa.projekat.adresa;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import mrsisa.projekat.apoteka.Apoteka;
+
+import javax.persistence.*;
 
 @Entity
 public class Adresa {
@@ -12,12 +11,21 @@ public class Adresa {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-
+	@Column(name = "mesto", nullable = false)
 	public String Mesto;
+	@Column(name = "ptt", nullable = false)
 	public String ptt;
+	@Column(name = "ulica", nullable = false)
 	public String ulica;
+	@Column(name = "broj", nullable = false)
 	public int broj;
-	public double gDuzina, gSirina;
+	@Column(name = "gDuzina", nullable = false)
+	public double gDuzina;
+	@Column(name = "gSirina", nullable = false)
+	public double gSirina;
+
+
+
 	public String getMesto() {
 		return Mesto;
 	}

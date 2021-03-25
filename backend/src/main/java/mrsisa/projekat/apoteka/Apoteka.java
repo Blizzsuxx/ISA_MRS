@@ -2,7 +2,7 @@ package mrsisa.projekat.apoteka;
 
 
 import mrsisa.projekat.adresa.Adresa;
-import mrsisa.projekat.lijek.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
 import java.util.List;
@@ -31,8 +31,8 @@ public class Apoteka {
 	public Apoteka(){
 
     }
-    public Apoteka(int id, String ime,List<StanjeLijeka> lijekovi){
-        this.id = (long)id;
+    public Apoteka(Long id, String ime,List<StanjeLijeka> lijekovi){
+        this.id = id;
         this.ime  = ime;
         this.lijekovi = lijekovi;
     }
@@ -62,7 +62,7 @@ public class Apoteka {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = (long)id;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

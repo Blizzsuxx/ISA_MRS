@@ -8,7 +8,7 @@ import java.util.List;
 public class LijekService {
     public List<Lijek> dobaviSveLijekove(){
         return List.of(new Lijek(
-                1,
+                1L,
                 "andija",
                 "andija",
                 "andija",

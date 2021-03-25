@@ -3,10 +3,9 @@ package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.lijek.Lijek;
-import mrsisa.projekat.lijek.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,13 +13,13 @@ public class ApotekaService {
     public List<StanjeLijeka> dobaviStanjaLijekova() {
 
         Apoteka apoteka =  new Apoteka();
-        apoteka.setId(1);
+        apoteka.setId(1L);
         apoteka.setIme("Prva apoteka");
         List<StanjeLijeka> stanjaLijekova = List.of(
                 new StanjeLijeka(
-                        1,
+                        1L,
                         new Lijek(
-                                1,
+                                1L,
                                 "Paracetamol",
                                 "Protiv boli",
                                 "tableta",
@@ -32,9 +31,9 @@ public class ApotekaService {
                         false
                 ),
                 new StanjeLijeka(
-                        2,
+                        2L,
                         new Lijek(
-                                2,
+                                2L,
                                 "Brufen",
                                 "Protiv boli",
                                 "tableta",
@@ -46,9 +45,9 @@ public class ApotekaService {
                         false
                 ),
                 new StanjeLijeka(
-                        3,
+                        3L,
                         new Lijek(
-                                3,
+                                3L,
                                 "Lekadol",
                                 "Protiv boli",
                                 "tableta",
@@ -66,7 +65,7 @@ public class ApotekaService {
     public List<Apoteka> dobaviApoteke(){
     	//ovde treba ucitati apoteke
     	List<Apoteka> apoteke=List.of(
-    			new Apoteka(1,"Apoteka1",null),new Apoteka(2,"Apoteka2",null),new Apoteka(3,"Apoteka3",null),new Apoteka(4,"Apoteka4",null));
+    			new Apoteka(1L,"Apoteka1",null),new Apoteka(2L,"Apoteka2",null),new Apoteka(3L,"Apoteka3",null),new Apoteka(4L,"Apoteka4",null));
     	Adresa ad=new Adresa("Kazahstan","ptt","Ulica",5,50, 50);
     	for(Apoteka a : apoteke) {
     		a.setAdresa(ad);
