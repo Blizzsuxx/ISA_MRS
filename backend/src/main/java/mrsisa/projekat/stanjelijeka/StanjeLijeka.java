@@ -14,7 +14,7 @@ public class StanjeLijeka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Lijek lijek;
     @Column(name = "kolicina", nullable = false)
     private int kolicina;

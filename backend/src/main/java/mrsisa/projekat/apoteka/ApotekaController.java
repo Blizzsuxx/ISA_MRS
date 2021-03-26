@@ -22,7 +22,7 @@ public class ApotekaController {
 
     @GetMapping("/dobaviLijekove/{id}")
     public List<StanjeLijeka> dobaviLijekove(@PathVariable Integer id){
-        return apotekaService.dobaviStanjaLijekova();
+        return apotekaService.dobaviStanjaLijekova(1L);
     }
     @GetMapping(path="/dobaviApoteke")
     public List<Apoteka> dobaviApoteke(){

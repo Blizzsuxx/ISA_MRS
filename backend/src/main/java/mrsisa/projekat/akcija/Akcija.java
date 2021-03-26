@@ -1,12 +1,9 @@
 package mrsisa.projekat.akcija;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 @Entity
 public class Akcija {
@@ -18,7 +15,8 @@ public class Akcija {
     private int procenatPopusta;
     @Column(name = "opis", nullable = true)
     private String opis;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private StanjeLijeka stanje;
     public Long getId() {
         return id;
     }

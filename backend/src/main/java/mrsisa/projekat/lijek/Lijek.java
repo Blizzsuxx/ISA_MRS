@@ -2,8 +2,10 @@ package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Lijek {
@@ -24,18 +26,11 @@ public class Lijek {
     //private RezimIzdavanja rezimIzdavanja;
     @Column(name = "napomena", nullable = false)
     private String napomena;
-    @OneToOne(cascade = CascadeType.ALL)
-    private Akcija akcija;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
-    public Akcija getAkcija(){
-        return this.akcija;
-    }
-    public void setAkcija(Akcija akcija){
-        this.akcija = akcija;
-    }
+
 
     public Long getId() {
         return id;
@@ -114,24 +109,5 @@ public class Lijek {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
-    }
-
-    public Lijek(String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena, Akcija akcija, Dobavljac dobavljac) {
-        this.naziv = naziv;
-        this.vrstaLijeka = vrstaLijeka;
-        this.oblikLijeka = oblikLijeka;
-        this.sastav = sastav;
-        this.proizvodjac = proizvodjac;
-        this.napomena = napomena;
-        this.akcija = akcija;
-        this.dobavljac = dobavljac;
-    }
-
-    public Dobavljac getDobavljac() {
-        return dobavljac;
-    }
-
-    public void setDobavljac(Dobavljac dobavljac) {
-        this.dobavljac = dobavljac;
     }
 }
