@@ -3,6 +3,7 @@ package mrsisa.projekat.dobavljac;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.ponuda.Ponuda;
+import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
-public class Dobavljac extends Korisnik {
+public class Dobavljac extends Radnik {
     @OneToMany(mappedBy = "dobavljac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Lijek> lijekoviNaStanju;
     @OneToMany(mappedBy = "dobavljac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
