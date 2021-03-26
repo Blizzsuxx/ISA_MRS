@@ -3,16 +3,13 @@ package mrsisa.projekat.radnik;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.Korisnik;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public abstract class Radnik extends Korisnik {
 
-    @OneToOne(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GodisnjiOdmor> godisnjiOdmori;
 
     public Radnik() {}

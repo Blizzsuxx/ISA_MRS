@@ -1,59 +1,31 @@
 package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.korisnik.Korisnik;
 
-public class Pacijent {
-private String username, password, ime, prezime;
-public String getIme() {
-	return ime;
-}
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import java.util.List;
 
-public void setIme(String ime) {
-	this.ime = ime;
-}
+@Entity
+public class Pacijent extends Korisnik {
+	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Erecept> eRecepti;
 
-public String getPrezime() {
-	return prezime;
-}
+	public Pacijent() {}
 
-public void setPrezime(String prezime) {
-	this.prezime = prezime;
-}
+	public Pacijent(List<Erecept> eRecepti) {
+		this.eRecepti = eRecepti;
+	}
 
-private Adresa adresa;
+	public List<Erecept> geteRecepti() {
+		return eRecepti;
+	}
 
-
-
-public Adresa getAdresa() {
-	return adresa;
-}
-
-public void setAdresa(Adresa adresa) {
-	this.adresa = adresa;
-}
-
-public String getUsername() {
-	return username;
-}
-
-public void setUsername(String username) {
-	this.username = username;
-}
-
-public String getPassword() {
-	return password;
-}
-
-public void setPassword(String password) {
-	this.password = password;
-}
-
-public Pacijent(String username, String password,String ime,String prezime) {
-	super();
-	this.username = username;
-	this.password = password;
-	this.ime = ime;
-	this.prezime = prezime;
-}
-
+	public void seteRecepti(List<Erecept> eRecepti) {
+		this.eRecepti = eRecepti;
+	}
 }

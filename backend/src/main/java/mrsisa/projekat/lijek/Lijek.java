@@ -1,6 +1,7 @@
 package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.akcija.Akcija;
+import mrsisa.projekat.dobavljac.Dobavljac;
 
 import javax.persistence.*;
 
@@ -26,6 +27,8 @@ public class Lijek {
     @OneToOne(cascade = CascadeType.ALL)
     private Akcija akcija;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Dobavljac dobavljac;
 
     public Akcija getAkcija(){
         return this.akcija;
@@ -111,5 +114,24 @@ public class Lijek {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
+    }
+
+    public Lijek(String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena, Akcija akcija, Dobavljac dobavljac) {
+        this.naziv = naziv;
+        this.vrstaLijeka = vrstaLijeka;
+        this.oblikLijeka = oblikLijeka;
+        this.sastav = sastav;
+        this.proizvodjac = proizvodjac;
+        this.napomena = napomena;
+        this.akcija = akcija;
+        this.dobavljac = dobavljac;
+    }
+
+    public Dobavljac getDobavljac() {
+        return dobavljac;
+    }
+
+    public void setDobavljac(Dobavljac dobavljac) {
+        this.dobavljac = dobavljac;
     }
 }

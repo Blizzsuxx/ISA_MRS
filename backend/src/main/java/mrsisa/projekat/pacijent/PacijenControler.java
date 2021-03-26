@@ -22,7 +22,7 @@ public class PacijenControler {
 
 	    @GetMapping()
 	    public Pacijent dobaviPacijenta(){
-	    	System.out.println(pacijentService.dobaviPacijenta().getIme());
+	    	System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 	    	return pacijentService.dobaviPacijenta();
 	    }
 
