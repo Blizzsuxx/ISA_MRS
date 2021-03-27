@@ -1,4 +1,9 @@
 package mrsisa.projekat.stanjelijeka;
 
-public interface StanjeLijekaRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface StanjeLijekaRepository extends JpaRepository<StanjeLijeka,Long> {
 }

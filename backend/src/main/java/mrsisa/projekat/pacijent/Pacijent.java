@@ -3,6 +3,7 @@ package mrsisa.projekat.pacijent;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.rezervacija.Rezervacija;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,6 +15,17 @@ import java.util.List;
 public class Pacijent extends Korisnik {
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Erecept> eRecepti;
+
+	public List<Rezervacija> getRezervacije() {
+		return rezervacije;
+	}
+
+	public void setRezervacije(List<Rezervacija> rezervacije) {
+		this.rezervacije = rezervacije;
+	}
+
+	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Rezervacija> rezervacije;
 
 	public Pacijent() {}
 

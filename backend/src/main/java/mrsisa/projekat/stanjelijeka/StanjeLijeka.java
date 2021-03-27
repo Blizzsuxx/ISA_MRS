@@ -4,6 +4,7 @@ package mrsisa.projekat.stanjelijeka;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.rezervacija.Rezervacija;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +25,18 @@ public class StanjeLijeka {
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
     private Erecept eRecept;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Rezervacija rezervacija;
+
+    public Rezervacija getRezervacija() {
+        return rezervacija;
+    }
+
+    public void setRezervacija(Rezervacija rezervacija) {
+        this.rezervacija = rezervacija;
+    }
+
     public Long getId() {
         return id;
     }
@@ -95,4 +108,6 @@ public class StanjeLijeka {
         this.apoteka = apoteka;
         this.eRecept = eRecept;
     }
+
+
 }

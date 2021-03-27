@@ -3,6 +3,7 @@ package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
+import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
@@ -22,6 +23,9 @@ public class Apoteka {
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> lijekovi;
 
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Rezervacija> rezervacije;
+
     public List<Narudzbenica> getNarudzbenice() {
         return narudzbenice;
     }
@@ -29,6 +33,7 @@ public class Apoteka {
     public void setNarudzbenice(List<Narudzbenica> narudzbenice) {
         this.narudzbenice = narudzbenice;
     }
+
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Narudzbenica> narudzbenice;
@@ -51,6 +56,14 @@ public class Apoteka {
         this.ime  =  ime;
         this.lijekovi = lijekovi;
 
+    }
+
+    public List<Rezervacija> getRezervacije() {
+        return rezervacije;
+    }
+
+    public void setRezervacije(List<Rezervacija> rezervacije) {
+        this.rezervacije = rezervacije;
     }
 
     public List<StanjeLijeka> getLijekovi() {
