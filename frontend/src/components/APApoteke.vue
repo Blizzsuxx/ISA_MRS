@@ -8,14 +8,14 @@
 import APPostojeceApoteke from './APPostojeceApoteke'
 export default {
   name: 'APApoteke',
-  mounted(){
+   mounted(){
       //pozivanje ucitavanja podataka apoteka
-      this.$store.dispatch("APApoteke/dobaviApoteke")
+       this.$store.dispatch("APApoteke/dobaviApoteke")
       
     },
   components:{
       APPostojeceApoteke
-
   }
+
 }
 </script>

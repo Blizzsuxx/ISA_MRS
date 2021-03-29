@@ -1,5 +1,5 @@
 <template>
-  <el-container style="height: 600px; border: 1px solid #eee">
+ <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
         <el-menu-item index="1">Home</el-menu-item>
@@ -9,7 +9,7 @@
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <slot name="header-slot"></slot>
-        <span>Sulejman Velicanstveni</span> <!--TODO: ovde dode ime korisnika-->
+       
       </el-header>
 
       <el-main>
@@ -54,13 +54,16 @@
     </el-radio-group>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="onSubmit">Sacuvaj</el-button>
-    <el-button>Nemoj sacuvati</el-button>
+    <el-button  @click="onSubmit">Sacuvaj</el-button>
+    <el-button  @click="vrati()">Nemoj sacuvati</el-button>
   </el-form-item>
 </el-form>
+      <Alergije/>
+    <LekoviBezAlergija/>
       </el-main>
     </el-container>
-  </el-container>
+  </el-container> 
+
 </template>
 <style>
   .el-header {
@@ -75,44 +78,72 @@
 </style>
 
 <script>
+import Alergije from './Alergije.vue';  //CroasOrigin !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+import LekoviBezAlergija from './LekoviBezAlergija.vue';
 
   export default {
+  components: { Alergije, LekoviBezAlergija },
     name: 'IzmenaLicnihInfoKorisnika',
-    mounted(){
+    async mounted(){
       //pozivanje ucitavanja podataka apoteka
-      this.$store.dispatch("IznemaLicnihInfoKorisnik/dobaviProfil")
-      console.log(this.form.ime)
+      
+     await  this.$store.dispatch("IzmenaLicnihInfoKorisnik/dobaviProfil")
+      
+      
+      this.form.ime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.firstName
+      this.form.prezime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.lastName
+      this.form.mesto=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.mesto
+      this.form.ulica=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.ulica
+      this.form.broj=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.broj
+       this.backup.ime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.firstName
+      this.backup.prezime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.lastName
+      this.backup.mesto=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.mesto
+      this.backup.ulica=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.ulica
+      this.backup.broj=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.broj
+
+      this.$store.dispatch("Alergije/dobaviAlergije")
     },
+    
     methods: {
        onSubmit() {
-        console.log('submit!');
+        
+        this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)
+        
+      },
+       vrati() {
+        this.form.ime=this.backup.ime
+        this.form.prezime=this.backup.prezime
+        this.form.mesto=this.backup.mesto
+        this.form.ulica = this.backup.ulica
+        this.form.broj = this.backup.broj
+        this.form.date1 = this.backup.date1
+        this.form.resource = this.backup.resource
+          
       }
     },
         data() {
       return {
         form: {
-          ime: '',
+          ime: '' ,
           prezime: '',
           zemlja: '',
           mesto: '',
           ulica: '',
-          broj: '45',
+          broj: null,
           date1: '',
-          type: [],
-          resource: '' //pol
+          resource: "" //pol
           
         },
-
+        
         backup: {
-          ime: '',
+          ime: '' ,
           prezime: '',
           zemlja: '',
           mesto: '',
           ulica: '',
-          broj: '',
+          broj: null,
           date1: '',
-          type: [],
-          resource: '' //pol
+          resource: "" //pol
           
         }
       

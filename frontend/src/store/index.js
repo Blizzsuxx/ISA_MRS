@@ -1,8 +1,9 @@
 import { createStore } from 'vuex'
 import APlijekovi from'./modules/APlijekovi';
 import APApoteke from'./modules/APApoteke';
-import IznemaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
-
+import IzmenaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
+import Alergije from './modules/Alergije';
+import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
 export default createStore({
     state () {
         return {
@@ -13,6 +14,8 @@ export default createStore({
       modules:{
         APlijekovi,
         APApoteke,
-        IznemaLicnihInfoKorisnik
+        IzmenaLicnihInfoKorisnik,
+        PocetnaStranaPacijenta,
+        Alergije
       }
   })
