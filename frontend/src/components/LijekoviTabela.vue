@@ -60,8 +60,8 @@
     </el-table-column>
 
     <el-table-column
-      property="datumTrajanjaCijene"
-      label="Datum trajanja cijene"
+      property="datumIstekaCijene"
+      label="Datum isteka cijene"
       :formatter="formirajDatum"
      >
     </el-table-column>
@@ -106,7 +106,7 @@ export default {
       }
       },
       formirajDatum(row){
-        let podjeljeno = row.datumTrajanjaCijene.split("T")
+        let podjeljeno = row.datumIstekaCijene.split("T")
         return podjeljeno.join(" ")
       }
     },

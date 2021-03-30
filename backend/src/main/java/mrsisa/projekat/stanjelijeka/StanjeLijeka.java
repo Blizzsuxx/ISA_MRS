@@ -25,8 +25,8 @@ public class StanjeLijeka {
     @Column(name = "cijena", nullable = true)
     private double cijena;
 
-    @Column(name = "datumTrajanjaCijene", nullable = true)
-    private LocalDateTime datumTrajanjaCijene;
+    @Column(name = "datumIstekaCijene", nullable = true)
+    private LocalDateTime datumIstekaCijene;
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,12 +51,12 @@ public class StanjeLijeka {
         this.cijena = cijena;
     }
 
-    public LocalDateTime getDatumTrajanjaCijene() {
-        return datumTrajanjaCijene;
+    public LocalDateTime getDatumIstekaCijene() {
+        return datumIstekaCijene;
     }
 
-    public void setDatumTrajanjaCijene(LocalDateTime datumTrajanjaCijene) {
-        this.datumTrajanjaCijene = datumTrajanjaCijene;
+    public void setDatumIstekaCijene(LocalDateTime datumTrajanjaCijene) {
+        this.datumIstekaCijene = datumTrajanjaCijene;
     }
 
     public Long getId() {
@@ -119,7 +119,7 @@ public class StanjeLijeka {
         this.kolicina = kolicina;
         this.prodaja = prodaja;
         this.cijena = cijena;
-        this.datumTrajanjaCijene= vrijemeIsteka;
+        this.datumIstekaCijene= vrijemeIsteka;
     }
     public StanjeLijeka(){
 
