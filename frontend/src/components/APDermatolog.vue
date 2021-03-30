@@ -2,7 +2,9 @@
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
+        <el-link href="/ap/dermatolog">
         <el-menu-item index="1">Home</el-menu-item>
+        </el-link>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
           <el-menu-item index="1-1">Zapocni Pregled</el-menu-item>
@@ -12,7 +14,9 @@
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
           <el-menu-item index="2-1">Profil</el-menu-item>
+          <el-link href="/ap/dermatolog/pacijenti">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
+            </el-link>
           <el-menu-item index="2-3">Zakazivanje Odmora</el-menu-item>
           <el-menu-item index="2-4">Odjava</el-menu-item>
         </el-submenu>
@@ -50,6 +54,26 @@
           </el-table-column>
           <el-table-column prop="pharmacy" label="Apoteka" width="240">
           </el-table-column>
+
+          <el-table-column
+              align="right">
+            <template #default="scope">
+              <el-button
+                  size="mini"
+                  type="info"
+                  @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
+              <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleOdsustvo(scope.$index, scope.row)">Oznaci odsustvo</el-button>
+              <el-button
+                  size="mini"
+                  type="success"
+                  @click="handlePregled(scope.$index, scope.row)">Zapocni pregled</el-button>
+            </template>
+          </el-table-column>
+
+
         </el-table>
       </el-main>
     </el-container>
@@ -76,6 +100,19 @@ import Selecter from './Selecter.vue';
     },
 
     methods: {
+
+      handleInfo(index, row) {
+        console.log(index, row);
+      },
+      handleOdsustvo(index, row) {
+        console.log(index, row);
+      },
+      handlePregled(index, row) {
+        console.log(index, row);
+      },
+
+
+
         promena(value){
             let time = 7;
             if(value === "Mesecno"){

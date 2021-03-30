@@ -6,6 +6,8 @@ import APApoteke from '../components/APApoteke'
 import IznemaLicnihInfoKorisnik from '../components/IznemaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
+import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
+import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 const routes = [
   
   
@@ -33,6 +35,17 @@ const routes = [
     path: '/ap/dermatolog',
     name: 'APDermatolog',
     component: APDermatolog,
+  },
+  {
+    path: '/ap/dermatolog/pacijenti',
+    name: 'APPregledPacijenata',
+    component: APPregledPacijenataDermatolog,
+  },
+  {
+
+    path: '/ap/farmaceut/pacijenti',
+    name: 'APPregledPacijenataFarmaceut',
+    component: APPregledPacijenataFarmaceut,
   },
 ]
 
