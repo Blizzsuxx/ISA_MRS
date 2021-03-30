@@ -21,7 +21,7 @@ const actions = {
     dobaviLijekove (context) {
         axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
-       
+           
         context.commit('postaviSveLijekove',response.data)
         })
         
@@ -31,7 +31,7 @@ const actions = {
         console.log(lijek)
         
 
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena,datumTrajanjaCijene:lijek.datumTrajanjaCijene}})
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
         .then(response => {
 
             return response

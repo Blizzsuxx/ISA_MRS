@@ -4,9 +4,12 @@ package mrsisa.projekat.stanjelijeka;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -18,6 +21,21 @@ public class StanjeLijekaService {
     @Autowired
     public StanjeLijekaService(StanjeLijekaRepository stanjeLijekaRepository){
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+    }
+
+    public void promjeniCijenu(Long id,double cijena,String datum){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String[] dijelovi = datum.split("T");
+        String noviDatum = (dijelovi[0]+" "+dijelovi[1]).split("\\.")[0];
+
+        LocalDateTime datum1 = LocalDateTime.parse(noviDatum,format);
+        StanjeLijeka stanjeLijeka = stanjeLijekaRepository.findById(id).orElse(null);
+        if(stanjeLijeka!=null){
+            stanjeLijeka.setCijena(cijena);
+            stanjeLijeka.setDatumIstekaCijene(datum1);
+            stanjeLijekaRepository.save(stanjeLijeka);
+        }
+
     }
     public List<Long> promjenaStatusaProdaje(List<Long> identifikatori){
         List<Long> zabranjeniIdentifikatori = new ArrayList<Long>();
