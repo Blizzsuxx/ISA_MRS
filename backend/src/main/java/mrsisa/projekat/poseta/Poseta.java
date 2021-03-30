@@ -31,8 +31,8 @@ public class Poseta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
-    @OneToMany(mappedBy = "recepti", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Erecept> recepti;
+    //@OneToMany(mappedBy = "poseta", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    //private List<Erecept> erecepti;
 
     public Long getId() {
         return id;
@@ -82,11 +82,5 @@ public class Poseta {
         this.apoteka = apoteka;
     }
 
-    public List<Erecept> getRecepti() {
-        return recepti;
-    }
 
-    public void setRecepti(List<Erecept> recepti) {
-        this.recepti = recepti;
-    }
 }
