@@ -21,11 +21,23 @@ const actions = {
     dobaviLijekove (context) {
         axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
-       
+            console.log(response.data)
         context.commit('postaviSveLijekove',response.data)
         })
         
         
+    },
+    promjeniCijenu (contex,lijek){
+        console.log(lijek)
+        
+
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena}})
+        .then(response => {
+
+            return response
+
+        })
+        return contex;
     },
    
     promjeniStanje({commit,state},lijekovi){
@@ -39,7 +51,7 @@ const actions = {
             commit('postaviZabranjene',response.data)
             let odobrenilijekovi = lijekovi.filter(function(el){
                 if(arry.filter(elem=>elem===el.id).length!=0){
-                    console.log("Usao ovde")
+                    
                     return false;
                 }
                 else{

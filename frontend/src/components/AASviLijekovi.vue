@@ -1,7 +1,7 @@
 <template>
 <el-alert
     v-if="greska"
-    :data="lijekovi"
+    @close="greska=false"
     title="Greska pri prebacivanju"
     type="error" center>{{poruka}}
   </el-alert>
@@ -11,23 +11,32 @@
   <div style="margin-top: 20px">
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
     <el-button type="primary" @click="promjeniStanje()" plain>Promjeni stanje</el-button>
-    
+    <!-- Na ovo dugme se pali -->
+    <el-button @click="otvoriProzor" plain type="primary">
+        Promjeni cijenu lijeka
+    </el-button>
+
+    <ModalniProzorCijena  ref="prozor"/>
   </div>
 </template>  
  
 
 <script>
 import LijekoviTabela from  './LijekoviTabela'
+import ModalniProzorCijena from './modal/ModalniProzorCijena'
 export default {
   name: 'APMagacinLijekovi',
   data() {
       return {
         greska : false,
-        poruka : ""
+        poruka : "",
+        prozor: false,
+        modalOpen: false
       }
     },
     components:{
-      LijekoviTabela
+      LijekoviTabela,
+      ModalniProzorCijena
     },
     methods: {
       ocistiSelekciju(rows) {
@@ -51,6 +60,22 @@ export default {
           
         }
         this.$refs.dijete.$refs.multipleTable.clearSelection();
+      },
+      otvoriProzor(){
+
+        if(this.$refs.dijete.multipleSelection.length!=1 ){
+          this.greska=true;
+          this.poruka = `Samo jedan lijek treba biti selektovan pri mijenjanju cijene`;
+        }
+        else{
+
+        this.$refs.prozor.lijek.cijena = this.$refs.dijete.multipleSelection[0].cijena
+        this.$refs.prozor.lijek.id = this.$refs.dijete.multipleSelection[0].id
+        this.$refs.prozor.lijek.datumTrajanjaCijene = new Date(this.$refs.dijete.multipleSelection[0].datumTrajanjaCijene)
+        this.$refs.prozor.modalOpen = true;
+
+        }
+
       },
       selektujRedove(val) {
         this.$refs.dijete.multipleSelection = val;

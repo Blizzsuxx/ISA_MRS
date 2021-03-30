@@ -7,6 +7,7 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -25,9 +26,26 @@ public class StanjeLijeka {
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
     private Erecept eRecept;
-
+    private double cijena;
+    private LocalDateTime datumIstekaCijene;
     @ManyToOne(fetch = FetchType.LAZY)
     private Rezervacija rezervacija;
+
+    public double getCijena() {
+        return cijena;
+    }
+
+    public void setCijena(double cijena) {
+        this.cijena = cijena;
+    }
+
+    public LocalDateTime getDatumIstekaCijene() {
+        return datumIstekaCijene;
+    }
+
+    public void setDatumIstekaCijene(LocalDateTime datumIstekaCijene) {
+        this.datumIstekaCijene = datumIstekaCijene;
+    }
 
     public Rezervacija getRezervacija() {
         return rezervacija;
@@ -91,11 +109,20 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
+    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime datum) {
+        this.id = id;
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.datumIstekaCijene = datum;
+        this.cijena  = cijena;
+    }
     public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja) {
         this.id = id;
         this.lijek = lijek;
         this.kolicina = kolicina;
         this.prodaja = prodaja;
+
     }
     public StanjeLijeka(){
 

@@ -53,7 +53,16 @@
       label="Proizvodjac"
      >
     </el-table-column>
-
+    <el-table-column
+      property="cijena"
+      label="Cijena"
+     >
+    </el-table-column>
+    <el-table-column
+      property="datumIstekaCijene"
+      label="Datum isteka cijene"
+     >
+    </el-table-column>
     <el-table-column
       property="lijek.proizvodnja"
       label="Proizvodnja"

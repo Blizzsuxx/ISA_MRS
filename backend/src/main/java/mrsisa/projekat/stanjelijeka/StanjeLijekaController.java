@@ -23,4 +23,12 @@ public class StanjeLijekaController {
         return this.stanjeLijekaService.promjenaStatusaProdaje(identifikatori);
     }
 
+    @PutMapping("/promjenaCijene")
+    public void promjenaStatusaProdaje(@RequestParam Long id, @RequestParam double cijena,
+                                             @RequestParam String datumIstekaCijene){
+        System.out.println(id);
+        System.out.println(cijena);
+        System.out.println(datumIstekaCijene);
+    }
+
 }
