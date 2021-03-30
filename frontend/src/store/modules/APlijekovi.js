@@ -27,6 +27,18 @@ const actions = {
         
         
     },
+    promjeniCijenu (contex,lijek){
+        console.log(lijek)
+        
+
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena,datumTrajanjaCijene:lijek.datumTrajanjaCijene}})
+        .then(response => {
+
+            return response
+
+        })
+        return contex;
+    },
    
     promjeniStanje({commit,state},lijekovi){
         let arr = new Array();
@@ -39,7 +51,7 @@ const actions = {
             commit('postaviZabranjene',response.data)
             let odobrenilijekovi = lijekovi.filter(function(el){
                 if(arry.filter(elem=>elem===el.id).length!=0){
-                    console.log("Usao ovde")
+                    
                     return false;
                 }
                 else{

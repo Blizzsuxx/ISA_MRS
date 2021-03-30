@@ -1,6 +1,8 @@
 package mrsisa.projekat.apoteka;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import mrsisa.projekat.lijek.Lijek;
@@ -25,6 +27,7 @@ public class ApotekaController {
 
     @GetMapping("/dobaviLijekove/{id}")
     public List<StanjeLijeka> dobaviLijekove(@PathVariable Integer id){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return List.of(
                     new StanjeLijeka(
                             1L,
@@ -38,7 +41,9 @@ public class ApotekaController {
                                     "Lijek"
                             ),
                             10,
-                            false
+                            false,
+                            10.00,
+                            LocalDateTime.parse("01-04-2021 10:10",format)
                     ),
                     new StanjeLijeka(
                             2L,
@@ -52,7 +57,9 @@ public class ApotekaController {
                                     "Lijek"
                             ),
                             20,
-                            false
+                            false,
+                            11.00,
+                            LocalDateTime.parse("01-04-2021 10:10",format)
 
                     ),
                     new StanjeLijeka(
@@ -68,7 +75,9 @@ public class ApotekaController {
                                     "Lijek"
                             ),
                             15,
-                            true
+                            true,
+                            12.00,
+                            LocalDateTime.parse("01-04-2021 10:10",format)
                     )
             );
     }

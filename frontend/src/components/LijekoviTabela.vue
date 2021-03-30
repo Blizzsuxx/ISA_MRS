@@ -53,6 +53,19 @@
       label="Proizvodjac"
      >
     </el-table-column>
+    <el-table-column
+      property="cijena"
+      label="Cijena"
+     >
+    </el-table-column>
+
+    <el-table-column
+      property="datumTrajanjaCijene"
+      label="Datum trajanja cijene"
+      :formatter="formirajDatum"
+     >
+    </el-table-column>
+
 
     <el-table-column
       property="lijek.proizvodnja"
@@ -91,7 +104,11 @@ export default {
       else{
         return "Magacin"
       }
-    }
+      },
+      formirajDatum(row){
+        let podjeljeno = row.datumTrajanjaCijene.split("T")
+        return podjeljeno.join(" ")
+      }
     },
     
   
