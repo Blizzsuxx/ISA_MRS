@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping(path="api/v1/profil")
@@ -20,10 +22,16 @@ public class PacijenControler {
 	    }
 
 
-	    @GetMapping()
+		@GetMapping(path="/dobaviPacijenta")
 	    public Pacijent dobaviPacijenta(){
 	    	System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 	    	return pacijentService.dobaviPacijenta();
 	    }
+
+	@GetMapping(path="/dobaviPacijente")
+	public List<Pacijent> dobaviPacijentee(){
+		System.out.println(pacijentService.dobaviPacijenta().getFirstName());
+		return pacijentService.dobaviPacijente();
+	}
 
 }
