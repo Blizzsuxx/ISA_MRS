@@ -55,7 +55,6 @@ const routes = [
     name: 'APPregledPacijenataFarmaceut',
     component: APPregledPacijenataFarmaceut,
   },
-  },
   {
     path: '/ap/FormaApoteke',
     name: 'FormaApoteke',
