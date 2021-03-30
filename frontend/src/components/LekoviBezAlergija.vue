@@ -1,7 +1,7 @@
 <template>
 <h2>Lekovi na koje korisnik nije alergican</h2>
   <el-table
-    ref="multipleTable"
+    ref="multipleTable1"
     :data="this.$store.state.Alergije.lekoviBezAlergija"
     style="width: 100%"
     @selection-change="handleSelectionChange">
@@ -44,7 +44,7 @@ export default {
   name: 'LekoviBezAlergija',
   data() {
       return {
-        multipleSelection1: []
+        multipleTable1: []
       }
     },
     
@@ -61,12 +61,12 @@ export default {
       },
       premesti(){
         
-        this.$store.dispatch("Alergije/premesti",this.multipleSelection1)
+        this.$store.dispatch("Alergije/premesti",this.multipleTable1)
        
         this.$refs.multipleTable1.clearSelection();
       },
       handleSelectionChange(val) {
-        this.multipleSelection1 = val;
+        this.multipleTable1 = val;
       }
     }
   }

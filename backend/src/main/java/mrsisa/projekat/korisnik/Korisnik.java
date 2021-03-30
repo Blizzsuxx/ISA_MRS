@@ -17,8 +17,16 @@ public abstract class  Korisnik {
     private String firstName;
     @Column(name = "lastName", nullable = false)
     private String lastName;
+
+    @Column(name = "email", nullable = false)
+    private String email;
     @Column(name = "birthday", nullable = false)
     private LocalDateTime birthday;
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email; }
+
     public String getUsername() {
         return username;
     }

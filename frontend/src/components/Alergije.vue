@@ -1,7 +1,7 @@
 <template>
 <h2>Alergije na lekove</h2>
   <el-table
-    ref="multipleTable"
+    ref="multipleSelection"
     :data="this.$store.state.Alergije.lekoviAlergija"
     style="width: 100%"
     @selection-change="handleSelectionChange">
@@ -52,17 +52,17 @@ export default {
       toggleSelection(rows) {
         if (rows) {
           rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
+            this.$refs.multipleSelection.toggleRowSelection(row);
           });
         } else {
-          this.$refs.multipleTable.clearSelection();
+          this.$refs.multipleSelection.clearSelection();
         }
       },
       izbaci(){
         console.log(this.$store.state.Alergije.lekoviAlergija.length)
         this.$store.dispatch("Alergije/izbaci",this.multipleSelection)
        
-        this.$refs.multipleTable.clearSelection();
+        this.$refs.multipleSelection.clearSelection();
         //TODO pitanje
       },
       handleSelectionChange(val) {

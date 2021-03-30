@@ -19,6 +19,10 @@
     <el-input v-model="form.ime"></el-input>
   </el-form-item>
 
+<el-form-item label="E-mail">
+    <el-input v-model="form.email"></el-input>
+  </el-form-item>
+
 <el-form-item label="Prezime">
     <el-input v-model="form.prezime"></el-input>
   </el-form-item>
@@ -82,7 +86,8 @@ import Alergije from './Alergije.vue';  //CroasOrigin !!!!!!!!!!!!!!!!!!!!!!!!!!
 import LekoviBezAlergija from './LekoviBezAlergija.vue';
 
   export default {
-  components: { Alergije, LekoviBezAlergija },
+    
+  components: { Alergije, LekoviBezAlergija},
     name: 'IzmenaLicnihInfoKorisnika',
     async mounted(){
       //pozivanje ucitavanja podataka apoteka
@@ -95,7 +100,9 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
       this.form.mesto=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.mesto
       this.form.ulica=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.ulica
       this.form.broj=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.broj
-       this.backup.ime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.firstName
+      this.form.email=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.email
+      this.backup.email=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.email
+      this.backup.ime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.firstName
       this.backup.prezime=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.lastName
       this.backup.mesto=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.mesto
       this.backup.ulica=this.$store.state.IzmenaLicnihInfoKorisnik.korisnik.adresa.ulica
@@ -106,9 +113,10 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
     
     methods: {
        onSubmit() {
-        
-        this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)
-        
+        this.form.email=this.backup.email
+        if(confirm("Unesene promene ce se zapamtiti sem mejla.")){
+        this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)}
+        //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
       },
        vrati() {
         this.form.ime=this.backup.ime
@@ -118,13 +126,14 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
         this.form.broj = this.backup.broj
         this.form.date1 = this.backup.date1
         this.form.resource = this.backup.resource
-          
+        this.form.email=this.backup.email  
       }
     },
         data() {
       return {
         form: {
           ime: '' ,
+          email: '' ,
           prezime: '',
           zemlja: '',
           mesto: '',
@@ -138,6 +147,7 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
         backup: {
           ime: '' ,
           prezime: '',
+          email: '' ,
           zemlja: '',
           mesto: '',
           ulica: '',

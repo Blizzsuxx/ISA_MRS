@@ -17,6 +17,7 @@ public class PacijentService {
 		List<Lijek> lek=new ArrayList<>();
 		Adresa a=new Adresa("mesto", "ptt", "ulica",  "45", 50,50);
 		p.setAdresa(a);
+		p.setEmail("pera@gmail.com");
 		lek.add(new Lijek(
 				1L,
 				"Paracetamol",
