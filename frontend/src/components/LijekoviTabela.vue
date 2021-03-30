@@ -58,11 +58,15 @@
       label="Cijena"
      >
     </el-table-column>
+
     <el-table-column
       property="datumIstekaCijene"
       label="Datum isteka cijene"
+      :formatter="formirajDatum"
      >
     </el-table-column>
+
+
     <el-table-column
       property="lijek.proizvodnja"
       label="Proizvodnja"
@@ -100,7 +104,11 @@ export default {
       else{
         return "Magacin"
       }
-    }
+      },
+      formirajDatum(row){
+        let podjeljeno = row.datumIstekaCijene.split("T")
+        return podjeljeno.join(" ")
+      }
     },
     
   

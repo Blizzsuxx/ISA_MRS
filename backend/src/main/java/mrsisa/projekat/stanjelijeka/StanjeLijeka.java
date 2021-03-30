@@ -22,14 +22,26 @@ public class StanjeLijeka {
     private int kolicina;
     @Column(name = "prodaja", nullable = false)
     private boolean prodaja;
+    @Column(name = "cijena", nullable = true)
+    private double cijena;
+
+    @Column(name = "datumIstekaCijene", nullable = true)
+    private LocalDateTime datumIstekaCijene;
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
     private Erecept eRecept;
-    private double cijena;
-    private LocalDateTime datumIstekaCijene;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Rezervacija rezervacija;
+
+    public Rezervacija getRezervacija() {
+        return rezervacija;
+    }
+
+    public void setRezervacija(Rezervacija rezervacija) {
+        this.rezervacija = rezervacija;
+    }
 
     public double getCijena() {
         return cijena;
@@ -43,16 +55,8 @@ public class StanjeLijeka {
         return datumIstekaCijene;
     }
 
-    public void setDatumIstekaCijene(LocalDateTime datumIstekaCijene) {
-        this.datumIstekaCijene = datumIstekaCijene;
-    }
-
-    public Rezervacija getRezervacija() {
-        return rezervacija;
-    }
-
-    public void setRezervacija(Rezervacija rezervacija) {
-        this.rezervacija = rezervacija;
+    public void setDatumIstekaCijene(LocalDateTime datumTrajanjaCijene) {
+        this.datumIstekaCijene = datumTrajanjaCijene;
     }
 
     public Long getId() {
@@ -109,20 +113,13 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
-    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime datum) {
+    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime vrijemeIsteka) {
         this.id = id;
         this.lijek = lijek;
         this.kolicina = kolicina;
         this.prodaja = prodaja;
-        this.datumIstekaCijene = datum;
-        this.cijena  = cijena;
-    }
-    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja) {
-        this.id = id;
-        this.lijek = lijek;
-        this.kolicina = kolicina;
-        this.prodaja = prodaja;
-
+        this.cijena = cijena;
+        this.datumIstekaCijene= vrijemeIsteka;
     }
     public StanjeLijeka(){
 

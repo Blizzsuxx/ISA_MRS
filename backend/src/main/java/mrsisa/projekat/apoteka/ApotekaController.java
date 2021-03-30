@@ -58,9 +58,8 @@ public class ApotekaController {
                             ),
                             20,
                             false,
-                            10.00,
+                            11.00,
                             LocalDateTime.parse("01-04-2021 10:10",format)
-
 
                     ),
                     new StanjeLijeka(
@@ -77,7 +76,7 @@ public class ApotekaController {
                             ),
                             15,
                             true,
-                            10.00,
+                            12.00,
                             LocalDateTime.parse("01-04-2021 10:10",format)
                     )
             );

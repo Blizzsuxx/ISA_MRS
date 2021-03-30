@@ -17,12 +17,12 @@
                 v-model="lijek.cijena"
                 :precision="2"
                 :step="0.1"
-                :max="10"
+                :max="10000000"
               ></el-input-number>
             </el-form-item>
             <el-form-item label="Datum isteka">
               <el-date-picker
-                v-model="lijek.datumTrajanjaCijene"
+                v-model="lijek.datumIstekaCijene"
                 type="date"
                 placeholder="Izaberite vrijeme isteka cijene"
               >
@@ -53,7 +53,7 @@ export default {
       lijek: {
         id:-1,
         cijena: 0,
-        datumTrajanjaCijene: new Date(),
+        datumIstekaCijene: new Date(),
       },
     };
   },

@@ -71,7 +71,7 @@ export default {
 
         this.$refs.prozor.lijek.cijena = this.$refs.dijete.multipleSelection[0].cijena
         this.$refs.prozor.lijek.id = this.$refs.dijete.multipleSelection[0].id
-        this.$refs.prozor.lijek.datumTrajanjaCijene = new Date(this.$refs.dijete.multipleSelection[0].datumTrajanjaCijene)
+        this.$refs.prozor.lijek.datumIstekaCijene = new Date(this.$refs.dijete.multipleSelection[0].datumIstekaCijene)
         this.$refs.prozor.modalOpen = true;
 
         }
