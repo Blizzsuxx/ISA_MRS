@@ -10,6 +10,8 @@ public abstract class  Korisnik {
     @Id
     @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    private Integer id;
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
@@ -19,6 +21,9 @@ public abstract class  Korisnik {
     private String lastName;
     @Column(name = "birthday", nullable = false)
     private LocalDateTime birthday;
+
+    public Korisnik() {}
+
     public String getUsername() {
         return username;
     }
@@ -57,5 +62,13 @@ public abstract class  Korisnik {
 
     public void setBirthday(LocalDateTime birthday) {
         this.birthday = birthday;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

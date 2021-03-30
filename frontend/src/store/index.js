@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import APlijekovi from'./modules/APlijekovi';
 import APApoteke from'./modules/APApoteke';
 import IznemaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
+import APKorisnici from './modules/APKorisnici';
 
 export default createStore({
     state () {
@@ -13,6 +14,7 @@ export default createStore({
       modules:{
         APlijekovi,
         APApoteke,
-        IznemaLicnihInfoKorisnik
+        IznemaLicnihInfoKorisnik,
+        APKorisnici
       }
   })

@@ -4,6 +4,7 @@ package mrsisa.projekat.adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Adresa {
@@ -23,8 +24,8 @@ public class Adresa {
 	public double gDuzina;
 	@Column(name = "gSirina", nullable = false)
 	public double gSirina;
-
-
+ 	@OneToMany(mappedBy = "adresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Apoteka> apoteke;
 
 	public String getMesto() {
 		return Mesto;
@@ -62,6 +63,25 @@ public class Adresa {
 	public void setgSirina(double gSirina) {
 		this.gSirina = gSirina;
 	}
+
+	public List<Apoteka> getApoteke() {
+		return apoteke;
+	}
+
+	public void setApoteke(List<Apoteka> apoteke) {
+		this.apoteke = apoteke;
+	}
+
+	public Adresa(String mesto, String ptt, String ulica, int broj, double gDuzina, double gSirina, List<Apoteka> apoteke) {
+		Mesto = mesto;
+		this.ptt = ptt;
+		this.ulica = ulica;
+		this.broj = broj;
+		this.gDuzina = gDuzina;
+		this.gSirina = gSirina;
+		this.apoteke = apoteke;
+	}
+
 	public Adresa(String mesto, String ptt, String ulica, int broj, double gDuzina, double gSirina) {
 		super();
 		Mesto = mesto;
@@ -79,7 +99,4 @@ public class Adresa {
 	public Adresa(){
 
 	}
-	
-	
-
 }

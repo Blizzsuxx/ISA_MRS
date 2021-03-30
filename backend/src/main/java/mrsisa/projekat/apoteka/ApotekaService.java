@@ -20,6 +20,10 @@ public class ApotekaService {
         this.apotekaRepository = apotekaRepository;
     }
 
+    public Apoteka save(Apoteka a){
+        return this.apotekaRepository.save(a);
+    }
+
     public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
         Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
         if(apoteka== null)

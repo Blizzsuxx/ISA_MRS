@@ -16,7 +16,7 @@ public class Apoteka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private Adresa adresa;
     @Column(name = "ime", nullable = false)
     private String ime;
@@ -58,6 +58,10 @@ public class Apoteka {
 
     }
 
+    public Apoteka(ApotekaDTO dummy){
+        this.ime = dummy.getNaziv();
+        this.adresa = new Adresa(dummy.getMjesto(), dummy.getPtt(), dummy.getUlica(), dummy.getBroj(), 10, 10);
+    }
     public List<Rezervacija> getRezervacije() {
         return rezervacije;
     }
