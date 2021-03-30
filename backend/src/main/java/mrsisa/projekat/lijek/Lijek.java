@@ -26,7 +26,8 @@ public class Lijek {
     //private RezimIzdavanja rezimIzdavanja;
     @Column(name = "napomena", nullable = false)
     private String napomena;
-
+    @Column(name = "ocijena", nullable = false)
+    private double ocijena;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
@@ -88,6 +89,22 @@ public class Lijek {
         this.napomena = napomena;
     }
 
+    public double getOcijena() {
+        return ocijena;
+    }
+
+    public void setOcijena(double ocijena) {
+        this.ocijena = ocijena;
+    }
+
+    public Dobavljac getDobavljac() {
+        return dobavljac;
+    }
+
+    public void setDobavljac(Dobavljac dobavljac) {
+        this.dobavljac = dobavljac;
+    }
+
     public Lijek() {
 
     }
@@ -109,5 +126,16 @@ public class Lijek {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
+    }
+
+    public Lijek(String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena, double ocijena, Dobavljac dobavljac) {
+        this.naziv = naziv;
+        this.vrstaLijeka = vrstaLijeka;
+        this.oblikLijeka = oblikLijeka;
+        this.sastav = sastav;
+        this.proizvodjac = proizvodjac;
+        this.napomena = napomena;
+        this.ocijena = ocijena;
+        this.dobavljac = dobavljac;
     }
 }

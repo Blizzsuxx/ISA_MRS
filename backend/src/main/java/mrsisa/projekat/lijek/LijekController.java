@@ -23,4 +23,6 @@ public class LijekController {
     public List<Lijek> dobaviSveLijekove(){
         return lijekService.dobaviSveLijekove();
     }
+    @GetMapping("/DTOlijekovi")
+    public List<LijekDTO> dobaviSveDTOLijekove() { return lijekService.dobaviSveDTOLijekove(); }
 }

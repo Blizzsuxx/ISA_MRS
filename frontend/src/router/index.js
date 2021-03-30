@@ -6,6 +6,8 @@ import APApoteke from '../components/APApoteke'
 import IznemaLicnihInfoKorisnik from '../components/IznemaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
+import ASLijekovi from '../components/ASLijekovi'
+
 const routes = [
   
   
@@ -29,11 +31,16 @@ const routes = [
     name: 'APFarmaceut',
     component: APFarmaceut,
   },
-    {
+  {
     path: '/ap/dermatolog',
     name: 'APDermatolog',
     component: APDermatolog,
   },
+  {
+    path: '/ap/DTOLijekovi',
+    name: 'ASLijekovi',
+    component: ASLijekovi,
+  }
 ]
 
 const router = createRouter({

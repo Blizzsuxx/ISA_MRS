@@ -1,7 +1,7 @@
 <template>
 <el-alert
     v-if="greska"
-    
+    :data="lijekovi"
     title="Greska pri prebacivanju"
     type="error" center>{{poruka}}
   </el-alert>

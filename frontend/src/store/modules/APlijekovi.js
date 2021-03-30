@@ -3,12 +3,21 @@ import axios from 'axios'
 const state = {    
     
     sviLijekovi : [],
-    zabranjeni : []
+    zabranjeni : [],
+    dtoLijekovi: []
 };
 
 
 
 const actions = {
+    dobaviDTOLijekove (context) {
+        axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi')
+        .then(response => {
+            context.commit('postaviDTOLijekove', response.data);
+        })
+
+    },
+
     dobaviLijekove (context) {
         axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
@@ -66,7 +75,8 @@ const actions = {
 const mutations = {
     
     postaviSveLijekove:(state,lijekovi)=>(state.sviLijekovi = lijekovi),
-    postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni)
+    postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni),
+    postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi)
 }
 
 export default{
