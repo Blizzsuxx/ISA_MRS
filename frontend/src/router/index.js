@@ -8,6 +8,8 @@ import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
 import ASLijekovi from '../components/ASLijekovi'
 
+import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
+import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 const routes = [
   
   
@@ -40,7 +42,17 @@ const routes = [
     path: '/ap/DTOLijekovi',
     name: 'ASLijekovi',
     component: ASLijekovi,
-  }
+  },{
+    path: '/ap/dermatolog/pacijenti',
+    name: 'APPregledPacijenata',
+    component: APPregledPacijenataDermatolog,
+  },
+  {
+
+    path: '/ap/farmaceut/pacijenti',
+    name: 'APPregledPacijenataFarmaceut',
+    component: APPregledPacijenataFarmaceut,
+  },
 ]
 
 const router = createRouter({
