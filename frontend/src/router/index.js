@@ -7,6 +7,8 @@ import IznemaLicnihInfoKorisnik from '../components/IznemaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
 import ASLijekovi from '../components/ASLijekovi'
+import FormaApoteke from '../components/FormaApoteke'
+import FormaKorisnika from '../components/FormaKorisnika'
 
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
@@ -53,6 +55,17 @@ const routes = [
     name: 'APPregledPacijenataFarmaceut',
     component: APPregledPacijenataFarmaceut,
   },
+  },
+  {
+    path: '/ap/FormaApoteke',
+    name: 'FormaApoteke',
+    component: FormaApoteke,
+  },
+  {
+    path: '/ap/FormaKorisnika',
+    name: 'FormaKorisnika',
+    component: FormaKorisnika,
+  }
 ]
 
 const router = createRouter({

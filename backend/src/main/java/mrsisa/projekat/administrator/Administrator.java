@@ -6,5 +6,5 @@ import java.util.*;
 import javax.persistence.*;
 @Entity
 public class Administrator extends Korisnik {
-
+    public Administrator() {}
 }

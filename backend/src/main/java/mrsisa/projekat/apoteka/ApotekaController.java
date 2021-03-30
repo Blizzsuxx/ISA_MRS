@@ -3,10 +3,13 @@ package mrsisa.projekat.apoteka;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 
 import mrsisa.projekat.lijek.Lijek;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -88,6 +91,11 @@ public class ApotekaController {
 
     	return apotekaService.dobaviApoteke();
     }
-    
 
+    //ResponseEntity<Apoteka>
+    @PostMapping(consumes = "application/json", path = "/sacuvajApoteku")
+    public void sacuvajApoteku(@RequestBody ApotekaDTO dummy) {
+        Apoteka a = new Apoteka(dummy);
+        apotekaService.save(a);
+    }
 }

@@ -17,8 +17,14 @@ const actions = {
             console.log(apotekeSve[0].adresa.ulica)
             context.commit('postaviApoteke',apotekeSve)
         })
-        
-        
+    },
+
+    dodajApoteku (context, apoteka){
+        axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka)
+        .then(response => {
+            alert("Dodata apoteka");
+          return response;
+        })
     }
 
 }
