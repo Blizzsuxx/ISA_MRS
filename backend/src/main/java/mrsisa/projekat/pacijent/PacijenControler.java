@@ -3,10 +3,9 @@ package mrsisa.projekat.pacijent;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import java.util.List;
 
@@ -24,9 +23,14 @@ public class PacijenControler {
 
 		@GetMapping(path="/dobaviPacijenta")
 	    public Pacijent dobaviPacijenta(){
-	    	System.out.println(pacijentService.dobaviPacijenta().getFirstName());
+	    	//System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 	    	return pacijentService.dobaviPacijenta();
 	    }
+
+	@PutMapping("/izmeni")
+	public boolean izmeni(@RequestBody List<String> info) {
+		return pacijentService.promeni(info);
+	}
 
 	@GetMapping(path="/dobaviPacijente")
 	public List<Pacijent> dobaviPacijentee(){

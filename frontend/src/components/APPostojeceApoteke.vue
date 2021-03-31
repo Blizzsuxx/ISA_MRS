@@ -59,7 +59,7 @@ export default defineComponent ({
       input: ref('')
     }
   },
-  data() {
+   data() {
       
       return {
        zaTabelu: this.$store.state.APApoteke.sveApoteke,

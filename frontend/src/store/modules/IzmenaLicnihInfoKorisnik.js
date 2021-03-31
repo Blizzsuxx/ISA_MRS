@@ -1,42 +1,59 @@
 import axios from 'axios'
 
 const state = {    
-    form :null,
-  
+    korisnik: null,
+   loading: true
 };
 
-const getters = {
+const getters = {//pazi ovo je nebitno
     kor : state => state.profil    
 };
 
 const actions = {
-    dobaviProfil (context) {
-       
-        axios.get('http://localhost:8080/api/v1/profil')
+     dobaviProfil (context) {
+      
+       return axios.get('http://localhost:8080/api/v1/profil')
         .then(response => {
-            let form =response.data
-            console.log(form.ime)
-            context.commit('postaviProfil',form)
+           
+            context.commit('postaviProfil',response.data)
+            context.commit("postaviLoading", false)
+
         })
     },
-    izmeniPodatke () {
-       
-        /*axios.get('http://localhost:8080/api/v1/profil')
-        .then(response => {
-            let profil1 =response.data
-            console.log(profil1.adresa.ulica)
-            context.commit('postaviProfil',profil1)
+    izmeniPodatke ({commit},input) {
+        let arr = new Array();
+        arr.push(input.ime)
+        arr.push(input.prezime)
+        arr.push(input.mesto)
+        arr.push(input.ulica)
+        arr.push(input.broj)
 
-        })*/
-    }
+        arr.push(input.date1)
+        
+        axios.put('http://localhost:8080/api/v1/profil/izmeni',arr)
+        .then(response => {
+            let tf = response.data
+            if(tf){
+            commit('postaviProfil',input)
+            console.log("da")
+        }
+            else{
+                //todo neki ispis
+                console.log("Nije dobro")
+            }
+            return response
+        })  
+        
+    },
 }
 
 const mutations = {
-    postaviProfil:(state, kor) => (state.form = kor),
+    postaviProfil:(state, korisnik1) => (state.korisnik = korisnik1),
+    postaviLoading:(state, loading) => (state.loading = loading),
 }
 
 export default{
-    namespaced: true,    
+    namespaced: true,     
     state,
     getters, 
     actions,

@@ -19,7 +19,7 @@ public class Adresa {
 	@Column(name = "ulica", nullable = false)
 	public String ulica;
 	@Column(name = "broj", nullable = false)
-	public int broj;
+	public String broj;
 	@Column(name = "gDuzina", nullable = false)
 	public double gDuzina;
 	@Column(name = "gSirina", nullable = false)
@@ -45,10 +45,10 @@ public class Adresa {
 	public void setUlica(String ulica) {
 		this.ulica = ulica;
 	}
-	public int getBroj() {
+	public String getBroj() {
 		return broj;
 	}
-	public void setBroj(int broj) {
+	public void setBroj(String broj) {
 		this.broj = broj;
 	}
 	public double getgDuzina() {
@@ -72,7 +72,7 @@ public class Adresa {
 		this.apoteke = apoteke;
 	}
 
-	public Adresa(String mesto, String ptt, String ulica, int broj, double gDuzina, double gSirina, List<Apoteka> apoteke) {
+	public Adresa(String mesto, String ptt, String ulica, String broj, double gDuzina, double gSirina, List<Apoteka> apoteke) {
 		Mesto = mesto;
 		this.ptt = ptt;
 		this.ulica = ulica;
@@ -82,7 +82,8 @@ public class Adresa {
 		this.apoteke = apoteke;
 	}
 
-	public Adresa(String mesto, String ptt, String ulica, int broj, double gDuzina, double gSirina) {
+
+	public Adresa(String mesto, String ptt, String ulica, String broj, double gDuzina, double gSirina) {
 		super();
 		Mesto = mesto;
 		this.ptt = ptt;
@@ -99,4 +100,7 @@ public class Adresa {
 	public Adresa(){
 
 	}
+	
+	
+
 }

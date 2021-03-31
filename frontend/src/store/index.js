@@ -6,6 +6,9 @@ import APPacijenti from "./modules/APPacijenti";
 import APPosete from "./modules/APPosete";
 import APKorisnici from './modules/APKorisnici';
 
+import IzmenaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
+import Alergije from './modules/Alergije';
+import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
 export default createStore({
     state () {
         return {
@@ -19,6 +22,8 @@ export default createStore({
         IznemaLicnihInfoKorisnik,
         APPacijenti,
           APPosete,
-        APKorisnici
+        APKorisnici,
+        PocetnaStranaPacijenta,
+        Alergije
       }
   })

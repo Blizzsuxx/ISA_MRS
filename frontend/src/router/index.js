@@ -3,9 +3,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import APLijekovi from '../components/APLijekovi'
 import APApoteke from '../components/APApoteke'
-import IznemaLicnihInfoKorisnik from '../components/IznemaLicnihInfoKorisnik'
+import IzmenaLicnihInfoKorisnik from '../components/IzmenaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
+import PocetnaStranaPacijenta from '../components/PocetnaStranaPacijenta'
+
 import ASLijekovi from '../components/ASLijekovi'
 import FormaApoteke from '../components/FormaApoteke'
 import FormaKorisnika from '../components/FormaKorisnika'
@@ -27,8 +29,8 @@ const routes = [
   },
   {
     path: '/ap/profil',
-    name: 'IznemaLicnihInfoKorisnik',
-    component: IznemaLicnihInfoKorisnik,
+    name: 'IzmenaLicnihInfoKorisnik',
+    component: IzmenaLicnihInfoKorisnik,
   },
   {
     path: '/ap/farmaceut',
@@ -65,6 +67,11 @@ const routes = [
     name: 'FormaKorisnika',
     component: FormaKorisnika,
   }
+   {
+    path: '/ap/pacijent',
+    name: 'PocetnaStranaPacijenta',
+    component: PocetnaStranaPacijenta,
+  },
 ]
 
 const router = createRouter({
