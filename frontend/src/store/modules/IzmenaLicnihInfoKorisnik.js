@@ -12,7 +12,7 @@ const getters = {//pazi ovo je nebitno
 const actions = {
      dobaviProfil (context) {
       
-       return axios.get('http://localhost:8080/api/v1/profil')
+       return axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta')
         .then(response => {
            
             context.commit('postaviProfil',response.data)

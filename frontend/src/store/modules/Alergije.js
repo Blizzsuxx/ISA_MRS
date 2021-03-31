@@ -10,7 +10,7 @@ const getters = {
 
 const actions = {
     dobaviAlergije (context) {
-        axios.get('http://localhost:8080/api/v1/profil')
+        axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta')
         .then(response => {
         let lekoviAlergija =response.data.alergije
         console.log(lekoviAlergija)

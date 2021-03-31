@@ -115,8 +115,18 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
        onSubmit() {
         this.form.email=this.backup.email
         if(confirm("Unesene promene ce se zapamtiti sem mejla.")){
-        this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)}
+        this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)
+        this.backup.ime=this.form.ime
+        this.backup.prezime=this.form.prezime
+        this.backup.mesto=this.form.mesto
+        this.backup.ulica = this.form.ulica
+        this.backup.broj = this.form.broj
+        this.backup.date1 = this.form.date1
+        this.backup.resource = this.form.resource
+        this.backup.email=this.form.email  
+        }
         //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
+
       },
        vrati() {
         this.form.ime=this.backup.ime

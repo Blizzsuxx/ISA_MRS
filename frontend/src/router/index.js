@@ -66,7 +66,7 @@ const routes = [
     path: '/ap/FormaKorisnika',
     name: 'FormaKorisnika',
     component: FormaKorisnika,
-  }
+  },
    {
     path: '/ap/pacijent',
     name: 'PocetnaStranaPacijenta',
