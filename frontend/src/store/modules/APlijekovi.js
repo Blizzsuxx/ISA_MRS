@@ -40,12 +40,33 @@ const actions = {
         })
         return contex;
     },
+    izbrisiLijekove ({commit,state},lijekovi){
+        let arr = new Array();
+        lijekovi.forEach(element => {
+            arr.push(element.id)
+        });
+        let lijekoviNovi = state.sviLijekovi.filter(element=>{
+            if(lijekovi.filter(elem=>elem.id===element.id).length!=0){
+                return false;
+            }
+            return true;
+        });
+        
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove',arr)
+        .then(response => {
+            commit('postaviSveLijekove',lijekoviNovi)
+            return response
+
+        })
+        
+    },
    
     promjeniStanje({commit,state},lijekovi){
         let arr = new Array();
         lijekovi.forEach(element => {
             arr.push(element.id)
         });
+        
         axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjenaStatusaProdaje',arr)
         .then(response => {
             let arry = response.data

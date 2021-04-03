@@ -72,4 +72,13 @@ public class StanjeLijekaService {
         }
     return zabranjeniIdentifikatori;
     }
+
+    public void izbrisiLijekove(List<Long> identifikatori) {
+        List<StanjeLijeka> zaBrisanje  =  this.stanjeLijekaRepository.findAllById(identifikatori);
+        this.stanjeLijekaRepository.deleteAll(zaBrisanje);
+    }
+
+    public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
+        return stanjeLijekaRepository.nadjiStanja(id);
+    }
 }

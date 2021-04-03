@@ -27,16 +27,16 @@ public class ApotekaService {
     }
 
     @Transactional
-    public List<StanjeLijekaDTO> dobaviStanjaLijekova(Long id) {
+    public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
         Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
         if(apoteka== null)
-            return new ArrayList<StanjeLijekaDTO>();
+            return new ArrayList<StanjeLijeka>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
             povratna_stanja.add(new StanjeLijekaDTO(sl));
         }
-        return povratna_stanja;
+        return apoteka.getLijekovi();
     }
     public List<Apoteka> dobaviApoteke(){
 

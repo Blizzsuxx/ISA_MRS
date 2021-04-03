@@ -1,6 +1,7 @@
 package mrsisa.projekat.stanjelijeka;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
@@ -28,6 +29,7 @@ public class StanjeLijeka {
     @Column(name = "datumIstekaCijene", nullable = true)
     private LocalDateTime datumIstekaCijene;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
     private Erecept eRecept;
