@@ -16,7 +16,7 @@ public class StanjeLijeka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Lijek lijek;
     @Column(name = "kolicina", nullable = false)
     private int kolicina;

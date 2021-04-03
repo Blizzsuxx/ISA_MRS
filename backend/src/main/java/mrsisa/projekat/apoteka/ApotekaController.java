@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class ApotekaController {
 
 
     @GetMapping("/dobaviLijekove/{id}")
-    public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
+    public List<StanjeLijekaDTO> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(id);
     }
