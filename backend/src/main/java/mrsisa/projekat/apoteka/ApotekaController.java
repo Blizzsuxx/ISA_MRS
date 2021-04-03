@@ -29,60 +29,9 @@ public class ApotekaController {
 
 
     @GetMapping("/dobaviLijekove/{id}")
-    public List<StanjeLijeka> dobaviLijekove(@PathVariable Integer id){
+    public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        return List.of(
-                    new StanjeLijeka(
-                            1L,
-                            new Lijek(
-                                    1L,
-                                    "Paracetamol",
-                                    "Protiv boli",
-                                    "tableta",
-                                    "ljiek",
-                                    "Biofarm",
-                                    "Lijek"
-                            ),
-                            10,
-                            false,
-                            10.00,
-                            LocalDateTime.parse("01-04-2021 10:10",format)
-                    ),
-                    new StanjeLijeka(
-                            2L,
-                            new Lijek(
-                                    2L,
-                                    "Brufen",
-                                    "Protiv boli",
-                                    "tableta",
-                                    "ljiek",
-                                    "Biofarm",
-                                    "Lijek"
-                            ),
-                            20,
-                            false,
-                            11.00,
-                            LocalDateTime.parse("01-04-2021 10:10",format)
-
-                    ),
-                    new StanjeLijeka(
-
-                            3L,
-                            new Lijek(
-                                    3L,
-                                    "Lekadol",
-                                    "Protiv boli",
-                                    "tableta",
-                                    "ljiek",
-                                    "Biofarm",
-                                    "Lijek"
-                            ),
-                            15,
-                            true,
-                            12.00,
-                            LocalDateTime.parse("01-04-2021 10:10",format)
-                    )
-            );
+        return apotekaService.dobaviStanjaLijekova(id);
     }
 
     @GetMapping(path="/dobaviApoteke")
