@@ -41,6 +41,9 @@
           size="mini"
           type="danger"
           @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+        <el-button
+          size="small"
+          @click="handleInfo(scope.$index, scope.row)">Info</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -62,7 +65,10 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
-      }
+      },
+      handleInfo(index, row){
+        console.log(index, row);
+      },
     },
   }
 </script>
