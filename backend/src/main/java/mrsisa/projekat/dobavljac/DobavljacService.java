@@ -1,6 +1,5 @@
 package mrsisa.projekat.dobavljac;
 
-import mrsisa.projekat.dermatolog.DermatologRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,5 +10,9 @@ public class DobavljacService {
     @Autowired
     public DobavljacService(DobavljacRepository dobavljacRepository){
         this.dobavljacRepository = dobavljacRepository;
+    }
+
+    public Dobavljac save(Dobavljac d){
+        return this.dobavljacRepository.save(d);
     }
 }

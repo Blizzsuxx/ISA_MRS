@@ -1,5 +1,6 @@
 package mrsisa.projekat.dermatolog;
 
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,8 +10,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path="api/v1/dermatolog")
 public class DermatologController {
-
-
     private final DermatologService dermatologService;
     @Autowired
     public DermatologController(DermatologService dermatologService){
@@ -25,5 +24,9 @@ public class DermatologController {
     }
 
 
-
+    @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")
+    public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) {
+        Dermatolog d = new Dermatolog(dummy);
+        this.dermatologService.save(d);
+    }
 }

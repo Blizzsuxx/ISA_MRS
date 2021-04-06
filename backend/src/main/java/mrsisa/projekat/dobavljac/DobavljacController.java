@@ -1,10 +1,8 @@
 package mrsisa.projekat.dobavljac;
 
-import mrsisa.projekat.dermatolog.DermatologService;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
@@ -17,4 +15,9 @@ public class DobavljacController {
         this.dobavljacService = dobavljacService;
     }
 
+    @PostMapping(consumes = "application/json", path = "/sacuvajDobavljaca")
+    public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) {
+        Dobavljac d = new Dobavljac(dummy);
+        this.dobavljacService.save(d);
+    }
 }

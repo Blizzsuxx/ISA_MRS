@@ -8,8 +8,6 @@ import java.util.List;
 
 @Service
 public class DermatologService {
-
-
     private final DermatologRepository dermatologRepository;
 
     @Autowired
@@ -23,4 +21,7 @@ public class DermatologService {
         return new ArrayList<Dermatolog>();
     }
 
+    public Dermatolog save(Dermatolog d){
+        return this.dermatologRepository.save(d);
+    }
 }
