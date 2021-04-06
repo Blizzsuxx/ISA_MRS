@@ -6,15 +6,18 @@ public class KorisnikDTO {
     private String ime;
     private String prezime;
     private String rodjendan;
+    private String email;
 
     public KorisnikDTO() {}
 
-    public KorisnikDTO(String korisnickoIme, String sifra, String ime, String prezime, String rodjendan) {
+
+    public KorisnikDTO(String korisnickoIme, String sifra, String ime, String prezime, String rodjendan, String email) {
         this.korisnickoIme = korisnickoIme;
         this.sifra = sifra;
         this.ime = ime;
         this.prezime = prezime;
         this.rodjendan = rodjendan;
+        this.email = email;
     }
 
     public String getKorisnickoIme() {
@@ -55,5 +58,13 @@ public class KorisnikDTO {
 
     public void setRodjendan(String rodjendan) {
         this.rodjendan = rodjendan;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

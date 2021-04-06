@@ -21,7 +21,7 @@
     width: 50%;
     margin-top: 10px;
     max-width: 750px;
-    height: 550px;
+    height: 650px;
     border: 1px solid #9C9C9C;
     background-color: #EAEAEA;
     font-weight: bold;
@@ -68,12 +68,29 @@
               </el-form-item>
               <el-form-item label="Prezime:" prop="prezime">
                 <div class="grupa">
-                <el-input v-model.number="korisnik.prezime" autocomplete="off"></el-input>
+                <el-input v-model="korisnik.prezime" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Email:" prop="email">
+                <div class="grupa">
+                <el-input v-model="korisnik.email" autocomplete="off"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Datum:" prop="rodjendan">
                 <div class="grupa">
                 <el-date-picker type="date" placeholder="Datum rodjenja" v-model="korisnik.rodjendan" style="width: 100%;"></el-date-picker>
+                </div>
+              </el-form-item>
+              <el-form-item label="Uloga:" prop="uloga">
+                <div class="grupa">
+                  <el-select v-model="korisnik.uloga" @change="promjena()" filterable placeholder="Select">
+                    <el-option
+                      v-for="item in opcije"
+                      :key="item.uloga"
+                      :label="item.label"
+                      :value="item.uloga">
+                    </el-option>
+                  </el-select>
                 </div>
               </el-form-item>
               <el-form-item>
@@ -83,7 +100,7 @@
               
             </el-form>
             <div id="unos-link" class="text-right">
-              <a href="#">Apoteke!</a>
+              <a href="#">Korisnici!</a>
             </div>
           </div>
         </div>
@@ -118,7 +135,7 @@ import moment from 'moment'
         };
         return {
             naslov: 'Unos Korisnika',
-            naslovForme: 'Unos Administratora Apoteke',
+            naslovForme: 'Unos Korisnika',
             korisnik: {
             korisnickoIme: '',
             sifra: '',
@@ -126,7 +143,24 @@ import moment from 'moment'
             ime: '',
             prezime: '',
             rodjendan: '',
-        },
+            email: '',
+            uloga: 'Dermatolog',
+            },
+            opcije: [{
+              uloga: 'Dermatolog',
+              label: 'Dermatolog'
+            }, {
+              uloga: 'Dobavljac',
+              label: 'Dobavljac',
+            }, {
+              uloga: 'Administrator Sistema',
+              label: 'Administrator Sistema'
+            },
+            {
+              uloga: 'Administrator Apoteke',
+              label: 'Administrator Apoteke'
+            }],
+        
          rules: {
           korisnickoIme: [
             { required: true, message: 'Unesite korisnicko ime!', trigger: 'blur' },
@@ -147,7 +181,10 @@ import moment from 'moment'
             { required: true, message: 'Unesite datum rodjenja!', trigger: 'blur' },
             { type: 'date', message: 'Mora biti datum' }
           ],
-        
+          email: [
+            { required: true, message: 'Unesite email adresu!', trigger: 'blur' },
+            { type: 'email', message: 'Unesite validnu adresu!', trigger: ['blur', 'change'] }
+          ]
         }
       };
       
@@ -157,9 +194,10 @@ import moment from 'moment'
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var k = {korisnickoIme: this.korisnik.korisnickoIme, sifra: this.korisnik.sifra, 
-            ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')};
-            alert(k.rodjendan);
-            this.$store.dispatch('APKorisnici/dodajKorisnika', k);
+            ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm'),
+            email: this.korisnik.email, uloga: this.korisnik.uloga};
+            alert(k.email);
+            alert(this.korisnik.uloga);
            
           } else {
             console.log('error submit!!');
@@ -170,6 +208,9 @@ import moment from 'moment'
       },
       resetForm(formName){
         this.$refs[formName].resetFields();
+      },
+      promjena(){
+        this.naslovForme = this.korisnik.uloga;
       }
     }
   }

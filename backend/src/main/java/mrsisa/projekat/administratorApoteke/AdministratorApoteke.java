@@ -37,6 +37,7 @@ public class AdministratorApoteke extends Administrator {
         this.setFirstName(dummy.getIme());
         this.setLastName(dummy.getPrezime());
         this.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        this.setEmail(dummy.getEmail());
     }
 
     public Apoteka getApoteka() {
