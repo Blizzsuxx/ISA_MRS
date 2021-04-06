@@ -1,6 +1,7 @@
 package mrsisa.projekat.dobavljac;
 
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.ponuda.Ponuda;
 import mrsisa.projekat.radnik.Radnik;
@@ -43,6 +44,10 @@ public class Dobavljac extends Radnik {
         super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
         this.lijekoviNaStanju = lijekoviNaStanju;
         this.ponude = ponude;
+    }
+
+    public Dobavljac(KorisnikDTO dummy) {
+        super(dummy);
     }
 
     public List<Lijek> getLijekoviNaStanju() {

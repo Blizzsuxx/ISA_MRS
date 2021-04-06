@@ -31,12 +31,8 @@ public class AdministratorApoteke extends Administrator {
         this.apoteka = apoteka;
     }
 
-    public AdministratorApoteke(KorisnikDTO dummy){
-        this.setUsername(dummy.getKorisnickoIme());
-        this.setPassword(dummy.getSifra());
-        this.setFirstName(dummy.getIme());
-        this.setLastName(dummy.getPrezime());
-        this.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+    public AdministratorApoteke(KorisnikDTO dummy) {
+        super(dummy);
     }
 
     public Apoteka getApoteka() {

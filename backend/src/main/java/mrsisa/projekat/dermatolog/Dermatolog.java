@@ -3,6 +3,7 @@ package mrsisa.projekat.dermatolog;
 import javax.persistence.*;
 
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.radnik.Radnik;
 
 import java.time.LocalDateTime;
@@ -12,10 +13,11 @@ import java.util.List;
 @Table(name = "dermatolozi")
 @PrimaryKeyJoinColumn(name = "radnik")
 public class Dermatolog extends Radnik{
-    @Column(name = "iq", nullable = false)
+    @Column(name = "iq")
     private String iq; // atribut koji sluzi da bi istestirali validnost baze
 
-    public Dermatolog() {}
+    public Dermatolog() {
+    }
 
     public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String iq) {
         super(username, password, firstName, lastName, email, birthday);
@@ -25,6 +27,10 @@ public class Dermatolog extends Radnik{
     public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, String iq) {
         super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
         this.iq = iq;
+    }
+
+    public Dermatolog(KorisnikDTO dummy) {
+        super(dummy);
     }
 
     public Dermatolog(String iq) {
