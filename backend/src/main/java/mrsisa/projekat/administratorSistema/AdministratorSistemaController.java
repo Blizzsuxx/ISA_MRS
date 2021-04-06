@@ -1,8 +1,13 @@
 package mrsisa.projekat.administratorSistema;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -21,4 +26,14 @@ public class AdministratorSistemaController {
         this.administratorSistemaService.save(as);
     }
 
+    @GetMapping(path = "/sviAdministratoriSistema")
+    public List<KorisnikDTO> vratiSveAdministratoreSistema(){
+        List<AdministratorSistema> admini = this.administratorSistemaService.findAll();
+        List<KorisnikDTO> korisnici = new ArrayList<>();
+
+        for (AdministratorSistema as : admini)
+            korisnici.add(new KorisnikDTO((Korisnik) as));
+
+        return korisnici;
+    }
 }

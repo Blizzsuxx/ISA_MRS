@@ -1,9 +1,12 @@
 package mrsisa.projekat.dermatolog;
 
+import mrsisa.projekat.administratorSistema.AdministratorSistema;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -28,5 +31,16 @@ public class DermatologController {
     public void sacuvajDermatologa(@RequestBody KorisnikDTO dummy) {
         Dermatolog d = new Dermatolog(dummy);
         this.dermatologService.save(d);
+    }
+
+    @GetMapping(path = "/sviDermatolozi")
+    public List<KorisnikDTO> vratiSveDermatologe(){
+        List<Dermatolog> dermatolozi = this.dermatologService.findAll();
+        List<KorisnikDTO> korisnici = new ArrayList<>();
+
+        for (Dermatolog d : dermatolozi)
+            korisnici.add(new KorisnikDTO((Korisnik) d));
+
+        return korisnici;
     }
 }

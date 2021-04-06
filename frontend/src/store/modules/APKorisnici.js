@@ -16,23 +16,23 @@ const actions = {
     },
 
     dobaviDermatologe (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke')
+        return axios.get('http://localhost:8080/api/v1/dermatolog/sviDermatolozi')
         .then(response => {
-            context.commit('postaviAdministratoreApoteke', response.data);
+            context.commit('postaviDermatologe', response.data);
         })
     },
 
     dobaviDobavljace (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke')
+        return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci')
         .then(response => {
-            context.commit('postaviAdministratoreApoteke', response.data);
+            context.commit('postaviDobavljace', response.data);
         })
     },
 
     dobaviAdministratoreSistema (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke')
+        return axios.get('http://localhost:8080/api/v1/administratorSistema/sviAdministratoriSistema')
         .then(response => {
-            context.commit('postaviAdministratoreApoteke', response.data);
+            context.commit('postaviAdministratoreSistema', response.data);
         })
     },
 
@@ -69,7 +69,7 @@ const actions = {
 
 const mutations = {
     postaviDermatologe:(state, dermatolozi)=>(state.dermatolozi = dermatolozi),
-    postaviDostavljace:(state, dobavljaci)=>(state.dobavljaci = dobavljaci),
+    postaviDobavljace:(state, dobavljaci)=>(state.dobavljaci = dobavljaci),
     postaviAdministratoreSistema:(state, administratoriSistema)=>(state.administratoriSistema = administratoriSistema),
     postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke)
 }

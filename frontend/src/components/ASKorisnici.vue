@@ -47,7 +47,27 @@ export default {
             console.log(key, keyPath);
         },
         promjeniti(p){
-            alert(p);
+            if (p === "AS"){
+                this.$store.dispatch("APKorisnici/dobaviAdministratoreSistema").then(response => {
+                    this.nesto = this.$store.state.APKorisnici.administratoriSistema;
+                    return response;
+                })
+            } else if (p === "AP"){
+                this.$store.dispatch("APKorisnici/dobaviAdministratoreApoteka").then(response => {
+                    this.nesto = this.$store.state.APKorisnici.administratoriApoteke;
+                    return response;
+                })
+            } else if (p === "Dermatolozi"){
+                this.$store.dispatch("APKorisnici/dobaviDermatologe").then(response => {
+                    this.nesto = this.$store.state.APKorisnici.dermatolozi;
+                    return response;
+                })
+            } else if (p === "Dobavljaci"){
+                this.$store.dispatch("APKorisnici/dobaviDobavljace").then(response => {
+                    this.nesto = this.$store.state.APKorisnici.dobavljaci;
+                    return response;
+                })
+            }
         },
     },
     components:{

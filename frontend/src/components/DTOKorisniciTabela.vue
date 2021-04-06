@@ -2,7 +2,8 @@
 <template>
 
   <el-table
-    :data="tableData.filter(data => !search || data.ime.toLowerCase().includes(search.toLowerCase()))"
+    :data="tableData.filter(data => !search || data.ime.toLowerCase().includes(search.toLowerCase()) || 
+    data.prezime.toLowerCase().includes(search.toLowerCase()) || data.email.toLowerCase().includes(search.toLowerCase()))"
     style="width: 100%">
     <el-table-column
       label="Korisnicko Ime"

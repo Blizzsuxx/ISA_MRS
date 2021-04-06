@@ -1,6 +1,9 @@
 package mrsisa.projekat.dermatolog;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,5 +26,13 @@ public class DermatologService {
 
     public Dermatolog save(Dermatolog d){
         return this.dermatologRepository.save(d);
+    }
+
+    public List<Dermatolog> findAll(){
+        return dermatologRepository.findAll();
+    }
+
+    public Page<Dermatolog> findAll(Pageable page){
+        return dermatologRepository.findAll(page);
     }
 }
