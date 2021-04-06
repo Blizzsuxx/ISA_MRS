@@ -4,7 +4,8 @@ const state = {
     
     sviLijekovi : [],
     zabranjeni : [],
-    dtoLijekovi: []
+    dtoLijekovi: [],
+    lijekoviZaPorucivanje:[],
 };
 
 
@@ -19,15 +20,48 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
-            console.log(response.data)
+            context.commit('postaviSveLijekove',response.data)
+            return response
             
-        context.commit('postaviSveLijekove',response.data)
+        
         })
         
         
     },
+    dodajLijekUNarudzbinu(context,lijek){
+        let sviLijekovi  = state.sviLijekovi
+        //let naruceni  = state.lijekoviZaPorucivanje
+        
+        sviLijekovi = sviLijekovi.map(element=>{
+            
+            if(element.id ===lijek.id){
+                let noviLijek = {...element};
+                noviLijek.kolicina = lijek.kolicina
+                context.commit('postaviLijekoviPorucivanje',noviLijek)
+                element.kolicina =element.kolicina- lijek.kolicina
+                
+                return element
+            }
+            return element
+        })
+       
+       
+        context.commit('postaviSveLijekove',sviLijekovi)
+    },
+    zavrsiNarucivanje(contex,datum){
+        console.log(state.lijekoviZaPorucivanje)
+        axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", JSON.stringify({lijekovi:state.lijekoviZaPorucivanje,
+                                                                                    datum:datum,
+                                                                                    apoteka:1}))
+        .then(response => {
+        
+          return response;
+        })
+        return contex;
+    },
+
     promjeniCijenu (contex,lijek){
         console.log(lijek)
         
@@ -110,7 +144,8 @@ const mutations = {
     
     postaviSveLijekove:(state,lijekovi)=>(state.sviLijekovi = lijekovi),
     postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni),
-    postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi)
+    postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi),
+    postaviLijekoviPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje.push(lijekovi))
 }
 
 export default{

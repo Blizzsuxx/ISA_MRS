@@ -11,12 +11,18 @@
   <div style="margin-top: 20px">
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
     <el-button type="primary" @click="promjeniStanje()" plain>Promjeni stanje</el-button>
+    <el-popconfirm
+  title="Da li ste sigurni da želite izbrisati lijek?"
+>
+<template #reference>
     <el-button type="primary" @click="izbrisiLijek()" plain>Izbrisi lijek</el-button>
-    <!-- Na ovo dugme se pali -->
+   </template>
+  </el-popconfirm>
+    
     <el-button @click="otvoriProzor" plain type="primary">
         Promjeni cijenu lijeka
     </el-button>
-
+    
     <ModalniProzorCijena  ref="prozor"/>
   </div>
 </template>  

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.rezervacija.Rezervacija;
 
 import javax.persistence.*;
@@ -37,6 +38,9 @@ public class StanjeLijeka {
     @ManyToOne(fetch = FetchType.LAZY)
     private Rezervacija rezervacija;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Narudzbenica narudzbenica;
+
     public Rezervacija getRezervacija() {
         return rezervacija;
     }
@@ -59,6 +63,14 @@ public class StanjeLijeka {
 
     public void setDatumIstekaCijene(LocalDateTime datumTrajanjaCijene) {
         this.datumIstekaCijene = datumTrajanjaCijene;
+    }
+
+    public Narudzbenica getNarudzbenica() {
+        return narudzbenica;
+    }
+
+    public void setNarudzbenica(Narudzbenica narudzbenica) {
+        this.narudzbenica = narudzbenica;
     }
 
     public Long getId() {

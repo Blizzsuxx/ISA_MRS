@@ -15,6 +15,7 @@ import FormaKorisnika from '../components/FormaKorisnika'
 
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
+import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 const routes = [
   
   
@@ -78,6 +79,12 @@ const routes = [
     name: 'ASKorisnici',
     component: ASKorisnici,
   },
+  {
+    path: '/kreiranjeNarudzbenice',
+    name: 'KreiranjeNarudzbenice',
+    component: KreiranjeNarudzbenica
+
+  }
 ]
 
 const router = createRouter({
