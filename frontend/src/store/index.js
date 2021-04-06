@@ -8,6 +8,8 @@ import APKorisnici from './modules/APKorisnici';
 import IzmenaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
 import Alergije from './modules/Alergije';
 import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
+import RezervisaniLekovi from './modules/RezervisaniLekovi';
+import ERecepti from './modules/ERecepti';
 export default createStore({
     state () {
         return {
@@ -23,6 +25,8 @@ export default createStore({
           APPosete,
         APKorisnici,
         PocetnaStranaPacijenta,
+        RezervisaniLekovi,
+        ERecepti,
         Alergije
       }
   })

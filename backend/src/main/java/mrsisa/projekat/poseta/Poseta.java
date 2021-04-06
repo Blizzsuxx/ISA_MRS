@@ -25,8 +25,8 @@ public class Poseta {
     @Column(name = "start", nullable = false)
     private LocalDateTime start;
 
-    @Column(name = "end", nullable = false)
-    private LocalDateTime end;
+    @Column(name = "kraj", nullable = false)
+    private LocalDateTime kraj;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
@@ -67,11 +67,11 @@ public class Poseta {
     }
 
     public LocalDateTime getEnd() {
-        return end;
+        return kraj;
     }
 
     public void setEnd(LocalDateTime end) {
-        this.end = end;
+        this.kraj = end;
     }
 
     public Apoteka getApoteka() {

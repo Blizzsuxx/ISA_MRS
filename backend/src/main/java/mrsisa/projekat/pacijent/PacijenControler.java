@@ -1,7 +1,12 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.korisnik.KorisnikDTO;
+import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentService;
+import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,8 +39,37 @@ public class PacijenControler {
 
 	@GetMapping(path="/dobaviPacijente")
 	public List<Pacijent> dobaviPacijentee(){
-		System.out.println(pacijentService.dobaviPacijenta().getFirstName());
+
 		return pacijentService.dobaviPacijente();
+	}
+	@GetMapping(path="/dobaviIzdateERecepte")
+	public List<Erecept> dobaviIzdateErecepte(){
+
+		return pacijentService.dobaviERecepteIzdate();
+	}
+	@GetMapping(path="/dobaviRezervacije")
+	public List<RezervacijaDTO> dobaviRezervacije(){
+
+		return pacijentService.dobaviRezervacije();
+	}
+
+
+	@GetMapping(path="/dobaviERecepte")
+	public List<Erecept> dobaviERecepte(){
+		System.out.println("n");
+		return pacijentService.dobaviERecepte();
+	}
+	@GetMapping(path="/promeniAlergije")
+	public boolean promeniAlergije(@RequestBody List<Lijek> info){
+	    	if(info==null){
+	    		return false;
+			}else{return true;}
+	}
+
+	@PostMapping(consumes = "application/json", path = "/izbaciAlergije")
+	public void izbaciAlergije(@RequestBody List<Lijek> dummy) {
+		pacijentService.izbaciAlergije(dummy);
+
 	}
 
 }

@@ -14,6 +14,9 @@ import FormaKorisnika from '../components/FormaKorisnika'
 
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
+import ListaRezervacija from "../components/ListaRezervacija";
+import ListaRecepata from "../components/ListaRecepata";
+import IstorijaLekova from "../components/IstorijaLekova";
 const routes = [
   
   
@@ -71,6 +74,21 @@ const routes = [
     path: '/ap/pacijent',
     name: 'PocetnaStranaPacijenta',
     component: PocetnaStranaPacijenta,
+  },
+  {
+    path: '/ap/rezervacije',
+    name: 'ListaRezervacija',
+    component: ListaRezervacija,
+  },
+  {
+    path: '/ap/recepti',
+    name: 'ListaRecepata',
+    component: ListaRecepata,
+  },
+  {
+    path: '/ap/istorijaLekova',
+    name: 'IstorijaLekova',
+    component: IstorijaLekova,
   },
 ]
 

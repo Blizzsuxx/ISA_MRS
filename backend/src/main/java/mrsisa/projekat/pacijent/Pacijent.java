@@ -17,20 +17,23 @@ public class Pacijent extends Korisnik {
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Erecept> eRecepti;
 
-	public List<Rezervacija> getRezervacije() {
-		return rezervacije;
-	}
-
-	public void setRezervacije(List<Rezervacija> rezervacije) {
-		this.rezervacije = rezervacije;
-	}
+	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Erecept> izdatiPrekoERecepta;
 
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Rezervacija> rezervacije;
 
-	public Pacijent() {}
 	@ManyToOne(fetch = FetchType.EAGER)
 	public Adresa adresa;
+
+	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Lijek> alergije;
+
+	public List<Rezervacija> getRezervacije() {
+		return rezervacije;
+	}
+
+	public void setRezervacije(List<Rezervacija> rezervacije) { this.rezervacije = rezervacije;}
 
 	public Adresa getAdresa() {
 		return adresa;
@@ -40,12 +43,19 @@ public class Pacijent extends Korisnik {
 		this.adresa = adresa;
 	}
 
-	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Lijek> alergije;
-
 	public List<Lijek> getAlergije() {
 		return alergije;
 	}
+
+	public List<Erecept> getIzdatiPrekoERecepta() {
+		return izdatiPrekoERecepta;
+	}
+
+	public void setIzdatiPrekoERecepta(List<Erecept> izdatiPrekoERecepta) {
+		this.izdatiPrekoERecepta = izdatiPrekoERecepta;
+	}
+
+	public Pacijent() {}
 	public Pacijent(String name, String username, String password, String lastname, LocalDateTime birthday){
 		this.setFirstName(name);
 		this.setUsername(username);

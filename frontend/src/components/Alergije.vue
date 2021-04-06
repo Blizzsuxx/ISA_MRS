@@ -5,9 +5,9 @@
     :data="this.$store.state.Alergije.lekoviAlergija"
     style="width: 100%"
     @selection-change="handleSelectionChange">
-    <el-table-column
+<el-table-column
       type="selection"
-      width="55"> <!--deo za selekciju-->
+      width="55">
     </el-table-column>
     <el-table-column
       property="naziv"
@@ -59,7 +59,7 @@ export default {
         }
       },
       izbaci(){
-        console.log(this.$store.state.Alergije.lekoviAlergija.length)
+        //console.log(this.$store.state.Alergije.lekoviAlergija.length)
         this.$store.dispatch("Alergije/izbaci",this.multipleSelection)
        
         this.$refs.multipleSelection.clearSelection();

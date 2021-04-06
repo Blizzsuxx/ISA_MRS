@@ -1,6 +1,7 @@
 package mrsisa.projekat.stanjelijeka;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
@@ -16,7 +17,7 @@ public class StanjeLijeka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Lijek lijek;
     @Column(name = "kolicina", nullable = false)
     private int kolicina;
@@ -28,6 +29,7 @@ public class StanjeLijeka {
     @Column(name = "datumIstekaCijene", nullable = true)
     private LocalDateTime datumIstekaCijene;
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private Apoteka apoteka;
     @ManyToOne(fetch = FetchType.LAZY)
     private Erecept eRecept;
@@ -120,6 +122,16 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
         this.cijena = cijena;
         this.datumIstekaCijene= vrijemeIsteka;
+    }
+
+    public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime vrijemeIsteka,Apoteka apoteka) {
+        this.id = id;
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.cijena = cijena;
+        this.datumIstekaCijene= vrijemeIsteka;
+        this.apoteka = apoteka;
     }
     public StanjeLijeka(){
 

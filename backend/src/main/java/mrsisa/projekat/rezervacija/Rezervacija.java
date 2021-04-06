@@ -6,6 +6,8 @@ import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,8 +22,19 @@ public class Rezervacija {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
+    @Column( nullable = false, unique = true)
+    private LocalDateTime datumRezervacije;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> rezervisaniLijekovi;
+
+    public Rezervacija(long id, Pacijent pacijent, Apoteka apoteka, ArrayList<StanjeLijeka> rezervisaniLijekovi, LocalDateTime datumRezervacije) {
+        this.id = id;
+        this.pacijent = pacijent;
+        this.apoteka = apoteka;
+        this.rezervisaniLijekovi = rezervisaniLijekovi;
+        this.datumRezervacije = datumRezervacije;
+    }
 
     public Long getId() {
         return id;
@@ -49,6 +62,14 @@ public class Rezervacija {
 
     public List<StanjeLijeka> getRezervisaniLijekovi() {
         return rezervisaniLijekovi;
+    }
+
+    public LocalDateTime getDatumRezervacije() {
+        return datumRezervacije;
+    }
+
+    public void setDatumRezervacije(LocalDateTime datumRezervacije) {
+        this.datumRezervacije = datumRezervacije;
     }
 
     public void setRezervisaniLijekovi(List<StanjeLijeka> rezervisaniLijekovi) {

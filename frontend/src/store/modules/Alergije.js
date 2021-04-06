@@ -38,9 +38,14 @@ const actions = {
         let lekoviBezAlergija = state.lekoviBezAlergija.concat(lekovi)
         commit('postaviAlergije',lekoviAlergija)
         commit('postaviLekove',lekoviBezAlergija)
+        axios.post("http://localhost:8080/api/v1/profil/izbaciAlergije", lekovi)
+        .then(response => {
+            alert("Promenjeno je");
+          return response;
+        })
         
     },
-    premesti({commit,state},lekovi){
+    premesti({commit,state},lekovi){ //todo treba ovo poslati nekako, najbolje preko id, itreba dobaviti lekove koji imaju id, i ne dobavljati stanja leka
         
         let lekoviBezAlergija = state.lekoviBezAlergija.filter(function(el){
             
@@ -55,7 +60,25 @@ const actions = {
         let lekoviAlergija = state.lekoviAlergija.concat(lekovi)
         commit('postaviAlergije',lekoviAlergija)
         commit('postaviLekove',lekoviBezAlergija)
+        //posalji()
         
+    },
+    posalji(){
+        let arr = new Array();
+        arr=this.lekoviAlergija
+        axios.put('http://localhost:8080/api/v1/profil/promeniAlergije',arr)
+        .then(response => {
+            let tf = response.data
+            if(tf){
+            
+            console.log("da")
+        }
+            else{
+                //todo neki ispis
+                console.log("Nije dobro")
+            }
+            return response
+        })  
     }
 
 }

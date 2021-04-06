@@ -4,9 +4,11 @@ package mrsisa.projekat.apoteka;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +26,16 @@ public class ApotekaService {
         return this.apotekaRepository.save(a);
     }
 
+    @Transactional
     public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
         Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
         if(apoteka== null)
             return new ArrayList<StanjeLijeka>();
+        List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        for (StanjeLijeka sl:apoteka.getLijekovi())
+        {
+            povratna_stanja.add(new StanjeLijekaDTO(sl));
+        }
         return apoteka.getLijekovi();
     }
     public List<Apoteka> dobaviApoteke(){
