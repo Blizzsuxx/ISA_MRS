@@ -138,4 +138,13 @@ public class Lijek {
         this.ocijena = ocijena;
         this.dobavljac = dobavljac;
     }
+
+    public Lijek(LijekDTO dummy){
+        this.naziv = dummy.getNaziv();
+        this.vrstaLijeka = dummy.getVrstaLijeka();
+        this.oblikLijeka = dummy.getOblikLijeka();
+        this.sastav = dummy.getSastav();
+        this.proizvodjac = dummy.getProizvodjac();
+        this.napomena = dummy.getNapomena();
+    }
 }

@@ -133,9 +133,9 @@
     methods: {
       onSubmit() {
         var l = {naziv: this.lijek.naziv, vrstaLijeka: this.lijek.vrstaLijeka, 
-        oblikLijeka: this.lijek.oblikLijeka, sastav: this.apoteka.sastav, proizvodjac: this.apoteka.proizvodjac,
-        napomena: this.apoteka.napomena };
-        console.log(l);
+        oblikLijeka: this.lijek.oblikLijeka, sastav: this.lijek.sastav, proizvodjac: this.lijek.proizvodjac,
+        napomena: this.lijek.napomena };
+        this.$store.dispatch('APlijekovi/dodajLijek', l);
         
       },
       resetForm(formName){

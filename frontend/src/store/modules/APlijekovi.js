@@ -10,6 +10,14 @@ const state = {
 
 
 const actions = {
+    dodajLijek (context, lijek){
+        axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek)
+        .then(response => {
+            alert("Dodat lijek");
+          return response;
+        })
+    },
+
     dobaviDTOLijekove (context) {
         axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi')
         .then(response => {
