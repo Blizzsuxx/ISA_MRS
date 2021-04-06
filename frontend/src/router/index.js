@@ -12,6 +12,7 @@ import ASLijekovi from '../components/ASLijekovi'
 import ASKorisnici from '../components/ASKorisnici'
 import FormaApoteke from '../components/FormaApoteke'
 import FormaKorisnika from '../components/FormaKorisnika'
+import FormaLijekova from '../components/FormaLijekova'
 
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
@@ -77,6 +78,11 @@ const routes = [
     path: '/ap/korisnici',
     name: 'ASKorisnici',
     component: ASKorisnici,
+  },
+  {
+    path: '/ap/FormaLijekova',
+    name: 'FormaLijekova',
+    component: FormaLijekova,
   },
 ]
 
