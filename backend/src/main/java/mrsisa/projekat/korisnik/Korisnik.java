@@ -2,6 +2,7 @@ package mrsisa.projekat.korisnik;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "korisnici")
@@ -39,6 +40,15 @@ public abstract class  Korisnik {
         this.lastName = lastName;
         this.email = email;
         this.birthday = birthday;
+    }
+
+    public Korisnik(KorisnikDTO dummy){
+        this.username = dummy.getKorisnickoIme();
+        this.password = dummy.getSifra();
+        this.firstName = dummy.getIme();
+        this.lastName = dummy.getPrezime();
+        this.email = dummy.getEmail();
+        this.birthday = LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public String getUsername() {

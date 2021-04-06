@@ -1,5 +1,6 @@
 package mrsisa.projekat.administrator;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -14,5 +15,9 @@ public class Administrator extends Korisnik {
 
     public Administrator(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
         super(username, password, firstName, lastName, email, birthday);
+    }
+
+    public Administrator(KorisnikDTO dummy) {
+        super(dummy);
     }
 }

@@ -2,6 +2,7 @@ package mrsisa.projekat.radnik;
 
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,6 +25,10 @@ public abstract class Radnik extends Korisnik {
 
     public Radnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
         super(username, password, firstName, lastName, email, birthday);
+    }
+
+    public Radnik(KorisnikDTO dummy) {
+        super(dummy);
     }
 
     public Radnik(List<GodisnjiOdmor> godisnjiOdmori) {

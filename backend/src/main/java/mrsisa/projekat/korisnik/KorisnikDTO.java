@@ -7,9 +7,9 @@ public class KorisnikDTO {
     private String prezime;
     private String rodjendan;
     private String email;
+    private String uloga;
 
     public KorisnikDTO() {}
-
 
     public KorisnikDTO(String korisnickoIme, String sifra, String ime, String prezime, String rodjendan, String email) {
         this.korisnickoIme = korisnickoIme;
@@ -18,6 +18,16 @@ public class KorisnikDTO {
         this.prezime = prezime;
         this.rodjendan = rodjendan;
         this.email = email;
+    }
+
+    public KorisnikDTO(String korisnickoIme, String sifra, String ime, String prezime, String rodjendan, String email, String uloga) {
+        this.korisnickoIme = korisnickoIme;
+        this.sifra = sifra;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.rodjendan = rodjendan;
+        this.email = email;
+        this.uloga = uloga;
     }
 
     public String getKorisnickoIme() {
@@ -66,5 +76,13 @@ public class KorisnikDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUloga() {
+        return uloga;
+    }
+
+    public void setUloga(String uloga) {
+        this.uloga = uloga;
     }
 }

@@ -8,13 +8,13 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(path="api/v1/dermatolog")
-public class DermatologControler {
+public class DermatologController {
 
 
     private final DermatologService dermatologService;
     @Autowired
-    public DermatologControler(DermatologService apotekaService){
-        this.dermatologService = apotekaService;
+    public DermatologController(DermatologService dermatologService){
+        this.dermatologService = dermatologService;
     }
 
     @GetMapping(path="/dobaviDermatologe")
