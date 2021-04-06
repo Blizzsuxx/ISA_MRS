@@ -11,6 +11,7 @@
   <div style="margin-top: 20px">
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
     <el-button type="primary" @click="promjeniStanje()" plain>Promjeni stanje</el-button>
+    <el-button type="primary" @click="izbrisiLijek()" plain>Izbrisi lijek</el-button>
     <!-- Na ovo dugme se pali -->
     <el-button @click="otvoriProzor" plain type="primary">
         Promjeni cijenu lijeka
@@ -60,6 +61,22 @@ export default {
           
         }
         this.$refs.dijete.$refs.multipleTable.clearSelection();
+      },
+      izbrisiLijek(){
+        var greska = false;
+        this.$refs.dijete.multipleSelection.forEach(element => {
+          if(element.prodaja){
+            greska = true;
+          }
+        });
+        if(greska){
+          this.greska=true;
+          this.poruka = `Samo lijekovi koji se nalaze u prodaji mogu biti izbrisani`;
+          return;
+        }
+        else{
+          this.$store.dispatch("APlijekovi/izbrisiLijekove",this.$refs.dijete.multipleSelection)
+        }
       },
       otvoriProzor(){
 

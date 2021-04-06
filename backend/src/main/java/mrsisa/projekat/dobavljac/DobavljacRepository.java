@@ -1,4 +1,8 @@
 package mrsisa.projekat.dobavljac;
 
-public interface DobavljacRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface DobavljacRepository extends JpaRepository<Dobavljac, Long> {
 }

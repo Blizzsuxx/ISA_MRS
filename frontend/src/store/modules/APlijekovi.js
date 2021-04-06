@@ -21,7 +21,8 @@ const actions = {
     dobaviLijekove (context) {
         axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
         .then(response => {
-           
+            console.log(response.data)
+            
         context.commit('postaviSveLijekove',response.data)
         })
         
@@ -31,7 +32,7 @@ const actions = {
         console.log(lijek)
         
 
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena}})
         .then(response => {
 
             return response
@@ -39,12 +40,33 @@ const actions = {
         })
         return contex;
     },
+    izbrisiLijekove ({commit,state},lijekovi){
+        let arr = new Array();
+        lijekovi.forEach(element => {
+            arr.push(element.id)
+        });
+        let lijekoviNovi = state.sviLijekovi.filter(element=>{
+            if(lijekovi.filter(elem=>elem.id===element.id).length!=0){
+                return false;
+            }
+            return true;
+        });
+        
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove',arr)
+        .then(response => {
+            commit('postaviSveLijekove',lijekoviNovi)
+            return response
+
+        })
+        
+    },
    
     promjeniStanje({commit,state},lijekovi){
         let arr = new Array();
         lijekovi.forEach(element => {
             arr.push(element.id)
         });
+        
         axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjenaStatusaProdaje',arr)
         .then(response => {
             let arry = response.data

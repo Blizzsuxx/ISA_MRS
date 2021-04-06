@@ -7,12 +7,13 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "pacijenti")
+@PrimaryKeyJoinColumn(name = "korisnik")
 public class Pacijent extends Korisnik {
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Erecept> eRecepti;

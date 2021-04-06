@@ -68,8 +68,8 @@
 
 
     <el-table-column
-      property="lijek.proizvodnja"
-      label="Proizvodnja"
+      property="lijek.prodaja"
+      label="Prodaja"
       :formatter="formatirajProizvodnju"
      >
     </el-table-column>
