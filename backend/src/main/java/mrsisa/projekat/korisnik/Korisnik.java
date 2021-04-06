@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Table(name = "korisnici")
+@Inheritance(strategy=InheritanceType.JOINED)
 public abstract class  Korisnik {
 
     @Id
-    @SequenceGenerator(name = "mySeqGenV1", sequenceName = "mySeqV1", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mySeqGenV1")
+    @SequenceGenerator(name = "korisnik_seq", sequenceName = "korisnik_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "korisnik_seq")
     private Integer id;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -20,7 +21,7 @@ public abstract class  Korisnik {
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "birthday", nullable = false)
     private LocalDateTime birthday;
@@ -29,8 +30,16 @@ public abstract class  Korisnik {
 
     public void setEmail(String email) { this.email = email; }
 
-
     public Korisnik() {}
+
+    public Korisnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+    }
 
     public String getUsername() {
         return username;

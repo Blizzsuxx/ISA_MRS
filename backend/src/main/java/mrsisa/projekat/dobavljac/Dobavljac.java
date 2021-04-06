@@ -1,17 +1,17 @@
 package mrsisa.projekat.dobavljac;
 
-import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.ponuda.Ponuda;
 import mrsisa.projekat.radnik.Radnik;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "dobavljaci")
+@PrimaryKeyJoinColumn(name = "radnik")
 public class Dobavljac extends Radnik {
     @OneToMany(mappedBy = "dobavljac", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Lijek> lijekoviNaStanju;
@@ -21,6 +21,26 @@ public class Dobavljac extends Radnik {
     public Dobavljac() {}
 
     public Dobavljac(List<Lijek> lijekoviNaStanju, List<Ponuda> ponude) {
+        this.lijekoviNaStanju = lijekoviNaStanju;
+        this.ponude = ponude;
+    }
+
+    public Dobavljac(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
+        super(username, password, firstName, lastName, email, birthday);
+    }
+
+    public Dobavljac(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<Lijek> lijekoviNaStanju, List<Ponuda> ponude) {
+        super(username, password, firstName, lastName, email, birthday);
+        this.lijekoviNaStanju = lijekoviNaStanju;
+        this.ponude = ponude;
+    }
+
+    public Dobavljac(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori) {
+        super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
+    }
+
+    public Dobavljac(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Lijek> lijekoviNaStanju, List<Ponuda> ponude) {
+        super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
         this.lijekoviNaStanju = lijekoviNaStanju;
         this.ponude = ponude;
     }

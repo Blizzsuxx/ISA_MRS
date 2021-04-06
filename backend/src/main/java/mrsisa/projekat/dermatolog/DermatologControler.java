@@ -1,9 +1,5 @@
-package mrsisa.projekat.Dermatolog;
+package mrsisa.projekat.dermatolog;
 
-import mrsisa.projekat.apoteka.Apoteka;
-import mrsisa.projekat.apoteka.ApotekaService;
-import mrsisa.projekat.lijek.Lijek;
-import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +11,9 @@ import java.util.List;
 public class DermatologControler {
 
 
-    private final DermatologServis dermatologService;
+    private final DermatologService dermatologService;
     @Autowired
-    public DermatologControler(DermatologServis apotekaService){
+    public DermatologControler(DermatologService apotekaService){
         this.dermatologService = apotekaService;
     }
 

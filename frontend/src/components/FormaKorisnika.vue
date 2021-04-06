@@ -1,4 +1,4 @@
-<style>
+<style scoped>
   body {
     margin: 10;
     padding: 10;
