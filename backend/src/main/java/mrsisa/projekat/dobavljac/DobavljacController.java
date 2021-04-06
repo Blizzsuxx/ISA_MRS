@@ -16,7 +16,7 @@ public class DobavljacController {
     }
 
     @PostMapping(consumes = "application/json", path = "/sacuvajDobavljaca")
-    public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) {
+    public void sacuvajDobavljaca(@RequestBody KorisnikDTO dummy) {
         Dobavljac d = new Dobavljac(dummy);
         this.dobavljacService.save(d);
     }

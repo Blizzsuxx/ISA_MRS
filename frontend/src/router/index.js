@@ -9,6 +9,7 @@ import APDermatolog from '../components/APDermatolog'
 import PocetnaStranaPacijenta from '../components/PocetnaStranaPacijenta'
 
 import ASLijekovi from '../components/ASLijekovi'
+import ASKorisnici from '../components/ASKorisnici'
 import FormaApoteke from '../components/FormaApoteke'
 import FormaKorisnika from '../components/FormaKorisnika'
 
@@ -67,10 +68,15 @@ const routes = [
     name: 'FormaKorisnika',
     component: FormaKorisnika,
   },
-   {
+  {
     path: '/ap/pacijent',
     name: 'PocetnaStranaPacijenta',
     component: PocetnaStranaPacijenta,
+  },
+  {
+    path: '/ap/korisnici',
+    name: 'ASKorisnici',
+    component: ASKorisnici,
   },
 ]
 

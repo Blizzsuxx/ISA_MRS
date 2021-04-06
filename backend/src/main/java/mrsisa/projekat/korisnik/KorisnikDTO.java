@@ -1,5 +1,9 @@
 package mrsisa.projekat.korisnik;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+
+import java.time.format.DateTimeFormatter;
+
 public class KorisnikDTO {
     private String korisnickoIme;
     private String sifra;
@@ -28,6 +32,16 @@ public class KorisnikDTO {
         this.rodjendan = rodjendan;
         this.email = email;
         this.uloga = uloga;
+    }
+
+    public KorisnikDTO(Korisnik k){
+        this.korisnickoIme = k.getUsername();
+        this.sifra = k.getPassword();
+        this.ime = k.getFirstName();
+        this.prezime = k.getLastName();
+        this.rodjendan = k.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.email = k.getEmail();
+        this.uloga = "uloga";
     }
 
     public String getKorisnickoIme() {

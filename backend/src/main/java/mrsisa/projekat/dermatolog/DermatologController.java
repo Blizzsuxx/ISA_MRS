@@ -25,7 +25,7 @@ public class DermatologController {
 
 
     @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")
-    public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) {
+    public void sacuvajDermatologa(@RequestBody KorisnikDTO dummy) {
         Dermatolog d = new Dermatolog(dummy);
         this.dermatologService.save(d);
     }

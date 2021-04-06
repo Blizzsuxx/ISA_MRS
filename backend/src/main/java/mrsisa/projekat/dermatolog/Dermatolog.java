@@ -13,10 +13,11 @@ import java.util.List;
 @Table(name = "dermatolozi")
 @PrimaryKeyJoinColumn(name = "radnik")
 public class Dermatolog extends Radnik{
-    @Column(name = "iq", nullable = false)
+    @Column(name = "iq")
     private String iq; // atribut koji sluzi da bi istestirali validnost baze
 
-    public Dermatolog() {}
+    public Dermatolog() {
+    }
 
     public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String iq) {
         super(username, password, firstName, lastName, email, birthday);
