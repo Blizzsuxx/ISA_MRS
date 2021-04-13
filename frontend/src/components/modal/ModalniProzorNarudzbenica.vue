@@ -51,9 +51,11 @@ export default {
   
   methods: {
       naruci(){
-          
+          if(this.lijek.kolicina!==0){
           this.$store.dispatch("APlijekovi/dodajLijekUNarudzbinu",this.lijek)
           this.modalOpen = false;
+          this.lijek.kolicina = 0
+          }
       }
   },
   mount() {

@@ -27,6 +27,20 @@
   <el-button type="primary" @click="zavrsiNarucivanje">
     Zavrsi narucivanje</el-button>
 
+
+
+<el-dialog
+  title="Obavjestenje o kreiranju"
+  v-model="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>Narudzbina uspjesno kreirana</span>
+  <template #footer>
+    <span class="dialog-footer">
+     
+    </span>
+  </template>
+</el-dialog>
 </template>  
  
 
@@ -43,7 +57,7 @@ export default {
         prozor: false,
         modalOpen: false,
         datumRok: new Date(),
-        
+        dialogVisible : false,
       }
     },
     components:{
@@ -77,6 +91,9 @@ export default {
           this.$refs.dijete.$refs.multipleTable.clearSelection();
         }
       },
+      handleClose(){
+        this.dialogVisible=false;
+      },
       otvoriProzor(){
 
         if(this.$refs.dijete.multipleSelection.length!=1 ){
@@ -98,7 +115,13 @@ export default {
         this.$refs.dijete.multipleSelection = val;
       },
       zavrsiNarucivanje(){
-        this.$store.dispatch("APlijekovi/zavrsiNarucivanje",this.datumROk)
+        if(this.$store.state.APlijekovi.lijekoviZaPorucivanje.length===0){
+          this.greska=true;
+          this.poruka = `Mora biti bar jedan lijek selektovan za naručivanje`;
+        }
+        this.$store.dispatch("APlijekovi/zavrsiNarucivanje",this.datumRok)
+        this.dialogVisible=true
+       
       }
     }
   }

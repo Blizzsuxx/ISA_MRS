@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import moment from 'moment'
 const state = {    
     
     sviLijekovi : [],
@@ -50,16 +50,21 @@ const actions = {
        
         context.commit('postaviSveLijekove',sviLijekovi)
     },
-    zavrsiNarucivanje(contex,datum){
-        console.log(state.lijekoviZaPorucivanje)
-        axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", JSON.stringify({lijekovi:state.lijekoviZaPorucivanje,
-                                                                                    datum:datum,
-                                                                                    apoteka:1}))
+    zavrsiNarucivanje(context,datum){
+      
+        let lijekovi = state.lijekoviZaPorucivanje.map(elem=>{
+            let new_elem = JSON.parse(JSON.stringify(elem))
+            new_elem.datumIstekaCijene =null;
+            return new_elem;
+        })
+        axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
+                                                datum: moment(String(datum)).format('YYYY-MM-DD hh:mm'),
+                                                                                    apoteka:1})
         .then(response => {
-        
+            context.commit('resetujLijekoveZaPorucivanje',[])
           return response;
         })
-        return contex;
+        
     },
 
     promjeniCijenu (contex,lijek){
@@ -145,7 +150,8 @@ const mutations = {
     postaviSveLijekove:(state,lijekovi)=>(state.sviLijekovi = lijekovi),
     postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni),
     postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi),
-    postaviLijekoviPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje.push(lijekovi))
+    postaviLijekoviPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje.push(lijekovi)),
+    resetujLijekoveZaPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje = lijekovi)
 }
 
 export default{

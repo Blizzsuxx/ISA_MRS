@@ -1,6 +1,7 @@
 package mrsisa.projekat.narudzbenica;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -19,8 +20,8 @@ public class NarudzbenicaController {
     public NarudzbenicaController(NarudzbenicaService narudzbenicaService){
         this.narudzbenicaService = narudzbenicaService;
     }
-    @PostMapping(value="/kreirajNarudzbenicu",consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public void kreirajNarudzbenicu( Map<String,String> json){
-        System.out.println(json.get("lijekovi"));
+    @PostMapping(value="/kreirajNarudzbenicu")
+    public void kreirajNarudzbenicu( @RequestBody Map<String, Object> podaci){
+        this.narudzbenicaService.kreirajNarudzbenicu(podaci);
     }
 }
