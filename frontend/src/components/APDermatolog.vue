@@ -44,15 +44,15 @@
 
       <el-main>
         <el-table :data="tableData">
-          <el-table-column prop="start" label="Pocinje" width="140">
+          <el-table-column prop="start" label="Pocinje" width="200">
           </el-table-column>
-          <el-table-column prop="end" label="Zavrsetak" width="140">
+          <el-table-column prop="end" label="Zavrsetak" width="200">
           </el-table-column>
-          <el-table-column prop="name" label="Ime" width="120">
+          <el-table-column prop="pacijent.firstName" label="Ime" width="120">
           </el-table-column>
-      <el-table-column prop="lastname" label="Prezime" width="120">
+      <el-table-column prop="pacijent.lastName" label="Prezime" width="120">
           </el-table-column>
-          <el-table-column prop="pharmacy" label="Apoteka" width="240">
+          <el-table-column prop="apoteka.ime" label="Apoteka" width="240">
           </el-table-column>
 
           <el-table-column
@@ -94,9 +94,16 @@
 <script>
 import Selecter from './Selecter.vue';
   export default {
-    name: 'APFarmaceut',
+    name: 'APDermatolog',
     components : {
         Selecter,
+    },
+
+    mounted(){
+      //pozivanje ucitavanja podataka poseta
+      this.$store.dispatch("APPosete/dobaviPosete")
+      this.tableData = this.$store.state.APPosete.svePosete;
+      
     },
 
     methods: {
@@ -121,23 +128,15 @@ import Selecter from './Selecter.vue';
             if(value === "Godisnje"){
                 time = 365;
             }
-            this.tableData = this.storageData.filter((item) => {
+            this.tableData = this.$store.state.APPosete.svePosete.filter((item) => {
                 return time >= ((new Date(item.end)).getTime() -  (new Date(item.start)).getTime()) / (1000 * 3600 * 24)} );
         }
     },
         data() {
-      const item = {
-        start: '05/28/2015 08:30',
-        end: '10/28/2015 09:00',
-		name: 'John',
-		lastname: 'Titor',
-        pharmacy: 'No. 189, Grove St, Los Angeles'
-      };
 
 
       return {
-        tableData: Array(20).fill(item),
-        storageData: Array(20).fill(item),
+        tableData: this.$store.state.APPosete.svePosete,
       }
     }
   };

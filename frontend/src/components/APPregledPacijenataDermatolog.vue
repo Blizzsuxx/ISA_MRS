@@ -37,18 +37,18 @@
 
       <el-main>
           <el-table
-              :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()) || data.lastname.toLocaleLowerCase().includes(search.toLocaleLowerCase()))"
+              :data="tableData.filter(data => !search || data.pacijent.firstName.toLowerCase().includes(search.toLowerCase()) || data.pacijent.lastName.toLocaleLowerCase().includes(search.toLocaleLowerCase()))"
               style="width: 100%">
-            <el-table-column prop="start" label="Pocinje" width="140">
-            </el-table-column>
-            <el-table-column prop="end" label="Zavrsetak" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="Ime" width="120">
-            </el-table-column>
-            <el-table-column prop="lastname" label="Prezime" width="120">
-            </el-table-column>
-            <el-table-column prop="pharmacy" label="Apoteka" width="240">
-            </el-table-column>
+           <el-table-column prop="start" label="Pocinje" width="200" sortable>
+          </el-table-column>
+          <el-table-column prop="end" label="Zavrsetak" width="200" sortable>
+          </el-table-column>
+          <el-table-column prop="pacijent.firstName" label="Ime" width="120" sortable>
+          </el-table-column>
+      <el-table-column prop="pacijent.lastName" label="Prezime" width="120" sortable>
+          </el-table-column>
+          <el-table-column prop="apoteka.ime" label="Apoteka" width="240" sortable>
+          </el-table-column>
             <el-table-column
                 align="right">
               <template #header>
@@ -99,45 +99,53 @@ export default {
     },
     handleOdsustvo(index, row) {
       console.log(index, row);
+      this.$confirm('Da li ste sigurni?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Pacijent je zabelezen kao odsutan'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Prekid'
+          });
+        });
     },
     handlePregled(index, row) {
       console.log(index, row);
+      this.$confirm('Zelite da zapocnete pregled?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Pregled zapocet'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Prekid'
+          });
+        });
     }
   },
 
+  mounted(){
+      //pozivanje ucitavanja podataka poseta
+      this.$store.dispatch("APPosete/dobaviPosete")
+      this.tableData = this.$store.state.APPosete.svePosete;
+      
+    },
+
   data() {
-    const item = {
-      start: '05/28/2015 08:30',
-      end: '10/28/2015 09:00',
-      name: 'John',
-      lastname: 'Titor',
-      pharmacy: 'No. 189, Grove St, Los Angeles'
-    };
-
-    const item2 = {
-      start: '05/28/2015 08:30',
-      end: '10/28/2015 09:00',
-      name: 'a',
-      lastname: 'Titor',
-      pharmacy: 'No. 189, Grove St, Los Angeles'
-    };
-
-    const item3 = {
-      start: '05/28/2015 08:30',
-      end: '10/28/2015 09:00',
-      name: 'John',
-      lastname: 'b',
-      pharmacy: 'No. 189, Grove St, Los Angeles'
-    };
-
-    let a = Array()
-    a.push(item)
-    a.push(item2)
-    a.push(item3)
 
     return {
-      tableData: a,
-      storageData: a,
+      tableData: this.$store.state.APPosete.svePosete,
       search: '',
     }
   }

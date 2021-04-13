@@ -16,6 +16,7 @@ import FormaKorisnika from '../components/FormaKorisnika'
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
+import APPregled from "../components/APPregled"
 const routes = [
   
   
@@ -84,6 +85,11 @@ const routes = [
     name: 'KreiranjeNarudzbenice',
     component: KreiranjeNarudzbenica
 
+  },
+  {
+    path: '/ap/Pregled',
+    name: 'APPregled',
+    component: APPregled
   }
 ]
 

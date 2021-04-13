@@ -4,7 +4,8 @@ const state = {
     dermatolozi: [],
     dobavljaci: [],
     administratoriSistema: [],
-    administratoriApoteke: []
+    administratoriApoteke: [],
+    farmaceuti: [],
 };
 
 const actions = {
@@ -15,8 +16,15 @@ const actions = {
         })
     },
 
+    dobaviFarmaceute (context){
+        return axios.get('http://localhost:8080/api/v1/farmaceut/dobaviFarmaceute')
+        .then(response => {
+            context.commit('postaviAdministratoreApoteke', response.data);
+        })
+    },
+
     dobaviDermatologe (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/sviDermatolozi')
+        return axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe')
         .then(response => {
             context.commit('postaviDermatologe', response.data);
         })
@@ -50,7 +58,14 @@ const actions = {
                 alert("Dodat Dobavljac");
                 return response;
             })
-        } else if (korisnik.uloga === "Administrator Sistema"){
+        } else if (korisnik.uloga === "Farmaceut"){
+            axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik)
+            .then(response => {
+                alert("Dodat Farmaceut");
+                return response;
+            })
+        }
+        else if (korisnik.uloga === "Administrator Sistema"){
             axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik)
             .then(response => {
                 alert("Dodat Administrator Sistema");
@@ -71,7 +86,8 @@ const mutations = {
     postaviDermatologe:(state, dermatolozi)=>(state.dermatolozi = dermatolozi),
     postaviDobavljace:(state, dobavljaci)=>(state.dobavljaci = dobavljaci),
     postaviAdministratoreSistema:(state, administratoriSistema)=>(state.administratoriSistema = administratoriSistema),
-    postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke)
+    postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke),
+    postaviFarmaceute:(state, farmaceuti)=>(state.farmaceuti = farmaceuti),
 }
 
 export default{
