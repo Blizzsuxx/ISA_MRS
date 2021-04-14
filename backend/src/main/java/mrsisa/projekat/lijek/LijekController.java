@@ -1,10 +1,9 @@
 package mrsisa.projekat.lijek;
 
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +24,10 @@ public class LijekController {
     }
     @GetMapping("/DTOlijekovi")
     public List<LijekDTO> dobaviSveDTOLijekove() { return lijekService.dobaviSveDTOLijekove(); }
+
+    @PostMapping(consumes = "application/json", path = "/sacuvajLijek")
+    public void sacuvajLijek(@RequestBody LijekDTO dummy) {
+        Lijek l = new Lijek(dummy);
+        lijekService.save(l);
+    }
 }
