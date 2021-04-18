@@ -36,6 +36,10 @@ public class Rezervacija {
         this.datumRezervacije = datumRezervacije;
     }
 
+    public Rezervacija() {
+
+    }
+
     public Long getId() {
         return id;
     }

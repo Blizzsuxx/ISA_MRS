@@ -39,7 +39,7 @@ const actions = {
         
     },
     dodajLijekUNarudzbinu(context,lijek){
-        let sviLijekovi  = state.sviLijekovi
+        let sviLijekovi  = state.dtoLijekovi
         //let naruceni  = state.lijekoviZaPorucivanje
         
         sviLijekovi = sviLijekovi.map(element=>{
@@ -62,7 +62,6 @@ const actions = {
       
         let lijekovi = state.lijekoviZaPorucivanje.map(elem=>{
             let new_elem = JSON.parse(JSON.stringify(elem))
-            new_elem.datumIstekaCijene =null;
             return new_elem;
         })
         axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,

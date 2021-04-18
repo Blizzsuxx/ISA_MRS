@@ -3,6 +3,7 @@ package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
@@ -16,12 +17,16 @@ public class Apoteka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private Adresa adresa;
     @Column(name = "ime", nullable = false)
     private String ime;
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> lijekovi;
+
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RadnoVrijeme> radnaVremena;
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Rezervacija> rezervacije;
@@ -68,6 +73,14 @@ public class Apoteka {
 
     public void setRezervacije(List<Rezervacija> rezervacije) {
         this.rezervacije = rezervacije;
+    }
+
+    public List<RadnoVrijeme> getRadnaVremena() {
+        return radnaVremena;
+    }
+
+    public void setRadnaVremena(List<RadnoVrijeme> radnaVremena) {
+        this.radnaVremena = radnaVremena;
     }
 
     public List<StanjeLijeka> getLijekovi() {

@@ -38,25 +38,33 @@ public class LijekService {
                     1L,
                     "marko",
                     "marko",
-                    10.0
+                    10.0,
+                    "marko",
+                    "marko"
                 ),
                 new LijekDTO(
                         2L,
                         "andrija",
                         "andrija",
-                        5
+                        5,
+                        "marko",
+                        "marko"
                 ),
                 new LijekDTO(
                         3L,
                         "dragan",
                         "dragan",
-                        6
+                        6,
+                        "marko",
+                        "marko"
                 ),
                 new LijekDTO(
                         4L,
                         "natasa",
                         "natasa",
-                        7
+                        7,
+                        "marko",
+                        "marko"
                 )
         );
     }

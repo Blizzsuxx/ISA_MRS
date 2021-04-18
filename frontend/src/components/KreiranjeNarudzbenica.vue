@@ -7,7 +7,7 @@
   </el-alert>
   <h3>Pregled svih lijekova</h3> 
   
-  <LijekoviTabela @promjenjena-selekcija="selektujRedove" ref='dijete' v-bind:lijekovi="$store.state.APlijekovi.sviLijekovi" referenca="multipleTable" />
+  <LijekoviNarucivanjeTabela @promjenjena-selekcija="selektujRedove" ref='dijete' v-bind:lijekovi="$store.state.APlijekovi.dtoLijekovi" referenca="multipleTable" />
   <div style="margin-top: 20px">
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
     
@@ -18,7 +18,7 @@
 
     <ModalniProzorNarudzbenica  ref="prozor"/>
   </div>
-  <LijekoviTabela @promjenjena-selekcija="selektujRedove" ref='dijete2' v-bind:lijekovi="lijekoviZaPorucivanje" referenca="multipleTable1" />
+  <LijekoviNarucivanjeTabela kolicina="true" @promjenjena-selekcija="selektujRedove" ref='dijete2' v-bind:lijekovi="lijekoviZaPorucivanje" referenca="multipleTable1" />
   <el-date-picker
                 v-model="datumRok"
                 type="date"
@@ -46,7 +46,8 @@
 
 <script>
 //import {mapState} from 'vuex'
-import LijekoviTabela from  './LijekoviTabela'
+
+import LijekoviNarucivanjeTabela from './LijekoviNarucivanjeTabela'
 import ModalniProzorNarudzbenica from './modal/ModalniProzorNarudzbenica'
 export default {
   name: 'KreiranjeNarudzbenica',
@@ -61,12 +62,13 @@ export default {
       }
     },
     components:{
-      LijekoviTabela,
-      ModalniProzorNarudzbenica
+      
+      ModalniProzorNarudzbenica,
+      LijekoviNarucivanjeTabela
     },
     mounted(){
       //pozivanje ucitavanja podataka lijekova
-      this.$store.dispatch("APlijekovi/dobaviLijekove").then(response=>{
+      this.$store.dispatch("APlijekovi/dobaviDTOLijekove").then(response=>{
           
           return response;
       }

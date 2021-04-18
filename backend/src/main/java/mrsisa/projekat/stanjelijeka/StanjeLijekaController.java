@@ -37,8 +37,10 @@ public class StanjeLijekaController {
 
     @GetMapping("/dobaviLijekove1/{id}")
     public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
         return stanjeLijekaService.dobaviStanjaLijekova(id);
     }
+
+
 
 }

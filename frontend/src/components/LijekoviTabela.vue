@@ -106,8 +106,14 @@ export default {
       }
       },
       formirajDatum(row){
-        let podjeljeno = row.datumIstekaCijene.split("T")
+        try{
+          let podjeljeno = row.datumIstekaCijene.split("T")
         return podjeljeno.join(" ")
+        }
+        catch(error){
+          return " "
+        }
+        
       }
     },
     

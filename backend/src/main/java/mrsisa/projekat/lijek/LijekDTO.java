@@ -9,7 +9,7 @@ public class LijekDTO {
     private String proizvodjac;
     private String napomena;
     private double ocijena;
-
+    private int kolicina;
     public LijekDTO() {}
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
@@ -18,11 +18,13 @@ public class LijekDTO {
         this.vrstaLijeka = vrstaLijeka;
     }
 
-    public LijekDTO(long id, String naziv, String vrstaLijeka, double ocijena) {
+    public LijekDTO(long id, String naziv, String vrstaLijeka, double ocijena,String proizvodjac,String oblikLijeka) {
         this.id = id;
         this.naziv = naziv;
         this.vrstaLijeka = vrstaLijeka;
         this.ocijena = ocijena;
+        this.proizvodjac = proizvodjac;
+        this.oblikLijeka  = oblikLijeka;
     }
 
     public LijekDTO(String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena) {
@@ -82,13 +84,7 @@ public class LijekDTO {
         this.sastav = sastav;
     }
 
-    public String getProizvodjac() {
-        return proizvodjac;
-    }
 
-    public void setProizvodjac(String proizvodjac) {
-        this.proizvodjac = proizvodjac;
-    }
 
     public String getNapomena() {
         return napomena;
@@ -96,5 +92,21 @@ public class LijekDTO {
 
     public void setNapomena(String napomena) {
         this.napomena = napomena;
+    }
+
+    public String getProizvodjac() {
+        return proizvodjac;
+    }
+
+    public int getKolicina() {
+        return kolicina;
+    }
+
+    public void setKolicina(int kolicina) {
+        this.kolicina = kolicina;
+    }
+
+    public void setProizvodjac(String proizvodjac) {
+        this.proizvodjac = proizvodjac;
     }
 }
