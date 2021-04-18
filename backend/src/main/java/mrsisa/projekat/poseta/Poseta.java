@@ -12,6 +12,16 @@ import java.time.LocalDateTime;
 @Entity
 public class Poseta {
 
+    public Poseta(Long id, Pacijent pacijent, Radnik radnik, LocalDateTime pocetak, LocalDateTime kraj, Apoteka apoteka, List<Erecept> erecepti) {
+        this.id = id;
+        this.pacijent = pacijent;
+        this.radnik = radnik;
+        this.pocetak = pocetak;
+        this.kraj = kraj;
+        this.apoteka = apoteka;
+        this.erecepti = erecepti;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,8 +32,8 @@ public class Poseta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Radnik radnik;
 
-    @Column(name = "start", nullable = false)
-    private LocalDateTime start;
+    @Column(name = "pocetak", nullable = false)
+    private LocalDateTime pocetak;
 
     @Column(name = "kraj", nullable = false)
     private LocalDateTime kraj;
@@ -31,8 +41,38 @@ public class Poseta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
-    //@OneToMany(mappedBy = "poseta", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //private List<Erecept> erecepti;
+    public Poseta() {
+
+    }
+
+    public LocalDateTime getPocetak() {
+        return pocetak;
+    }
+
+    public void setPocetak(LocalDateTime pocetak) {
+        this.pocetak = pocetak;
+    }
+
+    public LocalDateTime getKraj() {
+        return kraj;
+    }
+
+    public void setKraj(LocalDateTime kraj) {
+        this.kraj = kraj;
+    }
+
+    public List<Erecept> getErecepti() {
+        return erecepti;
+    }
+
+    public void setErecepti(List<Erecept> erecepti) {
+        this.erecepti = erecepti;
+    }
+
+    @OneToMany(mappedBy = "poseta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Erecept> erecepti;
+
+
 
     public Long getId() {
         return id;
@@ -58,21 +98,7 @@ public class Poseta {
         this.radnik = radnik;
     }
 
-    public LocalDateTime getStart() {
-        return start;
-    }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
-    }
-
-    public LocalDateTime getEnd() {
-        return kraj;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.kraj = end;
-    }
 
     public Apoteka getApoteka() {
         return apoteka;

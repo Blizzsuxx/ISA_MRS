@@ -42,6 +42,7 @@
         <span>Sulejman Velicanstveni</span>
       </el-header>
 
+
       <el-main>
         <el-table :data="tableData">
           <el-table-column prop="start" label="Pocinje" width="200">
@@ -107,6 +108,7 @@ import Selecter from './Selecter.vue';
     },
 
     methods: {
+      
 
       handleInfo(index, row) {
         console.log(index, row);

@@ -15,6 +15,7 @@
   </APDermatolog>
 </template>
 
+
 <script>
   import APDermatolog from './APDermatolog.vue'
   export default {

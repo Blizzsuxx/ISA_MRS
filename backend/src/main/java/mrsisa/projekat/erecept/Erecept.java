@@ -1,6 +1,7 @@
 package mrsisa.projekat.erecept;
 
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
@@ -25,13 +26,33 @@ public class Erecept {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> prepisaniLijekovi;
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Poseta poseta;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Poseta getPoseta() {
+        return poseta;
+    }
+
+    public void setPoseta(Poseta poseta) {
+        this.poseta = poseta;
+    }
+
     public Erecept() {}
 
-    public Erecept(String sifra, Pacijent pacijent, LocalDateTime datumIzdavanja, List<StanjeLijeka> prepisaniLijekovi) {
+    public Erecept(String sifra, Pacijent pacijent, LocalDateTime datumIzdavanja, List<StanjeLijeka> prepisaniLijekovi, Poseta poseta) {
         this.sifra = sifra;
         this.pacijent = pacijent;
         this.datumIzdavanja = datumIzdavanja;
         this.prepisaniLijekovi = prepisaniLijekovi;
+        this.poseta = poseta;
     }
 
     public String getSifra() {

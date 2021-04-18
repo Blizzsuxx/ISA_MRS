@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping(path="api/v1/apoteka")
+@RequestMapping(path="api/v1/posete")
 public class PosetaController {
     private final PosetaService posetaService;
     @Autowired
@@ -25,6 +25,7 @@ public class PosetaController {
     public List<Poseta> dobaviPosete(@PathVariable Long id){
         return posetaService.dobaviPosete(id);
     }
+
 
     @GetMapping(path="/dobaviPosete")
     public List<Poseta> dobaviApoteke(){
