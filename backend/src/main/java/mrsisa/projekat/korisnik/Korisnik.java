@@ -6,9 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -36,6 +39,9 @@ public abstract class  Korisnik implements UserDetails {
 
     @Column(name="enabled")
     private boolean enabled;
+
+    @Column(name="lastPasswordResetDate")
+    private Timestamp lastPasswordResetDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "korisnik_uloga",
@@ -120,6 +126,8 @@ public abstract class  Korisnik implements UserDetails {
     }
 
     public void setPassword(String password) {
+        Timestamp now = new Timestamp(new Date().getTime());
+        this.setLastPasswordResetDate(now);
         this.password = password;
     }
 
@@ -165,5 +173,13 @@ public abstract class  Korisnik implements UserDetails {
 
     public void setUloge(List<Uloga> uloge) {
         this.uloge = uloge;
+    }
+
+    public Timestamp getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 }
