@@ -9,6 +9,13 @@ const state = {
 };
 
 const actions = {
+    login(context, kredecijali) {
+        axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
+        .then(response => {
+            console.log(response.data.accessToken)
+        })
+    },
+
     dobaviAdministratoreApoteka (context){
         return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke')
         .then(response => {

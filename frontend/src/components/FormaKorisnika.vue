@@ -53,12 +53,12 @@
               </el-form-item>
               <el-form-item label="Sifra" prop="sifra">
                 <div class="grupa">
-                <el-input v-model="korisnik.sifra"></el-input>
+                <el-input type="password" v-model="korisnik.sifra"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Potvrda Sifre:" prop="potvrdaSifre">
                 <div class="grupa">
-                <el-input v-model="korisnik.potvrdaSifre"></el-input>
+                <el-input type="password" v-model="korisnik.potvrdaSifre"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Ime:" prop="ime">

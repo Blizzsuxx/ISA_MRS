@@ -18,6 +18,9 @@ import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDerm
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import APPregled from "../components/APPregled"
+
+import Prijava from "../components/Prijava"
+
 const routes = [
   
   
@@ -96,6 +99,11 @@ const routes = [
     path: '/ap/Pregled',
     name: 'APPregled',
     component: APPregled
+  },
+  {
+    path: '/ap/prijava',
+    name: 'Prijava',
+    component: Prijava
   }
 ]
 

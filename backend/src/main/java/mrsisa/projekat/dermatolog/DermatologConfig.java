@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/*
 @Configuration
 public class DermatologConfig {
 
@@ -14,6 +15,7 @@ public class DermatologConfig {
     CommandLineRunner commandLineRunnerDermatolog(DermatologRepository repozitorijum){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return args ->{
+
             repozitorijum.save(new Dermatolog(
                     "marko",
                     "marko",
@@ -41,6 +43,12 @@ public class DermatologConfig {
                     LocalDateTime.now(),
                     "200"
             ));
+
+
         };
+
+
     }
 }
+
+*/

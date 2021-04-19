@@ -19,8 +19,9 @@ import java.util.List;
 public abstract class  Korisnik implements UserDetails {
 
     @Id
-    @SequenceGenerator(name = "korisnik_seq", sequenceName = "korisnik_seq", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "korisnik_seq")
+   // @SequenceGenerator(name = "korisnik_seq", sequenceName = "korisnik_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="id", unique=true, nullable=false)
     private Integer id;
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -82,6 +83,31 @@ public abstract class  Korisnik implements UserDetails {
         this.birthday = birthday;
         this.role = role;
         this.enabled = enabled;
+        this.uloge = uloge;
+    }
+
+    public Korisnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String role, boolean enabled, Timestamp lastPasswordResetDate) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.role = role;
+        this.enabled = enabled;
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public Korisnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String role, boolean enabled, Timestamp lastPasswordResetDate, List<Uloga> uloge) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.role = role;
+        this.enabled = enabled;
+        this.lastPasswordResetDate = lastPasswordResetDate;
         this.uloge = uloge;
     }
 
