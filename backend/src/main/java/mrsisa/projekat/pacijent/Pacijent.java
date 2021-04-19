@@ -5,10 +5,12 @@ import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
