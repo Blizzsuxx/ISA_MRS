@@ -43,8 +43,9 @@ public class TokenUtils {
      * @param username KorisniÄ�ko ime korisnika kojem se token izdaje
      * @return JWT token
      */
-    public String generateToken(String username) {
+    public String generateToken(String username, String uloga) {
         return Jwts.builder()
+                .claim("uloga", uloga)
                 .setIssuer(APP_NAME)
                 .setSubject(username)
                 .setAudience(generateAudience())

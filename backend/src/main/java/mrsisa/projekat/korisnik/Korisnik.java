@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -36,6 +35,9 @@ public abstract class  Korisnik implements UserDetails {
     private String email;
     @Column(name = "birthday", nullable = false)
     private LocalDateTime birthday;
+
+    @Column(name = "role")
+    private String role;
 
     @Column(name="enabled")
     private boolean enabled;
@@ -71,12 +73,25 @@ public abstract class  Korisnik implements UserDetails {
         this.uloge = uloge;
     }
 
+    public Korisnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String role, boolean enabled, List<Uloga> uloge) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.birthday = birthday;
+        this.role = role;
+        this.enabled = enabled;
+        this.uloge = uloge;
+    }
+
     public Korisnik(KorisnikDTO dummy){
         this.username = dummy.getKorisnickoIme();
         this.password = dummy.getSifra();
         this.firstName = dummy.getIme();
         this.lastName = dummy.getPrezime();
         this.email = dummy.getEmail();
+        this.role = dummy.getUloga();
         this.birthday = LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
@@ -181,5 +196,13 @@ public abstract class  Korisnik implements UserDetails {
 
     public void setLastPasswordResetDate(Timestamp lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

@@ -2,11 +2,13 @@ package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import mrsisa.projekat.adresa.Adresa;
@@ -17,6 +19,19 @@ import java.util.List;
 
 @Service
 public class PacijentService {
+	private final PacijentRepository pacijentRepository;
+
+	@Autowired
+	public PacijentService(PacijentRepository pacijentRepository){
+		this.pacijentRepository = pacijentRepository;
+	}
+
+	public Pacijent findByUsername(String username){
+		return this.pacijentRepository.findByUsername(username);
+	}
+
+	public Pacijent save(Pacijent p) { return this.pacijentRepository.save(p); }
+
 	public Pacijent dobaviPacijenta(){
 		Pacijent p=new Pacijent("pera", "pera", "pera","pera", LocalDateTime.now());
 		List<Lijek> lek=new ArrayList<>();

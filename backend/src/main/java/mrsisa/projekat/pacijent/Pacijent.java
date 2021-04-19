@@ -3,6 +3,7 @@ package mrsisa.projekat.pacijent;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import org.springframework.security.core.GrantedAuthority;
@@ -59,6 +60,11 @@ public class Pacijent extends Korisnik {
 	}
 
 	public Pacijent() {}
+
+	public Pacijent(KorisnikDTO dummy){
+		super(dummy);
+	}
+
 	public Pacijent(String name, String username, String password, String lastname, LocalDateTime birthday){
 		this.setFirstName(name);
 		this.setUsername(username);
