@@ -7,10 +7,16 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentService;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -51,6 +57,25 @@ public class PacijenController {
 		return pacijentService.dobaviRezervacije();
 	}
 
+	//@PostMapping(consumes = "application/json",  path= "/izbaciRezervacije")
+	public void izbaciRezervaciju(@RequestBody String stanje){
+			System.out.println(stanje);
+	    	//pacijentService.izbaciRezervaciju( stanje);
+	}
+	//@PostMapping(value="/izbaciRezervacije")
+	@RequestMapping(method = RequestMethod.POST, value = "/izbaciRezervacije")
+	public boolean izbRez( @RequestBody Map<String,Object> podaci){
+		//this.posetaService.kreirajPosetu(podaci);
+		System.out.println(podaci.get("a").getClass().getName());
+		/*DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+		LocalDateTime dateTime = LocalDateTime.parse(((Map<String,String>)podaci.get("a")).get("datumVazenja").trim(), formatter);
+		dateTime=dateTime.plusDays(1);
+		if(!dateTime.isBefore(LocalDateTime.now())){
+			return false;
+		}*/
+		return true;
+	}
 
 	@GetMapping(path="/dobaviERecepte")
 	public List<Erecept> dobaviERecepte(){

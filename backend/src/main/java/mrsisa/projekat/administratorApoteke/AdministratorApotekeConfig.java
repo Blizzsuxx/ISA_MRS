@@ -12,6 +12,7 @@ public class AdministratorApotekeConfig {
     @Bean
     CommandLineRunner commandLineRunnerAdministratorApoteke(AdministratorApotekeRepository repozitorijum){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
         return args ->{
             repozitorijum.save(new AdministratorApoteke(
                     "dunja",

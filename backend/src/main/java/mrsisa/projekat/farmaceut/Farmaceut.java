@@ -1,5 +1,6 @@
 package mrsisa.projekat.farmaceut;
 
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.Entity;
@@ -12,4 +13,9 @@ import javax.persistence.Table;
 public class Farmaceut extends Radnik {
 
     public Farmaceut() {}
+
+    @Override
+    public Apoteka orElse(Object o) {
+        return null;
+    }
 }

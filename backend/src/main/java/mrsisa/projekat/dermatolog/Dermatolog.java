@@ -2,6 +2,7 @@ package mrsisa.projekat.dermatolog;
 
 import javax.persistence.*;
 
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.radnik.Radnik;
@@ -56,6 +57,11 @@ public class Dermatolog extends Radnik{
 
     public Dermatolog(KorisnikDTO dummy) {
         super(dummy);
+    }
+
+    @Override
+    public Apoteka orElse(Object o) {
+        return null;
     }
 
     public Dermatolog(String iq) {

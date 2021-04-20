@@ -43,6 +43,36 @@ public class LijekConfig {
                     "Biofarm",
                     "Lijek"
             ));
+            repozitorijum.save(
+                    new Lijek(
+                    4L,
+                    "Paracetamol",
+                    "Protiv bolova",
+                    "tableta",
+                    "ljiek",
+                    "Biofarm",
+                    "Lijek"
+            ));
+            repozitorijum.save(
+                    new Lijek(
+                    5L,
+                    "Brufen",
+                    "Protiv bolova",
+                    "tableta",
+                    "lek",
+                    "Biofarm",
+                    "Lek"
+            ));
+            repozitorijum.save(
+                    new Lijek(
+                    6L,
+                    "Buscopan",
+                    "Protiv bolova",
+                    "tableta",
+                    "lek",
+                    "Biofarm",
+                    "Lek"
+            ));
 
         };
     }
