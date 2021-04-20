@@ -17,13 +17,17 @@
   >
     {{ poruka }}
   </el-alert>
-  <el-row :gutter="20" justify="center">
-    <el-col :span="12"
-      ><DermatoloziTabela
+
+  <el-row :gutter="20" >
+    <el-col :span="12">
+      <el-row>
+        <DermatoloziTabela
         @promjenjena-selekcija="promjenaDermatologa"
         v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
-    /></el-col>
-    <el-col :span="12">
+    />
+        </el-row>
+      <el-row>
+        <div id="app">
       <el-card class="box-card" v-if="ucitavanjeSlobodniTermini">
         <template #header>
           <div class="card-header">
@@ -51,15 +55,12 @@
           <hr />
         </div>
       </el-card>
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col
-      :span="24"
-      v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme"
-      class="poravnanje"
-    >
-      <el-card class="box-card">
+      </div>
+        </el-row>
+      </el-col>
+    <el-col :span="12">
+       <div id="app1">
+      <el-card class="box-card" v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme">
         <template #header>
           <div class="card-header">
             <span>Dodaj novi termin</span>
@@ -105,8 +106,29 @@
           </el-form-item>
         </el-form>
       </el-card>
+    </div>
+      </el-col>  
+
+  </el-row>
+
+
+
+  <!-- <el-row :gutter="20" >
+    <el-col :span="12"
+      ></el-col>
+    <el-col :span="12" >
+      
     </el-col>
   </el-row>
+  <el-row>
+    <el-col
+      :span="12"
+      v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme"
+      class="poravnanje"
+    >
+    
+    </el-col>
+  </el-row> -->
 </template>
 
 <style scoped>
@@ -129,14 +151,30 @@ card-header {
 }
 
 .box-card {
-  width: 480px;
-  max-height: 300px;
+  width: 600px;
+ 
 }
 .poravnanje {
   align-content: center;
   align-items: center;
   text-align: center;
 }
+#app {
+        position: relative;
+        
+        
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
+#app1 {
+        position: relative;
+        
+        
+        display:flex;
+        justify-content: center;
+        align-items: center;
+    }
 </style>
 
 
