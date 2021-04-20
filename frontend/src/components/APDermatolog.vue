@@ -100,9 +100,9 @@ import Selecter from './Selecter.vue';
         Selecter,
     },
 
-    mounted(){
+    async mounted(){
       //pozivanje ucitavanja podataka poseta
-      this.$store.dispatch("APPosete/dobaviPosete")
+      await this.$store.dispatch("APPosete/dobaviPosete")
       this.tableData = this.$store.state.APPosete.svePosete;
       
     },

@@ -30,7 +30,7 @@ public class Pacijent extends Korisnik {
 
 	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Lijek> alergije;
-
+	
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
 	}

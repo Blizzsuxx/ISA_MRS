@@ -1,6 +1,7 @@
 package mrsisa.projekat.dermatolog;
 
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijemeRepository;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
@@ -13,6 +14,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Configuration
 public class DermatologConfig {
@@ -33,6 +35,8 @@ public class DermatologConfig {
                     "Markovic",
                     "markomarkovic@gmail.com",
                     LocalDateTime.now(),
+                    null,
+                    generisiPosete(0),
                     "300"
             ));
             radnoVrijeme.setDermatolog(repozitorijum.findById(4).orElse(null));
@@ -46,6 +50,8 @@ public class DermatologConfig {
                     "Nikolic",
                     "nikolanikolic@gmail.com",
                     LocalDateTime.now(),
+                    null,
+                    generisiPosete(1),
                     "250"
             ));
             repozitorijum.save(new Dermatolog(
@@ -55,6 +61,8 @@ public class DermatologConfig {
                     "Matija",
                     "matijamatija@gmail.com",
                     LocalDateTime.now(),
+                    null,
+                    generisiPosete(2),
                     "200"
             ));
 
@@ -73,5 +81,15 @@ public class DermatologConfig {
             slobodanTermin1.setCijenaTermina(150);
             slobodanTerminRepository.save(slobodanTermin1);
         };
+    }
+
+
+    private static ArrayList<Poseta> generisiPosete(int i){
+        ArrayList<Poseta> list = new ArrayList<Poseta>();
+        Poseta p = new Poseta();
+        p.setPocetak(LocalDateTime.now());
+        p.setKraj(LocalDateTime.now().plusMinutes(30));
+        list.add(p);
+        return list;
     }
 }
