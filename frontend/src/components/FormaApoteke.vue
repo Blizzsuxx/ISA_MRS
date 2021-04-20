@@ -134,7 +134,7 @@
     },
     methods: {
       onSubmit() {
-        var ap = {naziv: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
+        var ap = {ime: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
         ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj};
         this.$store.dispatch('APApoteke/dodajApoteku', ap);
         
