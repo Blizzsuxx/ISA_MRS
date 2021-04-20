@@ -9,6 +9,7 @@ import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -23,6 +24,9 @@ public class PacijentController {
 	public PacijentController(PacijentService pacijentService){
 		this.pacijentService = pacijentService;
 	}
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping(path="/dobaviPacijenta")
 	public Pacijent dobaviPacijenta(){
@@ -74,6 +78,7 @@ public class PacijentController {
 		if (k != null)
 			throw new ResourceConflictException((long)k.getId(), "Username already exists");
 
+		dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
 		Pacijent p = this.pacijentService.save(new Pacijent(dummy));
 		return new ResponseEntity<>(p, HttpStatus.CREATED);
 	}

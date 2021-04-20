@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -119,6 +120,9 @@ public abstract class  Korisnik implements UserDetails {
         this.email = dummy.getEmail();
         this.role = dummy.getUloga();
         this.birthday = LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.enabled = true;
+        this.setPassword(dummy.getSifra());
+        this.uloge = new ArrayList<>();
     }
 
     @JsonIgnore

@@ -111,10 +111,15 @@
                 return response;
             },
             error => {
+              if (error.response.status == 401){
+                alert('Nevalidni kredencijali!');
+              } else {
                 this.message =
                 (error.response && error.response.data) ||
                 error.message ||
                 error.toString();
+              }
+                
             }
         );
 

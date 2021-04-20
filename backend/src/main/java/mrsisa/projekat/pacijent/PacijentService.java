@@ -8,6 +8,8 @@ import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.uloga.Uloga;
+import mrsisa.projekat.uloga.UlogaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,17 +22,21 @@ import java.util.List;
 @Service
 public class PacijentService {
 	private final PacijentRepository pacijentRepository;
-
+	private final UlogaRepository ulogaRepository;
 	@Autowired
-	public PacijentService(PacijentRepository pacijentRepository){
+	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository){
 		this.pacijentRepository = pacijentRepository;
+		this.ulogaRepository = ulogaRepository;
 	}
 
 	public Pacijent findByUsername(String username){
 		return this.pacijentRepository.findByUsername(username);
 	}
 
-	public Pacijent save(Pacijent p) { return this.pacijentRepository.save(p); }
+	public Pacijent save(Pacijent p) {
+		p.setUloge(this.ulogaRepository.findByName(p.getRole()));
+		return this.pacijentRepository.save(p);
+	}
 
 	public Pacijent dobaviPacijenta(){
 		Pacijent p=new Pacijent("pera", "pera", "pera","pera", LocalDateTime.now());

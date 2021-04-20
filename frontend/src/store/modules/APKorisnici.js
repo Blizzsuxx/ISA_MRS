@@ -110,35 +110,41 @@ const actions = {
 
     dodajKorisnika (context, korisnik){
         alert(korisnik.uloga);
-        if (korisnik.uloga === "Dermatolog"){
+        if (korisnik.uloga === "ROLE_DERMATOLOG"){
             axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik)
             .then(response => {
                 alert("Dodat Dermatolog");
                 return response;
             })
-        } else if (korisnik.uloga === "Dobavljac"){
+        } else if (korisnik.uloga === "ROLE_DOBAVLJAC"){
             axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik)
             .then(response => {
                 alert("Dodat Dobavljac");
                 return response;
             })
-        } else if (korisnik.uloga === "Farmaceut"){
+        } else if (korisnik.uloga === "ROLE_FARMACEUT"){
             axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik)
             .then(response => {
                 alert("Dodat Farmaceut");
                 return response;
             })
         }
-        else if (korisnik.uloga === "Administrator Sistema"){
+        else if (korisnik.uloga === "ROLE_ADMIN_SISTEMA"){
             axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik)
             .then(response => {
                 alert("Dodat Administrator Sistema");
                 return response;
             })
-        } else if (korisnik.uloga === "Administrator Apoteke"){
+        } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"){
             axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik)
             .then(response => {
                 alert("Dodat Administrator Apoteke");
+                return response;
+            })
+        } else if (korisnik.uloga === "ROLE_PACIJENT"){
+            axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik)
+            .then(response => {
+                alert("Dodat Pacijent");
                 return response;
             })
         }
