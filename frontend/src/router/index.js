@@ -18,6 +18,7 @@ import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDerm
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import APPregled from "../components/APPregled"
+import SlobodanTermin from '../components/SlobodanTermin'
 const routes = [
   
   
@@ -40,6 +41,11 @@ const routes = [
     path: '/ap/farmaceut',
     name: 'APFarmaceut',
     component: APFarmaceut,
+  },
+  {
+    path :'/slobodanTermin',
+    name : 'SlobodanTermin',
+    component: SlobodanTermin
   },
   {
     path: '/ap/dermatolog',

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class DermatologService {
     public DermatologService(DermatologRepository dermatologRepository){
         this.dermatologRepository = dermatologRepository;
     }
+    @Transactional
+    public List<DermatologDTO> dobaviDermatologe(){
 
-    public List<Dermatolog> dobaviDermatologe(){
-
-
-        return new ArrayList<Dermatolog>();
+        List<DermatologDTO> dermatolozi = new ArrayList<>();
+        for(Dermatolog dermatolog:dermatologRepository.findAll()){
+            dermatolozi.add(new DermatologDTO(dermatolog));
+        }
+        return dermatolozi;
     }
 
     public Dermatolog save(Dermatolog d){
