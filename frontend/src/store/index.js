@@ -10,6 +10,7 @@ import Alergije from './modules/Alergije';
 import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
 import RezervisaniLekovi from './modules/RezervisaniLekovi';
 import ERecepti from './modules/ERecepti';
+
 export default createStore({
     state () {
         return {

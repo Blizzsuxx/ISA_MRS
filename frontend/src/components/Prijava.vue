@@ -98,7 +98,19 @@
       onSubmit(formName) {
         console.log(formName)
         var s = {username: this.korisnik.korisnickoIme, password: this.korisnik.sifra }
-        this.$store.dispatch('APKorisnici/login', s);
+        this.$store.dispatch('APKorisnici/validateLogin', s).then(
+            response => {
+                var s = JSON.parse(localStorage.getItem('user'));
+                console.log(s.uloga);
+                return response;
+            },
+            error => {
+                this.message =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            }
+        );
 
       },
       resetForm(formName) {

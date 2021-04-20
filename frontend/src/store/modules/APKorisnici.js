@@ -1,4 +1,10 @@
 import axios from 'axios'
+import authHeader from './AuthHeader'
+
+const user =  JSON.parse(localStorage.getItem('user'));
+const initialState = user
+    ? { status: { loggedIn: true }, user}
+    : { status: { loggedIn: false}, user: null};
 
 const state = {
     dermatolozi: [],
@@ -6,14 +12,49 @@ const state = {
     administratoriSistema: [],
     administratoriApoteke: [],
     farmaceuti: [],
+    stanje: initialState
 };
 
+const API_URL = 'http://localhost:8080/api/v1/';
+
 const actions = {
-    login(context, kredecijali) {
-        axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
+    login(kredecijali) {
+        return axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
         .then(response => {
-            console.log(response.data.accessToken)
+            if (response.data.accessToken){
+                localStorage.setItem('user', JSON.stringify(response.data));
+            }
+            return response.data;
         })
+    },
+    validateLogin({ commit }, user) {
+        return actions.login(user).then(
+          user => {
+            commit('loginSuccess', user);
+            return Promise.resolve(user);
+          },
+          error => {
+            commit('loginFailure');
+            return Promise.reject(error);
+          }
+        );
+    },
+    
+    logout({ commit }) {
+        localStorage.removeItem('user');
+        commit('logout');
+    },
+    
+    register(user) {
+        return axios.post(API_URL + 'signup', {
+          username: user.username,
+          email: user.email,
+          password: user.password
+        });
+    },
+
+    getAdminiApoteke() {
+        return axios.get(API_URL + 'administratorApoteke', { headers: authHeader() });
     },
 
     dobaviAdministratoreApoteka (context){
@@ -95,11 +136,32 @@ const mutations = {
     postaviAdministratoreSistema:(state, administratoriSistema)=>(state.administratoriSistema = administratoriSistema),
     postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke),
     postaviFarmaceute:(state, farmaceuti)=>(state.farmaceuti = farmaceuti),
+    loginSuccess(state, user) {
+        state.stanje.status.loggedIn = true;
+        state.stanje.user = user;
+    },
+    loginFailure(state) {
+        state.stanje.status.loggedIn = false;
+        state.stanje.user = null;
+    },
+    logout(state) {
+        state.stanje.status.loggedIn = false;
+        state.stanje.user = null;
+    },
+    registerSuccess(state) {
+        state.stanje.status.loggedIn = false;
+    },
+    registerFailure(state) {
+        state.stanje.status.loggedIn = false;
+    }
 }
 
 export default{
     namespaced: true,
-    state,    
+    user,
+    initialState,
+    state,  
+    API_URL,  
     actions,
     mutations
 };
