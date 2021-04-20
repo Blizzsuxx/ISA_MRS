@@ -110,25 +110,6 @@
       </el-col>  
 
   </el-row>
-
-
-
-  <!-- <el-row :gutter="20" >
-    <el-col :span="12"
-      ></el-col>
-    <el-col :span="12" >
-      
-    </el-col>
-  </el-row>
-  <el-row>
-    <el-col
-      :span="12"
-      v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme"
-      class="poravnanje"
-    >
-    
-    </el-col>
-  </el-row> -->
 </template>
 
 <style scoped>

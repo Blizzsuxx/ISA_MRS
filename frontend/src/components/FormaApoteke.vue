@@ -51,9 +51,9 @@
                 <el-input v-model="apoteka.id"></el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="Naziv Apoteke:" prop="naziv">
+              <el-form-item label="Naziv Apoteke:" prop="ime">
                 <div class="grupa">
-                <el-input v-model="apoteka.naziv"></el-input>
+                <el-input v-model="apoteka.ime"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Mjesto:" prop="mjesto">
