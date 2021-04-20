@@ -45,4 +45,15 @@ public class SlobodanTerminService {
         this.slobodanTerminRepository.save(novi);
 
     }
+
+    public List<SlobodanTerminDTO> dobaviSlobodneTermineApoteka(Long id) {
+        List<SlobodanTerminDTO> termini =  new ArrayList<>();
+        for(SlobodanTermin termin: this.slobodanTerminRepository.findAll()){
+
+            if(termin.getApoteka().getId().equals(id)){
+                termini.add(new SlobodanTerminDTO(termin));
+            }
+        }
+        return termini;
+    }
 }

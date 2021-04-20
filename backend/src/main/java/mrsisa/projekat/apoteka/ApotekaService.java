@@ -50,4 +50,10 @@ public class ApotekaService {
     	//return apotekaRepository.findAll();
         return apoteke;
     }
+    @Transactional
+    public ApotekaDTO dobaviApoteku(Long id) {
+        ApotekaDTO  dto =  new ApotekaDTO(apotekaRepository.findById(id).orElse(null));
+        
+        return dto;
+    }
 }

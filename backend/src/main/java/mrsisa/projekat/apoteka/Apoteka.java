@@ -68,7 +68,7 @@ public class Apoteka {
     }
 
     public Apoteka(ApotekaDTO dummy){
-        this.ime = dummy.getNaziv();
+        this.ime = dummy.getIme();
         //this.adresa = new Adresa(dummy.getMjesto(), dummy.getPtt(), dummy.getUlica(), dummy.getBroj(), 10, 10);
     }
     public List<Rezervacija> getRezervacije() {

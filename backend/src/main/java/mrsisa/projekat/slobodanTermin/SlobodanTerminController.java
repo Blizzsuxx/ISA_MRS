@@ -21,8 +21,13 @@ public class SlobodanTerminController {
         return this.slobodanTerminService.dobaviSlobodneTermineDermatologa(id);
     }
 
+    @GetMapping("/apoteka/{id}")
+    public List<SlobodanTerminDTO> dobaviSlobodneTermineApoteka(@PathVariable Long id){
+        return this.slobodanTerminService.dobaviSlobodneTermineApoteka(id);
+    }
+
     @PostMapping("/")
-    public void dobaviSlobodneTermineDermatologa(@RequestBody SlobodanTerminDTO dto){
+    public void kreirajNoviTermin(@RequestBody SlobodanTerminDTO dto){
         this.slobodanTerminService.kreirajNoviTermin(dto);
     }
 }

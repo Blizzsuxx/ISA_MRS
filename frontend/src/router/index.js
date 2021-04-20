@@ -19,6 +19,7 @@ import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarma
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import APPregled from "../components/APPregled"
 import SlobodanTermin from '../components/SlobodanTermin'
+import ProfilApoteke from '../components/ProfilApoteke'
 const routes = [
   
   
@@ -26,6 +27,11 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/profilApoteke',
+    name: 'ProfilApoteke',
+    component: ProfilApoteke,
   },
   {
     path: '/ap/apoteke',
