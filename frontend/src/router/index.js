@@ -118,6 +118,7 @@ router.beforeEach((to, from, next)=>{
   const loggedIn = localStorage.getItem('user');
 
   if (authRequired && !loggedIn){
+    console.log('provjera');
     return next('/ap/prijava');
   }
   next();

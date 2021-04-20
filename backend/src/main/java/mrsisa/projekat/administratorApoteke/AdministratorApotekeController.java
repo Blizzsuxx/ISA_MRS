@@ -3,6 +3,7 @@ package mrsisa.projekat.administratorApoteke;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class AdministratorApotekeController {
     }
 
     @GetMapping(path = "/sviAdministratoriApoteke")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     public List<KorisnikDTO> vratiSveAdministratoreApoteka(){
         List<AdministratorApoteke> admini = this.administratorApotekeService.findAll();
         List<KorisnikDTO> korisnici = new ArrayList<>();

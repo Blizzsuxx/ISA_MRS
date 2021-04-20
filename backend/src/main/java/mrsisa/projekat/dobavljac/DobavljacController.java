@@ -4,6 +4,7 @@ import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class DobavljacController {
     }
 
     @GetMapping(path = "/sviDobavljaci")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     public List<KorisnikDTO> vratiSveDobavljace(){
         List<Dobavljac> dobavljaci = this.dobavljacService.findAll();
         List<KorisnikDTO> korisnici = new ArrayList<>();

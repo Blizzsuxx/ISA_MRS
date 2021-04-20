@@ -53,14 +53,15 @@ const actions = {
         });
     },
 
-    getAdminiApoteke() {
-        return axios.get(API_URL + 'administratorApoteke', { headers: authHeader() });
-    },
-
     dobaviAdministratoreApoteka (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke')
+        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
         .then(response => {
             context.commit('postaviAdministratoreApoteke', response.data);
+        })
+        .catch(error => {
+            if (error.response.status == 403 || error.response.status == 401){
+                alert('Zabranjen pristup!');
+            }
         })
     },
 
@@ -72,23 +73,38 @@ const actions = {
     },
 
     dobaviDermatologe (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe')
+        return axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDermatologe', response.data);
+        })
+        .catch(error => {
+            if (error.response.status == 403 || error.response.status == 401){
+                alert('Zabranjen pristup!');
+            }
         })
     },
 
     dobaviDobavljace (context){
-        return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci')
+        return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDobavljace', response.data);
+        })
+        .catch(error => {
+            if (error.response.status == 403 || error.response.status == 401){
+                alert('Zabranjen pristup!');
+            }
         })
     },
 
     dobaviAdministratoreSistema (context){
-        return axios.get('http://localhost:8080/api/v1/administratorSistema/sviAdministratoriSistema')
+        return axios.get('http://localhost:8080/api/v1/administratorSistema/sviAdministratoriSistema', { headers: authHeader()})
         .then(response => {
             context.commit('postaviAdministratoreSistema', response.data);
+        })
+        .catch(error => {
+            if (error.response.status == 403 || error.response.status == 401){
+                alert('Zabranjen pristup!');
+            }
         })
     },
 

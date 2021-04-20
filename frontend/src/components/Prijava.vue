@@ -63,7 +63,7 @@
               
             </el-form>
             <div id="unos-link" class="text-right">
-              <a href="#">Registruj se!</a>
+              <a href="/ap/FormaKorisnika">Registruj se!</a>
             </div>
           </div>
         </div>
@@ -101,7 +101,13 @@
         this.$store.dispatch('APKorisnici/validateLogin', s).then(
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
-                console.log(s.uloga);
+                if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
+                  this.$router.push('/ap/korisnici')
+                } else if (s.uloga == 'ROLE_ADMIN_APOTEKE'){
+                  this.$router.push('/ap/korisnici')
+                } else if (s.uloga == 'ROLE_PACIJENT'){
+                  alert('Pacijent');
+                }
                 return response;
             },
             error => {
