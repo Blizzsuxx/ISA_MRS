@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
     dobaviPosete (context) {
-        axios.get('http://localhost:8080/api/v1/posete/dobaviPosete')
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosete')
             .then(response => {
                 let poseteSve =response.data
 
@@ -20,6 +20,15 @@ const actions = {
             })
 
 
+    },
+
+
+    zakaziPosetu(context, podaci){
+        axios.post('http://localhost:8080/api/v1/posete/zakaziPosetu', podaci).then(response => {
+
+            alert("Zakazan pregled");
+            return response;
+        })
     }
 
 }

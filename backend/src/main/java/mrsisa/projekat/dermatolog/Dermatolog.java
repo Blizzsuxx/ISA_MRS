@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
+import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -31,6 +32,12 @@ public class Dermatolog extends Radnik{
 
     public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, String iq) {
         super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
+        this.iq = iq;
+    }
+
+
+    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Poseta> posete, String iq) {
+        super(username, password, firstName, lastName, email, birthday, godisnjiOdmori, posete);
         this.iq = iq;
     }
 

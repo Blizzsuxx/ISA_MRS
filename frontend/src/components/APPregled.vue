@@ -51,16 +51,18 @@
             <el-button type="primary" @click="dodeliLekove()" plain>Dodeli Lekove</el-button>
             <el-popconfirm
 
-        title="Da li ste sigurni da želite izbrisati lijek?"
+        title="Da li ste sigurni da želite da zavrsite sa pregledom?"
         >
         <template #reference>
             <el-button type="primary" @click="zavrsiPregled()">Zavrsi pregled</el-button>
         </template>
         </el-popconfirm>
-    
+        <el-button @click="otvoriProzor" plain type="primary">
+            Zakazi Pregled
+        </el-button>
         </div>
 
-
+        <ModalniProzorZakazivanja  ref="prozor" />
 
         <el-input
             type="textarea"
@@ -68,6 +70,7 @@
             placeholder="Unesite informacije o pregledu ovde"
             v-model="textarea">
         </el-input>
+
       </el-main>
     </el-container>
   </el-container>
@@ -87,13 +90,16 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import LijekoviTabela from  './LijekoviTabela'
+import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
   export default defineComponent ({
     name: 'APDermatolog',
     components : {
         LijekoviTabela,
+        ModalniProzorZakazivanja,
     },
     mounted(){
-        this.$store.dispatch("APlijekovi/dobaviLijekove")
+        this.$store.dispatch("APlijekovi/dobaviLijekove");
+        this.$store.dispatch("APKorisnici/dobaviDermatologe");
     },
     setup() {
         return {
@@ -104,6 +110,14 @@ import LijekoviTabela from  './LijekoviTabela'
 
 
     methods: {
+
+      otvoriProzor(){
+
+        this.$refs.prozor.modalOpen = true;
+
+        
+
+      },
 
         ocistiSelekciju(rows) {
         if (rows) {
@@ -139,12 +153,14 @@ import LijekoviTabela from  './LijekoviTabela'
     },
         data() {
 
-
+          const radnik123 = this.$store.state.APKorisnici.dermatolozi[0];
       return {
         greska : false,
         prozor: false,
         modalOpen: false,
         poruka : "",
+        korisnik : null,
+        radnik : radnik123
       }
     }
   });

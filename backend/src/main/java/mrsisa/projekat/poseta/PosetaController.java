@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "*")
@@ -32,6 +33,12 @@ public class PosetaController {
     	
 
     	return posetaService.dobaviPosete();
+    }
+
+
+    @PostMapping(value="/zakaziPosetu")
+    public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+        this.posetaService.kreirajPosetu(podaci);
     }
     
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PosetaService {
@@ -28,6 +29,10 @@ public class PosetaService {
         if(apoteka== null)
             return new ArrayList<Poseta>();
         return null;
+    }
+
+    public void kreirajPosetu(Map<String, Object> podaci){
+
     }
     public List<Poseta> dobaviPosete(){
 
@@ -55,5 +60,7 @@ public class PosetaService {
         Poseta p2 = new Poseta((long)1, pac, d, d1, d2, a, new ArrayList<Erecept>());
         return List.of(p1, p2);
     }
+
+
 
 }
