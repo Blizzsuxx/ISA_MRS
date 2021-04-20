@@ -105,7 +105,7 @@ export default defineComponent ({
 
     name: 'ListaRecepata',
     async mounted(){
-      this.$store.dispatch("ERecepti/dobaviRecepte")
+     await this.$store.dispatch("ERecepti/dobaviRecepte")
      this.podaci=this.$store.state.ERecepti.sviRecepti;
     
     },
