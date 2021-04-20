@@ -100,6 +100,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
     mounted(){
         this.$store.dispatch("APlijekovi/dobaviLijekove");
         this.$store.dispatch("APKorisnici/dobaviDermatologe");
+        console.log("");
     },
     setup() {
         return {
