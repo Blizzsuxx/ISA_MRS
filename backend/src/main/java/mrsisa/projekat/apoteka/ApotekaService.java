@@ -16,7 +16,8 @@ import java.util.Optional;
 @Service
 public class ApotekaService {
     private final ApotekaRepository apotekaRepository;
-
+    //TODO ako korisnik ima adresu, zasto on da ima apoteke?? pogledati klasu adresa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     @Autowired
     public ApotekaService(ApotekaRepository apotekaRepository){
         this.apotekaRepository = apotekaRepository;
@@ -24,6 +25,9 @@ public class ApotekaService {
 
     public Apoteka save(Apoteka a){
         return this.apotekaRepository.save(a);
+    }
+    public List<Apoteka> findAll(){
+        return this.apotekaRepository.findAll();
     }
 
     @Transactional
@@ -40,15 +44,15 @@ public class ApotekaService {
     }
     public List<Apoteka> dobaviApoteke(){
 
-    	List<Apoteka> apoteke=List.of(
+    	/*List<Apoteka> apoteke=List.of(
     			new Apoteka(1L,"Apoteka1",null),new Apoteka(2L,"Apoteka2",null),new Apoteka(3L,"Apoteka3",null),new Apoteka(4L,"Apoteka4",null));
     	Adresa ad=new Adresa("Kazahstan","ptt","Ulica","5",50, 50);
     	for(Apoteka a : apoteke) {
     		a.setAdresa(ad);
-    	}
+    	}return findAll();*/
         //ovde treba ucitati apoteke iz baze
-    	//return apotekaRepository.findAll();
-        return apoteke;
+    	return apotekaRepository.findAll();
+
     }
     @Transactional
     public ApotekaDTO dobaviApoteku(Long id) {

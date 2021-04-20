@@ -1,4 +1,5 @@
 package mrsisa.projekat.administrator;
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 
@@ -19,5 +20,10 @@ public class Administrator extends Korisnik {
 
     public Administrator(KorisnikDTO dummy) {
         super(dummy);
+    }
+
+    @Override
+    public Apoteka orElse(Object o) {
+        return null;
     }
 }

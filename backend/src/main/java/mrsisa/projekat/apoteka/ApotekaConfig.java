@@ -26,6 +26,9 @@ public class ApotekaConfig {
             apoteka.setIme("Prva apoteka");
             apoteka.setAdresa(adresaRepository.findById(1L).orElse(null));
             repozitorijum.save(apoteka);
+
+            Apoteka apoteka1 =new Apoteka(2L, "Apoteka 2",null);
+            repozitorijum.save(apoteka1);
         };
     }
 }

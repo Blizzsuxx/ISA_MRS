@@ -1,5 +1,8 @@
 package mrsisa.projekat.korisnik;
 
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.pacijent.Pacijent;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -98,4 +101,6 @@ public abstract class  Korisnik {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public abstract Apoteka orElse(Object o);
 }

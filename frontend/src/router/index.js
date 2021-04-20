@@ -17,6 +17,11 @@ import FormaLijekova from '../components/FormaLijekova'
 import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDermatolog";
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
+
+import ListaRezervacija from "../components/ListaRezervacija";
+import ListaRecepata from "../components/ListaRecepata";
+import IstorijaLekova from "../components/IstorijaLekova";
+
 import APPregled from "../components/APPregled"
 import SlobodanTermin from '../components/SlobodanTermin'
 import ProfilApoteke from '../components/ProfilApoteke'
@@ -108,6 +113,21 @@ const routes = [
     path: '/ap/Pregled',
     name: 'APPregled',
     component: APPregled
+  },
+  {
+    path: '/ap/rezervacije',
+    name: 'ListaRezervacija',
+    component: ListaRezervacija,
+  },
+  {
+    path: '/ap/recepti',
+    name: 'ListaRecepata',
+    component: ListaRecepata,
+  },
+  {
+    path: '/ap/istorijaLekova',
+    name: 'IstorijaLekova',
+    component: IstorijaLekova,
   }
 ]
 

@@ -118,4 +118,8 @@ public class Apoteka {
     public void setSlobodanTermin(List<SlobodanTermin> slobodanTermin) {
         this.slobodanTermin = slobodanTermin;
     }
+
+    public Apoteka orElse(Object o) {
+        return null;
+    }
 }
