@@ -18,6 +18,8 @@ import APPregledPacijenataDermatolog from "../components/APPregledPacijenataDerm
 import APPregledPacijenataFarmaceut from "../components/APPregledPacijenataFarmaceut";
 import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import APPregled from "../components/APPregled"
+import SlobodanTermin from '../components/SlobodanTermin'
+import ProfilApoteke from '../components/ProfilApoteke'
 const routes = [
   
   
@@ -25,6 +27,11 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/profilApoteke',
+    name: 'ProfilApoteke',
+    component: ProfilApoteke,
   },
   {
     path: '/ap/apoteke',
@@ -40,6 +47,11 @@ const routes = [
     path: '/ap/farmaceut',
     name: 'APFarmaceut',
     component: APFarmaceut,
+  },
+  {
+    path :'/slobodanTermin',
+    name : 'SlobodanTermin',
+    component: SlobodanTermin
   },
   {
     path: '/ap/dermatolog',

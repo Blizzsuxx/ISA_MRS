@@ -42,6 +42,15 @@ public class ApotekaController {
     	return apotekaService.dobaviApoteke();
     }
 
+    @GetMapping(path="/{id}")
+    public ApotekaDTO dobaviApoteku(@PathVariable Long id){
+
+
+        return apotekaService.dobaviApoteku(id);
+    }
+
+
+
     //ResponseEntity<Apoteka>
     @PostMapping(consumes = "application/json", path = "/sacuvajApoteku")
     public void sacuvajApoteku(@RequestBody ApotekaDTO dummy) {

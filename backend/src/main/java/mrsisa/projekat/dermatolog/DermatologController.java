@@ -20,7 +20,7 @@ public class DermatologController {
     }
 
     @GetMapping(path="/dobaviDermatologe")
-    public List<Dermatolog> dobaviApoteke(){
+    public List<DermatologDTO> dobaviApoteke(){
 
 
         return dermatologService.dobaviDermatologe();

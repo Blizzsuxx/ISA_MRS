@@ -5,6 +5,7 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
@@ -27,6 +28,9 @@ public class Apoteka {
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RadnoVrijeme> radnaVremena;
+
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SlobodanTermin> slobodanTermin;
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Rezervacija> rezervacije;
@@ -64,7 +68,7 @@ public class Apoteka {
     }
 
     public Apoteka(ApotekaDTO dummy){
-        this.ime = dummy.getNaziv();
+        this.ime = dummy.getIme();
         //this.adresa = new Adresa(dummy.getMjesto(), dummy.getPtt(), dummy.getUlica(), dummy.getBroj(), 10, 10);
     }
     public List<Rezervacija> getRezervacije() {
@@ -105,5 +109,13 @@ public class Apoteka {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<SlobodanTermin> getSlobodanTermin() {
+        return slobodanTermin;
+    }
+
+    public void setSlobodanTermin(List<SlobodanTermin> slobodanTermin) {
+        this.slobodanTermin = slobodanTermin;
     }
 }

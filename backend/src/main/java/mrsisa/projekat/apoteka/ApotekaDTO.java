@@ -1,30 +1,37 @@
 package mrsisa.projekat.apoteka;
 
 public class ApotekaDTO {
-    private String naziv;
+    private String ime;
     private String mjesto;
     private String ptt;
     private String ulica;
-    private int broj;
+    private String broj;
 
     public ApotekaDTO() {
 
     }
+    public ApotekaDTO(Apoteka apoteka){
+        this.ime = apoteka.getIme();
+        this.mjesto = apoteka.getAdresa().getMesto();
+        this.ptt = apoteka.getAdresa().getPtt();
+        this.ulica  = apoteka.getAdresa().getUlica();
+        this.broj = apoteka.getAdresa().getBroj();
+    }
 
-    public ApotekaDTO(String naziv, String mjesto, String ptt, String ulica, int broj) {
-        this.naziv = naziv;
+    public ApotekaDTO(String naziv, String mjesto, String ptt, String ulica, String broj) {
+        this.ime = naziv;
         this.mjesto = mjesto;
         this.ptt = ptt;
         this.ulica = ulica;
         this.broj = broj;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getIme() {
+        return ime;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setIme(String ime) {
+        this.ime = ime;
     }
 
     public String getMjesto() {
@@ -51,11 +58,11 @@ public class ApotekaDTO {
         this.ulica = ulica;
     }
 
-    public int getBroj() {
+    public String getBroj() {
         return broj;
     }
 
-    public void setBroj(int broj) {
+    public void setBroj(String broj) {
         this.broj = broj;
     }
 }

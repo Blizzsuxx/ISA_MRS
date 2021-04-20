@@ -18,7 +18,7 @@ public class GodisnjiOdmor {
     @Column(name = "datumDo")
     private LocalDateTime datumDo;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Radnik radnik;
 
     public GodisnjiOdmor() {}
