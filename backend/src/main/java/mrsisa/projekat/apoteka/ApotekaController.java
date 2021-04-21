@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
@@ -33,6 +34,23 @@ public class ApotekaController {
     public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(id);
+    }
+
+    @PostMapping(value="/dobaviLijekoveApoteke")
+    public List<StanjeLijeka> dobaviLijekoveApoteke(@RequestBody Map<String, Object> params){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        return apotekaService.dobaviStanjaLijekova(Long.valueOf(1));
+    }
+
+    @PostMapping(value="/proveriAlergije")
+    public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
+
+        return false;
+    }
+
+    @PostMapping(value="/proveriDostupnost")
+    public Boolean proveriDostupnost(@RequestBody Map<String, Object> params){
+        return false;
     }
 
     @GetMapping(path="/dobaviApoteke")

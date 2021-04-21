@@ -1,4 +1,8 @@
 package mrsisa.projekat.erecept;
 
-public interface EreceptRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface EreceptRepository extends JpaRepository<Erecept, Integer> {
 }

@@ -19,6 +19,14 @@ const actions = {
          context.commit('postaviRezervacije',rezervisani)
         })
   },
+
+  postaviRezervacije(context, podaci){
+    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci).then(response => {
+
+            alert("Pregled uspesno zavrsen");
+            return response;
+        })
+  },
    odustani(context,index,row){ //bio i commit neki ovde 
         console.log( row)
         var today = new Date();

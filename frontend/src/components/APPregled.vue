@@ -97,9 +97,9 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         LijekoviTabela,
         ModalniProzorZakazivanja,
     },
-    mounted(){
-        this.$store.dispatch("APlijekovi/dobaviLijekove");
-        this.$store.dispatch("APKorisnici/dobaviDermatologe");
+    async mounted(){
+        await this.$store.dispatch("APlijekovi/dobaviLijekove");
+        await this.$store.dispatch("APKorisnici/dobaviDermatologe");
         console.log("");
     },
     setup() {
@@ -115,7 +115,8 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
       otvoriProzor(){
 
         this.$refs.prozor.modalOpen = true;
-
+        this.$refs.prozor.radnik = this.radnik;
+        this.$refs.prozor.radnik = this.korisnik
         
 
       },
@@ -130,16 +131,25 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
       },
       dodeliLekove(){
-        this.$store.dispatch("APlijekovi/promjeniStanje",this.$refs.dijete.multipleSelection)
-        if(this.$store.state.APlijekovi.zabranjeni.length!=0){
-        this.greska=true;
-        this.poruka = `Lijekovi sa identifikatorima: ${this.$store.state.APlijekovi.zabranjeni.join(',')} ne mogu biti prebaceni u magacin jer
-         se nalaze u nekoj od rezervacija pacijenata`;
-        }
-        else{
+        console.log("aa");
+        this.$store.dispatch("APlijekovi/proveriAlergije",this.$refs.dijete.multipleSelection, this.korisnik);
+        this.greska=this.$store.state.APlijekovi.greska;
+        if(this.greska){
+          this.poruka = "Greska";
+          return;
+        } else {
           this.greaska = false;
-          
         }
+        this.$store.dispatch("APlijekovi/proveriDostupnost",this.$refs.dijete.multipleSelection, this.apoteka);
+
+        this.greska=this.$store.state.APlijekovi.greska;
+        if(this.greska){
+          this.poruka = "Greska";
+          return;
+        } else {
+          this.greaska = false;
+        }
+          console.log("bb");
         this.$refs.dijete.$refs.multipleTable.clearSelection();
       },
     
@@ -148,20 +158,21 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
       },
 
       zavrsiPregled(){
-
+        this.$store.dispatch("RezervisaniLekovi/postaviRezervacije", {"apoteka": this.apoteka, "pacijent" : this.korisnik, "zapisano" : this.ref});
       }
         
     },
         data() {
 
           const radnik123 = this.$store.state.APKorisnici.dermatolozi[0];
+
       return {
         greska : false,
         prozor: false,
         modalOpen: false,
         poruka : "",
         korisnik : null,
-        radnik : radnik123
+        radnik : radnik123,
       }
     }
   });

@@ -32,7 +32,7 @@ public class PosetaService {
     }
 
     public void kreirajPosetu(Map<String, Object> podaci){
-
+        System.out.println(podaci.get("korisnik"));
     }
     public List<Poseta> dobaviPosete(){
 
@@ -43,8 +43,8 @@ public class PosetaService {
         Dermatolog d = new Dermatolog();
         d.setFirstName("John");
         d.setLastName("Titor");
-        LocalDateTime d1 = LocalDateTime.of(2015, 5, 11, 5, 45);
-        LocalDateTime d2 = LocalDateTime.of(2015, 5, 11, 6, 45);
+        LocalDateTime d1 = LocalDateTime.of(2021, 5, 11, 5, 45);
+        LocalDateTime d2 = LocalDateTime.of(2021, 5, 11, 6, 45);
         Apoteka a = new Apoteka();
         a.setIme("Poteka");
         Adresa adresa = new Adresa();

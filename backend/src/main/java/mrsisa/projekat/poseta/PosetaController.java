@@ -29,7 +29,7 @@ public class PosetaController {
 
 
     @GetMapping(path="/dobaviPosete")
-    public List<Poseta> dobaviApoteke(){
+    public List<Poseta> dobaviPosete(){
     	
 
     	return posetaService.dobaviPosete();

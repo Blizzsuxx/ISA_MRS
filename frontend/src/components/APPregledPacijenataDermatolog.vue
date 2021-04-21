@@ -39,9 +39,9 @@
           <el-table
               :data="tableData.filter(data => !search || data.pacijent.firstName.toLowerCase().includes(search.toLowerCase()) || data.pacijent.lastName.toLocaleLowerCase().includes(search.toLocaleLowerCase()))"
               style="width: 100%">
-           <el-table-column prop="start" label="Pocinje" width="200" sortable>
+           <el-table-column prop="pocetak" label="Pocinje" width="200" sortable>
           </el-table-column>
-          <el-table-column prop="end" label="Zavrsetak" width="200" sortable>
+          <el-table-column prop="kraj" label="Zavrsetak" width="200" sortable>
           </el-table-column>
           <el-table-column prop="pacijent.firstName" label="Ime" width="120" sortable>
           </el-table-column>
@@ -126,6 +126,7 @@ export default {
             type: 'success',
             message: 'Pregled zapocet'
           });
+          this.$router.push({ name: 'APPregled' });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -135,9 +136,9 @@ export default {
     }
   },
 
-  mounted(){
+  async mounted(){
       //pozivanje ucitavanja podataka poseta
-      this.$store.dispatch("APPosete/dobaviPosete")
+      await this.$store.dispatch("APPosete/dobaviPosete")
       this.tableData = this.$store.state.APPosete.svePosete;
       
     },

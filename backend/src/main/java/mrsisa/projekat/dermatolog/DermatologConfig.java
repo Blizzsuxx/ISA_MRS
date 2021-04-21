@@ -2,6 +2,7 @@ package mrsisa.projekat.dermatolog;
 
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijemeRepository;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
@@ -22,7 +23,7 @@ public class DermatologConfig {
     @Bean
     @Transactional
     CommandLineRunner commandLineRunnerDermatolog(DermatologRepository repozitorijum, ApotekaRepository apotekaRepository,
-                                                  RadnoVrijemeRepository radnoVrijemeRepository, SlobodanTerminRepository slobodanTerminRepository){
+                                                  RadnoVrijemeRepository radnoVrijemeRepository, SlobodanTerminRepository slobodanTerminRepository, PosetaRepository posete){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return args ->{
             RadnoVrijeme radnoVrijeme =  new RadnoVrijeme();

@@ -87,7 +87,7 @@ export default {
             for (var i = 1; i < arrayLength; i++) {
                 console.log(this.radnik.pregledi[i]);
                 let item = this.radnik.pregledi[i];
-                if (item.start.getTime() - prevItem.end.getTime() >= 10 && (item.start.getTime()) - start.getTime() > 3600 * 1000 * 24 * 7){
+                if (item.start.getTime() - prevItem.end.getTime() >= 10 && (item.start.getTime()) - start.getTime() >= 3600 * 1000 * 24 * 7){
                   freeTime = item.end;
                   break;
                 }
@@ -96,6 +96,7 @@ export default {
             }
             if(freeTime == 0){
               freeTime = new Date();
+              freeTime.setTime(freeTime.getTime() + 3600 * 1000 * 24 * 7);
             }
             
             start.setTime(freeTime.getTime());
@@ -113,7 +114,7 @@ export default {
             for (var i = 1; i < arrayLength; i++) {
                 console.log(this.radnik.pregledi[i]);
                 let item = this.radnik.pregledi[i];
-                if (item.start.getTime() - prevItem.end.getTime() >= 10 && (item.start.getTime()) - start.getTime() > 3600 * 1000 * 24 * 30){
+                if (item.start.getTime() - prevItem.end.getTime() >= 10 && (item.start.getTime()) - start.getTime() >= 3600 * 1000 * 24 * 30){
                   freeTime = item.end;
                   break;
                 }
@@ -122,6 +123,7 @@ export default {
             }
             if(freeTime == 0){
               freeTime = new Date();
+              freeTime.setTime(freeTime.getTime() + 3600 * 1000 * 24 * 30);
             }
             start.setTime(freeTime.getTime());
             end.setTime(start.getTime() + 3600 * 500);

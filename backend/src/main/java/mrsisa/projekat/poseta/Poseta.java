@@ -38,6 +38,8 @@ public class Poseta {
     @Column(name = "kraj", nullable = false)
     private LocalDateTime kraj;
 
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
