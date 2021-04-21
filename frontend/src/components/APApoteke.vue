@@ -19,9 +19,3 @@ export default {
 
 }
 </script>
-<style scoped>
-body{
-background-color: "#4099FF";
-    text-color: "#fff";
-    active-text-color: "#D6E3F1";}
-</style>

@@ -1,4 +1,13 @@
 <template>
+<el-menu :default-active="activeIndex" 
+     class="el-menu-demo" mode="horizontal" @select="handleSelect"
+     background-color="#409EFF"
+    text-color="#fff"
+    active-text-color="#D6E3F1">
+  <el-menu-item index="1">Pocetna stranica</el-menu-item>
+  <el-menu-item index="2">Profil</el-menu-item>
+  
+</el-menu>
 <h2>Svi recepti pacijenta</h2>
 <div>
   <el-table
@@ -96,7 +105,7 @@ export default defineComponent ({
 
     name: 'ListaRecepata',
     async mounted(){
-      this.$store.dispatch("ERecepti/dobaviRecepte")
+     await this.$store.dispatch("ERecepti/dobaviRecepte")
      this.podaci=this.$store.state.ERecepti.sviRecepti;
     
     },
