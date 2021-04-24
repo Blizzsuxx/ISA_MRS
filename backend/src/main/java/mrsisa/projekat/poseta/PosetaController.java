@@ -28,13 +28,25 @@ public class PosetaController {
     }
 
 
+    @GetMapping("/dobaviPosetePacijenta")
+    public List<Poseta> dobaviPosetePacijenta(){
+        return posetaService.dobaviPosetePacijenta("zarko");
+    }
+    @GetMapping("/dobaviPosetePacijentaF")
+    public List<Poseta> dobaviPosetePacijentaF(){
+        return posetaService.dobaviPosetePacijentaF("zarko");
+    }
+
     @GetMapping(path="/dobaviPosete")
     public List<Poseta> dobaviPosete(){
     	
 
     	return posetaService.dobaviPosete();
     }
-
+    @GetMapping(path="/dobaviIstorijuD")
+    public List<Poseta> dobaviIstorijuD(){
+        return posetaService.dobaviIstorijuD();
+    }
 
     @PostMapping(value="/zakaziPosetu")
     public void zakaziPosetu( @RequestBody Map<String, Object> podaci){

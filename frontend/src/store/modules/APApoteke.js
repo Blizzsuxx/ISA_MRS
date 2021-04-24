@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
     dobaviApoteke (context) {
-        axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
         .then(response => {
             let apotekeSve =response.data
             console.log(apotekeSve[0].adresa.ulica)

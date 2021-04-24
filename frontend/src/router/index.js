@@ -22,9 +22,13 @@ import ListaRezervacija from "../components/ListaRezervacija";
 import ListaRecepata from "../components/ListaRecepata";
 import IstorijaLekova from "../components/IstorijaLekova";
 
-import APPregled from "../components/APPregled"
-import SlobodanTermin from '../components/SlobodanTermin'
-import ProfilApoteke from '../components/ProfilApoteke'
+import APPregled from "../components/APPregled";
+import SlobodanTermin from '../components/SlobodanTermin';
+import ProfilApoteke from '../components/ProfilApoteke';
+import APZakazanePoseteDermatologu from '../components/APZakazanePoseteDermatologu';
+import APZakazanePoseteFarmaceutu from '../components/APZakazanePoseteFarmaceutu';
+import IstorijaPosetaDermatologu from '../components/IstorijaPosetaDeramatologu';
+import IstorijaPosetaFarmaceut from '../components/IstorijaPosetaFarmaceut'
 const routes = [
   
   
@@ -128,6 +132,26 @@ const routes = [
     path: '/ap/istorijaLekova',
     name: 'IstorijaLekova',
     component: IstorijaLekova,
+  },
+  {
+    path: '/ap/zakazanePoseteDermatologuPacijent',
+    name: 'APZakazanePoseteDermatologu',
+    component: APZakazanePoseteDermatologu,
+  },
+  {
+    path: '/ap/zakazanePoseteFarmaceutuPacijent',
+    name: 'APZakazanePoseteFarmaceutu',
+    component: APZakazanePoseteFarmaceutu,
+  },
+  {
+    path: '/ap/istorijaPosetaDermatologu',
+    name: 'IstorijaPosetaDermatologu',
+    component: IstorijaPosetaDermatologu,
+  },
+  {
+    path: '/ap/istorijaPosetaFarmaceut',
+    name: 'IstorijaPosetaFarmaceut',
+    component: IstorijaPosetaFarmaceut,
   }
 ]
 

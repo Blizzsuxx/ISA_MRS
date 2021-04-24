@@ -62,5 +62,115 @@ public class PosetaService {
     }
 
 
+    public List<Poseta> dobaviPosetePacijenta(String id) {
 
+        Poseta poseta1=new Poseta();
+        Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
+        poseta1.setApoteka(apoteka1);
+        Pacijent zarko=new Pacijent(); zarko.setFirstName("zarko");
+
+        Dermatolog derm=new Dermatolog(); derm.setFirstName("micko");derm.setLastName("C");
+        poseta1.setPacijent(zarko);
+        poseta1.setRadnik(derm);
+        poseta1.setPocetak(LocalDateTime.now());
+        poseta1.setKraj(LocalDateTime.now().plusMinutes(30));
+        poseta1.setId(1L);
+
+        Poseta poseta2=new Poseta();
+        Apoteka apoteka2=new Apoteka();apoteka2.setIme("apo2");
+        poseta2.setApoteka(apoteka2);
+        poseta2.setPacijent(zarko);
+        Dermatolog derm2=new Dermatolog(); derm2.setFirstName("micko2");derm2.setLastName("C");
+        poseta2.setRadnik(derm2);
+        poseta2.setPocetak(LocalDateTime.now().plusMinutes(50));
+        poseta2.setKraj(LocalDateTime.now().plusMinutes(70));
+        poseta2.setId(2L);
+
+        Poseta poseta3=new Poseta();
+        Apoteka apoteka3=new Apoteka();apoteka3.setIme("apo3");
+        poseta3.setApoteka(apoteka3);
+
+
+        poseta3.setPacijent(zarko);
+        poseta3.setRadnik(derm);
+        poseta3.setPocetak(LocalDateTime.now().plusDays(1));
+        poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
+        poseta3.setId(3L);
+        ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
+        return posete;
+    }
+    public List<Poseta> dobaviPosetePacijentaF(String id) {
+
+        Poseta poseta1=new Poseta();
+        Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
+        poseta1.setApoteka(apoteka1);
+        Pacijent zarko=new Pacijent(); zarko.setFirstName("zarko");
+
+        Farmaceut derm=new Farmaceut(); derm.setFirstName("micko");derm.setLastName("C");
+        poseta1.setPacijent(zarko);
+        poseta1.setRadnik(derm);
+        poseta1.setPocetak(LocalDateTime.now());
+        poseta1.setKraj(LocalDateTime.now().plusMinutes(30));
+        poseta1.setId(1L);
+
+        Poseta poseta2=new Poseta();
+        Apoteka apoteka2=new Apoteka();apoteka2.setIme("apo2");
+        poseta2.setApoteka(apoteka2);
+        poseta2.setPacijent(zarko);
+        Farmaceut derm2=new Farmaceut(); derm2.setFirstName("micko2");derm2.setLastName("C");
+        poseta2.setRadnik(derm2);
+        poseta2.setPocetak(LocalDateTime.now().plusMinutes(50));
+        poseta2.setKraj(LocalDateTime.now().plusMinutes(70));
+        poseta2.setId(2L);
+
+        Poseta poseta3=new Poseta();
+        Apoteka apoteka3=new Apoteka();apoteka3.setIme("apo3");
+        poseta3.setApoteka(apoteka3);
+
+
+        poseta3.setPacijent(zarko);
+        poseta3.setRadnik(derm);
+        poseta3.setPocetak(LocalDateTime.now().plusDays(1));
+        poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
+        poseta3.setId(3L);
+        ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
+        return posete;
+    }
+
+    public List<Poseta> dobaviIstorijuD() {
+        Poseta poseta1=new Poseta();
+        Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
+        poseta1.setApoteka(apoteka1);
+        Pacijent zarko=new Pacijent(); zarko.setFirstName("zarko");
+
+        Dermatolog derm=new Dermatolog(); derm.setFirstName("micko");derm.setLastName("C");
+        poseta1.setPacijent(zarko);
+        poseta1.setRadnik(derm);
+        poseta1.setPocetak(LocalDateTime.now());
+        poseta1.setKraj(LocalDateTime.now().plusMinutes(30));
+        poseta1.setId(1L);
+
+        Poseta poseta2=new Poseta();
+        Apoteka apoteka2=new Apoteka();apoteka2.setIme("apo2");
+        poseta2.setApoteka(apoteka2);
+        poseta2.setPacijent(zarko);
+        Dermatolog derm2=new Dermatolog(); derm2.setFirstName("micko2");derm2.setLastName("C");
+        poseta2.setRadnik(derm2);
+        poseta2.setPocetak(LocalDateTime.now().plusMinutes(50));
+        poseta2.setKraj(LocalDateTime.now().plusMinutes(70));
+        poseta2.setId(2L);
+
+        Poseta poseta3=new Poseta();
+        Apoteka apoteka3=new Apoteka();apoteka3.setIme("apo3");
+        poseta3.setApoteka(apoteka3);
+
+
+        poseta3.setPacijent(zarko);
+        poseta3.setRadnik(derm);
+        poseta3.setPocetak(LocalDateTime.now().plusDays(1));
+        poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
+        poseta3.setId(3L);
+        ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
+        return posete;
+    }
 }
