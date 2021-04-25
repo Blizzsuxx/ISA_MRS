@@ -8,8 +8,8 @@
 	
   </div>
   <el-table
-    ref="multipleTable"
-    :data="this.zaTabelu"
+    ref="zaTabelu"
+    :data="zaTabelu"
     style="width: 100%"
     @selection-change="handleSelectionChange">
     <el-table-column
@@ -60,16 +60,16 @@ export default defineComponent ({
       input: ref('')
     }
   },
-  /* data() {
+   data() {
       
       return {
-       zaTabelu: this.$store.state.APApoteke.apoteke,
+       zaTabelu: this.$store.state.APApoteke.sveApoteke,
       }
-    },*/
+    },
     async mounted(){
-      //pozivanje ucitavanja podataka poseta
-      await this.$store.dispatch("APApoteke/dobaviApoteke").then(()=>{this.zaTabelu=this.$store.state.APApoteke.sveApoteke;})
-      //this.zaTabelu =this.$store.state.APApoteke.apoteke;
+      
+      await this.$store.dispatch("APApoteke/dobaviApoteke")
+      this.zaTabelu =this.$store.state.APApoteke.sveApoteke;
       
     },
     name: 'APPostojeceApoteke',
