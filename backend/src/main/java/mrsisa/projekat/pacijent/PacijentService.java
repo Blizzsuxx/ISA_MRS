@@ -25,6 +25,7 @@ import java.util.List;
 public class PacijentService {
 	private final PacijentRepository pacijentRepository;
 	private final UlogaRepository ulogaRepository;
+
 	@Autowired
 	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository){
 		this.pacijentRepository = pacijentRepository;
@@ -40,12 +41,6 @@ public class PacijentService {
 		return this.pacijentRepository.save(p);
 	}
 
-	private final PacijentRepository pacijentRepository;
-	@Autowired
-	public PacijentService(PacijentRepository rep){
-		pacijentRepository=rep;
-	}
-	public Pacijent save(Pacijent a){ return this.pacijentRepository.save(a); }
 
 	public List<Pacijent> findAll(){
 		return pacijentRepository.findAll();
