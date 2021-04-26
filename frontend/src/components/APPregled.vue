@@ -150,6 +150,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
           this.greaska = false;
         }
           console.log("bb");
+          alert("uspesno ste dodelili lekove");
         this.$refs.dijete.$refs.multipleTable.clearSelection();
       },
     
