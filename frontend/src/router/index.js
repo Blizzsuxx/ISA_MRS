@@ -22,7 +22,7 @@ import ListaRezervacija from "../components/ListaRezervacija";
 import ListaRecepata from "../components/ListaRecepata";
 import IstorijaLekova from "../components/IstorijaLekova";
 
-import APPregled from "../components/APPregled";
+
 import SlobodanTermin from '../components/SlobodanTermin';
 import ProfilApoteke from '../components/ProfilApoteke';
 import APZakazanePoseteDermatologu from '../components/APZakazanePoseteDermatologu';

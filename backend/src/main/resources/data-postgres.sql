@@ -23,7 +23,7 @@ insert into korisnik_uloga (korisnik_id, uloga_id) values (2, 2);
 
 -- ADMINISTRATORI SISTEMA
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
-('sulejman', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Sulejman', 'Velicanstveni', 'sulejmanvelicanstveni@gmail.com',
+('sulejman1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Sulejman', 'Velicanstveni', 'sulejmanvelicanstveni1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_ADMIN_SISTEMA', true, '2017-10-01 21:58:58');
 insert into administratori (korisnik) values (3);
 insert into administratori_sistema (administrator) values (3);
@@ -32,13 +32,13 @@ insert into korisnik_uloga (korisnik_id, uloga_id) values (3, 1);
 
 -- DERMATOLOZI
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
-('marko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'markomarkovic@gmail.com',
+('marko1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'markomarkovic1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (4);
 insert into dermatolozi (radnik) values (4);
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
-('nikola', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'nikolanikolic@gmail.com',
+('nikola1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'nikolanikolic1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (5);
 insert into dermatolozi (radnik) values (5);
@@ -48,13 +48,13 @@ insert into korisnik_uloga (korisnik_id, uloga_id) values (5, 3);
 
 -- DOBAVLJACI
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
-('mika', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mika', 'Mikic', 'mikamikic@gmail.com',
+('mika1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mika', 'Mikic', 'mikamikic1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_DOBAVLJAC', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (6);
 insert into dobavljaci (radnik) values (6);
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
-('pera', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Pera', 'Peric', 'peraperic@gmail.com',
+('pera1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Pera', 'Peric', 'peraperic1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_DOBAVLJAC', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (7);
 insert into dobavljaci (radnik) values (7);

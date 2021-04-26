@@ -1,11 +1,21 @@
 package mrsisa.projekat.dermatolog;
 
+import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeRepository;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 @Configuration
 public class DermatologConfig {
