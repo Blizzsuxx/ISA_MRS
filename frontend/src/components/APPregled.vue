@@ -51,16 +51,18 @@
             <el-button type="primary" @click="dodeliLekove()" plain>Dodeli Lekove</el-button>
             <el-popconfirm
 
-        title="Da li ste sigurni da želite izbrisati lijek?"
+        title="Da li ste sigurni da želite da zavrsite sa pregledom?"
         >
         <template #reference>
             <el-button type="primary" @click="zavrsiPregled()">Zavrsi pregled</el-button>
         </template>
         </el-popconfirm>
-    
+        <el-button @click="otvoriProzor" plain type="primary">
+            Zakazi Pregled
+        </el-button>
         </div>
 
-
+        <ModalniProzorZakazivanja  ref="prozor" />
 
         <el-input
             type="textarea"
@@ -68,6 +70,7 @@
             placeholder="Unesite informacije o pregledu ovde"
             v-model="textarea">
         </el-input>
+
       </el-main>
     </el-container>
   </el-container>
@@ -87,13 +90,17 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import LijekoviTabela from  './LijekoviTabela'
+import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
   export default defineComponent ({
     name: 'APDermatolog',
     components : {
         LijekoviTabela,
+        ModalniProzorZakazivanja,
     },
-    mounted(){
-        this.$store.dispatch("APlijekovi/dobaviLijekove")
+    async mounted(){
+        await this.$store.dispatch("APlijekovi/dobaviLijekove");
+        await this.$store.dispatch("APKorisnici/dobaviDermatologe");
+        console.log("");
     },
     setup() {
         return {
@@ -105,6 +112,15 @@ import LijekoviTabela from  './LijekoviTabela'
 
     methods: {
 
+      otvoriProzor(){
+
+        this.$refs.prozor.modalOpen = true;
+        this.$refs.prozor.radnik = this.radnik;
+        this.$refs.prozor.radnik = this.korisnik
+        
+
+      },
+
         ocistiSelekciju(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -115,16 +131,25 @@ import LijekoviTabela from  './LijekoviTabela'
         }
       },
       dodeliLekove(){
-        this.$store.dispatch("APlijekovi/promjeniStanje",this.$refs.dijete.multipleSelection)
-        if(this.$store.state.APlijekovi.zabranjeni.length!=0){
-        this.greska=true;
-        this.poruka = `Lijekovi sa identifikatorima: ${this.$store.state.APlijekovi.zabranjeni.join(',')} ne mogu biti prebaceni u magacin jer
-         se nalaze u nekoj od rezervacija pacijenata`;
-        }
-        else{
+        console.log("aa");
+        this.$store.dispatch("APlijekovi/proveriAlergije",this.$refs.dijete.multipleSelection, this.korisnik);
+        this.greska=this.$store.state.APlijekovi.greska;
+        if(this.greska){
+          this.poruka = "Greska";
+          return;
+        } else {
           this.greaska = false;
-          
         }
+        this.$store.dispatch("APlijekovi/proveriDostupnost",this.$refs.dijete.multipleSelection, this.apoteka);
+
+        this.greska=this.$store.state.APlijekovi.greska;
+        if(this.greska){
+          this.poruka = "Greska";
+          return;
+        } else {
+          this.greaska = false;
+        }
+          console.log("bb");
         this.$refs.dijete.$refs.multipleTable.clearSelection();
       },
     
@@ -133,18 +158,21 @@ import LijekoviTabela from  './LijekoviTabela'
       },
 
       zavrsiPregled(){
-
+        this.$store.dispatch("RezervisaniLekovi/postaviRezervacije", {"apoteka": this.apoteka, "pacijent" : this.korisnik, "zapisano" : this.ref});
       }
         
     },
         data() {
 
+          const radnik123 = this.$store.state.APKorisnici.dermatolozi[0];
 
       return {
         greska : false,
         prozor: false,
         modalOpen: false,
         poruka : "",
+        korisnik : null,
+        radnik : radnik123,
       }
     }
   });

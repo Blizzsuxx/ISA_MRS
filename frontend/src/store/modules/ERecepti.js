@@ -12,7 +12,7 @@ const getters = {
 
 const actions = {
     dobaviRecepte (context) {
-        axios.get('http://localhost:8080/api/v1/profil/dobaviERecepte')
+        return axios.get('http://localhost:8080/api/v1/profil/dobaviERecepte')
         .then(response => {
             
             let rSvi =response.data
@@ -22,7 +22,7 @@ const actions = {
         })
     },
     dobaviPreuzeteRecepte (context) {
-        axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte')
+        return axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte')
         .then(response => {
             
             let rSvi =response.data

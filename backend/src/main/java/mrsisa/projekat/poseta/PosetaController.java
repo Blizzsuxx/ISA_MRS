@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @CrossOrigin(origins = "*")
@@ -27,11 +28,29 @@ public class PosetaController {
     }
 
 
+    @GetMapping("/dobaviPosetePacijenta")
+    public List<Poseta> dobaviPosetePacijenta(){
+        return posetaService.dobaviPosetePacijenta("zarko");
+    }
+    @GetMapping("/dobaviPosetePacijentaF")
+    public List<Poseta> dobaviPosetePacijentaF(){
+        return posetaService.dobaviPosetePacijentaF("zarko");
+    }
+
     @GetMapping(path="/dobaviPosete")
-    public List<Poseta> dobaviApoteke(){
+    public List<Poseta> dobaviPosete(){
     	
 
     	return posetaService.dobaviPosete();
+    }
+    @GetMapping(path="/dobaviIstorijuD")
+    public List<Poseta> dobaviIstorijuD(){
+        return posetaService.dobaviIstorijuD();
+    }
+
+    @PostMapping(value="/zakaziPosetu")
+    public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+        this.posetaService.kreirajPosetu(podaci);
     }
     
 

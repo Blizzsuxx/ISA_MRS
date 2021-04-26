@@ -2,16 +2,20 @@ import axios from 'axios'
 
 const state = {    
     sveApoteke :[],
+    apoteka : null,
+    slobodniTermini : []
   
 };
 
 const getters = {
-    apoteke : state => state.apoteka    
+    apoteke : state => state.apoteka,
+    apoteka :state => state.apoteka,
+    slobodniTermini: state =>state.slobodniTermini,
 };
 
 const actions = {
     dobaviApoteke (context) {
-        axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
         .then(response => {
             let apotekeSve =response.data
             console.log(apotekeSve[0].adresa.ulica)
@@ -25,12 +29,31 @@ const actions = {
             alert("Dodata apoteka");
           return response;
         })
-    }
+    },
+    
+    dobaviApoteku(context, id){
+        return axios.get(`http://localhost:8080/api/v1/apoteka/${id}`)
+        .then(response => {
+            context.commit('postaviApoteku',response.data)
+         
+        })
+    },
+    dobaviSlobodneTermine( context,id){
+        return axios.get( `http://localhost:8080/api/v1/slobodanTermin/apoteka/${id}`)
+            .then(response => {
+                let slobodniTermini =response.data
+                context.commit('postaviSlobodneTermine',slobodniTermini)
+                
+            })
+            .catch(error=>console.log(error))
+    },
 
 }
 
 const mutations = {
     postaviApoteke:(state, apoteke) => (state.sveApoteke = apoteke),
+    postaviApoteku:(state,apoteka)=> (state.apoteka = apoteka),
+    postaviSlobodneTermine :(state,slobodniTermini)=>(state.slobodniTermini = slobodniTermini)
 }
 
 export default{

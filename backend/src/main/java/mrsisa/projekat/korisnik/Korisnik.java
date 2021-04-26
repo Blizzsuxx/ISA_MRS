@@ -5,6 +5,9 @@ import mrsisa.projekat.uloga.Uloga;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.pacijent.Pacijent;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -235,4 +238,6 @@ public abstract class  Korisnik implements UserDetails {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public abstract Apoteka orElse(Object o);
 }

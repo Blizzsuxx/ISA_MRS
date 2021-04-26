@@ -1,5 +1,6 @@
 package mrsisa.projekat.dobavljac;
 
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
@@ -48,6 +49,11 @@ public class Dobavljac extends Radnik {
 
     public Dobavljac(KorisnikDTO dummy) {
         super(dummy);
+    }
+
+    @Override
+    public Apoteka orElse(Object o) {
+        return null;
     }
 
     public List<Lijek> getLijekoviNaStanju() {

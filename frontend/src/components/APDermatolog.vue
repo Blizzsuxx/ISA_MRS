@@ -45,9 +45,9 @@
 
       <el-main>
         <el-table :data="tableData">
-          <el-table-column prop="start" label="Pocinje" width="200">
+          <el-table-column prop="pocetak" label="Pocinje" width="200">
           </el-table-column>
-          <el-table-column prop="end" label="Zavrsetak" width="200">
+          <el-table-column prop="kraj" label="Zavrsetak" width="200">
           </el-table-column>
           <el-table-column prop="pacijent.firstName" label="Ime" width="120">
           </el-table-column>
@@ -100,9 +100,9 @@ import Selecter from './Selecter.vue';
         Selecter,
     },
 
-    mounted(){
+    async mounted(){
       //pozivanje ucitavanja podataka poseta
-      this.$store.dispatch("APPosete/dobaviPosete")
+      await this.$store.dispatch("APPosete/dobaviPosete")
       this.tableData = this.$store.state.APPosete.svePosete;
       
     },
@@ -111,14 +111,45 @@ import Selecter from './Selecter.vue';
       
 
       handleInfo(index, row) {
-        console.log(index, row);
-      },
-      handleOdsustvo(index, row) {
-        console.log(index, row);
-      },
-      handlePregled(index, row) {
-        console.log(index, row);
-      },
+      console.log(index, row);
+    },
+    handleOdsustvo(index, row) {
+      console.log(index, row);
+      this.$confirm('Da li ste sigurni?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Pacijent je zabelezen kao odsutan'
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Prekid'
+          });
+        });
+    },
+    handlePregled(index, row) {
+      console.log(index, row);
+      this.$confirm('Zelite da zapocnete pregled?', 'Warning', {
+          confirmButtonText: 'OK',
+          cancelButtonText: 'Cancel',
+          type: 'warning'
+        }).then(() => {
+          this.$message({
+            type: 'success',
+            message: 'Pregled zapocet',
+          });
+          this.$router.push({ name: 'APPregled' });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: 'Prekid'
+          });
+        });
+    },
 
 
 

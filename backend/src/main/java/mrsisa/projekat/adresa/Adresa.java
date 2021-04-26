@@ -25,7 +25,7 @@ public class Adresa {
 	@Column(name = "gSirina", nullable = false)
 	public double gSirina;
  	@OneToMany(mappedBy = "adresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Apoteka> apoteke;
+	private List<Apoteka> apoteke; //TODO ako korisnik ima adresu, zasto on da ima apoteke??
 
 	public String getMesto() {
 		return Mesto;
@@ -100,7 +100,12 @@ public class Adresa {
 	public Adresa(){
 
 	}
-	
-	
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

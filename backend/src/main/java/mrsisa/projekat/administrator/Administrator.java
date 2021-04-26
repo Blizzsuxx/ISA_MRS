@@ -1,4 +1,5 @@
 package mrsisa.projekat.administrator;
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.uloga.Uloga;
@@ -29,5 +30,10 @@ public class Administrator extends Korisnik {
 
     public Administrator(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String role, boolean enabled, Timestamp lastPasswordResetDate, List<Uloga> uloge) {
         super(username, password, firstName, lastName, email, birthday, role, enabled, lastPasswordResetDate, uloge);
+    }
+
+    @Override
+    public Apoteka orElse(Object o) {
+        return null;
     }
 }

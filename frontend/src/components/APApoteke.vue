@@ -8,10 +8,10 @@
 import APPostojeceApoteke from './APPostojeceApoteke'
 export default {
   name: 'APApoteke',
-   mounted(){
+  async mounted(){
       //pozivanje ucitavanja podataka apoteka
-       this.$store.dispatch("APApoteke/dobaviApoteke")
-      
+      await this.$store.dispatch("APApoteke/dobaviApoteke")
+      this.tableData =this.$store.state.APApoteke.apoteke;
     },
   components:{
       APPostojeceApoteke

@@ -1,4 +1,6 @@
 <template>
+<el-main>
+  <NavMeniZaPacijenta/>
 <h2>Svi recepti pacijenta</h2>
 <div>
   <el-table
@@ -70,15 +72,15 @@
     </el-table-column>
   </el-table>
 </div>
-  
+</el-main>
 </template>
 
 const { defineComponent, ref } = Vue;
 <script>
-
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
    import { defineComponent, ref } from 'vue'
 export default defineComponent ({
- 
+ components :{NavMeniZaPacijenta},
   setup() {
     return {
       input: ref('')
@@ -96,7 +98,7 @@ export default defineComponent ({
 
     name: 'ListaRecepata',
     async mounted(){
-      this.$store.dispatch("ERecepti/dobaviRecepte")
+     await this.$store.dispatch("ERecepti/dobaviRecepte")
      this.podaci=this.$store.state.ERecepti.sviRecepti;
     
     },

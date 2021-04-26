@@ -1,9 +1,9 @@
 package mrsisa.projekat.slobodanTermin;
 
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -14,5 +14,20 @@ public class SlobodanTerminController {
 
     public SlobodanTerminController(SlobodanTerminService slobodanTerminService){
         this.slobodanTerminService = slobodanTerminService;
+    }
+
+    @GetMapping("/dermatolog/{id}")
+    public List<SlobodanTerminDTO> dobaviSlobodneTermineDermatologa(@PathVariable Integer id){
+        return this.slobodanTerminService.dobaviSlobodneTermineDermatologa(id);
+    }
+
+    @GetMapping("/apoteka/{id}")
+    public List<SlobodanTerminDTO> dobaviSlobodneTermineApoteka(@PathVariable Long id){
+        return this.slobodanTerminService.dobaviSlobodneTermineApoteka(id);
+    }
+
+    @PostMapping("/")
+    public void kreirajNoviTermin(@RequestBody SlobodanTerminDTO dto){
+        this.slobodanTerminService.kreirajNoviTermin(dto);
     }
 }

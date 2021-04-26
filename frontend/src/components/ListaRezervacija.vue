@@ -1,4 +1,6 @@
 <template>
+<el-main>
+<NavMeniZaPacijenta/>
 <h2>Lista rezervacija leka</h2>
   <el-table
     ref="multipleTable1"
@@ -51,11 +53,13 @@
       </template>
     </el-table-column>
   </el-table>
-
+</el-main>
 </template>
 
 <script>
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
 export default {
+  components : {NavMeniZaPacijenta},
   name: 'ListaRezervacija',
   async mounted(){
      await this.$store.dispatch("RezervisaniLekovi/dobaviRezervacije")

@@ -51,9 +51,9 @@
                 <el-input v-model="apoteka.id"></el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="Naziv Apoteke:" prop="naziv">
+              <el-form-item label="Naziv Apoteke:" prop="ime">
                 <div class="grupa">
-                <el-input v-model="apoteka.naziv"></el-input>
+                <el-input v-model="apoteka.ime"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Mjesto:" prop="mjesto">
@@ -134,7 +134,7 @@
     },
     methods: {
       onSubmit() {
-        var ap = {naziv: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
+        var ap = {ime: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
         ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj};
         this.$store.dispatch('APApoteke/dodajApoteku', ap);
         
