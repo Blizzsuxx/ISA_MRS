@@ -1,11 +1,6 @@
 <template>
-<el-menu :default-active="activeIndex" 
-     class="el-menu-demo" mode="horizontal" @select="handleSelect"
-     background-color="#409EFF"
-    text-color="#fff"
-    active-text-color="#D6E3F1">
-  <el-menu-item index="1">Pocetna strana</el-menu-item>
-</el-menu>
+<el-main>
+<NavMeniZaPacijenta/>
 <h2>Svi recepti pacijenta</h2>
 <div>
   <el-table
@@ -77,15 +72,16 @@
     </el-table-column>
   </el-table>
 </div>
-  
+</el-main>
 </template>
 
 const { defineComponent, ref } = Vue;
 <script>
 
    import { defineComponent, ref } from 'vue'
+   import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
 export default defineComponent ({
- 
+ components: {NavMeniZaPacijenta},
   setup() {
     return {
       input: ref('')

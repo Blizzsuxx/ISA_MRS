@@ -23,7 +23,7 @@ public abstract class Radnik extends Korisnik {
         this.posete = posete;
     }
 
-    @OneToMany(mappedBy = "radnik", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Poseta> posete;
 
     public Radnik() {}

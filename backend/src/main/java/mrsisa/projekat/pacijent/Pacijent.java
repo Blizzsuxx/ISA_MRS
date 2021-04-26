@@ -4,12 +4,15 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -30,7 +33,7 @@ public class Pacijent extends Korisnik {
 
 	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Lijek> alergije;
-	
+
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
 	}
@@ -58,6 +61,11 @@ public class Pacijent extends Korisnik {
 	}
 
 	public Pacijent() {}
+
+	public Pacijent(KorisnikDTO dummy){
+		super(dummy);
+	}
+
 
 	@Override
 	public Apoteka orElse(Object o) {

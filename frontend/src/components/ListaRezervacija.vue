@@ -1,13 +1,6 @@
 <template>
-<el-menu :default-active="activeIndex" 
-     class="el-menu-demo" mode="horizontal" @select="handleSelect"
-     background-color="#409EFF"
-    text-color="#fff"
-    active-text-color="#D6E3F1">
-  <el-menu-item index="1">Pocetna stranica</el-menu-item>
-  <el-menu-item index="2">Profil</el-menu-item>
-  
-</el-menu>
+<el-main>
+<NavMeniZaPacijenta/>
 <h2>Lista rezervacija leka</h2>
   <el-table
     ref="multipleTable1"
@@ -60,11 +53,13 @@
       </template>
     </el-table-column>
   </el-table>
-
+</el-main>
 </template>
 
 <script>
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
 export default {
+  components : {NavMeniZaPacijenta},
   name: 'ListaRezervacija',
   async mounted(){
      await this.$store.dispatch("RezervisaniLekovi/dobaviRezervacije")

@@ -1,17 +1,7 @@
 <template>
- <el-container style="height: 600px; border: 1px solid #eee">
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu :default-openeds="['1', '3']">
-        <el-menu-item index="1">Home</el-menu-item>
-      </el-menu>
-    </el-aside>
-
+<el-main>
+  <NavMeniZaPacijenta/>
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        <slot name="header-slot"></slot>
-       
-      </el-header>
-
       <el-main>
         <el-form ref="form" :model="form" label-width="120px">
   
@@ -66,7 +56,7 @@
     <LekoviBezAlergija/>
       </el-main>
     </el-container>
-  </el-container> 
+  </el-main> 
 
 </template>
 <style>
@@ -82,12 +72,13 @@
 </style>
 
 <script>
-import Alergije from './Alergije.vue';  //CroasOrigin !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+import Alergije from './Alergije.vue'; 
+import NavMeniZaPacijenta from './NavMeniZaPacijenta.vue';  
 import LekoviBezAlergija from './LekoviBezAlergija.vue';
 
   export default {
     
-  components: { Alergije, LekoviBezAlergija},
+  components: { Alergije, LekoviBezAlergija,NavMeniZaPacijenta},
     name: 'IzmenaLicnihInfoKorisnika',
     async mounted(){
       //pozivanje ucitavanja podataka apoteka

@@ -2,11 +2,15 @@ package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.uloga.Uloga;
+import mrsisa.projekat.uloga.UlogaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,11 +24,23 @@ import java.util.List;
 @Service
 public class PacijentService {
 	private final PacijentRepository pacijentRepository;
+	private final UlogaRepository ulogaRepository;
+
 	@Autowired
-	public PacijentService(PacijentRepository rep){
-		pacijentRepository=rep;
+	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository){
+		this.pacijentRepository = pacijentRepository;
+		this.ulogaRepository = ulogaRepository;
 	}
-	public Pacijent save(Pacijent a){ return this.pacijentRepository.save(a); }
+
+	public Pacijent findByUsername(String username){
+		return this.pacijentRepository.findByUsername(username);
+	}
+
+	public Pacijent save(Pacijent p) {
+		p.setUloge(this.ulogaRepository.findByName(p.getRole()));
+		return this.pacijentRepository.save(p);
+	}
+
 
 	public List<Pacijent> findAll(){
 		return pacijentRepository.findAll();

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 
 import APLijekovi from '../components/APLijekovi'
-import APApoteke from '../components/APApoteke'
+import APPostojeceApoteke from '../components/APPostojeceApoteke'
 import IzmenaLicnihInfoKorisnik from '../components/IzmenaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
@@ -22,9 +22,17 @@ import ListaRezervacija from "../components/ListaRezervacija";
 import ListaRecepata from "../components/ListaRecepata";
 import IstorijaLekova from "../components/IstorijaLekova";
 
+
+import SlobodanTermin from '../components/SlobodanTermin';
+import ProfilApoteke from '../components/ProfilApoteke';
+import APZakazanePoseteDermatologu from '../components/APZakazanePoseteDermatologu';
+import APZakazanePoseteFarmaceutu from '../components/APZakazanePoseteFarmaceutu';
+import IstorijaPosetaDermatologu from '../components/IstorijaPosetaDeramatologu';
+import IstorijaPosetaFarmaceut from '../components/IstorijaPosetaFarmaceut'
 import APPregled from "../components/APPregled"
-import SlobodanTermin from '../components/SlobodanTermin'
-import ProfilApoteke from '../components/ProfilApoteke'
+
+import Prijava from "../components/Prijava"
+
 const routes = [
   
   
@@ -40,8 +48,8 @@ const routes = [
   },
   {
     path: '/ap/apoteke',
-    name: 'APApoteke',
-    component: APApoteke,
+    name: 'APPostojeceApoteke',
+    component: APPostojeceApoteke,
   },
   {
     path: '/ap/profil',
@@ -115,6 +123,11 @@ const routes = [
     component: APPregled
   },
   {
+    path: '/ap/prijava',
+    name: 'Prijava',
+    component: Prijava
+  },
+  {
     path: '/ap/rezervacije',
     name: 'ListaRezervacija',
     component: ListaRezervacija,
@@ -128,12 +141,44 @@ const routes = [
     path: '/ap/istorijaLekova',
     name: 'IstorijaLekova',
     component: IstorijaLekova,
+  },
+  {
+    path: '/ap/zakazanePoseteDermatologuPacijent',
+    name: 'APZakazanePoseteDermatologu',
+    component: APZakazanePoseteDermatologu,
+  },
+  {
+    path: '/ap/zakazanePoseteFarmaceutuPacijent',
+    name: 'APZakazanePoseteFarmaceutu',
+    component: APZakazanePoseteFarmaceutu,
+  },
+  {
+    path: '/ap/istorijaPosetaDermatologu',
+    name: 'IstorijaPosetaDermatologu',
+    component: IstorijaPosetaDermatologu,
+  },
+  {
+    path: '/ap/istorijaPosetaFarmaceut',
+    name: 'IstorijaPosetaFarmaceut',
+    component: IstorijaPosetaFarmaceut,
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+})
+
+router.beforeEach((to, from, next)=>{
+  const publicPages = ['/ap/prijava'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  if (authRequired && !loggedIn){
+    console.log('provjera');
+    return next('/ap/prijava');
+  }
+  next();
 })
 
 export default router

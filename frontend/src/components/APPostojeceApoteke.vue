@@ -1,4 +1,5 @@
 <template>
+<el-main>
 <h2>Sve registrovane apoteke</h2>
 <div style="margin-top: 20px">
     <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button> -->
@@ -7,8 +8,8 @@
 	
   </div>
   <el-table
-    ref="multipleTable"
-    :data="this.zaTabelu"
+    ref="zaTabelu"
+    :data="zaTabelu"
     style="width: 100%"
     @selection-change="handleSelectionChange">
     <el-table-column
@@ -46,7 +47,7 @@
       show-overflow-tooltip>
     </el-table-column>
   </el-table>
-  
+</el-main>
 </template>
 
 const { defineComponent, ref } = Vue;
@@ -65,7 +66,12 @@ export default defineComponent ({
        zaTabelu: this.$store.state.APApoteke.sveApoteke,
       }
     },
-
+    async mounted(){
+      
+      await this.$store.dispatch("APApoteke/dobaviApoteke")
+      this.zaTabelu =this.$store.state.APApoteke.sveApoteke;
+      
+    },
     name: 'APPostojeceApoteke',
     methods: {
       toggleSelection(rows) {

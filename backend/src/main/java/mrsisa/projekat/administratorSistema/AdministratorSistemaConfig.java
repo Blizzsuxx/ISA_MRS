@@ -4,9 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+/*
 @Configuration
 public class AdministratorSistemaConfig {
     @Bean
@@ -15,14 +16,18 @@ public class AdministratorSistemaConfig {
         return args ->{
             repozitorijum.save(new AdministratorSistema(
                     "sulejman",
-                    "sulejman",
+                    "$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra",
                     "Sulejman",
                     "Velicanstveni",
                     "sulejmanvelicanstveni@gmail.com",
-                    LocalDateTime.now()
+                    LocalDateTime.now(),
+                    "ROLE_ADMIN_SISTEMA",
+                    true,
+                    Timestamp.valueOf("2017-10-01 21:58:58")
             ));
 
 
         };
     }
 }
+*/

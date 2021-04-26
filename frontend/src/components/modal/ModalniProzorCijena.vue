@@ -1,4 +1,4 @@
-<template>
+ <template>
   <teleport to="body">
     <div v-if="modalOpen" id="myModal" class="modal">
       <div class="modal-content">

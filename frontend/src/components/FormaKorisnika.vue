@@ -53,12 +53,12 @@
               </el-form-item>
               <el-form-item label="Sifra" prop="sifra">
                 <div class="grupa">
-                <el-input v-model="korisnik.sifra"></el-input>
+                <el-input type="password" v-model="korisnik.sifra"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Potvrda Sifre:" prop="potvrdaSifre">
                 <div class="grupa">
-                <el-input v-model="korisnik.potvrdaSifre"></el-input>
+                <el-input type="password" v-model="korisnik.potvrdaSifre"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Ime:" prop="ime">
@@ -144,22 +144,29 @@ import moment from 'moment'
             prezime: '',
             rodjendan: '',
             email: '',
-            uloga: 'Dermatolog',
+            uloga: 'ROLE_DERMATOLOG',
             },
             opcije: [{
-              uloga: 'Dermatolog',
-              label: 'Dermatolog'
+              uloga: 'ROLE_ADMIN_SISTEMA',
+              label: 'ROLE_ADMIN_SISTEMA'
             }, {
-              uloga: 'Dobavljac',
-              label: 'Dobavljac',
+              uloga: 'ROLE_ADMIN_APOTEKA',
+              label: 'ROLE_ADMIN_APOTEKA',
             }, {
-              uloga: 'Administrator Sistema',
-              label: 'Administrator Sistema'
+              uloga: 'ROLE_DERMATOLOG',
+              label: 'ROLE_DERMATOLOG'
             },
             {
-              uloga: 'Administrator Apoteke',
-              label: 'Administrator Apoteke'
-            }],
+              uloga: 'ROLE_DOBAVLJAC',
+              label: 'ROLE_DOBAVLJAC'
+            },{
+              uloga: 'ROLE_FARMACEUT',
+              label: 'ROLE_FARMACEUT' 
+            },{
+              uloga: 'ROLE_PACIJENT',
+              label: 'ROLE_PACIJENT'
+            }
+            ],
         
          rules: {
           korisnickoIme: [
