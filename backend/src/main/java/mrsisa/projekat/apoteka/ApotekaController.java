@@ -12,6 +12,7 @@ import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -36,6 +37,7 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PostMapping(value="/dobaviLijekoveApoteke")
     public List<StanjeLijeka> dobaviLijekoveApoteke(@RequestBody Map<String, Object> params){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
@@ -60,6 +62,8 @@ public class ApotekaController {
     	return apotekaService.dobaviApoteke();
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/{id}")
     public ApotekaDTO dobaviApoteku(@PathVariable Long id){
 

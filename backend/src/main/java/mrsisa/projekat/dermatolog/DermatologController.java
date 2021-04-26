@@ -20,8 +20,10 @@ public class DermatologController {
         this.dermatologService = dermatologService;
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/dobaviDermatologe")
-    public List<DermatologDTO> dobaviApoteke(){
+    public List<DermatologDTO> dobaviDermatologe(){
 
 
         return dermatologService.dobaviDermatologe();

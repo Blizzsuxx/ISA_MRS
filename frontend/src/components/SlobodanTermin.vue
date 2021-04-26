@@ -191,14 +191,8 @@ export default {
         .dispatch("Dermatolozi/dobaviRadnoVrijeme", val.id)
         .then(() => {
           this.ucitavanjeRadnoVrijeme = true;
-          this.rvOd = this.$store.state.Dermatolozi.radnoVrijeme.pocetakRadnogVremena.substring(
-            0,
-            5
-          );
-          this.rvDo = this.$store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena.substring(
-            0,
-            5
-          );
+          this.rvOd = this.$store.state.Dermatolozi.radnoVrijeme.pocetakRadnogVremena
+          this.rvDo = this.$store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena
         })
         .catch((error) => console.log(error));
 
