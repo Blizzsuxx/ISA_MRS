@@ -1,19 +1,21 @@
 package mrsisa.projekat.radnoVrijeme;
 
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class RadnoVrijemeDTO {
     private Integer dermatolog;
     private Long apoteka;
-    private LocalTime pocetakRadnogVremena;
-    private LocalTime krajRadnogVremena;
+    private String pocetakRadnogVremena;
+    private String krajRadnogVremena;
 
 
     public RadnoVrijemeDTO(RadnoVrijeme radnoVrijeme){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
         this.dermatolog = radnoVrijeme.getDermatolog().getId();
         this.apoteka = radnoVrijeme.getApoteka().getId();
-        this.pocetakRadnogVremena = radnoVrijeme.getPocetakRadnogVremena();
-        this.krajRadnogVremena = radnoVrijeme.getKrajRadnogVremena();
+        this.pocetakRadnogVremena = dtf.format(radnoVrijeme.getPocetakRadnogVremena());
+        this.krajRadnogVremena = dtf.format(radnoVrijeme.getKrajRadnogVremena());
 
     }
     public RadnoVrijemeDTO() {
@@ -35,19 +37,19 @@ public class RadnoVrijemeDTO {
         this.apoteka = apoteka;
     }
 
-    public LocalTime getPocetakRadnogVremena() {
+    public String getPocetakRadnogVremena() {
         return pocetakRadnogVremena;
     }
 
-    public void setPocetakRadnogVremena(LocalTime pocetakRadnogVremena) {
+    public void setPocetakRadnogVremena(String pocetakRadnogVremena) {
         this.pocetakRadnogVremena = pocetakRadnogVremena;
     }
 
-    public LocalTime getKrajRadnogVremena() {
+    public String getKrajRadnogVremena() {
         return krajRadnogVremena;
     }
 
-    public void setKrajRadnogVremena(LocalTime krajRadnogVremena) {
+    public void setKrajRadnogVremena(String krajRadnogVremena) {
         this.krajRadnogVremena = krajRadnogVremena;
     }
 }

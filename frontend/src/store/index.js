@@ -7,7 +7,7 @@ import APKorisnici from './modules/APKorisnici';
 import Dermatolozi from './modules/Dermatolozi';
 import IzmenaLicnihInfoKorisnik from'./modules/IzmenaLicnihInfoKorisnik';
 import Alergije from './modules/Alergije';
-import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
+//import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
 import RezervisaniLekovi from './modules/RezervisaniLekovi';
 import ERecepti from './modules/ERecepti';
 import Farmaceuti from './modules/Farmaceuti';
@@ -29,7 +29,7 @@ export default createStore({
         APPacijenti,
           APPosete,
         APKorisnici,
-        PocetnaStranaPacijenta,
+        //PocetnaStranaPacijenta,
         RezervisaniLekovi,
         ERecepti,
         Alergije,

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import authHeader from './AuthHeader'
 
 const state = {    
     korisnik: null,
@@ -12,7 +13,7 @@ const getters = {//pazi ovo je nebitno
 const actions = {
      dobaviProfil (context) {
       
-       return axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta')
+       return axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta',{ headers: authHeader()})
         .then(response => {
            
             context.commit('postaviProfil',response.data)
@@ -30,7 +31,7 @@ const actions = {
 
         arr.push(input.date1)
         
-        axios.put('http://localhost:8080/api/v1/profil/izmeni',arr)
+        axios.put('http://localhost:8080/api/v1/profil/izmeni',arr,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
             if(tf){

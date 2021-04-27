@@ -1,5 +1,5 @@
 import axios from 'axios'
-import authHeader from './AuthHeader';
+import authHeader from './AuthHeader'
 
 const state = {    
     rezervisani:[],
@@ -14,7 +14,7 @@ const getters = {
 const actions = {
     dobaviRezervacije (context) {
         
-        axios.get('http://localhost:8080/api/v1/profil/dobaviRezervacije', {headers : authHeader()})
+        axios.get('http://localhost:8080/api/v1/profil/dobaviRezervacije',{ headers: authHeader()})
         .then(response => {
             //console.log("a")
            console.log(response.data)
@@ -24,7 +24,7 @@ const actions = {
   },
 
   postaviRezervacije(context, podaci){
-    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci, {headers : authHeader()}).then(response => {
+    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci,{ headers: authHeader()}).then(response => {
 
             alert("Pregled uspesno zavrsen");
             return response;
@@ -47,7 +47,7 @@ const actions = {
               }else{return true;}
           })
           
-          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index]}, {headers : authHeader()} )
+          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index]},{ headers: authHeader()})
         .then(response => {
             if(response){
             alert("Uspesno ste izbacili lek iz rezervacije");

@@ -1,13 +1,18 @@
 package mrsisa.projekat.apoteka;
 
 
+import com.sun.net.httpserver.HttpServer;
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +21,11 @@ import java.util.Optional;
 @Service
 public class ApotekaService {
     private final ApotekaRepository apotekaRepository;
-    //TODO ako korisnik ima adresu, zasto on da ima apoteke?? pogledati klasu adresa!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    private final AdresaRepository adresaRepository;
     @Autowired
-    public ApotekaService(ApotekaRepository apotekaRepository){
+    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository){
         this.apotekaRepository = apotekaRepository;
+        this.adresaRepository = adresaRepository;
     }
 
     public Apoteka save(Apoteka a){
@@ -57,8 +62,45 @@ public class ApotekaService {
     }
     @Transactional
     public ApotekaDTO dobaviApoteku(Long id) {
-        ApotekaDTO  dto =  new ApotekaDTO(apotekaRepository.findById(id).orElse(null));
+        ApotekaDTO dto =  new ApotekaDTO(apotekaRepository.findById(id).orElse(null));
         
         return dto;
+    }
+    @Transactional
+    public List<Lijek> dobaviLijekoveAlergija(Long id) {
+        List<StanjeLijeka> stanja = dobaviStanjaLijekova(id);
+        ArrayList<Lijek> bezAlergija = new ArrayList<>();
+        if (stanja.isEmpty() == false) {
+            for (StanjeLijeka st : stanja) {
+                bezAlergija.add(st.getLijek());
+            }
+        }
+        return bezAlergija;
+    }
+    public ApotekaDTO dobaviApotekuAdmin(AdministratorApoteke adminApoteke) {
+        Apoteka apoteka =  adminApoteke.getApoteka();
+        apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);
+
+        if(apoteka==null)
+            return new ApotekaDTO();
+        else{
+            ApotekaDTO apotekaDTO =  new ApotekaDTO();
+            apotekaDTO.setIme(apoteka.getIme());
+            apotekaDTO.setId(apoteka.getId());
+            apotekaDTO.setAdresa(apoteka.getAdresa());
+            return apotekaDTO;
+        }
+
+    }
+    @Transactional
+    public void azurirajApotekuAdmin(AdministratorApoteke adminApoteke, ApotekaDTO apotekaDTO) {
+        Apoteka apoteka =  adminApoteke.getApoteka();
+        apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);
+        System.out.println(apoteka.getIme());
+        apoteka.setIme(apotekaDTO.getIme());
+        System.out.println(apoteka.getIme());
+        apoteka.postaviAdresuIzDTO(apotekaDTO);
+        adresaRepository.save(apoteka.getAdresa());
+        apotekaRepository.save(apoteka);
     }
 }

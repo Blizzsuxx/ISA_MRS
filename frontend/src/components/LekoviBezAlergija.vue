@@ -10,22 +10,22 @@
       width="55">
     </el-table-column>
     <el-table-column
-      property="lijek.naziv"
+      property="naziv"
       label="Naziv"
       width="120">
     </el-table-column>
     <el-table-column
-      property="lijek.vrstaLijeka"
+      property="vrstaLijeka"
       label="Vrsta lijeka"
       width="120">
     </el-table-column>
     <el-table-column
-      property="lijek.oblikLijeka"
+      property="oblikLijeka"
       label="Oblik lijeka"
       width="120">
     </el-table-column>
     <el-table-column
-      property="lijek.sastav"
+      property="sastav"
       label="Sastav"
       width="120"
      show-overflow-tooltip>

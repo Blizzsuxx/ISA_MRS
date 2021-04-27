@@ -53,6 +53,15 @@ public class Apoteka {
 	public void setAdresa(Adresa adresa) {
 		this.adresa = adresa;
 	}
+
+
+
+    public void postaviAdresuIzDTO(ApotekaDTO apotekaDTO) {
+        this.adresa.setBroj(apotekaDTO.getBroj());
+        this.adresa.setUlica(apotekaDTO.getUlica());
+        this.adresa.setMesto(apotekaDTO.getMjesto());
+        this.adresa.setPtt(apotekaDTO.getPtt());
+    }
 	public Apoteka(){
 
     }

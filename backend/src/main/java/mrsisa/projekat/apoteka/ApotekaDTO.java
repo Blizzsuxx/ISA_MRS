@@ -1,6 +1,9 @@
 package mrsisa.projekat.apoteka;
 
+import mrsisa.projekat.adresa.Adresa;
+
 public class ApotekaDTO {
+    private Long id;
     private String ime;
     private String mjesto;
     private String ptt;
@@ -16,6 +19,12 @@ public class ApotekaDTO {
         this.ptt = apoteka.getAdresa().getPtt();
         this.ulica  = apoteka.getAdresa().getUlica();
         this.broj = apoteka.getAdresa().getBroj();
+    }
+    public void setAdresa(Adresa adresa){
+        this.mjesto = adresa.getMesto();
+        this.ptt = adresa.getPtt();
+        this.ulica = adresa.getUlica();
+        this.broj  =  adresa.getBroj();
     }
 
     public ApotekaDTO(String naziv, String mjesto, String ptt, String ulica, String broj) {
@@ -64,5 +73,13 @@ public class ApotekaDTO {
 
     public void setBroj(String broj) {
         this.broj = broj;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

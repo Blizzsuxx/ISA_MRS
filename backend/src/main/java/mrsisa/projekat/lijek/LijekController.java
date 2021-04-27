@@ -3,6 +3,7 @@ package mrsisa.projekat.lijek;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public class LijekController {
     public List<Lijek> dobaviSveLijekove(){
         return lijekService.dobaviSveLijekove();
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/DTOlijekovi")
     public List<LijekDTO> dobaviSveDTOLijekove() { return lijekService.dobaviSveDTOLijekove(); }
 

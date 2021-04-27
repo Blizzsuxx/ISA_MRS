@@ -53,18 +53,18 @@ export default {
       lijek: {
         id:-1,
         cijena: 0,
-        datumIstekaCijene: new Date(),
+        datumIstekaCijene: ''
       },
     };
   },
   methods: {
       promjeniCijenu(){
-          console.log("andrija je najajci")
+      
           this.$store.dispatch("APlijekovi/promjeniCijenu",this.lijek)
       }
   },
   mount() {
-    
+  
   },
 };
 </script>

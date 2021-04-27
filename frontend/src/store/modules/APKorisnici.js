@@ -1,5 +1,6 @@
 import axios from 'axios'
 import authHeader from './AuthHeader'
+import moment from 'moment'
 
 const user =  JSON.parse(localStorage.getItem('user'));
 const initialState = user
@@ -53,9 +54,14 @@ const actions = {
         });
     },
 
+    dobaviKorisnika(context, korIme){
+        return axios.get(`http://localhost:8080/api/korisnici/dobaviKorisnika/${korIme}`, { headers: authHeader()});
+    },
+
     dobaviAdministratoreApoteka (context){
         return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
         .then(response => {
+            console.log(response.data);
             context.commit('postaviAdministratoreApoteke', response.data);
         })
         .catch(error => {
@@ -106,6 +112,17 @@ const actions = {
                 alert('Zabranjen pristup!');
             }
         })
+    },
+
+    azurirajKorisnika(context, korisnik){
+        return axios.put('http://localhost:8080/api/korisnici/azurirajKorisnika', 
+        {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
+        email: korisnik.email, uloga: korisnik.uloga, 
+        rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
+    },
+
+    obrisiKorisnika(context, korIme){
+        return axios.delete(`http://localhost:8080/api/korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dodajKorisnika (context, korisnik){

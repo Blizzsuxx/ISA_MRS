@@ -27,6 +27,6 @@
   <el-menu-item index="5"><router-link to="/ap">Promocije</router-link></el-menu-item>
   <el-menu-item index="6"><router-link to="/ap">Zalbe</router-link></el-menu-item>
   
-  <el-menu-item index="7"><router-link to="/ap/istorijaPosetaDermatologu">Profil</router-link></el-menu-item>
+  <el-menu-item index="7"><router-link to="/ap/profil">Profil</router-link></el-menu-item>
 </el-menu>
 </template>

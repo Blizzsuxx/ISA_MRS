@@ -1,70 +1,24 @@
 package mrsisa.projekat.poseta;
 
 import mrsisa.projekat.apoteka.Apoteka;
-import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class PosetaDTO {
 
-
-    public PosetaDTO(Long id, Pacijent pacijent, Radnik radnik, String pocetak, String kraj, Apoteka apoteka, List<Erecept> erecepti) {
-        this.id = id;
-        this.pacijent = pacijent;
-        this.radnik = radnik;
-        this.pocetak = pocetak;
-        this.kraj = kraj;
-        this.apoteka = apoteka;
-        this.erecepti = erecepti;
-    }
-
     private Long id;
-
     private Pacijent pacijent;
-
     private Radnik radnik;
-
     private String pocetak;
-
     private String kraj;
-
-    private List<Erecept> erecepti;
-
+    private String opis;
     private Apoteka apoteka;
-
-    public PosetaDTO() {
-
-    }
-
-    public String getPocetak() {
-        return pocetak;
-    }
-
-    public void setPocetak(String pocetak) {
-        this.pocetak = pocetak;
-    }
-
-    public String getKraj() {
-        return kraj;
-    }
-
-    public void setKraj(String kraj) {
-        this.kraj = kraj;
-    }
-
-    public List<Erecept> getErecepti() {
-        return erecepti;
-    }
-
-    public void setErecepti(List<Erecept> erecepti) {
-        this.erecepti = erecepti;
-    }
-
-
-
-
 
     public Long getId() {
         return id;
@@ -90,7 +44,29 @@ public class PosetaDTO {
         this.radnik = radnik;
     }
 
+    public String getPocetak() {
+        return pocetak;
+    }
 
+    public void setPocetak(String pocetak) {
+        this.pocetak = pocetak;
+    }
+
+    public String getKraj() {
+        return kraj;
+    }
+
+    public void setKraj(String kraj) {
+        this.kraj = kraj;
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
+    }
 
     public Apoteka getApoteka() {
         return apoteka;
@@ -100,7 +76,15 @@ public class PosetaDTO {
         this.apoteka = apoteka;
     }
 
-
-
-
+    public PosetaDTO(Poseta p) {
+        this.id = p.getId();
+        this.pacijent = p.getPacijent();
+        this.radnik = p.getRadnik();
+        DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.pocetak = p.getPocetak().format(df);
+        this.kraj = p.getKraj().format(df);
+        this.opis = "opis";
+        this.apoteka = p.getApoteka();
+    }
+    public PosetaDTO(){}
 }

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import moment from 'moment'
-import authHeader from './AuthHeader';
+import authHeader from './AuthHeader'
+
 const state = {    
     
     sviLijekovi : [],
@@ -24,7 +25,7 @@ const actions = {
     },
 
     dobaviDTOLijekove (context) {
-        axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi', {headers : authHeader()})
+        axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviDTOLijekove', response.data);
         })
@@ -32,7 +33,7 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1', {headers : authHeader()})
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
             return response
@@ -101,7 +102,7 @@ const actions = {
         })
         axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
                                                 datum: moment(String(datum)).format('YYYY-MM-DD hh:mm'),
-                                                                                    apoteka:1})
+                                                                                    apoteka:1},{ headers: authHeader()})
         .then(response => {
             context.commit('resetujLijekoveZaPorucivanje',[])
           return response;
@@ -113,7 +114,7 @@ const actions = {
         console.log(lijek)
         
 
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{params:{id:lijek.id,cijena:lijek.cijena}})
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
         .then(response => {
 
             return response
@@ -133,7 +134,7 @@ const actions = {
             return true;
         });
         
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove',arr)
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove',arr,{ headers: authHeader()})
         .then(response => {
             commit('postaviSveLijekove',lijekoviNovi)
             return response
@@ -148,7 +149,7 @@ const actions = {
             arr.push(element.id)
         });
         
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjenaStatusaProdaje',arr, {headers : authHeader()})
+        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjenaStatusaProdaje',arr,{ headers: authHeader()})
         .then(response => {
             let arry = response.data
             commit('postaviZabranjene',response.data)

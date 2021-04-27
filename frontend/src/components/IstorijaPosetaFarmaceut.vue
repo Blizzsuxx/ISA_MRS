@@ -56,9 +56,8 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     methods: {
       handleInfo(index, row) {
       console.log(index, row);
-    }, handleOtkazi(index, row) {
-      console.log(index, row);
-    },
+      
+    }, 
       formirajDatum(row){
         try{
           let podjeljeno = row.pocetak.split("T")
@@ -72,7 +71,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
         data() {
       return {
-        tableData: this.$store.state.APPosete.zakazanePosetePacijenta,
+        tableData: this.$store.state.APPosete.istorijaFarmaceut,
       }
     }
   };
