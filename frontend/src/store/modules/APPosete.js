@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import authHeader from './AuthHeader'
 
 const state = {
     svePosete :[],
@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
     dobaviPosete (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosete')
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosete',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
 
@@ -24,7 +24,7 @@ const actions = {
 
     },
     dobaviPosetePacijenta (context) {
-         return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijenta')
+         return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijenta',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
                 console.log(poseteSve);
@@ -34,7 +34,7 @@ const actions = {
 
     },
     dobaviIstorijuD (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuD')
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuD',{ headers: authHeader()})
            .then(response => {
                let poseteSve =response.data
                console.log(poseteSve);
@@ -44,7 +44,7 @@ const actions = {
 
    },
    dobaviIstorijuF (context) {
-    return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuF')
+    return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuF',{ headers: authHeader()})
        .then(response => {
            let poseteSve =response.data
            console.log(poseteSve);
@@ -54,7 +54,7 @@ const actions = {
 
 },
     dobaviPoseteFPacijenta (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijentaF')
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijentaF',{ headers: authHeader()})
            .then(response => {
                let poseteSve =response.data
                console.log(poseteSve);
@@ -77,8 +77,8 @@ const actions = {
 const mutations = {
     postaviPosete:(state, posete) => (state.svePosete = posete),
     postaviPosetePacijenta:(state, posete1)=>(state.zakazanePosetePacijenta=posete1),
-    postaviIstorijuD:(state,posete2)=>(state.istoijaDermatolog=posete2),
-    postaviIstorijuF:(state,posete2)=>(state.istoijaFarmaceut=posete2)
+    postaviIstorijuD:(state,posete2)=>(state.istorijaDermatolog=posete2),
+    postaviIstorijuF:(state,posete2)=>(state.istorijaFarmaceut=posete2)
 
 }
 

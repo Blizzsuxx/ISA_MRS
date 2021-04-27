@@ -1,4 +1,5 @@
 import axios from 'axios'
+import authHeader from './AuthHeader'
 
 const state = {    
     sviRecepti :[],
@@ -12,7 +13,7 @@ const getters = {
 
 const actions = {
     dobaviRecepte (context) {
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviERecepte')
+        return axios.get('http://localhost:8080/api/v1/profil/dobaviERecepte',{ headers: authHeader()})
         .then(response => {
             
             let rSvi =response.data
@@ -22,7 +23,7 @@ const actions = {
         })
     },
     dobaviPreuzeteRecepte (context) {
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte')
+        return axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte',{ headers: authHeader()})
         .then(response => {
             
             let rSvi =response.data

@@ -12,6 +12,7 @@ import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -34,6 +35,14 @@ public class ApotekaController {
     public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(id);
+    }
+
+    @GetMapping("/dobaviLijekoveA/{id}")
+    @PreAuthorize("hasRole('PACIJENT')")
+    public List<Lijek> dobaviLijekoveA(@PathVariable Long id){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        return apotekaService.dobaviLijekoveAlergija(id);
     }
 
     @PostMapping(value="/dobaviLijekoveApoteke")

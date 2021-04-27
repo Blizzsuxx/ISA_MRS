@@ -2,6 +2,7 @@ package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.erecept.EreceptDTO;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
@@ -150,7 +151,7 @@ public class PacijentService {
 		return List.of( p1, p2);
 	}
 
-    public List<Erecept> dobaviERecepteIzdate() {
+    public List<EreceptDTO> dobaviERecepteIzdate() {
 
 		Pacijent p=dobaviPacijenta();
 		StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
@@ -173,12 +174,17 @@ public class PacijentService {
 
 		List<Erecept> li=new ArrayList<>();
 		li.add(rec);
-		li.add(rec1);return li;
+		li.add(rec1);
+
+		List<EreceptDTO> dto=new ArrayList<>();
+		dto.add(new EreceptDTO(rec));
+		dto.add(new EreceptDTO(rec1));
+		return dto;
 		//return findOne("pera1").getIzdatiPrekoERecepta();
 
     }
 
-	public List<Erecept> dobaviERecepte() {
+	public List<EreceptDTO> dobaviERecepte() {
 		Pacijent p=dobaviPacijenta();
 		StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
 		StanjeLijeka s2=new StanjeLijeka(p.getAlergije().get(1),2,false);
@@ -204,7 +210,11 @@ public class PacijentService {
 
 		List<Erecept> li=new ArrayList<>();
 		li.add(rec);
-		li.add(rec1);return li;
+		li.add(rec1);
+		List<EreceptDTO> dto=new ArrayList<>();
+		dto.add(new EreceptDTO(rec));
+		dto.add(new EreceptDTO(rec1));
+		return dto;
 		//return findOne("pera1").geteRecepti();
 
 	}
@@ -213,12 +223,13 @@ public class PacijentService {
 		//doabviti pacijenta, i izbaciti alergije, ove iz liste
        //Pacijent p=findOne(id);
 		 Pacijent p=new Pacijent();
+		 p=dobaviPacijenta();
 		 for(Lijek l : dummy){
 		 	for(Lijek a : p.getAlergije()){
 		 		if(a.getId().equals(l.getId())){p.getAlergije().remove(a); break;}
 			}
 		 }
-		 save(p);
+		 //save(p);
 	}
 	//TODO, mozda prilikom svakog logovanja korisnika da se prodje kroz sve njegove rezervacije i da se proveri da li su istekle??
 	public void izbaciRezervaciju(RezervacijaDTO stanje) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
@@ -232,4 +243,5 @@ public class PacijentService {
 		}
 		save(p);
 	}
+
 }

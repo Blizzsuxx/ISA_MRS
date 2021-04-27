@@ -1,5 +1,8 @@
 import axios from 'axios'
 
+import authHeader from './AuthHeader'
+
+
 const state = {    
     sveApoteke :[],
     apoteka : null,
@@ -15,7 +18,8 @@ const getters = {
 
 const actions = {
     dobaviApoteke (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
+        
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke',{ headers: authHeader()})
         .then(response => {
             let apotekeSve =response.data
             console.log(apotekeSve[0].adresa.ulica)

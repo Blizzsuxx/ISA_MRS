@@ -72,7 +72,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
         data() {
       return {
-        tableData: this.$store.state.APPosete.zakazanePosetePacijenta,
+        tableData: this.$store.state.APPosete.istorijaDermatolog,
       }
     }
   };

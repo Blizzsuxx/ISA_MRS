@@ -106,7 +106,7 @@
                 } else if (s.uloga == 'ROLE_ADMIN_APOTEKE'){
                   this.$router.push('/ap/korisnici')
                 } else if (s.uloga == 'ROLE_PACIJENT'){
-                  alert('Pacijent');
+                  this.$router.push('/ap/pacijent')
                 }
                 return response;
             },

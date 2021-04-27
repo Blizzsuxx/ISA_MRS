@@ -1,4 +1,5 @@
 import axios from 'axios'
+import authHeader from './AuthHeader'
 
 const state = {    
     lekoviAlergija :[],
@@ -10,15 +11,16 @@ const getters = {
 
 const actions = {
     dobaviAlergije (context) {
-        axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta')
+        axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta',{ headers: authHeader()})
         .then(response => {
         let lekoviAlergija =response.data.alergije
         console.log(lekoviAlergija)
-        axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1')
+        axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekoveA/1',{ headers: authHeader()})
         .then(response => {
         let lekoviBezAlergija = response.data.filter(lek=>lekoviAlergija.indexOf(lek)==-1)//todo neko ko ce da vrati sve lekove
         context.commit('postaviAlergije',lekoviAlergija)
         console.log("lek")
+        console.log(lekoviBezAlergija)
         context.commit('postaviLekove',lekoviBezAlergija)
     })
         })
@@ -38,7 +40,7 @@ const actions = {
         let lekoviBezAlergija = state.lekoviBezAlergija.concat(lekovi)
         commit('postaviAlergije',lekoviAlergija)
         commit('postaviLekove',lekoviBezAlergija)
-        axios.post("http://localhost:8080/api/v1/profil/izbaciAlergije", lekovi)
+        axios.post("http://localhost:8080/api/v1/profil/izbaciAlergije", lekovi,{ headers: authHeader()})
         .then(response => {
             alert("Promenjeno je");
           return response;
@@ -66,7 +68,7 @@ const actions = {
     posalji(){
         let arr = new Array();
         arr=this.lekoviAlergija
-        axios.put('http://localhost:8080/api/v1/profil/promeniAlergije',arr)
+        axios.put('http://localhost:8080/api/v1/profil/promeniAlergije',arr,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
             if(tf){

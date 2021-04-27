@@ -61,4 +61,14 @@ public class ApotekaService {
         
         return dto;
     }
+    @Transactional
+    public List<Lijek> dobaviLijekoveAlergija(Long id) {
+        List<StanjeLijeka> stanja=  dobaviStanjaLijekova(id);
+        ArrayList<Lijek> bezAlergija=new ArrayList<>();
+        if(stanja.isEmpty()==false){
+        for(StanjeLijeka st : stanja){
+            bezAlergija.add(st.getLijek());
+        }}
+        return bezAlergija;
+    }
 }
