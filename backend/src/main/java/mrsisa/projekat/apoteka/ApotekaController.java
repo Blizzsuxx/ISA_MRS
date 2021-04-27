@@ -78,11 +78,9 @@ public class ApotekaController {
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping(path="/admin")
     public ResponseEntity<?> azurirajApotekuAdmin(@RequestBody ApotekaDTO apoteka){
-        System.out.println("Andrijaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        System.out.println(adminApoteke.getApoteka().getId());
-        System.out.println(apoteka.getId());
 //        if( adminApoteke.getApoteka().getId().equals(apoteka.getId())==false){
 //            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
 //        }

@@ -30,7 +30,7 @@ import APZakazanePoseteFarmaceutu from '../components/APZakazanePoseteFarmaceutu
 import IstorijaPosetaDermatologu from '../components/IstorijaPosetaDeramatologu';
 import IstorijaPosetaFarmaceut from '../components/IstorijaPosetaFarmaceut'
 import APPregled from "../components/APPregled"
-
+import AzuriranjeApoteka from "../components/AzuriranjeApoteka"
 import Prijava from "../components/Prijava"
 
 const routes = [
@@ -90,6 +90,11 @@ const routes = [
     path: '/ap/FormaApoteke',
     name: 'FormaApoteke',
     component: FormaApoteke,
+  },
+  {
+    path: '/azuriranjeApoteke',
+    name: 'AzuriranjeApoteka',
+    component: AzuriranjeApoteka,
   },
   {
     path: '/ap/FormaKorisnika',
