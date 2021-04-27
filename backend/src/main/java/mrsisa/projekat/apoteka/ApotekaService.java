@@ -56,7 +56,8 @@ public class ApotekaService {
     	Adresa ad=new Adresa("Kazahstan","ptt","Ulica","5",50, 50);
     	for(Apoteka a : apoteke) {
     		a.setAdresa(ad);
-    	}return apoteke;
+    	}
+    	return apoteke;
     	//return findAll();
         //ovde treba ucitati apoteke iz baze
     	//return apotekaRepository.findAll();

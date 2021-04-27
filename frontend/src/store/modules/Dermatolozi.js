@@ -22,11 +22,30 @@ const actions = {
 
 
     },
+    dobaviDermatologeAdmin (context) {
+        axios.get('http://localhost:8080/api/v1/dermatolog/admin', { headers: authHeader()})
+            .then(response => {
+                let dermatolozi =response.data
+                context.commit('postaviDermatologe',dermatolozi)
+            })
+
+
+    },
+    otpustiDermatologa(context,id){
+        return axios.put(`http://localhost:8080/api/v1/dermatolog/otpustiDermatologa/${id}`, {},{ headers: authHeader()})
+            .then(() => {
+                
+                return context;
+                
+            })
+
+     
+    },
     dobaviRadnoVrijeme( context,id){
         return axios.get( `http://localhost:8080/api/v1/radnoVrijeme/${id}`,{ headers: authHeader()})
             .then(response => {
                 let radnoVrijeme =response.data
-                console.log(radnoVrijeme)
+                
                 context.commit('postaviRadnoVrijeme',radnoVrijeme)
                 
             })

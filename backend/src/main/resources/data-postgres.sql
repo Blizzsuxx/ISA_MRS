@@ -49,13 +49,14 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
 '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (4);
 insert into dermatolozi (radnik) values (4);
+insert into apoteka_dermatolozi(apoteke_id,dermatolozi_radnik) values (1,4);
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
 ('nikola1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'nikolanikolic1@gmail.com',
 '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58');
 insert into radnici (korisnik) values (5);
 insert into dermatolozi (radnik) values (5);
-
+insert into apoteka_dermatolozi(apoteke_id,dermatolozi_radnik) values (1,5);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (4, 3);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (5, 3);
 

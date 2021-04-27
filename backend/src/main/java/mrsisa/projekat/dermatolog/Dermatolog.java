@@ -18,8 +18,7 @@ import java.util.List;
 @Table(name = "dermatolozi")
 @PrimaryKeyJoinColumn(name = "radnik")
 public class Dermatolog extends Radnik{
-    @Column(name = "iq")
-    private String iq; // atribut koji sluzi da bi istestirali validnost baze
+
 
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RadnoVrijeme> radnaVremena;
@@ -27,23 +26,27 @@ public class Dermatolog extends Radnik{
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<SlobodanTermin> slobodniTermini;
 
+    @ManyToMany(mappedBy = "dermatolozi")
+    private List<Apoteka> apoteke;
+
+
     public Dermatolog() {
     }
 
-    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, String iq) {
+    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
         super(username, password, firstName, lastName, email, birthday);
-        this.iq = iq;
+
     }
 
-    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, String iq) {
+    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori) {
         super(username, password, firstName, lastName, email, birthday, godisnjiOdmori);
-        this.iq = iq;
+
     }
 
 
-    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Poseta> posete, String iq) {
+    public Dermatolog(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Poseta> posete,Apoteka apoteka) {
         super(username, password, firstName, lastName, email, birthday, godisnjiOdmori, posete);
-        this.iq = iq;
+
     }
     public List<RadnoVrijeme> getRadnaVremena() {
         return radnaVremena;
@@ -70,15 +73,5 @@ public class Dermatolog extends Radnik{
         return null;
     }
 
-    public Dermatolog(String iq) {
-        this.iq = iq;
-    }
 
-    public String getIq() {
-        return iq;
-    }
-
-    public void setIq(String iq) {
-        this.iq = iq;
-    }
 }

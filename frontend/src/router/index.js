@@ -33,6 +33,8 @@ import APPregled from "../components/APPregled"
 import AzuriranjeApoteka from "../components/AzuriranjeApoteka"
 import Prijava from "../components/Prijava"
 
+import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
+
 const routes = [
   
   
@@ -40,6 +42,11 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/brisanjeDermatologa',
+    name: 'BrisanjeDermatologa',
+    component: BrisanjeDermatologa,
   },
   {
     path: '/profilApoteke',
