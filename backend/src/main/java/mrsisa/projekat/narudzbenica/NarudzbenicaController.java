@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ public class NarudzbenicaController {
     public NarudzbenicaController(NarudzbenicaService narudzbenicaService){
         this.narudzbenicaService = narudzbenicaService;
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PostMapping(value="/kreirajNarudzbenicu")
     public void kreirajNarudzbenicu( @RequestBody Map<String, Object> podaci){
         this.narudzbenicaService.kreirajNarudzbenicu(podaci);

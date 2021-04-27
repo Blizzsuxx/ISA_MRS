@@ -24,7 +24,7 @@
             </el-menu>
         </el-aside>
         <el-main>
-            <DTOKorisniciTabela ref="tabela" v-bind:tableData="nesto"/>
+            <DTOKorisniciTabela ref="tabela" :funkcija="promjeniti" v-bind:tableData="nesto"/>
         </el-main>
     </el-container>
 </template>
@@ -54,7 +54,10 @@ export default {
                 })
             } else if (p === "AP"){
                 this.$store.dispatch("APKorisnici/dobaviAdministratoreApoteka").then(response => {
+                    console.log("nesto");
+                    console.log(this.nesto);
                     this.nesto = this.$store.state.APKorisnici.administratoriApoteke;
+                    console.log(this.nesto);
                     return response;
                 })
             } else if (p === "Dermatolozi"){

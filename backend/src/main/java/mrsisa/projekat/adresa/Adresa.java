@@ -20,9 +20,9 @@ public class Adresa {
 	public String ulica;
 	@Column(name = "broj", nullable = false)
 	public String broj;
-	@Column(name = "gDuzina", nullable = false)
+	@Column(name = "gduzina", nullable = false)
 	public double gDuzina;
-	@Column(name = "gSirina", nullable = false)
+	@Column(name = "gsirina", nullable = false)
 	public double gSirina;
  	@OneToMany(mappedBy = "adresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Apoteka> apoteke; //TODO ako korisnik ima adresu, zasto on da ima apoteke??
