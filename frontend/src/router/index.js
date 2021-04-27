@@ -36,6 +36,8 @@ import Prijava from "../components/Prijava"
 
 import AdministratorSistema from '../components/AdministratorSistema';
 
+import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
+
 const routes = [
   
   
@@ -50,6 +52,11 @@ const routes = [
     component: APIzdavanje
   },
 
+  {
+    path: '/brisanjeDermatologa',
+    name: 'BrisanjeDermatologa',
+    component: BrisanjeDermatologa,
+  },
   {
     path: '/profilApoteke',
     name: 'ProfilApoteke',
@@ -192,7 +199,7 @@ router.beforeEach((to, from, next)=>{
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-  
+
   if (authRequired && !loggedIn){
     console.log('provjera');
     return next('/ap/prijava');

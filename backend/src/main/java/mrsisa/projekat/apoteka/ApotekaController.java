@@ -89,9 +89,9 @@ public class ApotekaController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-//        if( adminApoteke.getApoteka().getId().equals(apoteka.getId())==false){
-//            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
-//        }
+        if( adminApoteke.getApoteka().getId().equals(apoteka.getId())==false){
+            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
         apotekaService.azurirajApotekuAdmin(adminApoteke,apoteka);
         return new ResponseEntity<String>( HttpStatus.OK);
     }
@@ -107,7 +107,7 @@ public class ApotekaController {
 
 
 
-    //ResponseEntity<Apoteka>
+
     @PostMapping(consumes = "application/json", path = "/sacuvajApoteku")
     public void sacuvajApoteku(@RequestBody ApotekaDTO dummy) {
         Apoteka a = new Apoteka(dummy);
