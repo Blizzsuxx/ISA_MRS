@@ -119,6 +119,7 @@
         this.centerDialogVisible = false;
         this.$store.dispatch("APKorisnici/azurirajKorisnika", this.korisnik)
         .then(response => {
+          alert(response.data);
           if (response.data === "ROLE_ADMIN_SISTEMA") {
             this.funkcija("AS");
           } else if (response.data === "ROLE_ADMIN_APOTEKE" || response.data === "ROLE_ADMIN_APOTEKA"){

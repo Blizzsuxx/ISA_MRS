@@ -115,13 +115,11 @@ export default {
                 })
             } else if (p === "AP"){
                 this.$store.dispatch("APKorisnici/dobaviAdministratoreApoteka").then(response => { 
-                    console.log(this.korisnici);
                     this.korisnici = this.$store.state.APKorisnici.administratoriApoteke;
-                    console.log(this.korisnici);
                     return response;
                 })
             } else if (p === "Dermatolozi"){
-                this.$store.dispatch("APKorisnici/dobaviDermatologe").then(response => {
+                this.$store.dispatch("APKorisnici/dobaviDermatologeAdminSistema").then(response => {
                     this.korisnici = this.$store.state.APKorisnici.dermatolozi;
                     return response;
                 })

@@ -28,7 +28,7 @@ const actions = {
 
 
     dodajApoteku (context, apoteka){
-        return axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka);
+        return axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka, { headers: authHeader()});
     },
 
 

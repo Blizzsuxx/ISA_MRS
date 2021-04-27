@@ -46,14 +46,9 @@
           <div id="unos-box" class="col-md-12">
             <el-form ref="apoteka" :model="apoteka" :rules="rules" label-width="140px">
               <h3 class="text-center text-info">{{naslovForme}}</h3>
-              <el-form-item label="Id Apoteke:" prop="id">
-                <div class="grupa">
-                <el-input v-model="apoteka.id"></el-input>
-                </div>
-              </el-form-item>
               <el-form-item label="Naziv Apoteke:" prop="ime">
                 <div class="grupa">
-                <el-input v-model="apoteka.ime"></el-input>
+                <el-input v-model="apoteka.naziv"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Mjesto:" prop="mjesto">
@@ -68,7 +63,7 @@
               </el-form-item>
               <el-form-item label="Broj:" prop="broj">
                 <div class="grupa">
-                <el-input v-model.number="apoteka.broj" autocomplete="off"></el-input>
+                <el-input v-model="apoteka.broj" autocomplete="off"></el-input>
                 </div>
               </el-form-item>
               <el-form-item label="Ptt:" prop="ptt">
@@ -83,7 +78,7 @@
               
             </el-form>
             <div id="unos-link" class="text-right">
-              <a href="#">Apoteke!</a>
+              <a href="/ap/AdministratorSistema">Apoteke!</a>
             </div>
           </div>
         </div>
@@ -100,7 +95,6 @@
         naslov: 'Unos Podataka',
         naslovForme: 'Unos Apoteke',
         apoteka: {
-          id: '',
           naziv: '',
           mjesto: '',
           ulica: '',
@@ -108,10 +102,6 @@
           ptt: '',
         },
          rules: {
-          id: [
-            { required: true, message: 'Unesite id!', trigger: 'blur' },
-            { min: 1, max: 5, message: 'Unesite duzinu od 1 do 5!', trigger: 'blur' }
-          ],
           naziv: [
             { required: true, message: 'Unesite naziv!', trigger: 'blur' }
           ],
@@ -123,7 +113,6 @@
           ],
           broj: [
             { required: true, message: 'Unesite broj!', trigger: 'blur' },
-            { type: 'number', message: 'Mora biti broj!' }
           ],
           ptt: [
             { required: true, message: 'Unesite ptt!', trigger: 'blur' }

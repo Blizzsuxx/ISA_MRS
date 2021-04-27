@@ -90,6 +90,18 @@ const actions = {
         })
     },
 
+    dobaviDermatologeAdminSistema (context){
+        return axios.get('http://localhost:8080/api/v1/dermatolog/sviDermatolozi', { headers: authHeader()})
+        .then(response => {
+            context.commit('postaviDermatologe', response.data);
+        })
+        .catch(error => {
+            if (error.response.status == 403 || error.response.status == 401){
+                alert('Zabranjen pristup!');
+            }
+        })
+    },
+
     dobaviDobavljace (context){
         return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci', { headers: authHeader()})
         .then(response => {
