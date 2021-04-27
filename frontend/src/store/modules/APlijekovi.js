@@ -121,16 +121,15 @@ const actions = {
     },
 
     promjeniCijenu (contex,lijek){
-        console.log(lijek)
-        
+       
 
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
-        .then(response => {
+        return axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
+        .then(() => {
 
-            return response
+            return contex;
 
         })
-        return contex;
+        
     },
     izbrisiLijekove ({commit,state},lijekovi){
         let arr = new Array();

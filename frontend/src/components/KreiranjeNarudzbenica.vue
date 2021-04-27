@@ -1,4 +1,5 @@
 <template>
+<NavAdminApoteke />
 <el-alert
     v-if="greska"
     @close="greska=false"
@@ -46,7 +47,7 @@
 
 <script>
 //import {mapState} from 'vuex'
-
+import NavAdminApoteke from "./NavAdminApoteke";
 import LijekoviNarucivanjeTabela from './LijekoviNarucivanjeTabela'
 import ModalniProzorNarudzbenica from './modal/ModalniProzorNarudzbenica'
 export default {
@@ -64,7 +65,8 @@ export default {
     components:{
       
       ModalniProzorNarudzbenica,
-      LijekoviNarucivanjeTabela
+      LijekoviNarucivanjeTabela,
+      NavAdminApoteke
     },
     mounted(){
       //pozivanje ucitavanja podataka lijekova

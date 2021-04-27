@@ -1,5 +1,5 @@
 <template>
-  <AANavMeni />
+  <NavAdminApoteke />
   <el-row :gutter="20">
     <el-col :span="24">
       <h5>Dermatolozi</h5>
@@ -10,7 +10,8 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite dermatologa?" @confirm="potvrdjeno">
+    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite dermatologa?" @confirm="potvrdjeno" confirmButtonText='OK'
+  cancelButtonText='Odustani'>
       <template #reference>
         <el-button type="danger" plain>Delete</el-button>
       </template>
@@ -41,7 +42,7 @@
 </style>
 
 <script>
-import AANavMeni from "./AANavMeni";
+import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
@@ -65,7 +66,7 @@ export default {
     }
   },
   components: {
-    AANavMeni,
+    NavAdminApoteke,
     DermatoloziTabela,
   },
   mounted() {

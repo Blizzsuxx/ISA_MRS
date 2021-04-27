@@ -60,7 +60,9 @@ export default {
   methods: {
       promjeniCijenu(){
       
-          this.$store.dispatch("APlijekovi/promjeniCijenu",this.lijek)
+          this.$store.dispatch("APlijekovi/promjeniCijenu",this.lijek).then(()=>{
+            this.$store.dispatch("APlijekovi/dobaviLijekove")
+          })
       }
   },
   mount() {

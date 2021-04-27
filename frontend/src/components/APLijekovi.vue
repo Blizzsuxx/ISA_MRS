@@ -1,7 +1,7 @@
 <template>
   
     
-    <AANavMeni/>
+    <NavAdminApoteke/>
     
     <el-row :gutter="20">
     <el-col :span="24"><AASviLijekovi/></el-col>
@@ -11,7 +11,7 @@
 <script>
 
 import AASviLijekovi from './AASviLijekovi'
-import AANavMeni from './AANavMeni'
+import NavAdminApoteke from './NavAdminApoteke'
 export default {
   name: 'APLijekovi',
   data(){
@@ -26,7 +26,7 @@ export default {
       
     },
   components:{
-      AANavMeni,
+      NavAdminApoteke,
       AASviLijekovi
       
   }

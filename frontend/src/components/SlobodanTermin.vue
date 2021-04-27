@@ -1,5 +1,5 @@
 <template>
-  <AANavMeni />
+  <NavAdminApoteke/>
   <el-alert
     v-if="uspjesno"
     @close="uspjesno = false"
@@ -160,7 +160,7 @@ card-header {
 
 
 <script>
-import AANavMeni from "./AANavMeni";
+import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import moment from "moment";
 export default {
@@ -268,7 +268,7 @@ export default {
     },
   },
   components: {
-    AANavMeni,
+    NavAdminApoteke,
     DermatoloziTabela,
   },
   mounted() {

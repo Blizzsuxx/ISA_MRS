@@ -12,10 +12,11 @@
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
     <el-button type="primary" @click="promjeniStanje()" plain>Promjeni stanje</el-button>
     <el-popconfirm
-  title="Da li ste sigurni da želite izbrisati lijek?"
+  title="Da li ste sigurni da želite izbrisati lijek?" @confirm="izbrisiLijek()" confirmButtonText='Ok'
+  cancelButtonText='Odustani'
 >
 <template #reference>
-    <el-button type="primary" @click="izbrisiLijek()" plain>Izbrisi lijek</el-button>
+    <el-button type="primary"  plain>Izbrisi lijek</el-button>
    </template>
   </el-popconfirm>
     

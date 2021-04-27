@@ -101,13 +101,14 @@
         this.$store.dispatch('APKorisnici/validateLogin', s).then(
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
+                
                 if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
                   this.$router.push('/ap/AdministratorSistema')
-                } else if (s.uloga == 'ROLE_ADMIN_APOTEKE'){
-                  this.$router.push('/ap/korisnici')
-                } else if (s.uloga == 'ROLE_PACIJENT'){
+                } else if (s.uloga === 'ROLE_ADMIN_APOTEKE'){
+                   this.$router.push('/profilApoteke')
+                } else if (s.uloga === 'ROLE_PACIJENT'){
                   this.$router.push('/ap/pacijent')
-                }
+                } 
                 return response;
             },
             error => {

@@ -1,5 +1,5 @@
 <template>
-  <AANavMeni />
+  <NavAdminApoteke />
   <el-row :gutter="20">
     <el-col :span="24"
       ><div v-if="apotekaUcitana">
@@ -106,7 +106,7 @@
 
 <script>
 import LijekoviTabela from "./LijekoviTabela";
-import AANavMeni from "./AANavMeni";
+import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
@@ -120,7 +120,7 @@ export default {
   },
   methods: {},
   components: {
-    AANavMeni,
+    NavAdminApoteke,
     DermatoloziTabela,
     LijekoviTabela,
   },

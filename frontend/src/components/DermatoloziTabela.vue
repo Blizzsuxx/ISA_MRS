@@ -49,6 +49,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: 'DermatoloziTabela',
   data() {
@@ -56,6 +58,9 @@ export default {
         search : ''
       }
     },
+  components:{
+  
+  },
   props: ['dermatolozi','referenca'],
   methods: {
       formirajDatum(row){
