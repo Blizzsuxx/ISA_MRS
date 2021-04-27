@@ -21,6 +21,7 @@ import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import ListaRezervacija from "../components/ListaRezervacija";
 import ListaRecepata from "../components/ListaRecepata";
 import IstorijaLekova from "../components/IstorijaLekova";
+import APIzdavanje from "../components/APIzdavanje";
 
 
 import SlobodanTermin from '../components/SlobodanTermin';
@@ -43,6 +44,12 @@ const routes = [
     name: 'APLijekovi',
     component: APLijekovi,
   },
+  {
+    path: '/ap/farmaceut/izdavanje',
+    name: 'APIzdavanje',
+    component: APIzdavanje
+  },
+
   {
     path: '/profilApoteke',
     name: 'ProfilApoteke',

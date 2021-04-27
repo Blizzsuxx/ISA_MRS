@@ -5,15 +5,13 @@
         <el-menu-item index="1">Home</el-menu-item>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
-          <el-menu-item index="1-1">Zapocni Pregled</el-menu-item>
-          <el-menu-item index="1-2">Zakazi Pregled</el-menu-item>
           <slot />
         </el-submenu>
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
           <el-menu-item index="2-1">Profil</el-menu-item>
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
-          <el-menu-item index="2-3">Zakazivanje Odmora</el-menu-item>
+          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
           <el-menu-item index="2-4">Odjava</el-menu-item>
         </el-submenu>
 
@@ -37,7 +35,7 @@
 
       <el-main>
           <el-table
-              :data="tableData.filter(data => !search || data.pacijent.firstName.toLowerCase().includes(search.toLowerCase()) || data.pacijent.lastName.toLocaleLowerCase().includes(search.toLocaleLowerCase()))"
+              :data="tableData.filter(data => !search || data.pacijent.firstName.toLowerCase().includes(search.split(' ')[0].toLowerCase()) || data.pacijent.lastName.toLocaleLowerCase().includes(search.toLowerCase()))"
               style="width: 100%">
            <el-table-column prop="pocetak" label="Pocinje" width="200" sortable>
           </el-table-column>
@@ -73,6 +71,7 @@
               </template>
             </el-table-column>
           </el-table>
+          <APGodisnjiOdmor  ref="prozor" />
       </el-main>
     </el-container>
   </el-container>
@@ -90,10 +89,23 @@
 </style>
 
 <script>
+import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 export default {
   name: 'APPregledPacijenata',
 
+  components : {
+    APGodisnjiOdmor
+  },
+
   methods: {
+
+    kliknut(){
+        this.$refs.prozor.modalOpen = true;
+        console.log("A")
+      },
+
+
+
     handleInfo(index, row) {
       console.log(index, row);
     },

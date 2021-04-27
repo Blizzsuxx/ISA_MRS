@@ -15,7 +15,7 @@
             <el-form-item label="Pregled">
               <el-date-picker
                 v-model="value2"
-                type="datetimerange"
+                type="daterange"
                 :shortcuts="shortcuts"
                 range-separator="To"
                 start-placeholder="Pocetak"
@@ -41,12 +41,11 @@
 
 <script>
 export default {
-  name: "ModalniProzorZakazivanja",
+  name: "GodisnjiOdmor",
   data() {
     return {
       modalOpen: false,
       value2: '',
-      korisnik : null,
       radnik : {pregledi : ["aaa"]},
         shortcuts: [{
           text: 'Prvi slobodan termin',
@@ -137,8 +136,9 @@ export default {
   methods: {
       promjeniCijenu(){
           console.log("andrija je najajci")
-          this.$store.dispatch("APPosete/zakaziPosetu",{'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik})
-          this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazan vam je pregled za " + this.value2, "address" : "mahajiraaji@gmail.com"})
+          this.$store.dispatch("GodisnjiOdmori/zakaziGodisnji",{'datetime': this.value2,'radnik': this.radnik})
+          this.$store.dispatch("Mail/posaljiMail", {"text" : "zatrazen godisnji odmor za: " + this.value2, "address" : "mahajiraaji@gmail.com"})
+           
       }
   },
   mount() {
