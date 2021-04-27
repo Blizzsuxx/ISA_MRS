@@ -4,20 +4,22 @@ import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
 import mrsisa.projekat.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @RestController
 @RequestMapping(path="api/korisnici")
+@CrossOrigin
 public class KorisnikController {
 
     @Autowired
@@ -50,4 +52,33 @@ public class KorisnikController {
         // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new UserTokenState(jwt, (long) expiresIn, user.getRole()));
     }
+
+    @GetMapping(produces = "application/json", value = "/dobaviKorisnika/{korisnickoIme}")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    public KorisnikDTO getKorisnik(@PathVariable String korisnickoIme){
+        Korisnik k = this.korisnikService.findByUsername(korisnickoIme);
+        if (k == null){
+            return null;
+        }
+
+        return new KorisnikDTO(k);
+    }
+
+    @PutMapping(consumes = "application/json", value="/azurirajKorisnika")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    public boolean azurirajKorisnika(@RequestBody KorisnikDTO dummy){
+        Korisnik k = this.korisnikService.findByUsername(dummy.getKorisnickoIme());
+
+        if (k == null)
+            return false;
+      
+        k.setFirstName(dummy.getIme());
+        k.setLastName(dummy.getPrezime());
+        k.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
+        this.korisnikService.save(k);
+
+        return true;
+    }
+
 }

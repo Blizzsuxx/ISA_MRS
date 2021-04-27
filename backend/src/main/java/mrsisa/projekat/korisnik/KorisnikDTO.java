@@ -41,7 +41,7 @@ public class KorisnikDTO {
         this.prezime = k.getLastName();
         this.rodjendan = k.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.email = k.getEmail();
-        this.uloga = "uloga";
+        this.uloga =  k.getRole();
     }
 
     public String getKorisnickoIme() {
