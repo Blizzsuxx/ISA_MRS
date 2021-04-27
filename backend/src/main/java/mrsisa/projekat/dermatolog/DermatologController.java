@@ -21,7 +21,6 @@ public class DermatologController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/dobaviDermatologe")
     public List<DermatologDTO> dobaviDermatologe(){
 
@@ -37,7 +36,7 @@ public class DermatologController {
     }
 
     @GetMapping(path = "/sviDermatolozi")
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA') or hasRole('DERMATOLOG') or hasRole('FARMACEUT')")
     public List<KorisnikDTO> vratiSveDermatologe(){
         List<Dermatolog> dermatolozi = this.dermatologService.findAll();
         List<KorisnikDTO> korisnici = new ArrayList<>();

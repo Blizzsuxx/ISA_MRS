@@ -24,7 +24,7 @@ public class PosetaController {
 
 
     @GetMapping("/dobaviPosete/{id}")
-    public List<Poseta> dobaviPosete(@PathVariable Long id){
+    public List<PosetaDTO> dobaviPosete(@PathVariable Long id){
         return posetaService.dobaviPosete(id);
     }
 
@@ -41,8 +41,8 @@ public class PosetaController {
     }
 
     @GetMapping(path="/dobaviPosete")
-    @PreAuthorize("hasRole('PACIJENT')")
-    public List<Poseta> dobaviPosete(){
+    @PreAuthorize("hasRole('PACIJENT') or hasRole('FARMACEUT') or hasRole('DERMATOLOG')")
+    public List<PosetaDTO> dobaviPosete(){
     	
 
     	return posetaService.dobaviPosete();

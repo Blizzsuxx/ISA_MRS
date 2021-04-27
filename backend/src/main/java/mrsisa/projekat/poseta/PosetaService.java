@@ -24,10 +24,10 @@ public class PosetaService {
         this.posetaRepository = apotekaRepository;
     }
 
-    public List<Poseta> dobaviPosete(Long id) {
+    public List<PosetaDTO> dobaviPosete(Long id) {
         Apoteka apoteka = null;
         if(apoteka== null)
-            return new ArrayList<Poseta>();
+            return new ArrayList<PosetaDTO>();
         return null;
     }
 
@@ -56,9 +56,9 @@ public class PosetaService {
         pac.setLastName("Arsic");
 
 
-        PosetaDTO p1 = new PosetaDTO((long)1, pac, f, d1.toString(), d2.toString(), a, new ArrayList<Erecept>());
-        PosetaDTO p2 = new PosetaDTO((long)1, pac, d, d1.toString(), d2.toString(), a, new ArrayList<Erecept>());
-        return List.of(p1, p2);
+        Poseta p1 = new Poseta((long)1, pac, f, d1, d2, a, new ArrayList<Erecept>());
+        Poseta p2 = new Poseta((long)1, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        return List.of(new PosetaDTO(p1), new PosetaDTO(p2));
     }
 
 
