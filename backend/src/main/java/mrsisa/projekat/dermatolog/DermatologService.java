@@ -1,0 +1,70 @@
+package mrsisa.projekat.dermatolog;
+
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class DermatologService {
+    private final DermatologRepository dermatologRepository;
+    private final ApotekaRepository apotekeRepository;
+    @Autowired
+    public DermatologService(DermatologRepository dermatologRepository,ApotekaRepository apotekaRepository){
+        this.dermatologRepository = dermatologRepository;
+        this.apotekeRepository = apotekaRepository;
+    }
+    @Transactional
+    public List<DermatologDTO> dobaviDermatologe(){
+
+        List<DermatologDTO> dermatolozi = new ArrayList<>();
+        for(Dermatolog dermatolog:dermatologRepository.findAll()){
+            dermatolozi.add(new DermatologDTO(dermatolog));
+        }
+        return dermatolozi;
+    }
+
+    public Dermatolog save(Dermatolog d){
+        return this.dermatologRepository.save(d);
+    }
+
+    public List<Dermatolog> findAll(){
+        return dermatologRepository.findAll();
+    }
+
+    public Page<Dermatolog> findAll(Pageable page){
+        return dermatologRepository.findAll(page);
+    }
+    @Transactional
+    public List<DermatologDTO> dobaviDermatologeAdmin(Long id) {
+        Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
+        List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        boolean working =  false;
+
+        for(Dermatolog dermatolog: apoteka.getDermatolozi()){
+            dermatolozi.add(new DermatologDTO(dermatolog));
+        }
+        return dermatolozi;
+    }
+    @Transactional
+    public void otpustiDermatologa(Integer id,Long id_apoteke) {
+        Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
+        List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        boolean working =  false;
+
+        for(Dermatolog dermatolog: apoteka.getDermatolozi()){
+            if(dermatolog.getId().equals(id)){
+                apoteka.getDermatolozi().remove(dermatolog);
+                apotekeRepository.save(apoteka);
+                return;
+            }
+        }
+    }
+}
