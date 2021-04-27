@@ -83,7 +83,7 @@
               
             </el-form>
             <div id="unos-link" class="text-right">
-              <a href="#">Lijekovi!</a>
+              <a href="/ap/AdministratorSistema">Lijekovi!</a>
             </div>
           </div>
         </div>

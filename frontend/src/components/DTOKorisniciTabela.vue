@@ -121,7 +121,7 @@
         .then(response => {
           if (response.data === "ROLE_ADMIN_SISTEMA") {
             this.funkcija("AS");
-          } else if (response.data === "ROLE_ADMIN_APOTEKE"){
+          } else if (response.data === "ROLE_ADMIN_APOTEKE" || response.data === "ROLE_ADMIN_APOTEKA"){
             this.funkcija("AP");
           } else if (response.data === "ROLE_DERMATOLOG") {
             this.funkcija("Dermatolozi");

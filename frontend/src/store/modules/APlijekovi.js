@@ -17,7 +17,7 @@ const state = {
 
 const actions = {
     dodajLijek (context, lijek){
-        return axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek);
+        return axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek, { headers: authHeader()});
 
     },
 

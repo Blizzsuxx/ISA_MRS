@@ -56,6 +56,21 @@
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
+            <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose">
+                <el-submenu index="4">
+                    <template #title>
+                    <i class="el-icon-location"></i>
+                    <span>Dodatne Opcije</span>
+                    </template>
+                    <el-menu-item-group title="Dodatne Opcije">
+                    <el-menu-item index="4-1" @click="odjava">Odjava</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
         </el-aside>
         <el-main>
             <div v-if="indikator == 1">
@@ -133,6 +148,10 @@ export default {
         },
         kreiranjeApoteka(){
             this.$router.push('/ap/FormaApoteke');
+        },
+        odjava(){
+            this.$store.dispatch('APKorisnici/logout');
+            this.$router.push('/ap/prijava');
         }
 
     },
