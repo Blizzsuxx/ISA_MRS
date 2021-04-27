@@ -16,6 +16,7 @@ public class LijekConfig {
     CommandLineRunner commandLineRunner2(LijekRepository repozitorijum){
 
         return args ->{
+            /*
             repozitorijum.save(new Lijek(
                     1L,
                     "Paracetamol",
@@ -73,7 +74,7 @@ public class LijekConfig {
                     "Biofarm",
                     "Lek"
             ));
-
+            */
         };
     }
 }

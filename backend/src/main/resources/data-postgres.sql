@@ -81,3 +81,13 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
  '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58');
 insert into pacijenti (korisnik) values (8);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (8, 6);
+
+-- LIJEKOVI
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
+values ('napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
+values ('napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
+values ('napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
+values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);

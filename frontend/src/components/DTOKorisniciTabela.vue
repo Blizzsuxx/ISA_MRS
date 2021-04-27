@@ -119,13 +119,13 @@
         this.centerDialogVisible = false;
         this.$store.dispatch("APKorisnici/azurirajKorisnika", this.korisnik)
         .then(response => {
-          if (this.korisnik === "ROLE_ADMIN_SISTEMA") {
+          if (response.data === "ROLE_ADMIN_SISTEMA") {
             this.funkcija("AS");
-          } else if (this.korisnik === "ROLE_ADMIN_APOTEKA"){
+          } else if (response.data === "ROLE_ADMIN_APOTEKE" || response.data === "ROLE_ADMIN_APOTEKA"){
             this.funkcija("AP");
-          } else if (this.korisnik === "ROLE_DERMATOLOG") {
+          } else if (response.data === "ROLE_DERMATOLOG") {
             this.funkcija("Dermatolozi");
-          } else if (this.korisnik === "ROLE_DOBAVLJAC") {
+          } else if (response.data === "ROLE_DOBAVLJAC") {
             this.funkcija("Dobavljaci");
           }
           return response;
@@ -137,7 +137,7 @@
         .then(response => {
           if (response.data === "ROLE_ADMIN_SISTEMA") {
             this.funkcija("AS");
-          } else if (response.data === "ROLE_ADMIN_APOTEKA"){
+          } else if (response.data === "ROLE_ADMIN_APOTEKE"){
             this.funkcija("AP");
           } else if (response.data === "ROLE_DERMATOLOG") {
             this.funkcija("Dermatolozi");

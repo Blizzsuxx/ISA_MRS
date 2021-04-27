@@ -24,7 +24,9 @@
             </el-menu>
         </el-aside>
         <el-main>
+            <div>
             <DTOKorisniciTabela ref="tabela" :funkcija="promjeniti" v-bind:tableData="nesto"/>
+            </div>
         </el-main>
     </el-container>
 </template>

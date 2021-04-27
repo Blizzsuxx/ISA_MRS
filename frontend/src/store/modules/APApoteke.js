@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
     dobaviApoteke (context) {
-        
+
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke',{ headers: authHeader()})
         .then(response => {
             let apotekeSve =response.data
@@ -28,20 +28,16 @@ const actions = {
 
 
     dodajApoteku (context, apoteka){
-        axios.post("http://localhost:8080/api/v1/apoteka/admin", apoteka)
-        .then(response => {
-            alert("Dodata apoteka");
-          return response;
-        })
+        return axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka);
     },
 
 
     dobaviApotekuAdmin(context){
          return axios.get("http://localhost:8080/api/v1/apoteka/admin", { headers: authHeader()})
         .then(response => {
-            
+
             context.commit('postaviApoteku',response.data)
-          
+
         })
     },
 
@@ -50,12 +46,12 @@ const actions = {
         console.log(apoteka)
         return axios.put("http://localhost:8080/api/v1/apoteka/admin",apoteka, { headers: authHeader()})
        .then(response => {
-           
+
            context.commit('postaviApoteku',response.data)
-         
+
        })
    },
-    
+
     dobaviApoteku(context, id){
         return axios.get(`http://localhost:8080/api/v1/apoteka/${id}`,{ headers: authHeader()})
         .then(response => {

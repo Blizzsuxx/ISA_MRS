@@ -1,10 +1,9 @@
 package mrsisa.projekat.lijek;
 
-import mrsisa.projekat.apoteka.Apoteka;
-import mrsisa.projekat.apoteka.ApotekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Service
@@ -18,6 +17,22 @@ public class LijekService {
 
     public Lijek save(Lijek l){
         return this.lijekRepository.save(l);
+    }
+
+    public Lijek findByNaziv(String naziv){
+        return this.lijekRepository.findByNaziv(naziv);
+    }
+
+    public List<Lijek> findAll(){
+        return this.lijekRepository.findAll();
+    }
+
+    public Page<Lijek> findAll(Pageable page){
+        return this.lijekRepository.findAll(page);
+    }
+
+    public void remove(String naziv){
+        this.lijekRepository.deleteByNaziv(naziv);
     }
 
     public List<Lijek> dobaviSveLijekove(){

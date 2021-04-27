@@ -10,7 +10,18 @@ public class LijekDTO {
     private String napomena;
     private double ocijena;
     private int kolicina;
+
     public LijekDTO() {}
+
+    public LijekDTO(Lijek l){
+        this.naziv = l.getNaziv();
+        this.vrstaLijeka = l.getVrstaLijeka();
+        this.oblikLijeka = l.getOblikLijeka();
+        this.sastav = l.getSastav();
+        this.proizvodjac = l.getProizvodjac();
+        this.napomena = l.getNapomena();
+        this.ocijena = l.getOcijena();
+    }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
         this.id = id;
