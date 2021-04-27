@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import authHeader from './AuthHeader';
 const state = {    
     sveApoteke :[],
     apoteka : null,
@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
     dobaviApoteke (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke')
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke', {headers : authHeader()})
         .then(response => {
             let apotekeSve =response.data
             console.log(apotekeSve[0].adresa.ulica)
@@ -24,7 +24,7 @@ const actions = {
     },
 
     dodajApoteku (context, apoteka){
-        axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka)
+        axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka, {headers : authHeader()})
         .then(response => {
             alert("Dodata apoteka");
           return response;
@@ -32,14 +32,14 @@ const actions = {
     },
     
     dobaviApoteku(context, id){
-        return axios.get(`http://localhost:8080/api/v1/apoteka/${id}`)
+        return axios.get(`http://localhost:8080/api/v1/apoteka/${id}`, {headers : authHeader()})
         .then(response => {
             context.commit('postaviApoteku',response.data)
          
         })
     },
     dobaviSlobodneTermine( context,id){
-        return axios.get( `http://localhost:8080/api/v1/slobodanTermin/apoteka/${id}`)
+        return axios.get( `http://localhost:8080/api/v1/slobodanTermin/apoteka/${id}`, {headers : authHeader()})
             .then(response => {
                 let slobodniTermini =response.data
                 context.commit('postaviSlobodneTermine',slobodniTermini)

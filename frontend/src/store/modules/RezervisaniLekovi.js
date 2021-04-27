@@ -1,17 +1,20 @@
 import axios from 'axios'
+import authHeader from './AuthHeader';
 
 const state = {    
     rezervisani:[],
+    rezervisaniZaId : [],
     
 };
 const getters = {
-    rezervisani : state => state.rezervisan    
+    rezervisani : state => state.rezervisan,
+    rezervisaniZaId : state => state.rezervisaniZaId    
 };
 
 const actions = {
     dobaviRezervacije (context) {
         
-        axios.get('http://localhost:8080/api/v1/profil/dobaviRezervacije')
+        axios.get('http://localhost:8080/api/v1/profil/dobaviRezervacije', {headers : authHeader()})
         .then(response => {
             //console.log("a")
            console.log(response.data)
@@ -21,7 +24,7 @@ const actions = {
   },
 
   postaviRezervacije(context, podaci){
-    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci).then(response => {
+    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci, {headers : authHeader()}).then(response => {
 
             alert("Pregled uspesno zavrsen");
             return response;
@@ -44,7 +47,7 @@ const actions = {
               }else{return true;}
           })
           
-          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index]})
+          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index]}, {headers : authHeader()} )
         .then(response => {
             if(response){
             alert("Uspesno ste izbacili lek iz rezervacije");
@@ -71,12 +74,29 @@ const actions = {
         
         
     },
+
+    lekoviPoRezervaciji(context, data){
+        // apoteka i id rezervacije su paramtetri
+        axios.post('http://localhost:8080/api/v1/rezervacije/dobaviRezervacijeId', data, {headers : authHeader()}).then(response => {
+            context.commit('postaviLekovePoPoseti', response.data);
+            if(response.data == ""){
+                alert("broj nije ispravan");
+            }
+            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(response.data);
+            console.log("BBBBBBBBBBBBBBBBB");
+            return response.data;
+        })
+    }
+
     
 
 }
 
 const mutations = {
     postaviRezervacije:(state, rez) => (state.rezervisani = rez),
+    postaviLekovePoPoseti:(state, rez) => (state.rezervisaniZaId = rez),
+    
 }
 
 export default{

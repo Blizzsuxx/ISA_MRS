@@ -7,8 +7,6 @@
         </el-link>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
-          <el-menu-item index="1-1">Zapocni Pregled</el-menu-item>
-          <el-menu-item index="1-2">Zakazi Pregled</el-menu-item>
           <slot />
         </el-submenu>
         <el-submenu index="2">
@@ -144,7 +142,9 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
+          this.$store.dispatch("Mail/posaljiMail", {"text" : "test", "address" : "mahajiraaji@gmail.com"});
           this.poruka = "Greska";
+
           return;
         } else {
           this.greaska = false;

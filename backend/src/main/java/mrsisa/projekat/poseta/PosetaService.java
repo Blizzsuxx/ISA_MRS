@@ -34,7 +34,7 @@ public class PosetaService {
     public void kreirajPosetu(Map<String, Object> podaci){
         System.out.println(podaci.get("korisnik"));
     }
-    public List<Poseta> dobaviPosete(){
+    public List<PosetaDTO> dobaviPosete(){
 
         Farmaceut f = new Farmaceut();
         f.setFirstName("Pera");
@@ -44,7 +44,7 @@ public class PosetaService {
         d.setFirstName("John");
         d.setLastName("Titor");
         LocalDateTime d1 = LocalDateTime.of(2021, 5, 11, 5, 45);
-        LocalDateTime d2 = LocalDateTime.of(2021, 5, 11, 6, 45);
+        LocalDateTime d2 = LocalDateTime.of(2021, 7, 11, 6, 45);
         Apoteka a = new Apoteka();
         a.setIme("Poteka");
         Adresa adresa = new Adresa();
@@ -56,8 +56,8 @@ public class PosetaService {
         pac.setLastName("Arsic");
 
 
-        Poseta p1 = new Poseta((long)1, pac, f, d1, d2, a, new ArrayList<Erecept>());
-        Poseta p2 = new Poseta((long)1, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        PosetaDTO p1 = new PosetaDTO((long)1, pac, f, d1.toString(), d2.toString(), a, new ArrayList<Erecept>());
+        PosetaDTO p2 = new PosetaDTO((long)1, pac, d, d1.toString(), d2.toString(), a, new ArrayList<Erecept>());
         return List.of(p1, p2);
     }
 

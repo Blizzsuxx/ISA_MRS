@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @RestController
 @RequestMapping(path="api/v1/posete")
 public class PosetaController {
@@ -38,7 +38,7 @@ public class PosetaController {
     }
 
     @GetMapping(path="/dobaviPosete")
-    public List<Poseta> dobaviPosete(){
+    public List<PosetaDTO> dobaviPosete(){
     	
 
     	return posetaService.dobaviPosete();

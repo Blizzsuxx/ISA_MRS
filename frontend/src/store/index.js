@@ -11,6 +11,8 @@ import PocetnaStranaPacijenta from './modules/PocetnaStranaPacijenta';
 import RezervisaniLekovi from './modules/RezervisaniLekovi';
 import ERecepti from './modules/ERecepti';
 import Farmaceuti from './modules/Farmaceuti';
+import GodisnjiOdmori from './modules/GodisnjiOdmori'
+import Mail from './modules/Mail'
 
 
 export default createStore({
@@ -32,6 +34,8 @@ export default createStore({
         ERecepti,
         Alergije,
         Dermatolozi,
-        Farmaceuti
+        Farmaceuti,
+        GodisnjiOdmori,
+        Mail,
       }
   })

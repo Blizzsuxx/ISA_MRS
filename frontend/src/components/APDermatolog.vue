@@ -7,8 +7,6 @@
         </el-link>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
-          <el-menu-item index="1-1">Zapocni Pregled</el-menu-item>
-          <el-menu-item index="1-2">Zakazi Pregled</el-menu-item>
           <slot />
         </el-submenu>
         <el-submenu index="2">
@@ -17,7 +15,7 @@
           <el-link href="/ap/dermatolog/pacijenti">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
             </el-link>
-          <el-menu-item index="2-3">Zakazivanje Odmora</el-menu-item>
+          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
           <el-menu-item index="2-4">Odjava</el-menu-item>
         </el-submenu>
 
@@ -76,6 +74,7 @@
 
 
         </el-table>
+        <APGodisnjiOdmor  ref="prozor" />
       </el-main>
     </el-container>
   </el-container>
@@ -94,10 +93,12 @@
 
 <script>
 import Selecter from './Selecter.vue';
+import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
   export default {
     name: 'APDermatolog',
     components : {
         Selecter,
+        APGodisnjiOdmor
     },
 
     async mounted(){
@@ -109,6 +110,10 @@ import Selecter from './Selecter.vue';
 
     methods: {
       
+      kliknut(){
+        this.$refs.prozor.modalOpen = true;
+        console.log("A")
+      },
 
       handleInfo(index, row) {
       console.log(index, row);
@@ -161,8 +166,10 @@ import Selecter from './Selecter.vue';
             if(value === "Godisnje"){
                 time = 365;
             }
+            
             this.tableData = this.$store.state.APPosete.svePosete.filter((item) => {
-                return time >= ((new Date(item.end)).getTime() -  (new Date(item.start)).getTime()) / (1000 * 3600 * 24)} );
+              console.log(((item)));
+                return time >= ((new Date(Date.parse(item.kraj))).getTime() -  (new Date(Date.parse(item.pocetak))).getTime()) / (1000 * 3600 * 24)} );
         }
     },
         data() {

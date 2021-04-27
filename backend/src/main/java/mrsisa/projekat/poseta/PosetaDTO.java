@@ -6,13 +6,11 @@ import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
 
 import java.util.List;
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Entity
-public class Poseta {
+public class PosetaDTO {
 
-    public Poseta(Long id, Pacijent pacijent, Radnik radnik, LocalDateTime pocetak, LocalDateTime kraj, Apoteka apoteka, List<Erecept> erecepti) {
+
+    public PosetaDTO(Long id, Pacijent pacijent, Radnik radnik, String pocetak, String kraj, Apoteka apoteka, List<Erecept> erecepti) {
         this.id = id;
         this.pacijent = pacijent;
         this.radnik = radnik;
@@ -22,45 +20,37 @@ public class Poseta {
         this.erecepti = erecepti;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Pacijent pacijent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Radnik radnik;
 
-    @Column(name = "pocetak", nullable = false)
-    private LocalDateTime pocetak;
+    private String pocetak;
 
-    @Column(name = "kraj", nullable = false)
-    private LocalDateTime kraj;
+    private String kraj;
 
-    @OneToMany(mappedBy = "poseta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Erecept> erecepti;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
-    public Poseta() {
+    public PosetaDTO() {
 
     }
 
-    public LocalDateTime getPocetak() {
+    public String getPocetak() {
         return pocetak;
     }
 
-    public void setPocetak(LocalDateTime pocetak) {
+    public void setPocetak(String pocetak) {
         this.pocetak = pocetak;
     }
 
-    public LocalDateTime getKraj() {
+    public String getKraj() {
         return kraj;
     }
 
-    public void setKraj(LocalDateTime kraj) {
+    public void setKraj(String kraj) {
         this.kraj = kraj;
     }
 
@@ -109,6 +99,8 @@ public class Poseta {
     public void setApoteka(Apoteka apoteka) {
         this.apoteka = apoteka;
     }
+
+
 
 
 }
