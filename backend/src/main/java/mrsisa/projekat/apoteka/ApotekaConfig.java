@@ -21,14 +21,14 @@ public class ApotekaConfig {
     CommandLineRunner commandLineRunner(ApotekaRepository repozitorijum, AdresaRepository adresaRepository){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return args ->{
-            Apoteka apoteka =  new Apoteka();
-            apoteka.setId(1L);
-            apoteka.setIme("Prva apoteka");
-            apoteka.setAdresa(adresaRepository.findById(1L).orElse(null));
-            repozitorijum.save(apoteka);
-
-            Apoteka apoteka1 =new Apoteka(2L, "Apoteka 2",null);
-            repozitorijum.save(apoteka1);
+//            Apoteka apoteka =  new Apoteka();
+//            apoteka.setId(1L);
+//            apoteka.setIme("Prva apoteka");
+//            apoteka.setAdresa(adresaRepository.findById(1L).orElse(null));
+//            repozitorijum.save(apoteka);
+//
+//            Apoteka apoteka1 =new Apoteka(2L, "Apoteka 2",null);
+//            repozitorijum.save(apoteka1);
         };
     }
 }

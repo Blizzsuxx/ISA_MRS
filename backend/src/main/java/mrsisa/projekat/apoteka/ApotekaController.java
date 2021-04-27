@@ -7,12 +7,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -60,6 +63,31 @@ public class ApotekaController {
     	
 
     	return apotekaService.dobaviApoteke();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping(path="/admin")
+    public ApotekaDTO dobaviApotekuAdmin(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+
+        return apotekaService.dobaviApotekuAdmin(adminApoteke);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PutMapping(path="/admin")
+    public ResponseEntity<?> azurirajApotekuAdmin(@RequestBody ApotekaDTO apoteka){
+        System.out.println("Andrijaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        System.out.println(adminApoteke.getApoteka().getId());
+        System.out.println(apoteka.getId());
+//        if( adminApoteke.getApoteka().getId().equals(apoteka.getId())==false){
+//            return new ResponseEntity<String>("Unauthorized", HttpStatus.UNAUTHORIZED);
+//        }
+        apotekaService.azurirajApotekuAdmin(adminApoteke,apoteka);
+        return new ResponseEntity<String>( HttpStatus.OK);
     }
 
 
