@@ -19,6 +19,7 @@ public class AdministratorApotekeController {
         this.administratorApotekeService = administratorApotekeService;
     }
 
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajAdministratoraApoteke")
     public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) {
         AdministratorApoteke aa = new AdministratorApoteke(dummy);

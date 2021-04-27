@@ -82,7 +82,7 @@
                 </div>
               </el-form-item>
               <el-form-item label="Uloga:" prop="uloga">
-                <div class="grupa">
+                <div class="grupa" v-if="indikator">
                   <el-select v-model="korisnik.uloga" @change="promjena()" filterable placeholder="Select">
                     <el-option
                       v-for="item in opcije"
@@ -92,6 +92,9 @@
                     </el-option>
                   </el-select>
                 </div>
+                <div v-else>
+                    <el-input model-value="ROLE_PACIJENT" v-model="korisnik.uloga" readonly></el-input>
+                </div>
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSubmit('korisnik')">Formiraj</el-button>
@@ -99,8 +102,11 @@
               </el-form-item>
               
             </el-form>
-            <div id="unos-link" class="text-right">
-              <a href="#">Korisnici!</a>
+            <div id="unos-link" class="text-right" v-if="indikator">
+              <a href="/ap/korisnici">Korisnici!</a>
+            </div>
+            <div id="unos-link" class="text-right" v-else>
+              <a href="/ap/prijava">Prijava!</a>
             </div>
           </div>
         </div>
@@ -136,6 +142,7 @@ import moment from 'moment'
         return {
             naslov: 'Unos Korisnika',
             naslovForme: 'Unos Korisnika',
+            indikator: false,
             korisnik: {
             korisnickoIme: '',
             sifra: '',
@@ -196,6 +203,14 @@ import moment from 'moment'
       };
       
     },
+    mounted () {
+      if (localStorage.getItem('user') === null){
+        this.indikator = false;
+        this.korisnik.uloga = "ROLE_PACIJENT";
+      } else {
+        this.indikator = true;
+      }
+    },
     methods: {
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
@@ -205,7 +220,11 @@ import moment from 'moment'
             email: this.korisnik.email, uloga: this.korisnik.uloga};
             alert("Prosla validacija!");
             this.$store.dispatch('APKorisnici/dodajKorisnika', k);
-           
+            if (this.indikator){
+              this.$router.push('/ap/AdministratorSistema');
+            } else {
+              this.$router.push('/ap/prijava');
+            }
           } else {
             console.log('error submit!!');
             return false;

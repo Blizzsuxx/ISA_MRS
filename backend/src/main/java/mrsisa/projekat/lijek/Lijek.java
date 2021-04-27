@@ -3,6 +3,8 @@ package mrsisa.projekat.lijek;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dobavljac.Dobavljac;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +15,8 @@ public class Lijek {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "naziv", nullable = false)
+    // za sada ovako
+    @Column(name = "naziv", nullable = false, unique = true)
     private String naziv;
     @Column(name = "vrstaLijeka", nullable = false)
     private String vrstaLijeka;
@@ -31,6 +34,8 @@ public class Lijek {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StanjeLijeka> stanja;
 
 
     public Long getId() {

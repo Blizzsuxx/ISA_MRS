@@ -7,6 +7,8 @@ import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,7 +20,8 @@ public class StanjeLijeka {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Lijek lijek;
     @Column(name = "kolicina", nullable = false)
     private int kolicina;

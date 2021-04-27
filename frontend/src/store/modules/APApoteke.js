@@ -24,11 +24,7 @@ const actions = {
     },
 
     dodajApoteku (context, apoteka){
-        axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka)
-        .then(response => {
-            alert("Dodata apoteka");
-          return response;
-        })
+        return axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka);
     },
     
     dobaviApoteku(context, id){

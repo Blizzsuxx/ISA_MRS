@@ -135,7 +135,12 @@
         var l = {naziv: this.lijek.naziv, vrstaLijeka: this.lijek.vrstaLijeka, 
         oblikLijeka: this.lijek.oblikLijeka, sastav: this.lijek.sastav, proizvodjac: this.lijek.proizvodjac,
         napomena: this.lijek.napomena };
-        this.$store.dispatch('APlijekovi/dodajLijek', l);
+        this.$store.dispatch('APlijekovi/dodajLijek', l)
+        .then(response => {
+            alert("Dodat lijek");
+            this.$router.push('/ap/AdministratorSistema');
+          return response;
+        });
         
       },
       resetForm(formName){

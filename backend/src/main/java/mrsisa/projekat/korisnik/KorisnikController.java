@@ -67,11 +67,11 @@ public class KorisnikController {
 
     @PutMapping(consumes = "application/json", value="/azurirajKorisnika")
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
-    public boolean azurirajKorisnika(@RequestBody KorisnikDTO dummy){
+    public String azurirajKorisnika(@RequestBody KorisnikDTO dummy){
         Korisnik k = this.korisnikService.findByUsername(dummy.getKorisnickoIme());
 
         if (k == null)
-            return false;
+            return null;
 
         k.setFirstName(dummy.getIme());
         k.setLastName(dummy.getPrezime());
@@ -79,7 +79,7 @@ public class KorisnikController {
 
         this.korisnikService.save(k);
 
-        return true;
+        return k.getRole();
     }
 
     @Transactional

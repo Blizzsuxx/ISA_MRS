@@ -17,11 +17,21 @@ const state = {
 
 const actions = {
     dodajLijek (context, lijek){
-        axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek)
-        .then(response => {
-            alert("Dodat lijek");
-          return response;
-        })
+        return axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek);
+
+    },
+
+    dobaviDTOLijek(context, naziv){
+        return axios.get(`http://localhost:8080/api/v1/lijekovi/dobaviDTOLijek/${naziv}`, { headers: authHeader()});
+    },
+
+    azurirajDTOLijek(context, lijek){
+        return axios.put('http://localhost:8080/api/v1/lijekovi/azurirajDTOLijek', 
+        lijek, { headers: authHeader()});
+    },
+
+    obrisiDTOLijek(context, naziv){
+        return axios.delete(`http://localhost:8080/api/v1/lijekovi/obrisiDTOLijek/${naziv}`, { headers: authHeader()});
     },
 
     dobaviDTOLijekove (context) {

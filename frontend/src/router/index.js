@@ -33,6 +33,8 @@ import APPregled from "../components/APPregled"
 
 import Prijava from "../components/Prijava"
 
+import AdministratorSistema from '../components/AdministratorSistema';
+
 const routes = [
   
   
@@ -161,6 +163,11 @@ const routes = [
     path: '/ap/istorijaPosetaFarmaceut',
     name: 'IstorijaPosetaFarmaceut',
     component: IstorijaPosetaFarmaceut,
+  },
+  {
+    path: '/ap/AdministratorSistema',
+    name: 'AdministratorSistema',
+    component: AdministratorSistema,
   }
 ]
 
@@ -170,10 +177,10 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next)=>{
-  const publicPages = ['/ap/prijava'];
+  const publicPages = ['/ap/prijava', '/ap/FormaKorisnika'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-
+  
   if (authRequired && !loggedIn){
     console.log('provjera');
     return next('/ap/prijava');

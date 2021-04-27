@@ -102,7 +102,7 @@
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
                 if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
-                  this.$router.push('/ap/korisnici')
+                  this.$router.push('/ap/AdministratorSistema')
                 } else if (s.uloga == 'ROLE_ADMIN_APOTEKE'){
                   this.$router.push('/ap/korisnici')
                 } else if (s.uloga == 'ROLE_PACIJENT'){
