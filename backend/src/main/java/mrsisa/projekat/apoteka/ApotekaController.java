@@ -9,6 +9,7 @@ import java.util.Map;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,14 +36,14 @@ public class ApotekaController {
 
 
     @GetMapping("/dobaviLijekove/{id}")
-    public List<StanjeLijeka> dobaviLijekove(@PathVariable Long id){
+    public List<StanjeLijekaDTO> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
     @GetMapping("/dobaviLijekoveA/{id}")
     @PreAuthorize("hasRole('PACIJENT')")
-    public List<Lijek> dobaviLijekoveA(@PathVariable Long id){
+    public List<LijekDTO> dobaviLijekoveA(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
         return apotekaService.dobaviLijekoveAlergija(id);
@@ -50,7 +51,7 @@ public class ApotekaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PostMapping(value="/dobaviLijekoveApoteke")
-    public List<StanjeLijeka> dobaviLijekoveApoteke(@RequestBody Map<String, Object> params){
+    public List<StanjeLijekaDTO> dobaviLijekoveApoteke(@RequestBody Map<String, Object> params){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(Long.valueOf(1));
     }

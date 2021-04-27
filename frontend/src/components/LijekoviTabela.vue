@@ -62,7 +62,7 @@
     <el-table-column
       property="datumIstekaCijene"
       label="Datum isteka cijene"
-      :formatter="formirajDatum"
+     
      >
     </el-table-column>
 

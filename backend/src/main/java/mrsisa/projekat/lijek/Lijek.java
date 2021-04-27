@@ -34,8 +34,7 @@ public class Lijek {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StanjeLijeka> stanja;
+
 
 
     public Long getId() {

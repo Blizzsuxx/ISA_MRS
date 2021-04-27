@@ -17,8 +17,6 @@
     </el-popconfirm>
     </el-col>
   </el-row>
-  </el-row>
-
 </template>
 <style scoped>
 .item {
@@ -34,13 +32,6 @@
   text-align: center;
 }
 #app {
-        position: relative;
-
-
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
   position: relative;
 
   display: flex;
@@ -58,25 +49,16 @@ export default {
   props: { options: String },
   data() {
     return {
-      apotekaUcitana: false,
-      ucitavanjeSlobodnogTermina: false
-    };
-  },
-  methods: {},
-  components: {
-    AANavMeni,
-    DermatoloziTabela,
-
       dermatolog : null
-    };
+    }
   },
   methods: {
-    promjenaDermatologa (val) {
+    promjenaDermatologa (row,val) {
       this.dermatolog = val
-
+      
     },
     potvrdjeno(){
-
+      
        this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
            this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
        })

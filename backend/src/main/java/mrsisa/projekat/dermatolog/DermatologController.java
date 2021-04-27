@@ -32,8 +32,7 @@ public class DermatologController {
     }
 
 
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/admin")
     public List<DermatologDTO> dobaviDermatologeAdmin(){
 
