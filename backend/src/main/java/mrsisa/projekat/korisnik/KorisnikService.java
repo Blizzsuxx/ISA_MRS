@@ -29,4 +29,8 @@ public class KorisnikService implements UserDetailsService {
     public Korisnik save(Korisnik k){
         return korisnikRepository.save(k);
     }
+
+    public void remove(String korisnickoIme) {
+        korisnikRepository.deleteByUsername(korisnickoIme);
+    }
 }

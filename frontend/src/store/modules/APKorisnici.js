@@ -115,10 +115,14 @@ const actions = {
     },
 
     azurirajKorisnika(context, korisnik){
-        alert(korisnik.rodjendan);
         return axios.put('http://localhost:8080/api/korisnici/azurirajKorisnika', 
         {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
-     email: korisnik.email, uloga: korisnik.uloga, rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
+        email: korisnik.email, uloga: korisnik.uloga, 
+        rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
+    },
+
+    obrisiKorisnika(context, korIme){
+        return axios.delete(`http://localhost:8080/api/korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dodajKorisnika (context, korisnik){

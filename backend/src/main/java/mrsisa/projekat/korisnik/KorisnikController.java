@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -71,7 +72,7 @@ public class KorisnikController {
 
         if (k == null)
             return false;
-      
+
         k.setFirstName(dummy.getIme());
         k.setLastName(dummy.getPrezime());
         k.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
@@ -81,4 +82,17 @@ public class KorisnikController {
         return true;
     }
 
+    @Transactional
+    @DeleteMapping(value="/obrisiKorisnika/{korisnickoIme}")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    public String obrisiKorisnika(@PathVariable String korisnickoIme){
+        Korisnik k = this.korisnikService.findByUsername(korisnickoIme);
+
+        if (k != null){
+            this.korisnikService.remove(korisnickoIme);
+            return k.getRole();
+        } else {
+            return null;
+        }
+    }
 }
