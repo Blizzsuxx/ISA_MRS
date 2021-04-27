@@ -21,6 +21,7 @@ public class DobavljacController {
         this.dobavljacService = dobavljacService;
     }
 
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajDobavljaca")
     public void sacuvajDobavljaca(@RequestBody KorisnikDTO dummy) {
         Dobavljac d = new Dobavljac(dummy);

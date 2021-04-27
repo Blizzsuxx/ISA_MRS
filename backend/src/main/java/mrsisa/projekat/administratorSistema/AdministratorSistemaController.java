@@ -21,6 +21,7 @@ public class AdministratorSistemaController {
         this.administratorSistemaService = administratorSistemaService;
     }
 
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajAdministratoraSistema")
     public void sacuvajAdministratoraSistema(@RequestBody KorisnikDTO dummy) {
         AdministratorSistema as = new AdministratorSistema(dummy);

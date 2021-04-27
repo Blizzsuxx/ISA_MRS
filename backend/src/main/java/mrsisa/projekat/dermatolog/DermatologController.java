@@ -21,7 +21,7 @@ public class DermatologController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/dobaviDermatologe")
     public List<DermatologDTO> dobaviDermatologe(){
 
@@ -30,6 +30,7 @@ public class DermatologController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")
     public void sacuvajDermatologa(@RequestBody KorisnikDTO dummy) {
         Dermatolog d = new Dermatolog(dummy);
