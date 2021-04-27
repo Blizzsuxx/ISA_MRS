@@ -38,7 +38,8 @@ public class DermatologConfig {
                     LocalDateTime.now(),
                     null,
                     generisiPosete(0),
-                    "300"
+                    apotekaRepository.findById(1L).orElse(null)
+
             ));
             radnoVrijeme.setDermatolog(repozitorijum.findById(4).orElse(null));
             radnoVrijeme.setPocetakRadnogVremena(LocalTime.of(10,00));
@@ -53,7 +54,8 @@ public class DermatologConfig {
                     LocalDateTime.now(),
                     null,
                     generisiPosete(1),
-                    "250"
+                    apotekaRepository.findById(1L).orElse(null)
+
             ));
             repozitorijum.save(new Dermatolog(
                     "matija",
@@ -64,7 +66,8 @@ public class DermatologConfig {
                     LocalDateTime.now(),
                     null,
                     generisiPosete(2),
-                    "200"
+                    apotekaRepository.findById(1L).orElse(null)
+
             ));
 
             SlobodanTermin slobodanTermin = new SlobodanTermin();

@@ -21,6 +21,25 @@ public class GodisnjiOdmor {
     @ManyToOne(fetch = FetchType.LAZY)
     private Radnik radnik;
 
+    @Column(name = "odobren", nullable = true)
+    private Boolean odobren;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getOdobren() {
+        return odobren;
+    }
+
+    public void setOdobren(Boolean odobren) {
+        this.odobren = odobren;
+    }
+
     public GodisnjiOdmor() {}
 
     public GodisnjiOdmor(LocalDateTime datumOd, LocalDateTime datumDo, Radnik radnik) {

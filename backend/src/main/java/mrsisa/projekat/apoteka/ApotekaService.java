@@ -6,6 +6,7 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,16 @@ public class ApotekaService {
     }
 
     @Transactional
-    public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
+    public List<StanjeLijekaDTO> dobaviStanjaLijekova(Long id) {
         Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
         if(apoteka== null)
-            return new ArrayList<StanjeLijeka>();
+            return new ArrayList<StanjeLijekaDTO>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
             povratna_stanja.add(new StanjeLijekaDTO(sl));
         }
-        return apoteka.getLijekovi();
+        return povratna_stanja;
     }
     public List<Apoteka> dobaviApoteke(){
 
@@ -54,10 +55,9 @@ public class ApotekaService {
     	Adresa ad=new Adresa("Kazahstan","ptt","Ulica","5",50, 50);
     	for(Apoteka a : apoteke) {
     		a.setAdresa(ad);
-    	}return apoteke;
-    	//return findAll();
-        //ovde treba ucitati apoteke iz baze
-    	//return apotekaRepository.findAll();
+    	}
+    	return apoteke;
+
 
     }
     @Transactional
@@ -67,12 +67,13 @@ public class ApotekaService {
         return dto;
     }
     @Transactional
-    public List<Lijek> dobaviLijekoveAlergija(Long id) {
-        List<StanjeLijeka> stanja = dobaviStanjaLijekova(id);
-        ArrayList<Lijek> bezAlergija = new ArrayList<>();
+    public List<LijekDTO> dobaviLijekoveAlergija(Long id) {
+        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
+        List<StanjeLijeka> stanja = apoteka.getLijekovi();
+        ArrayList<LijekDTO> bezAlergija = new ArrayList<>();
         if (stanja.isEmpty() == false) {
             for (StanjeLijeka st : stanja) {
-                bezAlergija.add(st.getLijek());
+                bezAlergija.add(new LijekDTO(st.getLijek()));
             }
         }
         return bezAlergija;

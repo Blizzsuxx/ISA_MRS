@@ -55,7 +55,7 @@ const actions = {
     },
 
     proveriAlergije (context, lijekovi, korisnik){
-        axios.post('http://localhost:8080/api/v1/apoteka/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik})
+        axios.post('http://localhost:8080/api/v1/apoteka/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik}, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
             return response
@@ -65,7 +65,7 @@ const actions = {
 
 
     proveriDostupnost (context, lijekovi, apoteka){
-        axios.post('http://localhost:8080/api/v1/apoteka/proveriDostupnost',{"lijekovi" : lijekovi, "apoteka" : apoteka})
+        axios.post('http://localhost:8080/api/v1/apoteka/proveriDostupnost',{"lijekovi" : lijekovi, "apoteka" : apoteka}, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
             return response
@@ -75,7 +75,7 @@ const actions = {
 
 
     dobaviLijekoveApoteke (context, radnik, korisnik) {
-        axios.post('http://localhost:8080/api/v1/apoteka/dobaviLijekoveApoteke',{"radnik" : radnik, "korisnik" : korisnik})
+        axios.post('http://localhost:8080/api/v1/apoteka/dobaviLijekoveApoteke',{"radnik" : radnik, "korisnik" : korisnik}, {headers : authHeader()})
         .then(response => {
             context.commit('dobaviLijekoveApoteke',response.data)
             return response

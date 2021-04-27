@@ -14,6 +14,7 @@ public class LijekDTO {
     public LijekDTO() {}
 
     public LijekDTO(Lijek l){
+        this.id = l.getId();
         this.naziv = l.getNaziv();
         this.vrstaLijeka = l.getVrstaLijeka();
         this.oblikLijeka = l.getOblikLijeka();

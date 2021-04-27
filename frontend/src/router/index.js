@@ -21,6 +21,7 @@ import KreiranjeNarudzbenica from "../components/KreiranjeNarudzbenica"
 import ListaRezervacija from "../components/ListaRezervacija";
 import ListaRecepata from "../components/ListaRecepata";
 import IstorijaLekova from "../components/IstorijaLekova";
+import APIzdavanje from "../components/APIzdavanje";
 
 
 import SlobodanTermin from '../components/SlobodanTermin';
@@ -35,6 +36,8 @@ import Prijava from "../components/Prijava"
 
 import AdministratorSistema from '../components/AdministratorSistema';
 
+import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
+
 const routes = [
   
   
@@ -42,6 +45,17 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/ap/farmaceut/izdavanje',
+    name: 'APIzdavanje',
+    component: APIzdavanje
+  },
+
+  {
+    path: '/brisanjeDermatologa',
+    name: 'BrisanjeDermatologa',
+    component: BrisanjeDermatologa,
   },
   {
     path: '/profilApoteke',
@@ -185,7 +199,7 @@ router.beforeEach((to, from, next)=>{
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-  
+
   if (authRequired && !loggedIn){
     console.log('provjera');
     return next('/ap/prijava');

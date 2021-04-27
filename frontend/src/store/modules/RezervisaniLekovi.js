@@ -3,10 +3,12 @@ import authHeader from './AuthHeader'
 
 const state = {    
     rezervisani:[],
+    rezervisaniZaId : [],
     
 };
 const getters = {
-    rezervisani : state => state.rezervisan    
+    rezervisani : state => state.rezervisan,
+    rezervisaniZaId : state => state.rezervisaniZaId    
 };
 
 const actions = {
@@ -72,12 +74,29 @@ const actions = {
         
         
     },
+
+    lekoviPoRezervaciji(context, data){
+        // apoteka i id rezervacije su paramtetri
+        axios.post('http://localhost:8080/api/v1/rezervacije/dobaviRezervacijeId', data, {headers : authHeader()}).then(response => {
+            context.commit('postaviLekovePoPoseti', response.data);
+            if(response.data == ""){
+                alert("broj nije ispravan");
+            }
+            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(response.data);
+            console.log("BBBBBBBBBBBBBBBBB");
+            return response.data;
+        })
+    }
+
     
 
 }
 
 const mutations = {
     postaviRezervacije:(state, rez) => (state.rezervisani = rez),
+    postaviLekovePoPoseti:(state, rez) => (state.rezervisaniZaId = rez),
+    
 }
 
 export default{

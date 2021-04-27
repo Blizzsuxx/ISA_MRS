@@ -1,27 +1,30 @@
 package mrsisa.projekat.stanjelijeka;
 
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.lijek.LijekDTO;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class StanjeLijekaDTO {
     private Long id;
-    private Lijek lijek;
+    private LijekDTO lijek;
     private int kolicina;
     private boolean prodaja;
     private double cijena;
-    private LocalDateTime datumIstekaCijene;
+    private String datumIstekaCijene;
 
     public StanjeLijekaDTO(){
 
     }
     public StanjeLijekaDTO(StanjeLijeka stanjeLijeka){
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         this.id = stanjeLijeka.getId();
-        this.lijek = stanjeLijeka.getLijek();
+        this.lijek = new LijekDTO(stanjeLijeka.getLijek());
         this.kolicina  =stanjeLijeka.getKolicina();
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();
-        this.datumIstekaCijene  = stanjeLijeka.getDatumIstekaCijene();
+        this.datumIstekaCijene  = stanjeLijeka.getDatumIstekaCijene().format(format);
     }
 
     public Long getId() {
@@ -32,11 +35,11 @@ public class StanjeLijekaDTO {
         this.id = id;
     }
 
-    public Lijek getLijek() {
+    public LijekDTO getLijek() {
         return lijek;
     }
 
-    public void setLijek(Lijek lijek) {
+    public void setLijek(LijekDTO lijek) {
         this.lijek = lijek;
     }
 
@@ -64,11 +67,11 @@ public class StanjeLijekaDTO {
         this.cijena = cijena;
     }
 
-    public LocalDateTime getDatumIstekaCijene() {
+    public String getDatumIstekaCijene() {
         return datumIstekaCijene;
     }
 
-    public void setDatumIstekaCijene(LocalDateTime datumIstekaCijene) {
+    public void setDatumIstekaCijene(String datumIstekaCijene) {
         this.datumIstekaCijene = datumIstekaCijene;
     }
 }

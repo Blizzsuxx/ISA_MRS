@@ -17,7 +17,7 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/posete/dobaviPosete',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
-
+                
                 context.commit('postaviPosete',poseteSve)
             })
 
@@ -65,7 +65,7 @@ const actions = {
    },
 
     zakaziPosetu(context, podaci){
-        axios.post('http://localhost:8080/api/v1/posete/zakaziPosetu', podaci).then(response => {
+        axios.post('http://localhost:8080/api/v1/posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
 
             alert("Zakazan pregled");
             return response;

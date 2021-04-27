@@ -1,6 +1,8 @@
 <template>
   <APDermatolog ref="table">
+    <el-link href="/ap/farmaceut/izdavanje">
     <el-menu-item index="1-3">Izdavanje lekova</el-menu-item>
+    </el-link>
 
     <template v-slot:header-slot>
       <el-select v-model="value" filterable placeholder="Select">

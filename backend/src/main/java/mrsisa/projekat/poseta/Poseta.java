@@ -38,7 +38,8 @@ public class Poseta {
     @Column(name = "kraj", nullable = false)
     private LocalDateTime kraj;
 
-
+    @OneToMany(mappedBy = "poseta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Erecept> erecepti;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
@@ -71,8 +72,7 @@ public class Poseta {
         this.erecepti = erecepti;
     }
 
-    @OneToMany(mappedBy = "poseta", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Erecept> erecepti;
+
 
 
 
