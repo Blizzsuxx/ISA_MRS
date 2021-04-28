@@ -38,6 +38,8 @@ import AdministratorSistema from '../components/AdministratorSistema';
 
 import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
 
+import PocetnaStrana from "../components/PocetnaStrana"
+
 const routes = [
   
   
@@ -187,6 +189,11 @@ const routes = [
     path: '/ap/AdministratorSistema',
     name: 'AdministratorSistema',
     component: AdministratorSistema,
+  },
+  {
+    path: '/ap/pocetnaStrana',
+    name: 'PocetnaStrana',
+    component: PocetnaStrana,
   }
 ]
 

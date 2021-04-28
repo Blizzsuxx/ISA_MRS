@@ -49,13 +49,13 @@ public class PosetaController {
     }
     @GetMapping(path="/dobaviIstorijuD")
     @PreAuthorize("hasRole('PACIJENT')")
-    public List<Poseta> dobaviIstorijuD(){
+    public List<PosetaDTO> dobaviIstorijuD(){
         return posetaService.dobaviIstorijuD();
     }
 
     @GetMapping(path="/dobaviIstorijuF")
     @PreAuthorize("hasRole('PACIJENT')")
-    public List<Poseta> dobaviIstorijuF(){
+    public List<PosetaDTO> dobaviIstorijuF(){
         return posetaService.dobaviIstorijuF();
     }
 
