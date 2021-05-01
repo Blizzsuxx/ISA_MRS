@@ -63,7 +63,46 @@ const actions = {
 
 
    },
+   otkazi(context,index){
 
+    let rezSve=state.zakazanePosetePacijenta.filter(function(el){
+        if(state.zakazanePosetePacijenta[index].pocetak==el.pocetak){
+            return false;
+        }else{return true;}
+    })
+
+    axios.post('http://localhost:8080/api/v1/posete/otkazi', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
+
+        if(response){
+            alert("Uspesno ste otkazali pregled");
+            context.commit('postaviPosetePacijenta', rezSve) }
+            else{
+                alert("Isteklo je vreme za otkazivanje")  
+            }
+          return response;
+    })
+   },
+   otkaziF(context,index){
+
+    let rezSve=state.zakazanePosetePacijenta.filter(function(el){
+        if(state.zakazanePosetePacijenta[index].pocetak==el.pocetak){
+            console.log("na")
+            return false;
+        }else{return true;}
+    })
+
+    axios.post('http://localhost:8080/api/v1/posete/otkaziF', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
+
+        if(response){
+            alert("Uspesno ste otkazali pregled.");
+            console.log(rezSve)
+            context.commit('postaviPosetePacijenta', rezSve) }
+            else{
+                alert("Isteklo je vreme za otkazivanje")  
+            }
+          return response;
+    })
+   },
     zakaziPosetu(context, podaci){
         axios.post('http://localhost:8080/api/v1/posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
 

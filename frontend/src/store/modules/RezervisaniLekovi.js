@@ -32,14 +32,10 @@ const actions = {
   },
    odustani(context,index,row){ //bio i commit neki ovde 
         console.log( row)
-        var today = new Date();
-        var dan=state.rezervisani[index].datumVazenja.split(".")
-        console.log((today.getDate()-parseInt(dan[0])-1<=0 && today.getMonth()+1-parseInt(dan[1])<=0 && today.getFullYear()-parseInt(dan[2])<=0))
-
-        if( today.getFullYear()-parseInt(dan[2])<=0 && today.getDate()-parseInt(dan[0])-1<=0 && today.getDate()-parseInt(dan[0])-1>=0  ){
-                    alert("Isteklo je vreme za otkazivanje")     
-        }  
-        else{
+       // var today = new Date();
+        //var dan=state.rezervisani[index].datumVazenja.split(".")
+        
+        
             console.log(state.rezervisani[index])
           let rezSve=state.rezervisani.filter(function(el){
               if(state.rezervisani[index].nazivLeka==el.nazivLeka && state.rezervisani[index].nazivApoteke==el.nazivApoteke && state.rezervisani[index].datumVazenja==el.datumVazenja){
@@ -57,7 +53,7 @@ const actions = {
             }
           return response;
         })
-    }
+    
           
         /*let lekoviAlergija = state.lekoviAlergija.filter(function(el){
             

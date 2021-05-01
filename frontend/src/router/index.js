@@ -37,9 +37,9 @@ import Prijava from "../components/Prijava"
 import AdministratorSistema from '../components/AdministratorSistema';
 
 import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
-
+import Penali from "../components/Penali"
 import PocetnaStrana from "../components/PocetnaStrana"
-
+import Registracija from "../components/Registracija"
 const routes = [
   
   
@@ -194,7 +194,18 @@ const routes = [
     path: '/ap/pocetnaStrana',
     name: 'PocetnaStrana',
     component: PocetnaStrana,
+  },
+  {
+    path: '/ap/penali',
+    name: 'Penali',
+    component: Penali,
+  },
+  {
+    path: '/ap/registracija',
+    name: 'Registracija',
+    component: Registracija,
   }
+
 ]
 
 const router = createRouter({

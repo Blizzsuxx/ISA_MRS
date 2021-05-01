@@ -7,7 +7,7 @@
   <el-menu-item index="1"><router-link to="/ap/apoteke">Pregled apoteka</router-link></el-menu-item>
 
   <el-menu-item index="2"><router-link to="/ap">Pregled lekova</router-link></el-menu-item>
-  <el-menu-item index="3"><router-link to="/ap">Registrujte se</router-link></el-menu-item>
+  <el-menu-item index="3"><router-link to="/ap/registracija">Registracija</router-link></el-menu-item>
   <el-menu-item index="4"><router-link to="/ap/prijava">Prijavite se</router-link></el-menu-item>
   
   

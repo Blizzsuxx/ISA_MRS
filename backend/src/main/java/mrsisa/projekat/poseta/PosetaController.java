@@ -63,6 +63,21 @@ public class PosetaController {
     public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
         this.posetaService.kreirajPosetu(podaci);
     }
-    
 
+    @RequestMapping(method = RequestMethod.POST, value = "/otkazi")
+    @PreAuthorize("hasRole('PACIJENT')")
+    public boolean izbPosetu( @RequestBody Map<String,Object> podaci){
+
+        System.out.println(podaci.get("a"));
+        System.out.println("sanja sanja");
+        return true;
+    }
+    @RequestMapping(method = RequestMethod.POST, value = "/otkaziF")
+    @PreAuthorize("hasRole('PACIJENT')")
+    public boolean izbPosetuF( @RequestBody Map<String,Object> podaci){
+
+        System.out.println(podaci.get("a"));
+        System.out.println("sanja sanja");
+        return true;
+    }
 }
