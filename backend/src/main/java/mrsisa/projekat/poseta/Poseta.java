@@ -34,6 +34,8 @@ public class Poseta {
 
     @Column(name = "pocetak", nullable = false)
     private LocalDateTime pocetak;
+    @Column(name="opis", nullable = true)
+    private String opis;
 
     @Column(name = "kraj", nullable = false)
     private LocalDateTime kraj;
@@ -46,6 +48,14 @@ public class Poseta {
 
     public Poseta() {
 
+    }
+
+    public String getOpis() {
+        return opis;
+    }
+
+    public void setOpis(String opis) {
+        this.opis = opis;
     }
 
     public LocalDateTime getPocetak() {

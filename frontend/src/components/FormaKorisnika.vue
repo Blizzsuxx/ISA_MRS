@@ -218,7 +218,7 @@ import moment from 'moment'
             var k = {korisnickoIme: this.korisnik.korisnickoIme, sifra: this.korisnik.sifra, 
             ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm'),
             email: this.korisnik.email, uloga: this.korisnik.uloga};
-            alert("Prosla validacija!");
+        
             this.$store.dispatch('APKorisnici/dodajKorisnika', k);
             if (this.indikator){
               this.$router.push('/ap/AdministratorSistema');

@@ -7,6 +7,7 @@ import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
+import mrsisa.projekat.tipPenala.Penal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +75,12 @@ public class PacijentController {
 		if(info==null){
 			return false;
 		}else{return true;}
+	}
+
+	@GetMapping(path="/dobaviPenale")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<Penal> dobaviPenale(){
+		return pacijentService.dobaviPenale();
 	}
 
 	@PostMapping(consumes = "application/json", path = "/izbaciAlergije")

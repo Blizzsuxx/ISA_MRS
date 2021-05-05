@@ -58,8 +58,24 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     methods: {
       handleInfo(index, row) {
       console.log(index, row);
-    }, handleOtkazi(index, row) {
-      console.log(index, row);
+    }, handleOtkazi(index) {
+      let str1=this.$store.state.APPosete.zakazanePosetePacijenta[index].pocetak.split(" ")
+      let sdan=str1[0].split("-")
+      let svreme=str1[1].split(":")
+        let today1= new Date();
+        let novdan=new Date(sdan[0],sdan[1]-1,sdan[2]);
+        novdan.setHours(svreme[0])
+        novdan.setMinutes(svreme[1])
+        today1.setDate(today1.getDate()+1);
+        console.log(novdan)
+        console.log(today1)
+        console.log(novdan-today1)
+        if((novdan-today1)>-24*60*60*1000){
+          alert("Istekao je termin za otkazivanje posete.");
+        }else{
+           if(confirm("da li zelite da otkazete posetu?")){
+             this.$store.dispatch("APPosete/otkaziF",index)}
+        }
     },
       formirajDatum(row){
         try{

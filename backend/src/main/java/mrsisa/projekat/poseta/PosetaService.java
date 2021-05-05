@@ -6,7 +6,9 @@ import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -140,7 +142,7 @@ public class PosetaService {
         return dto;
     }
 
-    public List<Poseta> dobaviIstorijuD() {
+    public List<PosetaDTO> dobaviIstorijuD() {
         Poseta poseta1=new Poseta();
         Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
         poseta1.setApoteka(apoteka1);
@@ -174,10 +176,16 @@ public class PosetaService {
         poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
         poseta3.setId(3L);
         ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
-        return posete;
+        ArrayList<PosetaDTO> dto=new ArrayList<>();dto.add(new PosetaDTO(poseta1));dto.add(new PosetaDTO(poseta2)); dto.add(new PosetaDTO(poseta3));
+
+        List<Erecept> erecepti=napraviErecepte(zarko);
+        dto.get(0).setPrepisaniLekoviLista(erecepti);
+        dto.get(1).setPrepisaniLekovi(new ArrayList<>());
+        dto.get(2).setPrepisaniLekoviLista(erecepti);
+        return dto;
     }
 
-    public List<Poseta> dobaviIstorijuF() {
+    public List<PosetaDTO> dobaviIstorijuF() {
         Poseta poseta1=new Poseta();
         Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
         poseta1.setApoteka(apoteka1);
@@ -211,6 +219,73 @@ public class PosetaService {
         poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
         poseta3.setId(3L);
         ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
-        return posete;
+        ArrayList<PosetaDTO> dto=new ArrayList<>();dto.add(new PosetaDTO(poseta1));dto.add(new PosetaDTO(poseta2)); dto.add(new PosetaDTO(poseta3));
+
+        List<Erecept> erecepti=napraviErecepte(zarko);
+        dto.get(0).setPrepisaniLekoviLista(erecepti);
+        dto.get(1).setPrepisaniLekovi(new ArrayList<>());
+        dto.get(2).setPrepisaniLekoviLista(erecepti);
+        return dto;
+    }
+
+    public List<Erecept> napraviErecepte(Pacijent p){//TODO obrisi ovu fju kad sredis bazu
+
+        List<Lijek> lek=new ArrayList<>();
+        Adresa a=new Adresa("mesto", "ptt", "ulica",  "45", 50,50);
+        p.setAdresa(a);
+        p.setEmail("pera@gmail.com");
+        lek.add(new Lijek(
+                1L,
+                "Paracetamol",
+                "Protiv bolova",
+                "tableta",
+                "ljiek",
+                "Biofarm",
+                "Lijek"
+        ));
+        lek.add(new Lijek(
+                2L,
+                "Brufen",
+                "Protiv bolova",
+                "tableta",
+                "lek",
+                "Biofarm",
+                "Lek"
+        ));
+        lek.add(new Lijek(
+                3L,
+                "Buscopan",
+                "Protiv bolova",
+                "tableta",
+                "lek",
+                "Biofarm",
+                "Lek"
+        ));
+        p.setAlergije(lek);
+
+
+        StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
+        StanjeLijeka s2=new StanjeLijeka(p.getAlergije().get(1),2,false);
+        List<StanjeLijeka> sl=new ArrayList<>();
+        sl.add(s1);
+        sl.add(s2);
+
+        Erecept rec=new Erecept();
+        rec.setPacijent(p);
+        rec.setDatumIzdavanja(LocalDateTime.now());
+        rec.setSifra("1");
+        rec.setPrepisaniLijekovi(sl);
+
+        Erecept rec1=new Erecept();
+        rec1.setPacijent(p);
+        rec1.setDatumIzdavanja(LocalDateTime.now());
+        rec1.setSifra("1");
+        rec1.setPrepisaniLijekovi(sl);
+
+        List<Erecept> li=new ArrayList<>();
+        li.add(rec);
+        li.add(rec1);
+        return li;
+
     }
 }

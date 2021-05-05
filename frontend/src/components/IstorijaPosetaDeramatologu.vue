@@ -33,17 +33,82 @@
 
 
         </el-table>
+
+        <div id="app">
+      <el-card class="box-card" v-if="postojiOpis">
+        <template #header>
+          <div class="card-header">
+            Opis pregleda
+          </div>
+        </template>
+        <p>{{this.opis}}</p>
+      </el-card>
+      </div>
+
+         <h2>Pregled prepisanih lekova</h2>
+         <el-table
+    :ref="referenca"
+    height="250"
+    :data="lijekovi"
+    style="width: 100%"
+    @selection-change="handleSelectionChange">
+    <el-table-column
+      type="selection"
+     >
+    </el-table-column>
+    
+    <el-table-column
+      property="id"
+      label="Sifra"
+     >
+    </el-table-column>
+    <el-table-column
+      property="naziv"
+      label="Naziv"
+      >
+    </el-table-column>
+    <el-table-column
+      property="vrstaLijeka"
+      label="Vrsta lijeka"
+      >
+    </el-table-column>
+    <el-table-column
+      property="oblikLijeka"
+      label="Oblik lijeka"
+      >
+    </el-table-column>
+    <el-table-column
+      property="sastav"
+      label="Sastav"
+      >
+    </el-table-column>
+
+    <el-table-column
+      property="proizvodjac"
+      label="Proizvodjac"
+     >
+    </el-table-column>
+    <el-table-column
+      property="cijena"
+      label="Cijena"
+     >
+    </el-table-column>
+
+
+  </el-table>
       </el-main>
     
 </template>
 
 
 <script>
-import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
+
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue";
   export default {
     name: 'IstorijaPosetaDermatologu',
     components : {
-       NavMeniZaPacijenta
+       NavMeniZaPacijenta,
+       
     },
 
     async mounted(){
@@ -54,10 +119,11 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
 
     methods: {
-      handleInfo(index, row) {
-      console.log(index, row);
-    }, handleOtkazi(index, row) {
-      console.log(index, row);
+      handleInfo(index) {
+      console.log(this.tableData[index].prepisaniLekovi);
+      this.lijekovi=this.tableData[index].prepisaniLekovi;
+      this.postojiOpis=true;
+       this.opis=this.tableData[index].opis;
     },
       formirajDatum(row){
         try{
@@ -73,6 +139,9 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         data() {
       return {
         tableData: this.$store.state.APPosete.istorijaDermatolog,
+        lijekovi: [],
+        postojiOpis: false,
+        opis:''
       }
     }
   };

@@ -7,12 +7,12 @@ import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
-import org.springframework.security.core.GrantedAuthority;
+import mrsisa.projekat.tipPenala.Penal;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 @Entity
@@ -33,6 +33,9 @@ public class Pacijent extends Korisnik {
 
 	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Lijek> alergije;
+
+    @OneToMany(fetch =FetchType.LAZY)
+	private List<Penal> penali;
 
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
@@ -56,6 +59,14 @@ public class Pacijent extends Korisnik {
 		return izdatiPrekoERecepta;
 	}
 
+	public List<Penal> getPenali() {
+		return penali;
+	}
+
+	public void setPenali(List<Penal> penali) {
+		this.penali = penali;
+	}
+
 	public void setIzdatiPrekoERecepta(List<Erecept> izdatiPrekoERecepta) {
 		this.izdatiPrekoERecepta = izdatiPrekoERecepta;
 	}
@@ -65,6 +76,7 @@ public class Pacijent extends Korisnik {
 	public Pacijent(KorisnikDTO dummy){
 		super(dummy);
 	}
+
 
 
 	@Override
@@ -98,4 +110,5 @@ public class Pacijent extends Korisnik {
 	public void seteRecepti(List<Erecept> eRecepti) {
 		this.eRecepti = eRecepti;
 	}
+
 }

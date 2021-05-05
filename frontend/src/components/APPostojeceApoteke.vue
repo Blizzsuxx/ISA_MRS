@@ -89,8 +89,9 @@ export default defineComponent ({
        //https://vuejs.org/v2/guide/forms.html
        //bdw ako stavim : bez () mogu da unesem tekst, ako stavim samo () ne moze ha ha;
         
-        if(this.input===""){return;}
-        this.zaTabelu = this.$store.state.APApoteke.sveApoteke.filter( (item) => {return item.ime.includes( this.input)} );
+        if(this.input===""){this.zaTabelu = this.$store.state.APApoteke.sveApoteke;}
+        this.zaTabelu = this.$store.state.APApoteke.sveApoteke.filter( (item) => {return (item.ime.includes( this.input) 
+        || item.adresa.ulica.includes(this.input)  || item.adresa.Mesto.includes(this.input) || item.adresa.broj.includes(this.input))} );
      },
       handleSelectionChange(val) {
         this.multipleSelection = val;
