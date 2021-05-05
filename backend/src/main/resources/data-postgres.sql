@@ -60,6 +60,10 @@ insert into apoteka_dermatolozi(apoteke_id,dermatolozi_radnik) values (1,5);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (4, 3);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (5, 3);
 
+
+
+
+
 -- DOBAVLJACI
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
 ('mika1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Mika', 'Mikic', 'mikamikic1@gmail.com',
@@ -82,6 +86,21 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
  '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58');
 insert into pacijenti (korisnik) values (8);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (8, 6);
+
+
+
+-- FARMACEUTI
+insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
+('andrija', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'andrija@gmail.com',
+ '2017-10-01 21:58:58', 'ROLE_FARMACEUT', true, '2017-10-01 21:58:58');
+insert into radnici (korisnik) values (9);
+insert into farmaceuti (radnik,apoteka_id) values (9,1);
+
+insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date) values
+('milomir', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'milomir@gmail.com',
+ '2017-10-01 21:58:58', 'ROLE_FARMACEUT', true, '2017-10-01 21:58:58');
+insert into radnici (korisnik) values (10);
+insert into farmaceuti (radnik,apoteka_id) values (10,1);
 
 -- LIJEKOVI
 insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)

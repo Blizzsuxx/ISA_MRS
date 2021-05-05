@@ -5,7 +5,7 @@
       <h5>Dermatolozi</h5>
       <DermatoloziTabela
         @promjenjena-selekcija="promjenaDermatologa"
-        v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
+        v-bind:dermatolozi="$store.state.Farmaceuti.sviFarmaceuti"
     /></el-col>
     </el-row>
     <el-row :gutter="20">

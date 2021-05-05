@@ -22,12 +22,13 @@ const actions = {
         axios.get('http://localhost:8080/api/v1/farmaceut/admin', { headers: authHeader()})
             .then(response => {
                 let farmaceuti =response.data
+                console.log(farmaceuti)
                 context.commit('postaviFarmaceute',farmaceuti)
             })
 
 
     },
-    optustiFarmaceuta(context,id){
+    otpustiFarmaceuta(context,id){
         return axios.put(`http://localhost:8080/api/v1/farmaceut/otpustiFarmaceuta/${id}`, {},{ headers: authHeader()})
             .then(() => {
                 

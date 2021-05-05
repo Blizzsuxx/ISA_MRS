@@ -1,5 +1,7 @@
 package mrsisa.projekat.dermatolog;
 
+import mrsisa.projekat.farmaceut.Farmaceut;
+
 import java.time.LocalDateTime;
 
 public class DermatologDTO {
@@ -19,6 +21,14 @@ public class DermatologDTO {
         this.email = dermatolog.getEmail();
         this.rodjendan = dermatolog.getBirthday();
         this.id = dermatolog.getId();
+    }
+    public DermatologDTO(Farmaceut farmaceut){
+        this.ime = farmaceut.getFirstName();
+        this.prezime   = farmaceut.getLastName();
+        this.korisnickoIme = farmaceut.getUsername();
+        this.email = farmaceut.getEmail();
+        this.rodjendan = farmaceut.getBirthday();
+        this.id = farmaceut.getId();
     }
 
     public Integer getId() {

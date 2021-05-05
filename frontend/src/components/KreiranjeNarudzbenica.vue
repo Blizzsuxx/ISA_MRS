@@ -69,7 +69,7 @@ export default {
       NavAdminApoteke
     },
     mounted(){
-      //pozivanje ucitavanja podataka lijekova
+      
       this.$store.dispatch("APlijekovi/dobaviDTOLijekove").then(response=>{
           
           return response;
