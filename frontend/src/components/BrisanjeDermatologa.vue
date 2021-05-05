@@ -54,12 +54,13 @@ export default {
     }
   },
   methods: {
-    promjenaDermatologa (row,val) {
+    promjenaDermatologa (val) {
+     
       this.dermatolog = val
       
     },
     potvrdjeno(){
-      
+     
        this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
            this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
        })
