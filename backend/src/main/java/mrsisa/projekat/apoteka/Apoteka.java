@@ -2,6 +2,7 @@ package mrsisa.projekat.apoteka;
 
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
@@ -43,6 +44,9 @@ public class Apoteka {
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Farmaceut> farmaceuti;
+
+    //@OneToMany(mappedBy = "akcija", fetch = FetchType.LAZY)
+    //private List<Akcija> akcija;
 
     public List<Narudzbenica> getNarudzbenice() {
         return narudzbenice;
@@ -156,4 +160,12 @@ public class Apoteka {
     public void setFarmaceuti(List<Farmaceut> farmaceuti) {
         this.farmaceuti = farmaceuti;
     }
+
+    /*public List<Akcija> getAkcija() {
+        return akcija;
+    }
+
+    public void setAkcija(List<Akcija> akcija) {
+        this.akcija = akcija;
+    }*/
 }

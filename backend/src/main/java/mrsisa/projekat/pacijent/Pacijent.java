@@ -1,5 +1,6 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
@@ -19,6 +20,9 @@ import java.util.List;
 @Table(name = "pacijenti")
 @PrimaryKeyJoinColumn(name = "korisnik")
 public class Pacijent extends Korisnik {
+	@Column(name = "brojPoena", nullable = true)
+	private int brojPoena;
+
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Erecept> eRecepti;
 
@@ -36,6 +40,9 @@ public class Pacijent extends Korisnik {
 
     @OneToMany(fetch =FetchType.LAZY)
 	private List<Penal> penali;
+
+    @OneToOne(fetch=FetchType.LAZY)
+	private Kategorija kategorija;
 
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
@@ -111,4 +118,19 @@ public class Pacijent extends Korisnik {
 		this.eRecepti = eRecepti;
 	}
 
+	public int getBrojPoena() {
+		return brojPoena;
+	}
+
+	public void setBrojPoena(int brojPoena) {
+		this.brojPoena = brojPoena;
+	}
+
+	public Kategorija getKategorija() {
+		return kategorija;
+	}
+
+	public void setKategorija(Kategorija kategorija) {
+		this.kategorija = kategorija;
+	}
 }

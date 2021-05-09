@@ -40,6 +40,10 @@ import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
 import Penali from "../components/Penali"
 import PocetnaStrana from "../components/PocetnaStrana"
 import Registracija from "../components/Registracija"
+import RezervisanjeLekova from "../components/FormaRezervisanjLekova"
+import PregledKategorije from "../components/PregledKategorije"
+import AkcijeApoteke from "../components/AkcijeApoteke"
+import PretplataNaApoteke from "../components/PretplataNaApoteke"
 const routes = [
   
   
@@ -204,6 +208,26 @@ const routes = [
     path: '/ap/registracija',
     name: 'Registracija',
     component: Registracija,
+  },
+  {
+    path: '/ap/rezervisanjeLekova',
+    name: 'RezervisanjeLekova',
+    component: RezervisanjeLekova,
+  },
+  {
+    path: '/ap/pregledKategorije',
+    name: 'pregledKategorije',
+    component: PregledKategorije,
+  },
+  {
+    path: '/ap/akcijeApoteke',
+    name: 'akcijeApoteke',
+    component: AkcijeApoteke,
+  },
+  {
+    path: '/ap/pretplata',
+    name: 'pretplataNaApoteke',
+    component: PretplataNaApoteke,
   }
 
 ]

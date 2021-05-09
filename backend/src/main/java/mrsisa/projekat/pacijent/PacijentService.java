@@ -1,6 +1,8 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
 import mrsisa.projekat.korisnik.Korisnik;
@@ -259,4 +261,20 @@ public class PacijentService {
 		p.setPenali(penali);
 		return penali;
 	}
+
+    public Kategorija dobaviKategoriju() {
+		Kategorija k =new Kategorija(20,20, "GOLD");
+		return k;
+    }
+
+    public List<ApotekaDTO> dobaviPretplatu() {
+		List<ApotekaDTO> apo=new ArrayList<>();
+		ApotekaDTO apoteka1=new ApotekaDTO("apoteka1","mesto","nesto","meseto","nana");
+		ApotekaDTO apoteka2=new ApotekaDTO("apoteka2","mesto","nesto","meseto","nana");
+		ApotekaDTO apoteka3=new ApotekaDTO("apoteka3","mesto","nesto","meseto","nana");
+		apo.add(apoteka1);
+		apo.add(apoteka2);
+		apo.add(apoteka3);
+		return apo;
+    }
 }

@@ -13,10 +13,23 @@ public class StanjeLijekaDTO {
     private boolean prodaja;
     private double cijena;
     private String datumIstekaCijene;
+    private String imeApoteke;
+
 
     public StanjeLijekaDTO(){
 
     }
+
+    public StanjeLijekaDTO(Long id, LijekDTO lijek, int kolicina, boolean prodaja, double cijena, String datumIstekaCijene, String imeApoteke) {
+        this.id = id;
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.cijena = cijena;
+        this.datumIstekaCijene = datumIstekaCijene;
+        this.imeApoteke = imeApoteke;
+    }
+
     public StanjeLijekaDTO(StanjeLijeka stanjeLijeka){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         this.id = stanjeLijeka.getId();
@@ -25,6 +38,14 @@ public class StanjeLijekaDTO {
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();
         this.datumIstekaCijene  = stanjeLijeka.getDatumIstekaCijene().format(format);
+    }
+
+    public String getImeApoteke() {
+        return imeApoteke;
+    }
+
+    public void setImeApoteke(String imeApoteke) {
+        this.imeApoteke = imeApoteke;
     }
 
     public Long getId() {

@@ -1,5 +1,7 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.bezbjednost.ResourceConflictException;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
@@ -37,6 +39,19 @@ public class PacijentController {
 	public Pacijent dobaviPacijenta(){
 		//System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 		return pacijentService.dobaviPacijenta();
+	}
+
+	@GetMapping(path="/dobaviKategoriju")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public Kategorija dobaviKategoriju(){//umesto max poena vratiti moje trenutne poene
+		return pacijentService.dobaviKategoriju();
+	}
+
+	@GetMapping(path="/pretplata")
+	//@PreAuthorize("hasRole('PACIJENT')")
+	public List<ApotekaDTO> pretplata(){//umesto max poena vratiti moje trenutne poene
+		System.out.println("lepotica");
+		return pacijentService.dobaviPretplatu();
 	}
 
 	@PutMapping("/izmeni")

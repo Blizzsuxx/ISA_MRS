@@ -104,4 +104,43 @@ public class ApotekaService {
         adresaRepository.save(apoteka.getAdresa());
         apotekaRepository.save(apoteka);
     }
+
+    public List<StanjeLijekaDTO> dobaviSveDostupneLijekove() {
+        //ovo iz svih apoteka vraca sve lekove, tj dto
+        Lijek l1=new Lijek(
+                3L,
+                "Lekadol",
+                "Protiv boli",
+                "tableta",
+                "ljiek",
+                "Biofarm",
+                "Lijek"
+        );
+        Lijek l3=new Lijek(
+                4L,
+                "Paracetamol",
+                "Protiv bolova",
+                "tableta",
+                "ljiek",
+                "Biofarm",
+                "Lijek"
+        );
+        Lijek l4=new Lijek(
+                2L,
+                "Brufen",
+                "Protiv boli",
+                "tableta",
+                "ljiek",
+                "Biofarm",
+                "Lijek"
+        );
+        LijekDTO d1=new LijekDTO(l1); LijekDTO d2=new LijekDTO(l3); LijekDTO d3=new LijekDTO(l4);
+        StanjeLijekaDTO sd1=new StanjeLijekaDTO(1L, d1,4, true, 500, "21.4.2021.", "apoteka1");
+        StanjeLijekaDTO sd2=new StanjeLijekaDTO(2L, d2,3, true, 500, "21.4.2021.", "apoteka2");
+        StanjeLijekaDTO sd3=new StanjeLijekaDTO(3L, d3,1, true, 500, "21.4.2021.", "apoteka1");
+        List<StanjeLijekaDTO> stanja=new ArrayList<>();
+        stanja.add(sd1);stanja.add(sd2); stanja.add(sd3);
+
+        return stanja;
+    }
 }

@@ -9,6 +9,7 @@ const state = {
     dtoLijekovi: [],
     lijekoviZaPorucivanje:[],
     apotekaLijekovi: [],
+    dostupniLekovi: [],
     greska: false,
 
 };
@@ -53,7 +54,29 @@ const actions = {
         
         
     },
-
+    dobaviSveDostupneLijekove (context) {
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviSveDostupneLijekove',{ headers: authHeader()})
+        .then(response => {
+            context.commit('postaviDostupne',response.data)
+            return response
+            
+        
+        })    
+    },
+    rezervisiLek (context, lek, apoteka, na) {//poslati datum i kolicinu
+        console.log(apoteka)
+        console.log(na)
+        let nov=lek+" "+apoteka;
+        return axios.post('http://localhost:8080/api/v1/apoteka/rezervisiLek',nov,{ headers: authHeader()})
+        .then(response => {
+            let tf = response.data
+            if(tf){
+            console.log("rezervisalji ste lek")
+        }else{   
+                console.log("Nije dobro")
+            }
+        })  
+    },
     proveriAlergije (context, lijekovi, korisnik){
         axios.post('http://localhost:8080/api/v1/apoteka/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik}, {headers : authHeader()})
         .then(response => {
@@ -200,6 +223,7 @@ const actions = {
 const mutations = {
     
     postaviSveLijekove:(state,lijekovi)=>(state.sviLijekovi = lijekovi),
+    postaviDostupne:(state,lijekovi)=>(state.dostupniLekovi = lijekovi),
     postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni),
     postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi),
     postaviLijekoviPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje.push(lijekovi)),
