@@ -78,6 +78,7 @@ public class ApotekaService {
         }
         return bezAlergija;
     }
+    @Transactional
     public ApotekaDTO dobaviApotekuAdmin(AdministratorApoteke adminApoteke) {
         Apoteka apoteka =  adminApoteke.getApoteka();
         apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);

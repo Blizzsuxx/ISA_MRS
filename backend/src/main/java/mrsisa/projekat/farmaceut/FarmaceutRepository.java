@@ -1,4 +1,9 @@
 package mrsisa.projekat.farmaceut;
 
-public interface FarmaceutRepository {
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FarmaceutRepository extends JpaRepository<Farmaceut,Integer> {
 }

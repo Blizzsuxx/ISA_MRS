@@ -37,6 +37,7 @@ import Prijava from "../components/Prijava"
 import AdministratorSistema from '../components/AdministratorSistema';
 
 import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
+import FarmaceutiBrisanje from "../components/FarmaceutiBrisanje"
 import Penali from "../components/Penali"
 import PocetnaStrana from "../components/PocetnaStrana"
 import Registracija from "../components/Registracija"
@@ -62,6 +63,11 @@ const routes = [
     path: '/brisanjeDermatologa',
     name: 'BrisanjeDermatologa',
     component: BrisanjeDermatologa,
+  },
+  {
+    path: '/brisanjeFarmaceuta',
+    name: 'FarmaceutiBrisanje',
+    component: FarmaceutiBrisanje,
   },
   {
     path: '/profilApoteke',

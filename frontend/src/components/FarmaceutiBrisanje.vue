@@ -5,12 +5,12 @@
       <h5>Dermatolozi</h5>
       <DermatoloziTabela
         @promjenjena-selekcija="promjenaDermatologa"
-        v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
+        v-bind:dermatolozi="$store.state.Farmaceuti.sviFarmaceuti"
     /></el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite dermatologa?" @confirm="potvrdjeno" confirmButtonText='OK'
+    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite farmaceuta?" @confirm="potvrdjeno" confirmButtonText='OK'
   cancelButtonText='Odustani'>
       <template #reference>
         <el-button type="danger" plain>Delete</el-button>
@@ -46,7 +46,7 @@ import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
-  name: "BrisanjeDermatologa",
+  name: "FarmaceutiBrisanje",
   props: { options: String },
   data() {
     return {
@@ -61,8 +61,8 @@ export default {
     },
     potvrdjeno(){
      
-       this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
-           this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+       this.$store.dispatch("Farmaceuti/otpustiFarmaceuta",this.dermatolog.id).then(()=>{
+           this.$store.dispatch("Farmaceuti/dobaviFarmaceuteAdmin");
        })
     }
   },
@@ -71,7 +71,7 @@ export default {
     DermatoloziTabela,
   },
   mounted() {
-    this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+    this.$store.dispatch("Farmaceuti/dobaviFarmaceuteAdmin");
   },
 
   computed: {

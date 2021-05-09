@@ -1,8 +1,10 @@
 <template>
 <el-input placeholder="Search table" v-model="search"></el-input>
   <el-table
-    :ref="referenca"
-    @row-click ="odabranDermatolog"
+    ref="referenca"
+    highlight-current-row
+    @current-change="handleCurrentChange"
+    
     :data="dermatolozi.filter(data => !search || String(data.ime).toLowerCase().includes(search.toLowerCase()) ||
     String(data.prezime).toLowerCase().includes(search.toLowerCase()) ||
     String(data.korisnickoIme).toLowerCase().includes(search.toLowerCase()) ||
@@ -10,6 +12,7 @@
     )"
     style="width: 100%"
    >
+   
     <el-table-column
       property="korisnickoIme"
       label="Korisnicko ime"
@@ -73,9 +76,11 @@ export default {
         }
         
       },
-      odabranDermatolog(row){
-        this.$emit("promjenjena-selekcija",row)
-      }
+      handleCurrentChange(val) {
+        this.$refs.referenca.setCurrentRow(val)
+        this.$emit("promjenjena-selekcija",val)
+      },
+      
     },
 
     
