@@ -5,6 +5,7 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.rezervacija.Rezervacija;
@@ -37,6 +38,10 @@ public class Apoteka {
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Rezervacija> rezervacije;
+
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<GodisnjiOdmor> godisnjiOdmori;
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
@@ -159,6 +164,14 @@ public class Apoteka {
 
     public void setFarmaceuti(List<Farmaceut> farmaceuti) {
         this.farmaceuti = farmaceuti;
+    }
+
+    public List<GodisnjiOdmor> getGodisnjiOdmori() {
+        return godisnjiOdmori;
+    }
+
+    public void setGodisnjiOdmori(List<GodisnjiOdmor> godisnjiOdmori) {
+        this.godisnjiOdmori = godisnjiOdmori;
     }
 
     /*public List<Akcija> getAkcija() {

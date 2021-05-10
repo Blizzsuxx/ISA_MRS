@@ -1,5 +1,6 @@
 package mrsisa.projekat.godisnjiodmor;
 
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.*;
@@ -20,6 +21,9 @@ public class GodisnjiOdmor {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Radnik radnik;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Apoteka apoteka;
 
     @Column(name = "odobren", nullable = true)
     private Boolean odobren;
@@ -70,5 +74,13 @@ public class GodisnjiOdmor {
 
     public void setRadnik(Radnik radnik) {
         this.radnik = radnik;
+    }
+
+    public Apoteka getApoteka() {
+        return apoteka;
+    }
+
+    public void setApoteka(Apoteka apoteka) {
+        this.apoteka = apoteka;
     }
 }

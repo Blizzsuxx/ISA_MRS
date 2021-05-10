@@ -1,11 +1,16 @@
 package mrsisa.projekat.godisnjiodmor;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -22,6 +27,14 @@ public class GodisnjiOdmorController {
     public GodisnjiOdmor dobaviGodisnjiOdmor(Long id){
 
         return godisnjiOdmorService.dobaviGodisnjiOdmor(id);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/admin")
+    public List<GodisnjiOdmorDTO> dobaviGodisnjeOdmoreAdmin(Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return godisnjiOdmorService.dobaviGodisnjeOdmoreAdmin(adminApoteke.getApoteka().getId());
     }
 
     @PostMapping("/zakaziGodisnji")
