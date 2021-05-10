@@ -103,7 +103,7 @@
               
             </el-form>
             <div id="unos-link" class="text-right" v-if="indikator">
-              <a href="/ap/korisnici">Korisnici!</a>
+              <a href="/ap/AdministratorSistema">Korisnici!</a>
             </div>
             <div id="unos-link" class="text-right" v-else>
               <a href="/ap/prijava">Prijava!</a>
@@ -218,7 +218,6 @@ import moment from 'moment'
             var k = {korisnickoIme: this.korisnik.korisnickoIme, sifra: this.korisnik.sifra, 
             ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm'),
             email: this.korisnik.email, uloga: this.korisnik.uloga};
-        
             this.$store.dispatch('APKorisnici/dodajKorisnika', k);
             if (this.indikator){
               this.$router.push('/ap/AdministratorSistema');
@@ -233,6 +232,7 @@ import moment from 'moment'
         
       },
       resetForm(formName){
+        this.$store.dispatch('Mail/posaljiMailRegistracija');
         this.$refs[formName].resetFields();
       },
       promjena(){

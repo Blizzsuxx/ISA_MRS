@@ -36,7 +36,7 @@ const actions = {
     },
 
     dobaviDTOLijekove (context) {
-        axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi',{ headers: authHeader()})
+        return axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviDTOLijekove', response.data);
         })

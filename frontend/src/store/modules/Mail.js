@@ -9,6 +9,14 @@ const actions = {
             alert("poslato obavestenje!");
             return response;
         })
+    },
+
+    posaljiMailRegistracija(){
+        axios.post('http://localhost:8080/api/v1/mail/sendemailRegistration',{} ,{headers : authHeader()})
+        .then(response => {
+            alert("poslato obavestenje!");
+            return response;
+        })
     }
 
 }

@@ -2,6 +2,7 @@ package mrsisa.projekat.korisnik;
 
 import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
+import mrsisa.projekat.util.MailSender;
 import mrsisa.projekat.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/korisnici")
@@ -32,6 +34,24 @@ public class KorisnikController {
     @Autowired
     private KorisnikService korisnikService;
 
+    @Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
+
+    @Autowired
+    private MailSender mailSender;
+
+    @GetMapping("/potvrda-registracije")
+    public boolean potvrdaRegistracije(@RequestParam("token")String confirmationToken){
+        ConfirmationToken token = confirmationTokenRepository.findByConfirmationToken(confirmationToken);
+        if (token != null){
+            Korisnik k = korisnikService.findByEmailIdIgnoreCase(token.getKorisnik().getEmail());
+            k.setPotvrdaEmail(true);
+            korisnikService.save(k);
+        } else {
+            return false;
+        }
+        return true;
+    }
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {

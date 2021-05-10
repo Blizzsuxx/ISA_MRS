@@ -138,7 +138,6 @@ const actions = {
     },
 
     dodajKorisnika (context, korisnik){
-        alert(korisnik.uloga);
         if (korisnik.uloga === "ROLE_DERMATOLOG"){
             axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
             { headers: authHeader()})
