@@ -1,14 +1,19 @@
 package mrsisa.projekat.poseta;
 
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PosetaDTO {
 
@@ -19,6 +24,24 @@ public class PosetaDTO {
     private String kraj;
     private String opis;
     private Apoteka apoteka;
+    private List<Lijek> prepisaniLekovi;
+
+    public List<Lijek> getPrepisaniLekovi() {
+        return prepisaniLekovi;
+    }
+
+    public void setPrepisaniLekovi(List<Lijek> prepisaniLekovi) {
+        this.prepisaniLekovi = prepisaniLekovi;
+    }
+    public void setPrepisaniLekoviLista(List<Erecept> recept) {
+        this.prepisaniLekovi=new ArrayList<>();
+        for(Erecept e : recept){
+            for(StanjeLijeka st : e.getPrepisaniLijekovi()){
+                this.prepisaniLekovi.add(st.getLijek());
+            }
+        }
+
+    }
 
     public Long getId() {
         return id;
@@ -83,7 +106,7 @@ public class PosetaDTO {
         DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.pocetak = p.getPocetak().format(df);
         this.kraj = p.getKraj().format(df);
-        this.opis = "opis";
+        this.opis = p.getOpis();
         this.apoteka = p.getApoteka();
     }
     public PosetaDTO(){}

@@ -9,11 +9,14 @@ import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.tipPenala.Penal;
 import mrsisa.projekat.uloga.Uloga;
 import mrsisa.projekat.uloga.UlogaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import mrsisa.projekat.adresa.Adresa;
 
@@ -126,8 +129,8 @@ public class PacijentService {
 		}
 		dto.get(0).setDatumVazenja("25.04.2021.");
 		dto.get(1).setDatumVazenja("25.04.2021.");
-		dto.get(2).setDatumVazenja("25.04.2021.");
-		dto.get(3).setDatumVazenja("25.04.2021.");
+		dto.get(2).setDatumVazenja("30.04.2021.");
+		dto.get(3).setDatumVazenja("29.04.2021.");
 		return dto;
 		/*List<RezervacijaDTO> dto=new ArrayList<>();
 		for(Rezervacija reze : findOne("pera1").getRezervacije()){
@@ -244,4 +247,16 @@ public class PacijentService {
 		save(p);
 	}
 
+	public List<Penal> dobaviPenale() {
+		Pacijent p=dobaviPacijenta();
+		List<Penal> penali=new ArrayList<>();
+		DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+		String dan=LocalDateTime.now().format(df);
+		Penal p1=new Penal(dan, "Niste preuzeli recept");
+		Penal p2=new Penal(dan, "Niste preuzeli recept");
+		penali.add(p1);
+		penali.add(p2);
+		p.setPenali(penali);
+		return penali;
+	}
 }

@@ -134,7 +134,7 @@ export default {
           });
       },
       handleDelete: function(index, row){
-        alert(row.naziv);
+    
         this.$store.dispatch("APlijekovi/obrisiDTOLijek", row.naziv)
           .then(response => {
             this.funkcija();

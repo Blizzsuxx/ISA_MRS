@@ -13,7 +13,7 @@ import ERecepti from './modules/ERecepti';
 import Farmaceuti from './modules/Farmaceuti';
 import GodisnjiOdmori from './modules/GodisnjiOdmori'
 import Mail from './modules/Mail'
-
+import APenali from './modules/APenali'
 
 export default createStore({
     state () {
@@ -30,6 +30,7 @@ export default createStore({
           APPosete,
         APKorisnici,
         //PocetnaStranaPacijenta,
+        APenali,
         RezervisaniLekovi,
         ERecepti,
         Alergije,

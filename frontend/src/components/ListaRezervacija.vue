@@ -58,6 +58,7 @@
 
 <script>
 import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
+//import moment from "moment";
 export default {
   components : {NavMeniZaPacijenta},
   name: 'ListaRezervacija',
@@ -74,8 +75,16 @@ export default {
      
        handleEdit(index, row) {
              //todo, smisli sta je row, a sta index, tj prosledi ime apoteke, ime leka, i datum
-             
-        this.$store.dispatch("RezervisaniLekovi/odustani",index, row)
+        //let rez = moment(this.$store.state.RezervisaniLekovi.rezervisani[index].datumVazenja, "dd.MM.yyyy."); 
+        let str1=this.$store.state.RezervisaniLekovi.rezervisani[index].datumVazenja.split(".")
+        let today1= new Date();
+        let novdan=new Date(str1[2],str1[1]-1,str1[0])
+        today1.setDate(today1.getDate()+1);
+        
+        if((novdan-today1)>-24*60*60*1000){
+          alert("Istekao vam je termin za odustajanje od rezervacije.");
+        }else{
+        this.$store.dispatch("RezervisaniLekovi/odustani",index, row)}
       },
      
       handleSelectionChange(val) {
