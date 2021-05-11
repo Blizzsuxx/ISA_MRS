@@ -14,17 +14,17 @@ export default  {
  components :{NavMeniZaPacijenta},
  data() { 
         return {
-          naziv: "l",
-          popust: "m",
-          poeni: "s"
+          naziv: "Silver",
+          popust: "20",
+          poeni: "5"
         }
     },
  name: 'PregledKategorija',
     async mounted(){
      this.$store.dispatch("APPacijenti/dobaviKategorijuPacijenta").then(()=>{
-        this.naziv=this.$store.state.APPacijenti.kategorija[0].naziv;
-        this.popust=this.$store.state.APPacijenti.kategorija[0].popust;
-        this.poeni=this.$store.state.APPacijenti.kategorija[0].poeni;
+        this.naziv=this.$store.state.APPacijenti.kategorija.naziv;
+        this.popust=this.$store.state.APPacijenti.kategorija.popust;
+        this.poeni=this.$store.state.APPacijenti.kategorija.maxBrPoena;
      })
     
     },

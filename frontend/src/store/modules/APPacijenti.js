@@ -24,6 +24,7 @@ const actions = {
     dobaviKategorijuPacijenta(context){
         return axios.get('http://localhost:8080/api/v1/profil/dobaviKategoriju',{ headers: authHeader()}).then(response=>{
             let kategorija=response.data
+            console.log(kategorija)
             context.commit('postaviKategoriju',kategorija)
         })
     },
