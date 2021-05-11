@@ -33,6 +33,31 @@ const actions = {
             console.log(apoteke)
             context.commit('postaviApoteke',apoteke)
         })
+    },
+    otkaziPretplatu(context,id){
+       
+        return axios.put('http://localhost:8080/api/v1/profil/otkaziPretplatu',id,{ headers: authHeader()}).then(response=>{
+            let da=response.data
+            if(da){
+            let preostaleApoteke = state.pretplata.filter(function(el){
+                    if(el.id===id){
+                        
+                        return false;
+                    }
+                    else{
+                        return true;
+                    }
+            })
+            console.log(preostaleApoteke)
+            context.commit('postaviApoteke',preostaleApoteke)
+            
+        }
+            else{
+                console.log("greska");
+                confirm("Doslo je do greske.")
+            }
+            console.log(state.pretplata)
+        })
     }
 
 }

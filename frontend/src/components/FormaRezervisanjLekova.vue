@@ -121,6 +121,8 @@ export default {
       var apoteka=row.imeApoteke
       console.log(apoteka)
       this.$store.dispatch("APlijekovi/rezervisiLek",lijek, apoteka,"gg")
+      this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek " + lijek+" iz apoteke: "+apoteka, "address" : "rajtarovnatasa@gmail.com"})
+     
 
       },
       formirajDatum(row){

@@ -55,8 +55,8 @@ public class PacijentService {
 	//TODO ovde dodje kod svih metoda jos string sa kljucem nekim
 
 	public Pacijent dobaviPacijenta(){
-		//findOne(id);
-		Pacijent p=new Pacijent("pera", "pera", "pera","pera", LocalDateTime.now());
+		return findOne("zarko");
+		/*Pacijent p=new Pacijent("pera", "pera", "pera","pera", LocalDateTime.now());
 		List<Lijek> lek=new ArrayList<>();
 		Adresa a=new Adresa("mesto", "ptt", "ulica",  "45", 50,50);
 		p.setAdresa(a);
@@ -90,7 +90,7 @@ public class PacijentService {
 		));
 		p.setAlergije(lek);
 		//System.out.println(findOne("pera1").getFirstName());
-		return p;//findOne("pera1");
+		return p;//findOne("pera1");*/
 	}
 
 	public boolean promeni(List<String> podaci) { //pazi, uvek salji sve, i to istim redom
@@ -100,7 +100,7 @@ public class PacijentService {
 	@Transactional
 	public List<RezervacijaDTO> dobaviRezervacije() {
 		//TODO: dodaj id preko kog treba da se dobavi korisnik
-		Pacijent p=dobaviPacijenta();
+		/*Pacijent p=dobaviPacijenta();
 		ArrayList<Rezervacija> rez=new ArrayList<>();
 		Apoteka a=new Apoteka(1L, "Apoteka 1",null);
 		ArrayList<StanjeLijeka> rezLek=new ArrayList<>();
@@ -133,27 +133,27 @@ public class PacijentService {
 		dto.get(1).setDatumVazenja("25.04.2021.");
 		dto.get(2).setDatumVazenja("30.04.2021.");
 		dto.get(3).setDatumVazenja("29.04.2021.");
-		return dto;
-		/*List<RezervacijaDTO> dto=new ArrayList<>();
-		for(Rezervacija reze : findOne("pera1").getRezervacije()){
+		return dto;*/
+		List<RezervacijaDTO> dto=new ArrayList<>();
+		for(Rezervacija reze : findOne("zarko").getRezervacije()){
 
 			for(StanjeLijeka sl : reze.getRezervisaniLijekovi()){
 				dto.add(new RezervacijaDTO(reze, sl));
 			}}
 
-		return dto;*/
+		return dto;
 
 	}
 
 	public List<Pacijent> dobaviPacijente(){
-		Pacijent p1 = new Pacijent();
+		/*Pacijent p1 = new Pacijent();
 		p1.setFirstName("John");
 		p1.setLastName("Titor");
 		Pacijent p2 = new Pacijent();
 		p2.setFirstName("Marko");
-		p2.setLastName("Polo");
-		//return findAll();
-		return List.of( p1, p2);
+		p2.setLastName("Polo");*/
+		return findAll();
+		//return List.of( p1, p2);
 	}
 
     public List<EreceptDTO> dobaviERecepteIzdate() {
@@ -272,9 +272,9 @@ public class PacijentService {
 		ApotekaDTO apoteka1=new ApotekaDTO("apoteka1","mesto","nesto","meseto","nana");
 		ApotekaDTO apoteka2=new ApotekaDTO("apoteka2","mesto","nesto","meseto","nana");
 		ApotekaDTO apoteka3=new ApotekaDTO("apoteka3","mesto","nesto","meseto","nana");
-		apo.add(apoteka1);
-		apo.add(apoteka2);
-		apo.add(apoteka3);
+		apo.add(apoteka1);apoteka1.setId(1L);
+		apo.add(apoteka2);apoteka2.setId(2L);
+		apo.add(apoteka3);apoteka3.setId(3L);
 		return apo;
     }
 }

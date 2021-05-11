@@ -61,7 +61,7 @@
       <template #default="scope">
         <el-button
           size="mini"
-          @click="handleEdit2(scope.$index, scope.row)">Otkazi pretplatu</el-button>
+          @click="handleEdit2( scope.row)">Otkazi pretplatu</el-button>
         
       </template>
     </el-table-column>
@@ -108,9 +108,13 @@ export default defineComponent ({
              this.$router.push('akcijeApoteke') //potrebno je proslediti apoteku i njene akcije, :()
         
       },
-      handleEdit2(index, row) {
-        if(confirm("Da li zelite da otkayete pretplatu na apoteku "+row.ime+ " ?")){
-          console.log("da,",index);
+      async handleEdit2( row) {
+        if(confirm("Da li zelite da otkazete pretplatu na apoteku "+row.ime+ " ?")){
+          
+          var id=row.id;
+          
+          await this.$store.dispatch("APPacijenti/otkaziPretplatu",id)
+          this.zaTabelu =this.$store.state.APPacijenti.pretplata;
         }
         else{
           console.log("ne");

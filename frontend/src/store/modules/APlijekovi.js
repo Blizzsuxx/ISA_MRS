@@ -71,7 +71,8 @@ const actions = {
         .then(response => {
             let tf = response.data
             if(tf){
-            console.log("rezervisalji ste lek")
+            
+            console.log("rezervisali ste lek")
         }else{   
                 console.log("Nije dobro")
             }

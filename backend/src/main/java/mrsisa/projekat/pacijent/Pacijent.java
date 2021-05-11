@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "pacijenti")
 @PrimaryKeyJoinColumn(name = "korisnik")
 public class Pacijent extends Korisnik {
-	@Column(name = "brojPoena", nullable = true)
+	@Column(name="broj_poena")
 	private int brojPoena;
 
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

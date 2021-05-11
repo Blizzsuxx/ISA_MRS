@@ -50,8 +50,16 @@ public class PacijentController {
 	@GetMapping(path="/pretplata")
 	//@PreAuthorize("hasRole('PACIJENT')")
 	public List<ApotekaDTO> pretplata(){//umesto max poena vratiti moje trenutne poene
-		System.out.println("lepotica");
+
 		return pacijentService.dobaviPretplatu();
+	}
+	@PutMapping(path="/otkaziPretplatu")
+	//@PreAuthorize("hasRole('PACIJENT')")
+	public boolean otkaziPretplatu(@RequestBody String id){//umesto max poena vratiti moje trenutne poene
+
+		System.out.println("da "+id);
+		return true;
+
 	}
 
 	@PutMapping("/izmeni")
