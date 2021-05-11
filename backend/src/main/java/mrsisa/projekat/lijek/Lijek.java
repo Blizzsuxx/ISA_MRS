@@ -31,6 +31,8 @@ public class Lijek {
     private String napomena;
     @Column(name = "ocijena", nullable = false)
     private double ocijena;
+    @Column(name = "poeni", nullable = false)
+    private int poeni;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
@@ -109,6 +111,14 @@ public class Lijek {
         this.dobavljac = dobavljac;
     }
 
+    public int getPoeni() {
+        return poeni;
+    }
+
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
+    }
+
     public Lijek() {
 
     }
@@ -150,5 +160,6 @@ public class Lijek {
         this.sastav = dummy.getSastav();
         this.proizvodjac = dummy.getProizvodjac();
         this.napomena = dummy.getNapomena();
+        this.poeni = dummy.getPoeni();
     }
 }

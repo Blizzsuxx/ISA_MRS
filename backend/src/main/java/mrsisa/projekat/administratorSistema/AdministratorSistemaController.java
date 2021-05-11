@@ -5,6 +5,7 @@ import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,6 +18,9 @@ public class AdministratorSistemaController {
     private final AdministratorSistemaService administratorSistemaService;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public AdministratorSistemaController(AdministratorSistemaService administratorSistemaService) {
         this.administratorSistemaService = administratorSistemaService;
     }
@@ -24,6 +28,7 @@ public class AdministratorSistemaController {
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajAdministratoraSistema")
     public void sacuvajAdministratoraSistema(@RequestBody KorisnikDTO dummy) {
+        dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
         AdministratorSistema as = new AdministratorSistema(dummy);
         this.administratorSistemaService.save(as);
     }

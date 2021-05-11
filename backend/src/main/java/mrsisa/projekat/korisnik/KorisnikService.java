@@ -33,4 +33,8 @@ public class KorisnikService implements UserDetailsService {
     public void remove(String korisnickoIme) {
         korisnikRepository.deleteByUsername(korisnickoIme);
     }
+
+    public Korisnik findByEmailIdIgnoreCase(String email) {
+        return korisnikRepository.findByEmailIgnoreCase(email);
+    }
 }

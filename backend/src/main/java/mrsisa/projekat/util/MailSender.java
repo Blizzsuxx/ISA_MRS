@@ -1,7 +1,13 @@
 package mrsisa.projekat.util;
 
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.poseta.PosetaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.*;
@@ -16,8 +22,6 @@ import java.util.Properties;
 @RestController
 @RequestMapping(path="api/v1/mail")
 public class MailSender {
-
-
     @Autowired
     public MailSender(){
 
@@ -36,9 +40,18 @@ public class MailSender {
         return true;
     }
 
-
-
-
+    @PostMapping(value = "/sendemailRegistration")
+    public Boolean sendEmailRegistration() {
+        try {
+            sendmail("Test", "dunjica.isa@gmail.com");
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
 
     public static void sendmail(String text, String sendT0) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
@@ -75,13 +88,4 @@ public class MailSender {
 
         Transport.send(msg);
     }
-
-
-
-
-
-
-
-
-
 }
