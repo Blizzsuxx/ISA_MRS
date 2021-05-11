@@ -22,7 +22,7 @@ const actions = {
     login(kredecijali) {
         return axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
         .then(response => {
-            if (response.data.accessToken){
+            if (response.data.accessToken && response.data.uloga !== "NEMA"){
                 localStorage.setItem('user', JSON.stringify(response.data));
             }
             return response.data;
@@ -142,43 +142,45 @@ const actions = {
             axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Dermatolog");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_DOBAVLJAC"){
             axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Dobavljac");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_FARMACEUT"){
             axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Farmaceut");
-                return response;
+                console.log(response);
+                return true;
             })
         }
         else if (korisnik.uloga === "ROLE_ADMIN_SISTEMA"){
             axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik,
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Administrator Sistema");
-                return response;
+                console.log(response);
+                return true;
             })
-        } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"){
+        } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"
+        || korisnik.uloga === "ROLE_ADMIN_APOTEKE"){
             axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Administrator Apoteke");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_PACIJENT"){
-            axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, { headers: authHeader()})
+            axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, 
+            { headers: authHeader()})
             .then(response => {
-                alert("Dodat Pacijent");
-                return response;
+                console.log(response);
+                return true;
             })
         }
         

@@ -22,7 +22,7 @@ public class ConfirmationToken {
     private Korisnik korisnik;
 
     public ConfirmationToken() {}
-     
+
     public ConfirmationToken(Korisnik korisnik){
         this.korisnik = korisnik;
         createdDate = new Date();

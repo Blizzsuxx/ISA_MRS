@@ -67,11 +67,17 @@ public class KorisnikController {
 
         // Kreiraj token za tog korisnika
         Korisnik user = (Korisnik) authentication.getPrincipal();
+
         String jwt = tokenUtils.generateToken(user.getUsername(), user.getRole());
         int expiresIn = tokenUtils.getExpiredIn();
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
-        return ResponseEntity.ok(new UserTokenState(jwt, (long) expiresIn, user.getRole()));
+        String temp;
+        if (!user.isPotvrdaEmail())
+            temp = "NEMA";
+        else
+            temp = user.getRole();
+        return ResponseEntity.ok(new UserTokenState(jwt, (long) expiresIn, temp));
     }
 
     @GetMapping(produces = "application/json", value = "/dobaviKorisnika/{korisnickoIme}")

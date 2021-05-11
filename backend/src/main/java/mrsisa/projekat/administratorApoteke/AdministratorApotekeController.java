@@ -7,6 +7,7 @@ import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -25,6 +26,9 @@ public class AdministratorApotekeController {
     private MailSender mailSender;
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     public AdministratorApotekeController(AdministratorApotekeService administratorApotekeService,
                                           ConfirmationTokenRepository confirmationTokenRepository) {
         this.administratorApotekeService = administratorApotekeService;
@@ -34,6 +38,7 @@ public class AdministratorApotekeController {
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajAdministratoraApoteke")
     public void sacuvajAdministratoraApoteke(@RequestBody KorisnikDTO dummy) throws IOException, MessagingException {
+        dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
         AdministratorApoteke aa = new AdministratorApoteke(dummy);
         this.administratorApotekeService.save(aa);
         ConfirmationToken confirmationToken = new ConfirmationToken(aa);
