@@ -69,6 +69,7 @@ public class ApotekaController {
         //TODO: rezervisanje
         //return apotekaService.dobaviSveDostupneLijekove();
         System.out.println(lek);
+        apotekaService.rezervisiLek(lek);
         return true;
     }
 

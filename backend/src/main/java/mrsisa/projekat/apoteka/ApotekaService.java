@@ -144,4 +144,14 @@ public class ApotekaService {
 
         return stanja;
     }
+
+    public void rezervisiLek(String lek) {
+        List<StanjeLijekaDTO> stanjaLekova=dobaviSveDostupneLijekove();
+        for(StanjeLijekaDTO s : stanjaLekova){
+            if(s.getId().toString().equals(lek)){
+                s.setKolicina(s.getKolicina()-1);
+                break;
+            }
+        }
+    }
 }

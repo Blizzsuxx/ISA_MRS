@@ -13,7 +13,7 @@ import java.util.List;
 @CrossOrigin
 @RestController
 @RequestMapping(path="api/v1/farmaceut")
-public class FarmaceutController {
+public class  FarmaceutController {
     private final FarmaceutService farmaceutService;
     public FarmaceutController(FarmaceutService farmaceutService){
         this.farmaceutService = farmaceutService;
