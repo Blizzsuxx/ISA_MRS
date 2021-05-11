@@ -5,8 +5,11 @@ insert into uloga (name) values ('ROLE_DOBAVLJAC');  -- 4
 insert into uloga (name) values ('ROLE_FARMACEUT');  -- 5
 insert into uloga (name) values ('ROLE_PACIJENT');  -- 6
 
-
-
+--POPUST
+insert into popust (popust_regular, od_regular,
+do_regular, popust_silver, od_silver, do_silver,
+popust_gold, od_gold, do_gold, broj_poena_pregleda, broj_poena_savetovanja, odobren)
+values (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 
 
 --ADRESE
@@ -103,11 +106,11 @@ insert into radnici (korisnik) values (10);
 insert into farmaceuti (radnik,apoteka_id) values (10,1);
 
 -- LIJEKOVI
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
-values ('napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
-values ('napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
-values ('napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
-values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);

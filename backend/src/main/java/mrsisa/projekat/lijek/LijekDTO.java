@@ -10,6 +10,7 @@ public class LijekDTO {
     private String napomena;
     private double ocijena;
     private int kolicina;
+    private int poeni;
 
     public LijekDTO() {}
 
@@ -120,5 +121,13 @@ public class LijekDTO {
 
     public void setProizvodjac(String proizvodjac) {
         this.proizvodjac = proizvodjac;
+    }
+
+    public int getPoeni() {
+        return poeni;
+    }
+
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
     }
 }
