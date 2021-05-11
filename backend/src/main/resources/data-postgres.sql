@@ -111,3 +111,10 @@ insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, 
 values ('napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
 insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik)
 values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7);
+
+
+
+--GODISNJI ODMORI
+insert into godisnji_odmor (datum_od,datum_do,odobren,apoteka_id,radnik_korisnik)
+values ('2021-05-01 00:00:00','2021-05-21 00:00:00',true,1,9);
+values ('2021-06-10 00:00:00','2021-06-30 00:00:00',true,1,10);
