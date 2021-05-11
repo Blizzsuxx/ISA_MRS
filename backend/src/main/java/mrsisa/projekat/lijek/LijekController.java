@@ -62,7 +62,8 @@ public class LijekController {
         l.setProizvodjac(dummy.getProizvodjac());
         l.setSastav(dummy.getSastav());
         l.setVrstaLijeka(dummy.getVrstaLijeka());
-
+        l.setPoeni(dummy.getPoeni());
+        
         this.lijekService.save(l);
         return true;
     }

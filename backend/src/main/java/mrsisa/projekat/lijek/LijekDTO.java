@@ -23,6 +23,7 @@ public class LijekDTO {
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
         this.ocijena = l.getOcijena();
+        this.poeni = l.getPoeni();
     }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {

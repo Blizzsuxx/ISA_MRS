@@ -34,6 +34,11 @@
         width="180">
       </el-table-column>
       <el-table-column
+        property="poeni"
+        label="Poeni"
+        width="180">
+      </el-table-column>
+      <el-table-column
       align="right">
         <template #header>
           <el-input
@@ -85,6 +90,8 @@
       <el-input v-model="lijek.vrstaLijeka"></el-input>
       <p><strong>Sastav</strong></p>
       <el-input v-model="lijek.sastav"></el-input>
+      <p><strong>Poeni</strong></p>
+      <el-input v-model.number="lijek.poeni"></el-input>
     </div>
     <template #footer>
       <span class="dialog-footer">
