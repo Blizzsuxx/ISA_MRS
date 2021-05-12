@@ -45,6 +45,7 @@ import RezervisanjeLekova from "../components/FormaRezervisanjLekova"
 import PregledKategorije from "../components/PregledKategorije"
 import AkcijeApoteke from "../components/AkcijeApoteke"
 import PretplataNaApoteke from "../components/PretplataNaApoteke"
+import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora"
 const routes = [
   
   
@@ -52,6 +53,12 @@ const routes = [
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/godisnjiOdmori',
+    name: 'PrihvatanjeGodisnjihOdmora',
+    component: PrihvatanjeGodisnjihOdmora,
+
   },
   {
     path: '/ap/farmaceut/izdavanje',

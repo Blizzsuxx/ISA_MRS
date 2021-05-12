@@ -6,14 +6,14 @@ public class GodisnjiOdmorDTO {
     private Long id;
     private String datumOd;
     private String datumDo;
-    private boolean odobren;
+    private Boolean odobren;
     private String korisnicko;
 
     public GodisnjiOdmorDTO(){
 
     }
 
-    public GodisnjiOdmorDTO(Long id, String datumOd, String datumDo, boolean odobren) {
+    public GodisnjiOdmorDTO(Long id, String datumOd, String datumDo, Boolean odobren) {
         this.id = id;
         this.datumOd = datumOd;
         this.datumDo = datumDo;
@@ -53,11 +53,11 @@ public class GodisnjiOdmorDTO {
         this.datumDo = datumDo;
     }
 
-    public boolean isOdobren() {
+    public Boolean isOdobren() {
         return odobren;
     }
 
-    public void setOdobren(boolean odobren) {
+    public void setOdobren(Boolean odobren) {
         this.odobren = odobren;
     }
 
