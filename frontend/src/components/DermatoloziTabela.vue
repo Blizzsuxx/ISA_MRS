@@ -1,5 +1,5 @@
 <template>
-<el-input placeholder="Search table" v-model="search"></el-input>
+<el-input placeholder="Pretrazi tabelu" v-model="search"></el-input>
   <el-table
     ref="referenca"
     highlight-current-row
