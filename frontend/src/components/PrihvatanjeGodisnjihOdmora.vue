@@ -1,8 +1,14 @@
 <template>
   <NavAdminApoteke />
+  <el-alert
+    v-if="greska"
+    @close="greska=false"
+    title="Greska"
+    type="error" center>{{poruka}}
+  </el-alert>
   <el-row :gutter="20">
     <el-col :span="24">
-      <h5>Dermatolozi</h5>
+      <h5>Zahtjevi za godisnje odmore radnika</h5>
       <GodisnjiOdmoriTabela
         @promjenjena-selekcija="promjenaGodisnjegOdmora"
         v-bind:godisnjiOdmori="$store.state.GodisnjiOdmori.sviOdmori"
@@ -10,10 +16,16 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite farmaceuta?" @confirm="potvrdjeno" confirmButtonText='OK'
+        <el-popconfirm title="Da li ste sigurni da zelite da prihvatite zahtjev za godisnji odmor?" @confirm="potvrdjeno" confirmButtonText='Potvrdi'
   cancelButtonText='Odustani'>
       <template #reference>
-        <el-button type="danger" plain>Delete</el-button>
+        <el-button plain>Odobri zahtjev</el-button>
+      </template>
+    </el-popconfirm>
+    <el-popconfirm title="Da li ste sigurni da zelite da odbijete zahtjev za godisnji odmor?" @confirm="odbijeno" confirmButtonText='OK'
+  cancelButtonText='Odustani'>
+      <template #reference>
+        <el-button type="danger" plain>Odbij zahtjev</el-button>
       </template>
     </el-popconfirm>
     </el-col>
@@ -49,17 +61,37 @@ export default {
   props: { options: String },
   data() {
     return {
-      godisnjiOdmor : null
+      godisnjiOdmor : null,
+      greska : false,
+      poruka : "",
     }
   },
   methods: {
-    promjenaDermatologa (val) {
+    promjenaGodisnjegOdmora (val) {
       this.godisnjiOdmor = val
     },
-    potvrdjeno(){
-       this.$store.dispatch("Farmaceuti/otpustiFarmaceuta",this.dermatolog.id).then(()=>{
-           this.$store.dispatch("Farmaceuti/dobaviFarmaceuteAdmin");
+    odbijeno(){
+      if(this.godisnjiOdmor.odobren===null){
+       this.$store.dispatch("GodisnjiOdmori/odbijGodisnjiOdmor",this.godisnjiOdmor.id).then(()=>{
+           this.$store.dispatch("GodisnjiOdmori/godisnjiOdmoriAdmin");
        })
+      }
+      else{
+        this.poruka = "Zahtjev moze biti obrađen samo jednom."
+        this.greska = true;
+      }
+    
+    },
+    potvrdjeno(){
+      if(this.godisnjiOdmor.odobren===null){
+       this.$store.dispatch("GodisnjiOdmori/odobriGodisnjiOdmor",this.godisnjiOdmor.id).then(()=>{
+           this.$store.dispatch("GodisnjiOdmori/godisnjiOdmoriAdmin");
+       })
+      }
+      else{
+        this.poruka = "Zahtjev moze biti obrađen samo jednom."
+        this.greska = true;
+      }
     }
   },
   components: {

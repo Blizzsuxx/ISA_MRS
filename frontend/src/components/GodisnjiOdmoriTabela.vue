@@ -1,4 +1,5 @@
 <template>
+  <el-input placeholder="Pretrazi tabelu" v-model="pretraga"></el-input>
   <el-table
     ref="referenca"
     highlight-current-row
@@ -43,7 +44,7 @@ export default {
   name: 'GodisnjiOdmoriTabela',
   data() {
       return {
-        search : ''
+        pretraga : ''
       }
     },
   components:{
@@ -52,10 +53,11 @@ export default {
   props: ['godisnjiOdmori','referenca'],
   methods: {
       formirajOdobren(row){
-        if(row.odobre){
+        if(row.odobren===true)
           return "Odobren"
-        }
-        return "Nije odobren"
+        if(row.odobren===false)
+          return "Nije odobren"
+        return "Razmatranje"
       },
       handleCurrentChange(val) {
         this.$refs.referenca.setCurrentRow(val)
