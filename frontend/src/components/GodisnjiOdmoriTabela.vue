@@ -25,8 +25,8 @@
       >
     </el-table-column>
     <el-table-column
-      property="email"
-      label="Email"
+      property="odobren"
+      label="Odobren"
       :formatter="formirajOdobren"
       >
     </el-table-column>

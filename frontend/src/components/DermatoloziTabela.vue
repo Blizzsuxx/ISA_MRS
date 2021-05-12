@@ -33,12 +33,7 @@
       label="Email"
       >
     </el-table-column>
-    <el-table-column
-      property="rodjendan"
-      label="Datum rodjenja"
-      :formatter="formirajDatum"
-      >
-    </el-table-column>
+    
     
 
 
