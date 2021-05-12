@@ -2,6 +2,7 @@ package mrsisa.projekat.dermatolog;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
@@ -21,12 +22,15 @@ public class Dermatolog extends Radnik{
 
 
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<RadnoVrijeme> radnaVremena;
 
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<SlobodanTermin> slobodniTermini;
 
     @ManyToMany(mappedBy = "dermatolozi")
+    @JsonIgnore
     private List<Apoteka> apoteke;
 
 
@@ -74,4 +78,11 @@ public class Dermatolog extends Radnik{
     }
 
 
+    public List<Apoteka> getApoteke() {
+        return apoteke;
+    }
+
+    public void setApoteke(List<Apoteka> apoteke) {
+        this.apoteke = apoteke;
+    }
 }

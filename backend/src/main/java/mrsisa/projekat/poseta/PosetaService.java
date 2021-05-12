@@ -8,9 +8,11 @@ import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,7 +35,15 @@ public class PosetaService {
         return null;
     }
 
+
+    public Poseta findId(Long id){
+
+        return this.posetaRepository.getOne(id);
+    }
+
+    @Transactional
     public void kreirajPosetu(Map<String, Object> podaci){
+        Poseta p = new Poseta();
         System.out.println(podaci.get("korisnik"));
     }
     public List<PosetaDTO> dobaviPosete(){
@@ -59,8 +69,9 @@ public class PosetaService {
 
 
         Poseta p1 = new Poseta((long)1, pac, f, d1, d2, a, new ArrayList<Erecept>());
-        Poseta p2 = new Poseta((long)1, pac, d, d1, d2, a, new ArrayList<Erecept>());
-        return List.of(new PosetaDTO(p1), new PosetaDTO(p2));
+        Poseta p2 = new Poseta((long)2, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        Poseta p3 = new Poseta((long)3, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        return List.of(new PosetaDTO(p1), new PosetaDTO(p2), new PosetaDTO(p3));
     }
 
 
@@ -287,5 +298,27 @@ public class PosetaService {
         li.add(rec1);
         return li;
 
+    }
+
+    @Transactional
+    public void zabeleziOdsustvo(Long id) {
+        Poseta poseta = this.posetaRepository.findById(id).orElse(null);
+        poseta.setOtkazano(true);
+    }
+
+    @Transactional(readOnly=true)
+    public List<PosetaDTO> getAktivnePosete(Radnik radnik) {
+
+        return dobaviPosete(); //hotfix
+
+        /*
+        List<Poseta> posete = this.posetaRepository.findByRadnikAktivno(radnik.getId());
+        ArrayList<PosetaDTO> dtoPosete = new ArrayList<>();
+        for(Poseta a : posete){
+            dtoPosete.add(new PosetaDTO(a));
+        }
+
+        return dtoPosete;
+        */
     }
 }

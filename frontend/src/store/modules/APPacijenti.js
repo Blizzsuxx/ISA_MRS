@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const state = {
     sviPacijenti :[],
+    trenutniPacijent: null,
 
 };
 
@@ -18,12 +19,17 @@ const actions = {
             })
 
 
+    },
+
+    pacijentZaPrelged(context, pacijent){
+        context.commit('postaviPacijentaZaPregled', pacijent);
     }
 
 }
 
 const mutations = {
     postaviPacijente:(state, pacijenti) => (state.sviPacijenti = pacijenti),
+    postaviPacijentaZaPregled:(state, pacijentNov) => (state.trenutniPacijent = pacijentNov)
 }
 
 export default{

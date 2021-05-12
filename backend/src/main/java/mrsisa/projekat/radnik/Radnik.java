@@ -1,5 +1,6 @@
 package mrsisa.projekat.radnik;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 public abstract class Radnik extends Korisnik {
 
     @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<GodisnjiOdmor> godisnjiOdmori;
 
     public Radnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Poseta> posete) {
@@ -24,6 +26,7 @@ public abstract class Radnik extends Korisnik {
     }
 
     @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Poseta> posete;
 
     public Radnik() {}

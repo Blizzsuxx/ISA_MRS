@@ -2,6 +2,7 @@ package mrsisa.projekat.korisnik;
 
 import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,6 +53,13 @@ public class KorisnikController {
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new UserTokenState(jwt, (long) expiresIn, user.getRole()));
+    }
+
+    @GetMapping(path = "trenutniRadnik")
+    public Radnik trenutniRadnik(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Radnik radnik = (Radnik)auth.getPrincipal();
+        return radnik;
     }
 
     @GetMapping(produces = "application/json", value = "/dobaviKorisnika/{korisnickoIme}")

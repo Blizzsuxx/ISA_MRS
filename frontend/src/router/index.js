@@ -141,7 +141,7 @@ const routes = [
 
   },
   {
-    path: '/ap/Pregled',
+    path: '/ap/Pregled/:pacijentID+:pregledID',
     name: 'APPregled',
     component: APPregled
   },

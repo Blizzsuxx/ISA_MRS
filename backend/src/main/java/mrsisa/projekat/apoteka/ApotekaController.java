@@ -56,16 +56,6 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(Long.valueOf(1));
     }
 
-    @PostMapping(value="/proveriAlergije")
-    public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
-
-        return false;
-    }
-
-    @PostMapping(value="/proveriDostupnost")
-    public Boolean proveriDostupnost(@RequestBody Map<String, Object> params){
-        return false;
-    }
 
     @GetMapping(path="/dobaviApoteke")
     public List<Apoteka> dobaviApoteke(){

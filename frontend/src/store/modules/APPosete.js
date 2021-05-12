@@ -109,6 +109,23 @@ const actions = {
             alert("Zakazan pregled");
             return response;
         })
+    },
+
+    zabeleziOdsustvo(context, podaci){
+        
+        axios.post('http://localhost:8080/api/v1/posete/zabeleziOdsustvo', podaci, {headers : authHeader()}).then(response => {
+
+            return response;
+        })
+    },
+
+    dobaviPoseteAktivne(context){
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviPoseteAktivne',{ headers: authHeader()})
+            .then(response => {
+                let poseteSve =response.data
+                
+                context.commit('postaviPosete',poseteSve)
+            })
     }
 
 }
