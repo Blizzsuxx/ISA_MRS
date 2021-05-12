@@ -67,14 +67,16 @@ const routes = [
   },
 
   {
-    path: '/brisanjeDermatologa',
+    path: '/pregledDermatologa',
     name: 'BrisanjeDermatologa',
     component: BrisanjeDermatologa,
+    meta:{title: 'Zaposleni dermatolozi'}
   },
   {
-    path: '/brisanjeFarmaceuta',
+    path: '/pregledFarmaceuta',
     name: 'FarmaceutiBrisanje',
     component: FarmaceutiBrisanje,
+    meta:{title: 'Zaposleni farmaceuti'}
   },
   {
     path: '/profilApoteke',
@@ -249,12 +251,12 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-
+const DEFAULT_TITLE = 'Apoteka'
 router.beforeEach((to, from, next)=>{
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-
+  document.title = to.meta.title || DEFAULT_TITLE
   if (authRequired && !loggedIn){
     console.log('provjera');
     return next('/ap/prijava');

@@ -9,8 +9,8 @@
 
   <el-menu-item index="2"><router-link to="/kreiranjeNarudzbenice">Kreiraj narudzbenicu</router-link></el-menu-item>
   <el-menu-item index="3"><router-link to="/ap/lijekovi">Lijekovi apoteke</router-link></el-menu-item>
-  <el-menu-item index="4"><router-link to="/brisanjeDermatologa">Brisanje dermatologa</router-link></el-menu-item>
-  
+  <el-menu-item index="4"><router-link to="/pregledDermatologa">Pregled zaposlenih dermatologa</router-link></el-menu-item>
+  <el-menu-item index="4"><router-link to="/pregledFarmaceuta">Pregled zaposlenih farmaceuta</router-link></el-menu-item>
   <el-menu-item index="5"><router-link to="/slobodanTermin">Kreiranje slobodnih termina</router-link></el-menu-item>
 </el-menu>
 </template>

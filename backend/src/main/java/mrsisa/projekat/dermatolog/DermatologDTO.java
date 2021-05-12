@@ -3,6 +3,7 @@ package mrsisa.projekat.dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class DermatologDTO {
     private Integer id;
@@ -10,24 +11,26 @@ public class DermatologDTO {
     private String prezime;
     private String korisnickoIme;
     private String email;
-    private LocalDateTime rodjendan;
+    private String rodjendan;
     public DermatologDTO(){
 
     }
     public DermatologDTO(Dermatolog dermatolog){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.ime = dermatolog.getFirstName();
         this.prezime   = dermatolog.getLastName();
         this.korisnickoIme = dermatolog.getUsername();
         this.email = dermatolog.getEmail();
-        this.rodjendan = dermatolog.getBirthday();
+        this.rodjendan = dermatolog.getBirthday().format(dtf);
         this.id = dermatolog.getId();
     }
     public DermatologDTO(Farmaceut farmaceut){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.ime = farmaceut.getFirstName();
         this.prezime   = farmaceut.getLastName();
         this.korisnickoIme = farmaceut.getUsername();
         this.email = farmaceut.getEmail();
-        this.rodjendan = farmaceut.getBirthday();
+        this.rodjendan = farmaceut.getBirthday().format(dtf);
         this.id = farmaceut.getId();
     }
 
@@ -71,11 +74,11 @@ public class DermatologDTO {
         this.email = email;
     }
 
-    public LocalDateTime getRodjendan() {
+    public String getRodjendan() {
         return rodjendan;
     }
 
-    public void setRodjendan(LocalDateTime rodjendan) {
+    public void setRodjendan(String rodjendan) {
         this.rodjendan = rodjendan;
     }
 }

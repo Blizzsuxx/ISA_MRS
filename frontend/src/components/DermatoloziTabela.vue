@@ -1,10 +1,9 @@
 <template>
-<el-input placeholder="Pretrazi tabelu" v-model="search"></el-input>
+<el-input placeholder="Pretraži tabelu" v-model="search"></el-input>
   <el-table
     ref="referenca"
     highlight-current-row
     @current-change="handleCurrentChange"
-    
     :data="dermatolozi.filter(data => !search || String(data.ime).toLowerCase().includes(search.toLowerCase()) ||
     String(data.prezime).toLowerCase().includes(search.toLowerCase()) ||
     String(data.korisnickoIme).toLowerCase().includes(search.toLowerCase()) ||
@@ -15,7 +14,7 @@
    
     <el-table-column
       property="korisnickoIme"
-      label="Korisnicko ime"
+      label="Korisničko ime"
      >
     </el-table-column>
     <el-table-column
@@ -33,16 +32,13 @@
       label="Email"
       >
     </el-table-column>
-    
-    
-
-
-    
-    
+    <el-table-column
+      property="rodjendan"
+      label="Datum rođenja"
+      >
+    </el-table-column>
   </el-table>
   <div style="margin-top: 20px">
-   
-    
   </div>
 </template>
 
@@ -61,17 +57,8 @@ export default {
   },
   props: ['dermatolozi','referenca'],
   methods: {
-      formirajDatum(row){
-        try{
-          let podjeljeno = row.rodjendan.split("T")
-        return podjeljeno.join(" ")
-        }
-        catch(error){
-          return " "
-        }
-        
-      },
       handleCurrentChange(val) {
+        console.log(val)
         this.$refs.referenca.setCurrentRow(val)
         this.$emit("promjenjena-selekcija",val)
       },
