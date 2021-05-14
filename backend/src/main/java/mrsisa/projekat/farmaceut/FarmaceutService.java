@@ -25,9 +25,14 @@ public class FarmaceutService {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> farmaceuti =  new ArrayList<>();
 
-
+        DermatologDTO temp ;
+        List<String>  apoteke;
         for(Farmaceut farmaceut: apoteka.getFarmaceuti()){
-            farmaceuti.add(new DermatologDTO(farmaceut));
+            temp = new DermatologDTO(farmaceut);
+            apoteke =  new ArrayList<>();
+            apoteke.add(farmaceut.getApoteka().getIme());
+            temp.setApoteke(apoteke);
+            farmaceuti.add(temp);
         }
         return farmaceuti;
     }

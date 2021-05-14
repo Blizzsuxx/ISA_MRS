@@ -13,7 +13,13 @@ public class ApotekaDTO {
     public ApotekaDTO() {
 
     }
+
+    public ApotekaDTO(Long id, String ime){
+        this.ime = ime;
+        this.id = id;
+    }
     public ApotekaDTO(Apoteka apoteka){
+        this.id = apoteka.getId();
         this.ime = apoteka.getIme();
         this.mjesto = apoteka.getAdresa().getMesto();
         this.ptt = apoteka.getAdresa().getPtt();

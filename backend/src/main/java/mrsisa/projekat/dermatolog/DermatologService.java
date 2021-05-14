@@ -47,9 +47,16 @@ public class DermatologService {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> dermatolozi =  new ArrayList<>();
         boolean working =  false;
-
+        DermatologDTO temp;
+        List<String> apoteke;
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
-            dermatolozi.add(new DermatologDTO(dermatolog));
+            apoteke = new ArrayList<>();
+            temp =  new DermatologDTO(dermatolog);
+            for(Apoteka apoteka1 : dermatolog.getApoteke()){
+                apoteke.add(apoteka1.getIme());
+            }
+            temp.setApoteke(apoteke);
+            dermatolozi.add(temp);
         }
         return dermatolozi;
     }

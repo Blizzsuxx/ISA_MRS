@@ -19,6 +19,7 @@ insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21
 
 --APOTEKE
 insert into apoteka (ime,adresa_id) values ('Prva apoteka',1);
+insert into apoteka (ime,adresa_id) values ('Druga apoteka',1);
 
 -- ADMINISTRATORI APOTEKA
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
@@ -57,6 +58,7 @@ potvrda_email) values
 insert into radnici (korisnik) values (4);
 insert into dermatolozi (radnik) values (4);
 insert into apoteka_dermatolozi(apoteke_id,dermatolozi_radnik) values (1,4);
+insert into apoteka_dermatolozi(apoteke_id,dermatolozi_radnik) values (2,4);
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
 potvrda_email) values

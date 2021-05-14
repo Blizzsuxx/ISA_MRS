@@ -4,6 +4,7 @@ import mrsisa.projekat.farmaceut.Farmaceut;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class DermatologDTO {
     private Integer id;
@@ -12,6 +13,7 @@ public class DermatologDTO {
     private String korisnickoIme;
     private String email;
     private String rodjendan;
+    private List<String> apoteke;
     public DermatologDTO(){
 
     }
@@ -80,5 +82,13 @@ public class DermatologDTO {
 
     public void setRodjendan(String rodjendan) {
         this.rodjendan = rodjendan;
+    }
+
+    public List<String> getApoteke() {
+        return apoteke;
+    }
+
+    public void setApoteke(List<String> apoteke) {
+        this.apoteke = apoteke;
     }
 }

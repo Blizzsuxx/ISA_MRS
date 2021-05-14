@@ -85,7 +85,7 @@ public class ApotekaController {
     }
 
     @GetMapping(path="/dobaviApoteke")
-    public List<Apoteka> dobaviApoteke(){
+    public List<ApotekaDTO> dobaviApoteke(){
     	
 
     	return apotekaService.dobaviApoteke();

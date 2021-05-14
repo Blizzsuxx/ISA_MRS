@@ -2,7 +2,7 @@
   <NavAdminApoteke />
   <el-row :gutter="20">
     <el-col :span="24">
-      <h5>Zaposleni dermatolozi</h5>
+      <h5>Dermatolozi</h5>
       <DermatoloziTabela
         @promjenjena-selekcija="promjenaDermatologa"
         v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     promjenaDermatologa (val) {
-     
       this.dermatolog = val
       
     },
@@ -63,6 +62,11 @@ export default {
      
        this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
            this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+       this.$message({
+          showClose: true,
+          message: 'Uspjesno ste obrisali dermatologa.',
+          type: 'success'
+        });
        })
     }
   },

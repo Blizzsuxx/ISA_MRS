@@ -73,5 +73,11 @@ public class Dermatolog extends Radnik{
         return null;
     }
 
+    public List<Apoteka> getApoteke() {
+        return apoteke;
+    }
 
+    public void setApoteke(List<Apoteka> apoteke) {
+        this.apoteke = apoteke;
+    }
 }
