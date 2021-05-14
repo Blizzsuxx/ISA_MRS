@@ -47,6 +47,7 @@ import AkcijeApoteke from "../components/AkcijeApoteke"
 import PretplataNaApoteke from "../components/PretplataNaApoteke"
 import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora"
 import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
+import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -75,6 +76,12 @@ const routes = [
     name: 'DermatologZaposljavanje',
     component: DermatologZaposljavanje,
     meta:{title: 'Dermatolozi'}
+  },
+  {
+    path: '/zaposljavanjeFarmaceuta',
+    name: 'FarmaceutZaposljavanje',
+    component: FarmaceutZaposljavanje,
+    meta:{title: 'Farmaceuti'}
   },
   {
     path: '/pregledFarmaceuta',
