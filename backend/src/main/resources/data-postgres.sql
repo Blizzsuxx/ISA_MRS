@@ -115,7 +115,7 @@ potvrda_email) values
 ('milomir', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Nikola', 'Nikolic', 'milomir@gmail.com',
  '2017-10-01 21:58:58', 'ROLE_FARMACEUT', true, '2017-10-01 21:58:58', true);
 insert into radnici (korisnik) values (10);
-insert into farmaceuti (radnik,apoteka_id) values (10,1);
+insert into farmaceuti (radnik,apoteka_id) values (10,null);
 
 -- LIJEKOVI
 insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)

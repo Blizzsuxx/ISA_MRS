@@ -4,6 +4,7 @@ import mrsisa.projekat.farmaceut.Farmaceut;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DermatologDTO {
@@ -25,6 +26,7 @@ public class DermatologDTO {
         this.email = dermatolog.getEmail();
         this.rodjendan = dermatolog.getBirthday().format(dtf);
         this.id = dermatolog.getId();
+        this.apoteke =  new ArrayList<>();
     }
     public DermatologDTO(Farmaceut farmaceut){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -34,6 +36,7 @@ public class DermatologDTO {
         this.email = farmaceut.getEmail();
         this.rodjendan = farmaceut.getBirthday().format(dtf);
         this.id = farmaceut.getId();
+        this.apoteke =  new ArrayList<>();
     }
 
     public Integer getId() {
