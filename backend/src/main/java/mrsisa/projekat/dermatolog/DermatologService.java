@@ -46,7 +46,6 @@ public class DermatologService {
     public List<DermatologDTO> dobaviDermatologeAdmin(Long id) {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> dermatolozi =  new ArrayList<>();
-        boolean working =  false;
         DermatologDTO temp;
         List<String> apoteke;
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
@@ -63,15 +62,41 @@ public class DermatologService {
     @Transactional
     public void otpustiDermatologa(Integer id,Long id_apoteke) {
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
-        List<DermatologDTO> dermatolozi =  new ArrayList<>();
-        boolean working =  false;
-
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
             if(dermatolog.getId().equals(id)){
                 apoteka.getDermatolozi().remove(dermatolog);
                 apotekeRepository.save(apoteka);
                 return;
             }
+        }
+    }
+
+    @Transactional
+    public List<DermatologDTO> dobaviNezaposleneDermatologeAdmin(Long id) {
+        Apoteka apoteka =  this.apotekeRepository.findById(id).orElse(null);
+        List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        List<Dermatolog> zaposleni = apoteka.getDermatolozi();
+        DermatologDTO temp;
+        List<String> apoteke;
+        for(Dermatolog dermatolog: this.dermatologRepository.findAll()){
+            if(!zaposleni.contains(dermatolog)){
+                apoteke = new ArrayList<>();
+                temp =  new DermatologDTO(dermatolog);
+                for(Apoteka apoteka1 : dermatolog.getApoteke()){
+                    apoteke.add(apoteka1.getIme());
+                }
+                temp.setApoteke(apoteke);
+                dermatolozi.add(temp);
+            }
+        }
+        return dermatolozi;
+    }
+    @Transactional
+    public void zaposliDermatologa(Integer id,Long id_apoteke) {
+        Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
+        Dermatolog dermatolog =  this.dermatologRepository.findById(id).orElse(null);
+        if (dermatolog!=null){
+            apoteka.getDermatolozi().add(dermatolog);
         }
     }
 }

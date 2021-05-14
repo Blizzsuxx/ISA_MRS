@@ -46,14 +46,29 @@ public class DermatologController {
         return dermatologService.dobaviDermatologeAdmin(adminApoteke.getApoteka().getId());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','ROLE_ADMIN_APOTEKA')")
+    @GetMapping(path="/admin/nezaposleni")
+    public List<DermatologDTO> dobaviNezaposleneDermatologeAdmin(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return dermatologService.dobaviNezaposleneDermatologeAdmin(adminApoteke.getApoteka().getId());
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping(path="/otpustiDermatologa/{id}")
     public void otpustiDermatologa(@PathVariable Integer id){
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-
         dermatologService.otpustiDermatologa(id,adminApoteke.getApoteka().getId());
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PutMapping(path="/zaposliDermatologa/{id}")
+    public void zaposliDermatologa(@PathVariable Integer id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        dermatologService.zaposliDermatologa(id,adminApoteke.getApoteka().getId());
     }
 
     @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")

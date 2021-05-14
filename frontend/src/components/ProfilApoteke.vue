@@ -125,7 +125,7 @@ export default {
     LijekoviTabela,
   },
   mounted() {
-    this.$store.dispatch("Dermatolozi/dobaviDermatologe");
+    this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
     this.$store.dispatch("APlijekovi/dobaviLijekove");
     this.$store.dispatch("APApoteke/dobaviApoteku", 1).then(() => {
       this.apotekaUcitana = true;
