@@ -46,9 +46,8 @@ import PregledKategorije from "../components/PregledKategorije"
 import AkcijeApoteke from "../components/AkcijeApoteke"
 import PretplataNaApoteke from "../components/PretplataNaApoteke"
 import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora"
+import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
 const routes = [
-  
-  
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
@@ -65,12 +64,17 @@ const routes = [
     name: 'APIzdavanje',
     component: APIzdavanje
   },
-
   {
     path: '/pregledDermatologa',
     name: 'BrisanjeDermatologa',
     component: BrisanjeDermatologa,
     meta:{title: 'Zaposleni dermatolozi'}
+  },
+  {
+    path: '/zaposljavanjeDermatologa',
+    name: 'DermatologZaposljavanje',
+    component: DermatologZaposljavanje,
+    meta:{title: 'Dermatolozi'}
   },
   {
     path: '/pregledFarmaceuta',
