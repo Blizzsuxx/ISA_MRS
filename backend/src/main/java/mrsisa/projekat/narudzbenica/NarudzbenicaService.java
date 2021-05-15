@@ -7,6 +7,7 @@ import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
+import mrsisa.projekat.ponuda.PonudaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,5 +75,17 @@ public class NarudzbenicaService {
             }
         }
         return narudzbenice;
+    }
+    public NarudzbenicaDTO dobaviJednuNarudzbeniceAdmin(Long narudzbenica_id) {
+        Narudzbenica narudzbenica =  this.narudzbenicaRepository.findById(narudzbenica_id).orElse(null);
+        if(narudzbenica!=null){
+            NarudzbenicaDTO narudzbenicaDTO =  new NarudzbenicaDTO(narudzbenica);
+            narudzbenicaDTO.setBrojPonuda(narudzbenica.getPonude().size());
+            return narudzbenicaDTO;
+        }
+        else{
+            return  new NarudzbenicaDTO();
+        }
+
     }
 }

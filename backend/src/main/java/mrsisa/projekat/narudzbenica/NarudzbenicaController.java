@@ -3,6 +3,7 @@ package mrsisa.projekat.narudzbenica;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.ponuda.PonudaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -37,5 +38,13 @@ public class NarudzbenicaController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
         return this.narudzbenicaService.dobaviSveNarudzbeniceAdmin(adminApoteke.getApoteka().getId());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping(path="/{id}/admin")
+    public NarudzbenicaDTO dobaviJednuNarudzbenicuAdmin(@PathVariable Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return this.narudzbenicaService.dobaviJednuNarudzbeniceAdmin(id);
     }
 }

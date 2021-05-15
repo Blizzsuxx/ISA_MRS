@@ -25,6 +25,9 @@ public class Ponuda {
     @Column(name="status",nullable = false)
     private int status;
 
+    @Column(name="cijenaPonude",nullable=false)
+    private double cijenaPonude;
+
     public Ponuda() {}
 
     public Ponuda(String nazivPonude, Dobavljac dobavljac) {
@@ -70,5 +73,13 @@ public class Ponuda {
 
     public void setNarudzbenica(Dobavljac narudzbenica) {
         this.narudzbenica = narudzbenica;
+    }
+
+    public double getCijenaPonude() {
+        return cijenaPonude;
+    }
+
+    public void setCijenaPonude(double cijenaPonude) {
+        this.cijenaPonude = cijenaPonude;
     }
 }
