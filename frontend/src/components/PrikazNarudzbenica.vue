@@ -4,7 +4,7 @@
     <el-col :span="24">
       <h5>Istorija narudzbenica</h5>
       <NarudzbeniceTabela
-        v-bind:narudzbenice="$store.state.Farmaceuti.sviFarmaceuti"
+        v-bind:narudzbenice="$store.state.Narudzbenice.sveNarudzbenice"
     /></el-col>
     </el-row>
 </template>
@@ -32,32 +32,20 @@
 
 <script>
 import NavAdminApoteke from "./NavAdminApoteke";
-import NarudbzbeniceTabela from "./NarudzbeniceTabela";
+import NarudzbeniceTabela from "./NarudzbeniceTabela";
 export default {
   name: "PrikazNarudzbenica",
-  props: { options: String },
   data() {
     return {
       farmaceut : null
     }
   },
-  methods: {
-    promjeniFarmaceuta (val) {
-      this.farmaceut = val
-    },
-    potvrdjeno(){
-     
-       this.$store.dispatch("Farmaceuti/zaposliFarmaceuta",this.farmaceut.id).then(()=>{
-           this.$store.dispatch("Farmaceuti/dobaviNezaposleneFarmaceuteAdmin");
-       })
-    }
-  },
   components: {
     NavAdminApoteke,
-    NarudbzbeniceTabela,
+    NarudzbeniceTabela,
   },
   mounted() {
-    this.$store.dispatch("Farmaceuti/dobaviNezaposleneFarmaceuteAdmin");
+    this.$store.dispatch("Narudzbenice/dobaviNarudzbenice");
   },
 };
 </script>

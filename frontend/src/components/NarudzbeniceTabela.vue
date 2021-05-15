@@ -9,7 +9,7 @@
     <el-table-column property="brojPonuda" label="Broj ponuda">
     </el-table-column>
     <el-table-column property="rok" label="Rok"> </el-table-column>
-    <el-table-column property="zavrsena" label="Zavrsena"> </el-table-column>
+    <el-table-column property="zavrsena" label="Zavrsena" :formatter="formatirajZavrsenost"> </el-table-column>
   </el-table>
   <div style="margin-top: 20px"></div>
 </template>
@@ -22,11 +22,11 @@ export default {
   },
   props: ["narudzbenice", "referenca"],
   methods: {
-    formatirajProizvodnju(row) {
-      if (row.prodaja) {
-        return "Prodaja";
+    formatirajZavrsenost(row) {
+      if (row.zavrsena) {
+        return "Zavrsena";
       } else {
-        return "Magacin";
+        return "Nije zavrsena";
       }
     },
   },

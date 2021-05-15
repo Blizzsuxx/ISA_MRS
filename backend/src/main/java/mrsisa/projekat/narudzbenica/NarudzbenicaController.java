@@ -32,10 +32,10 @@ public class NarudzbenicaController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
-    @PutMapping(path="/admin")
-    public void dobaviSveNarudzbeniceAdmin(){
+    @GetMapping(path="/admin")
+    public List<NarudzbenicaDTO> dobaviSveNarudzbeniceAdmin(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        this.narudzbenicaService.dobaviSveNarudzbeniceAdmin(adminApoteke.getApoteka().getId());
+        return this.narudzbenicaService.dobaviSveNarudzbeniceAdmin(adminApoteke.getApoteka().getId());
     }
 }

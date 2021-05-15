@@ -12,5 +12,6 @@
   <el-menu-item index="6"><router-link to="/slobodanTermin">Kreiranje slobodnih termina</router-link></el-menu-item>
   <el-menu-item index="7"><router-link to="/zaposljavanjeDermatologa">Zaposljavanje dermatologa</router-link></el-menu-item>
   <el-menu-item index="7"><router-link to="/zaposljavanjeFarmaceuta">Zaposljavanje farmaceuta</router-link></el-menu-item>
+  <el-menu-item index="7"><router-link to="/prikazNarudzbenica">Istorija narudzbenica</router-link></el-menu-item>
 </el-menu>
 </template>
