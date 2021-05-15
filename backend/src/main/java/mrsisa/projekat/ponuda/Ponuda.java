@@ -12,11 +12,18 @@ public class Ponuda {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name="nazivPonude", nullable = false)
     private String nazivPonude;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Dobavljac narudzbenica;
+
+    @Column(name="status",nullable = false)
+    private int status;
 
     public Ponuda() {}
 
@@ -47,5 +54,21 @@ public class Ponuda {
 
     public void setDobavljac(Dobavljac dobavljac) {
         this.dobavljac = dobavljac;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Dobavljac getNarudzbenica() {
+        return narudzbenica;
+    }
+
+    public void setNarudzbenica(Dobavljac narudzbenica) {
+        this.narudzbenica = narudzbenica;
     }
 }

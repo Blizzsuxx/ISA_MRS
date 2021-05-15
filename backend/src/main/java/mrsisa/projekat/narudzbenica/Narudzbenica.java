@@ -18,7 +18,17 @@ public class Narudzbenica {
 
     @OneToMany(mappedBy = "narudzbenica", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> lijekovi;
+
+
+    @OneToMany(mappedBy = "narudzbenica", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<StanjeLijeka> ponude;
+
+    @Column(name="rok", nullable = false)
     private LocalDateTime rok;
+
+
+    @Column(name="zavrsena",nullable = false)
+    private boolean zavrsena;
 
     public Narudzbenica(){
 
@@ -55,5 +65,21 @@ public class Narudzbenica {
 
     public void setRok(LocalDateTime rok) {
         this.rok = rok;
+    }
+
+    public boolean isZavrsena() {
+        return zavrsena;
+    }
+
+    public void setZavrsena(boolean zavrsena) {
+        this.zavrsena = zavrsena;
+    }
+
+    public List<StanjeLijeka> getPonude() {
+        return ponude;
+    }
+
+    public void setPonude(List<StanjeLijeka> ponude) {
+        this.ponude = ponude;
     }
 }
