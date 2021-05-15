@@ -17,9 +17,10 @@
         <el-submenu index="2">
             <template #title>
             <i></i>
-            <span>Lijekovi</span>
+            <span>Apoteke i Lijekovi</span>
             </template>
             <el-menu-item index="2-1" @click="dobaviLijekove">Svi Lijekovi</el-menu-item>
+            <el-menu-item index="2-1" @click="dobaviApoteke">Sve Apoteke</el-menu-item>
         </el-submenu>
         <el-submenu index="3">
             <template #title>
@@ -59,10 +60,10 @@
             <FormaApoteke/>
         </div>
         <div v-else-if="indikator == 5">
-            <FormaKorisnika/>
+            <FormaKorisnika :izmjeniIndikator="izmjeniIndikator"/>
         </div>
         <div v-else-if="indikator == 6">
-            <FormaLijekova/>
+            <FormaLijekova :izmjeniIndikator="izmjeniIndikator"/>
         </div>
         <div v-else>
         </div>
@@ -126,6 +127,9 @@ export default {
                 return response;
             })
         },
+        dobaviApoteke(){
+            
+        },
         registracija(){
             this.indikator = 5;
         },
@@ -141,6 +145,16 @@ export default {
         odjava(){
             this.$store.dispatch('APKorisnici/logout');
             this.$router.push('/ap/prijava');
+        },
+        izmjeniIndikator(broj, nesto){
+            this.indikator = broj;
+            if (this.indikator === 1){
+                this.promjeniti(nesto);
+            } else if (this.indikator === 2){
+                this.dobaviLijekove();
+            } else if (this.indikator === 7){
+                this.dobaviApoteke();
+            }
         }
 
     },

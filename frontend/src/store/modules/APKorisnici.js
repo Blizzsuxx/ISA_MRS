@@ -139,21 +139,21 @@ const actions = {
 
     dodajKorisnika (context, korisnik){
         if (korisnik.uloga === "ROLE_DERMATOLOG"){
-            axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
+            return axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_DOBAVLJAC"){
-            axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik, 
+            return axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_FARMACEUT"){
-            axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik, 
+            return axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
@@ -161,7 +161,7 @@ const actions = {
             })
         }
         else if (korisnik.uloga === "ROLE_ADMIN_SISTEMA"){
-            axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik,
+            return axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik,
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
@@ -169,14 +169,14 @@ const actions = {
             })
         } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"
         || korisnik.uloga === "ROLE_ADMIN_APOTEKE"){
-            axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
+            return axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_PACIJENT"){
-            axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, 
+            return axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
