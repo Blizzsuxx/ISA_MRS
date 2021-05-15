@@ -15,6 +15,8 @@ import GodisnjiOdmori from './modules/GodisnjiOdmori'
 import Mail from './modules/Mail'
 import APenali from './modules/APenali'
 import APAkcije from './modules/APAkcije'
+import LoyaltyPrograma from './modules/LoyaltyPrograma'
+
 export default createStore({
     state () {
         return {
@@ -39,5 +41,6 @@ export default createStore({
         GodisnjiOdmori,
         Mail,
         APAkcije,
+        LoyaltyPrograma
       }
   })

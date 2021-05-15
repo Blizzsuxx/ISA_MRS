@@ -30,6 +30,17 @@ public class  FarmaceutController {
         return farmaceutService.dobaviFarmaceuteAdmin(adminApoteke.getApoteka().getId());
     }
 
+
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','ROLE_ADMIN_APOTEKA')")
+    @GetMapping(path="/admin/nezaposleni")
+    public List<DermatologDTO> dobaviNezaposleneFarmaceuteAdmin(){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+
+        return farmaceutService.dobaviNezaposleneFarmaceuteAdmin(adminApoteke.getApoteka().getId());
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping(path="/otpustiFarmaceuta/{id}")
     public void otpustiFarmaceuta(@PathVariable Integer id){
@@ -38,6 +49,15 @@ public class  FarmaceutController {
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
 
         farmaceutService.otpustiDermatologa(id);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PutMapping(path="/zaposliFarmaceuta/{id}")
+    public void zaposliFarmaceuta(@PathVariable Integer id){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        farmaceutService.zaposliFarmaceuta(id,adminApoteke.getApoteka().getId());
     }
 
 }

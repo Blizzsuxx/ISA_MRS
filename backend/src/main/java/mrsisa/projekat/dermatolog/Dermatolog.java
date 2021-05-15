@@ -23,8 +23,7 @@ public class Dermatolog extends Radnik{
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<RadnoVrijeme> radnaVremena;
 
-    @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<SlobodanTermin> slobodniTermini;
+
 
     @ManyToMany(mappedBy = "dermatolozi")
     private List<Apoteka> apoteke;
@@ -56,13 +55,6 @@ public class Dermatolog extends Radnik{
         this.radnaVremena = radnaVremena;
     }
 
-    public List<SlobodanTermin> getSlobodniTermini() {
-        return slobodniTermini;
-    }
-
-    public void setSlobodniTermini(List<SlobodanTermin> slobodniTermini) {
-        this.slobodniTermini = slobodniTermini;
-    }
 
     public Dermatolog(KorisnikDTO dummy) {
         super(dummy);
@@ -73,5 +65,11 @@ public class Dermatolog extends Radnik{
         return null;
     }
 
+    public List<Apoteka> getApoteke() {
+        return apoteke;
+    }
 
+    public void setApoteke(List<Apoteka> apoteke) {
+        this.apoteke = apoteke;
+    }
 }

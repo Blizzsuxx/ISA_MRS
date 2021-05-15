@@ -2,7 +2,7 @@
   <NavAdminApoteke />
   <el-row :gutter="20">
     <el-col :span="24">
-      <h5>Dermatolozi</h5>
+      <h5>Farmaceuti</h5>
       <DermatoloziTabela
         @promjenjena-selekcija="promjenaDermatologa"
         v-bind:dermatolozi="$store.state.Farmaceuti.sviFarmaceuti"
@@ -10,10 +10,10 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite farmaceuta?" @confirm="potvrdjeno" confirmButtonText='OK'
+    <el-popconfirm title="Da li ste sigurni da želite da otpustitite farmaceuta?" @confirm="potvrdjeno" confirmButtonText='Potvrdi'
   cancelButtonText='Odustani'>
       <template #reference>
-        <el-button type="danger" plain>Delete</el-button>
+        <el-button type="danger" plain>Otpuštanje farmaceuta</el-button>
       </template>
     </el-popconfirm>
     </el-col>

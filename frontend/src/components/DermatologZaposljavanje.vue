@@ -13,7 +13,7 @@
     <el-popconfirm title="Da li ste sigurni da želite da otpustitite dermatologa?" @confirm="potvrdjeno" confirmButtonText='Potvrdi'
   cancelButtonText='Odustani'>
       <template #reference>
-        <el-button type="danger" plain>Otpuštanje dermatologa</el-button>
+        <el-button type="success" plain>Zapošljavanje dermatologa</el-button>
       </template>
     </el-popconfirm>
     </el-col>
@@ -46,7 +46,7 @@ import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
-  name: "BrisanjeDermatologa",
+  name: "DermatologZaposljavanje",
   props: { options: String },
   data() {
     return {
@@ -59,12 +59,11 @@ export default {
       
     },
     potvrdjeno(){
-     
-       this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
-           this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+       this.$store.dispatch("Dermatolozi/zaposliDermatologa",this.dermatolog.id).then(()=>{
+           this.$store.dispatch("Dermatolozi/dobaviNezaposleneDermatologe");
        this.$message({
           showClose: true,
-          message: 'Uspjesno ste obrisali dermatologa.',
+          message: 'Uspjesno ste zaposlili dermatologa u apoteku.',
           type: 'success'
         });
        })
@@ -75,7 +74,7 @@ export default {
     DermatoloziTabela,
   },
   mounted() {
-    this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+    this.$store.dispatch("Dermatolozi/dobaviNezaposleneDermatologe");
   },
 
   computed: {

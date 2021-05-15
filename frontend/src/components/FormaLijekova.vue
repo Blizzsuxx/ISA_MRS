@@ -76,6 +76,11 @@
                 <el-input v-model="lijek.napomena"></el-input>
                 </div>
               </el-form-item>
+              <el-form-item label="Poeni:" prop="poeni">
+                <div class="grupa">
+                <el-input  v-model.number="lijek.poeni"></el-input>
+                </div>
+              </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSubmit">Formiraj</el-button>
                 <el-button @click="resetForm('lijek')">Obriši</el-button>
@@ -96,6 +101,22 @@
   export default {
     name: 'FormaLijekova',
     data() {
+      var provjeriPoene = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('Unesite broj poena!'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('Unesite broj nenegativan!'));
+          } else {
+            if (value < 0) {
+              callback(new Error('Broj mora biti nenegativan!'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+      };
       return {
         naslov: 'Unos Lijeka',
         naslovForme: 'Unos Lijeka',
@@ -106,6 +127,7 @@
           sastav: '',
           proizvodjac: '',
           napomena: '',
+          poeni: ''
         },
          rules: {
           naziv: [
@@ -125,19 +147,29 @@
           ],
           napomena: [
             { required: true, message: 'Unesite napomenu!', trigger: 'blur' }
+          ],
+          poeni: [
+            { validator: provjeriPoene, trigger: 'blur' }
           ]
         }
       };
       
     },
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Dodat lijek',
+          type: 'success'
+        });
+      },
       onSubmit() {
         var l = {naziv: this.lijek.naziv, vrstaLijeka: this.lijek.vrstaLijeka, 
         oblikLijeka: this.lijek.oblikLijeka, sastav: this.lijek.sastav, proizvodjac: this.lijek.proizvodjac,
-        napomena: this.lijek.napomena };
+        napomena: this.lijek.napomena, poeni: this.lijek.poeni };
         this.$store.dispatch('APlijekovi/dodajLijek', l)
         .then(response => {
-            alert("Dodat lijek");
+            this.open1();
             this.$router.push('/ap/AdministratorSistema');
           return response;
         });

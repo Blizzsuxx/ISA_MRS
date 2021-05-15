@@ -2,18 +2,18 @@
   <NavAdminApoteke />
   <el-row :gutter="20">
     <el-col :span="24">
-      <h5>Dermatolozi</h5>
+      <h5>Farmaceuti</h5>
       <DermatoloziTabela
-        @promjenjena-selekcija="promjenaDermatologa"
-        v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
+        @promjenjena-selekcija="promjeniFarmaceuta"
+        v-bind:dermatolozi="$store.state.Farmaceuti.sviFarmaceuti"
     /></el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da želite da otpustitite dermatologa?" @confirm="potvrdjeno" confirmButtonText='Potvrdi'
+    <el-popconfirm title="Da li ste sigurni da želite da zaposlite farmaceuta?" @confirm="potvrdjeno" confirmButtonText='Potvrdi'
   cancelButtonText='Odustani'>
       <template #reference>
-        <el-button type="danger" plain>Otpuštanje dermatologa</el-button>
+        <el-button type="primary" plain>Zaposli farmaceuta</el-button>
       </template>
     </el-popconfirm>
     </el-col>
@@ -46,27 +46,21 @@ import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
-  name: "BrisanjeDermatologa",
+  name: "FarmaceutZaposljavanje",
   props: { options: String },
   data() {
     return {
-      dermatolog : null
+      farmaceut : null
     }
   },
   methods: {
-    promjenaDermatologa (val) {
-      this.dermatolog = val
-      
+    promjeniFarmaceuta (val) {
+      this.farmaceut = val
     },
     potvrdjeno(){
      
-       this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
-           this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
-       this.$message({
-          showClose: true,
-          message: 'Uspjesno ste obrisali dermatologa.',
-          type: 'success'
-        });
+       this.$store.dispatch("Farmaceuti/zaposliFarmaceuta",this.farmaceut.id).then(()=>{
+           this.$store.dispatch("Farmaceuti/dobaviNezaposleneFarmaceuteAdmin");
        })
     }
   },
@@ -75,7 +69,7 @@ export default {
     DermatoloziTabela,
   },
   mounted() {
-    this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+    this.$store.dispatch("Farmaceuti/dobaviNezaposleneFarmaceuteAdmin");
   },
 
   computed: {

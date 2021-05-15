@@ -64,10 +64,25 @@
                 <el-submenu index="4">
                     <template #title>
                     <i class="el-icon-location"></i>
+                    <span>Loyalty Programa</span>
+                    </template>
+                    <el-menu-item-group title="Definisanje">
+                    <el-menu-item index="4-1" @click="loyaltyPrograma">Loyalty Programa</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+            <el-menu
+            default-active="2"
+            class="el-menu-vertical-demo"
+            @open="handleOpen"
+            @close="handleClose">
+                <el-submenu index="5">
+                    <template #title>
+                    <i class="el-icon-location"></i>
                     <span>Dodatne Opcije</span>
                     </template>
                     <el-menu-item-group title="Dodatne Opcije">
-                    <el-menu-item index="4-1" @click="odjava">Odjava</el-menu-item>
+                    <el-menu-item index="5-1" @click="odjava">Odjava</el-menu-item>
                     </el-menu-item-group>
                 </el-submenu>
             </el-menu>
@@ -79,6 +94,9 @@
             <div v-else-if="indikator == 2">
                 <DTOLijekoviTabela ref="dijete" :funkcija="dobaviLijekove" v-bind:lijekovi="lijekovi"/>
             </div>
+            <div v-else-if="indikator == 3">
+                <LoyaltyPrograma/>
+            </div>
             <div v-else>
             </div>
         </el-main>
@@ -88,6 +106,7 @@
 <script>
 import DTOKorisniciTabela from './DTOKorisniciTabela'
 import DTOLijekoviTabela from './DTOLijekoviTabela'
+import LoyaltyPrograma from './LoyaltyPrograma'
 
 export default {
     name: 'AdministratorSistema',
@@ -147,6 +166,9 @@ export default {
         kreiranjeApoteka(){
             this.$router.push('/ap/FormaApoteke');
         },
+        loyaltyPrograma(){
+            this.indikator = 3;
+        },
         odjava(){
             this.$store.dispatch('APKorisnici/logout');
             this.$router.push('/ap/prijava');
@@ -154,7 +176,7 @@ export default {
 
     },
     components:{
-        DTOKorisniciTabela, DTOLijekoviTabela
+        DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma
     },
     /*
     mounted() {

@@ -48,18 +48,18 @@ public class ApotekaService {
         }
         return povratna_stanja;
     }
-    public List<Apoteka> dobaviApoteke(){
-
-    	List<Apoteka> apoteke=List.of(
-    			new Apoteka(1L,"Apoteka1",null),new Apoteka(2L,"Apoteka2",null),new Apoteka(3L,"Apoteka3",null),new Apoteka(4L,"Apoteka4",null));
-    	Adresa ad=new Adresa("Kazahstan","ptt","Ulica","5",50, 50);
-    	for(Apoteka a : apoteke) {
-    		a.setAdresa(ad);
-    	}
+    @Transactional
+    public List<ApotekaDTO> dobaviApoteke(){
+        List<ApotekaDTO> apoteke = new ArrayList<>();
+        ApotekaDTO temp ;
+    	for(Apoteka apoteka: this.apotekaRepository.findAll()){
+    	    temp =  new ApotekaDTO(apoteka.getId(),apoteka.getIme());
+    	    temp.setAdresa(apoteka.getAdresa());
+    	    apoteke.add(temp);
+        }
     	return apoteke;
-
-
     }
+
     @Transactional
     public ApotekaDTO dobaviApoteku(Long id) {
         ApotekaDTO dto =  new ApotekaDTO(apotekaRepository.findById(id).orElse(null));

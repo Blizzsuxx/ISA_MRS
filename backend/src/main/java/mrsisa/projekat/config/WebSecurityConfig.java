@@ -83,6 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/foo").permitAll()		// /api/foo
                 // DA DOZVOLIMO REGISTRACIJU
                 .antMatchers("/api/v1/profil/registracija").permitAll()
+                .antMatchers("/api/v1/mail/sendemailRegistration").permitAll()
+                .antMatchers("/api/korisnici/potvrda-registracije").permitAll()
 
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi

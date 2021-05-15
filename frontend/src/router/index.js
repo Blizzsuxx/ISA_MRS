@@ -45,32 +45,54 @@ import RezervisanjeLekova from "../components/FormaRezervisanjLekova"
 import PregledKategorije from "../components/PregledKategorije"
 import AkcijeApoteke from "../components/AkcijeApoteke"
 import PretplataNaApoteke from "../components/PretplataNaApoteke"
+
 import FormaZakazivanjaKodDermatologa from "../components/FormaZakazivanjaKodDermatologa"
 import LekoviNeautentifikovanKorisnik from "../components/LekoviNeautentifikovanKorisnik"
 import FormaZakazivanjeFarmaceut from "../components/FormaZakazivanjeFarmaceut"
+
+import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora"
+import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
+import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 const routes = [
-  
-  
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
   },
   {
+    path: '/godisnjiOdmori',
+    name: 'PrihvatanjeGodisnjihOdmora',
+    component: PrihvatanjeGodisnjihOdmora,
+
+  },
+  {
     path: '/ap/farmaceut/izdavanje',
     name: 'APIzdavanje',
     component: APIzdavanje
   },
-
   {
-    path: '/brisanjeDermatologa',
+    path: '/pregledDermatologa',
     name: 'BrisanjeDermatologa',
     component: BrisanjeDermatologa,
+    meta:{title: 'Zaposleni dermatolozi'}
   },
   {
-    path: '/brisanjeFarmaceuta',
+    path: '/zaposljavanjeDermatologa',
+    name: 'DermatologZaposljavanje',
+    component: DermatologZaposljavanje,
+    meta:{title: 'Dermatolozi'}
+  },
+  {
+    path: '/zaposljavanjeFarmaceuta',
+    name: 'FarmaceutZaposljavanje',
+    component: FarmaceutZaposljavanje,
+    meta:{title: 'Farmaceuti'}
+  },
+  {
+    path: '/pregledFarmaceuta',
     name: 'FarmaceutiBrisanje',
     component: FarmaceutiBrisanje,
+    meta:{title: 'Zaposleni farmaceuti'}
   },
   {
     path: '/profilApoteke',
@@ -261,12 +283,12 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
-
+const DEFAULT_TITLE = 'Apoteka'
 router.beforeEach((to, from, next)=>{
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
-
+  document.title = to.meta.title || DEFAULT_TITLE
   if (authRequired && !loggedIn){
     console.log('provjera');
     return next('/ap/prijava');

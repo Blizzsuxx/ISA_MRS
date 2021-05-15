@@ -10,6 +10,7 @@ public class LijekDTO {
     private String napomena;
     private double ocijena;
     private int kolicina;
+    private int poeni;
 
     public LijekDTO() {}
 
@@ -22,6 +23,7 @@ public class LijekDTO {
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
         this.ocijena = l.getOcijena();
+        this.poeni = l.getPoeni();
     }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
@@ -120,5 +122,13 @@ public class LijekDTO {
 
     public void setProizvodjac(String proizvodjac) {
         this.proizvodjac = proizvodjac;
+    }
+
+    public int getPoeni() {
+        return poeni;
+    }
+
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
     }
 }

@@ -19,7 +19,6 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke',{ headers: authHeader()})
         .then(response => {
             let apotekeSve =response.data
-            console.log(apotekeSve[0].adresa.ulica)
             context.commit('postaviApoteke',apotekeSve)
         })
     },

@@ -4,6 +4,7 @@ import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,6 +22,16 @@ public abstract class Radnik extends Korisnik {
         super(username, password, firstName, lastName, email, birthday);
         this.godisnjiOdmori = godisnjiOdmori;
         this.posete = posete;
+    }
+    @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<SlobodanTermin> slobodniTermini;
+
+    public List<SlobodanTermin> getSlobodniTermini() {
+        return slobodniTermini;
+    }
+
+    public void setSlobodniTermini(List<SlobodanTermin> slobodniTermini) {
+        this.slobodniTermini = slobodniTermini;
     }
 
     @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

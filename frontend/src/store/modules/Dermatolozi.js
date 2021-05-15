@@ -31,6 +31,13 @@ const actions = {
 
 
     },
+    dobaviNezaposleneDermatologe (context) {
+        axios.get('http://localhost:8080/api/v1/dermatolog/admin/nezaposleni', { headers: authHeader()})
+            .then(response => {
+                let dermatolozi =response.data
+                context.commit('postaviDermatologe',dermatolozi)
+            })
+    },
     otpustiDermatologa(context,id){
         return axios.put(`http://localhost:8080/api/v1/dermatolog/otpustiDermatologa/${id}`, {},{ headers: authHeader()})
             .then(() => {
@@ -38,8 +45,12 @@ const actions = {
                 return context;
                 
             })
-
-     
+    },
+    zaposliDermatologa(context,id){
+        return axios.put(`http://localhost:8080/api/v1/dermatolog/zaposliDermatologa/${id}`, {},{ headers: authHeader()})
+            .then(() => {   
+                return context;  
+            })
     },
     dobaviRadnoVrijeme( context,id){
         return axios.get( `http://localhost:8080/api/v1/radnoVrijeme/${id}`,{ headers: authHeader()})
