@@ -1,112 +1,81 @@
 <template>
-    <el-container style="height: 600px; border: 1px solid #eee">
-        <el-aside width="300px" style="background-color: rgb(238, 241, 246)">
-            <h5>Opcije</h5>
-            <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-                <el-submenu index="1">
-                    <template #title>
-                    <i class="el-icon-location"></i>
-                    <span>Korisnici</span>
-                    </template>
-                    <el-menu-item-group title="Administratori">
-                    <el-menu-item index="1-1" @click="promjeniti('AS')">Administratori Sistema</el-menu-item>
-                    <el-menu-item index="1-2" @click="promjeniti('AP')">Administratori Apoteka</el-menu-item>
-                    </el-menu-item-group>
-                    <el-menu-item-group title="Radnici">
-                    <el-menu-item index="1-3" @click="promjeniti('Dermatolozi')">Dermatolozi</el-menu-item>
-                    <el-menu-item index="1-4" @click="promjeniti('Dobavljaci')">Dobavljaci</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-            </el-menu>
-            <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-                <el-submenu index="2">
-                    <template #title>
-                    <i class="el-icon-location"></i>
-                    <span>Lijekovi</span>
-                    </template>
-                    <el-menu-item-group title="Lijekovi">
-                    <el-menu-item index="2-1" @click="dobaviLijekove">Svi Lijekovi</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-            </el-menu>
-            <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-                <el-submenu index="3">
-                    <template #title>
-                    <i class="el-icon-location"></i>
-                    <span>Registracije i Kreiranje</span>
-                    </template>
-                    <el-menu-item-group title="Registracije">
-                    <el-menu-item index="3-1" @click="registracija">Korisnici</el-menu-item>
-                    </el-menu-item-group>
-                    <el-menu-item-group title="Kreiranje">
-                    <el-menu-item index="3-2" @click="kreiranjeLijekova">Lijekovi</el-menu-item>
-                    <el-menu-item index="3-3" @click="kreiranjeApoteka">Apoteke</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-            </el-menu>
-            <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-                <el-submenu index="4">
-                    <template #title>
-                    <i class="el-icon-location"></i>
-                    <span>Loyalty Programa</span>
-                    </template>
-                    <el-menu-item-group title="Definisanje">
-                    <el-menu-item index="4-1" @click="loyaltyPrograma">Loyalty Programa</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-            </el-menu>
-            <el-menu
-            default-active="2"
-            class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose">
-                <el-submenu index="5">
-                    <template #title>
-                    <i class="el-icon-location"></i>
-                    <span>Dodatne Opcije</span>
-                    </template>
-                    <el-menu-item-group title="Dodatne Opcije">
-                    <el-menu-item index="5-1" @click="odjava">Odjava</el-menu-item>
-                    </el-menu-item-group>
-                </el-submenu>
-            </el-menu>
-        </el-aside>
-        <el-main>
-            <div v-if="indikator == 1">
-                <DTOKorisniciTabela ref="tabela" :funkcija="promjeniti" v-bind:tableData="korisnici"/>
-            </div>
-            <div v-else-if="indikator == 2">
-                <DTOLijekoviTabela ref="dijete" :funkcija="dobaviLijekove" v-bind:lijekovi="lijekovi"/>
-            </div>
-            <div v-else-if="indikator == 3">
-                <LoyaltyPrograma/>
-            </div>
-            <div v-else>
-            </div>
-        </el-main>
-    </el-container>
+    <el-menu :default-active="activeIndex" 
+     class="el-menu-demo" mode="horizontal" @open="handleOpen" @close="handleClose"
+     background-color="#409EFF"
+    text-color="#fff"
+    active-text-color="#D6E3F1">
+        <el-submenu index="1">
+            <template #title>
+            <i></i>
+            <span>Korisnici</span>
+            </template>
+            <el-menu-item index="1-1" @click="promjeniti('AS')">Administratori Sistema</el-menu-item>
+            <el-menu-item index="1-2" @click="promjeniti('AP')">Administratori Apoteka</el-menu-item>
+            <el-menu-item index="1-3" @click="promjeniti('Dermatolozi')">Dermatolozi</el-menu-item>
+            <el-menu-item index="1-4" @click="promjeniti('Dobavljaci')">Dobavljaci</el-menu-item>
+        </el-submenu>
+        <el-submenu index="2">
+            <template #title>
+            <i></i>
+            <span>Lijekovi</span>
+            </template>
+            <el-menu-item index="2-1" @click="dobaviLijekove">Svi Lijekovi</el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+            <template #title>
+            <i></i>
+            <span>Registracije i Kreiranje</span>
+            </template>
+            <el-menu-item index="3-1" @click="registracija">Korisnici</el-menu-item>
+            <el-menu-item index="3-2" @click="kreiranjeLijekova">Lijekovi</el-menu-item>
+            <el-menu-item index="3-3" @click="kreiranjeApoteka">Apoteke</el-menu-item>
+        </el-submenu>
+        <el-submenu index="4">
+            <template #title>
+            <i></i>
+            <span>Loyalty Programa</span>
+            </template>
+            <el-menu-item index="4-1" @click="loyaltyPrograma">Loyalty Programa</el-menu-item>
+        </el-submenu>
+        <el-submenu index="5">
+            <template #title>
+            <i></i>
+            <span>Dodatne Opcije</span>
+            </template>
+            <el-menu-item index="5-1" @click="odjava">Odjava</el-menu-item>
+        </el-submenu>
+    </el-menu>
+    <el-main>
+        <div v-if="indikator == 1">
+            <DTOKorisniciTabela ref="tabela" :funkcija="promjeniti" v-bind:tableData="korisnici"/>
+        </div>
+        <div v-else-if="indikator == 2">
+            <DTOLijekoviTabela ref="dijete" :funkcija="dobaviLijekove" v-bind:lijekovi="lijekovi"/>
+        </div>
+        <div v-else-if="indikator == 3">
+            <LoyaltyPrograma/>
+        </div>
+        <div v-else-if="indikator == 4">
+            <FormaApoteke/>
+        </div>
+        <div v-else-if="indikator == 5">
+            <FormaKorisnika/>
+        </div>
+        <div v-else-if="indikator == 6">
+            <FormaLijekova/>
+        </div>
+        <div v-else>
+        </div>
+    </el-main>
 </template>
 
 <script>
 import DTOKorisniciTabela from './DTOKorisniciTabela'
 import DTOLijekoviTabela from './DTOLijekoviTabela'
 import LoyaltyPrograma from './LoyaltyPrograma'
+import FormaApoteke from './FormaApoteke'
+import FormaKorisnika from './FormaKorisnika'
+import FormaLijekova from './FormaLijekova'
 
 export default {
     name: 'AdministratorSistema',
@@ -158,13 +127,13 @@ export default {
             })
         },
         registracija(){
-            this.$router.push('/ap/FormaKorisnika');
+            this.indikator = 5;
         },
         kreiranjeLijekova(){
-            this.$router.push('/ap/FormaLijekova');
+            this.indikator = 6;
         },
         kreiranjeApoteka(){
-            this.$router.push('/ap/FormaApoteke');
+            this.indikator = 4;
         },
         loyaltyPrograma(){
             this.indikator = 3;
@@ -176,15 +145,8 @@ export default {
 
     },
     components:{
-        DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma
+        DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova
     },
-    /*
-    mounted() {
-        this.$store.dispatch("APKorisnici/dobaviAdministratoreApoteka").then(response => {
-            this.sadrzaj = this.$store.state.APKorisnici.administratoriApoteke;
-            return response;
-        })
-    },*/
-
+    
   }
 </script>
