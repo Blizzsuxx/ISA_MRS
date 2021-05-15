@@ -63,4 +63,8 @@ public class NarudzbenicaService {
         this.narudzbenicaRepository.save(narudzbenica);
 
     }
+    @Transactional
+    public void dobaviSveNarudzbeniceAdmin(Long id) {
+
+    }
 }
