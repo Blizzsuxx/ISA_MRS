@@ -45,6 +45,9 @@ import RezervisanjeLekova from "../components/FormaRezervisanjLekova"
 import PregledKategorije from "../components/PregledKategorije"
 import AkcijeApoteke from "../components/AkcijeApoteke"
 import PretplataNaApoteke from "../components/PretplataNaApoteke"
+import FormaZakazivanjaKodDermatologa from "../components/FormaZakazivanjaKodDermatologa"
+import LekoviNeautentifikovanKorisnik from "../components/LekoviNeautentifikovanKorisnik"
+import FormaZakazivanjeFarmaceut from "../components/FormaZakazivanjeFarmaceut"
 const routes = [
   
   
@@ -234,6 +237,22 @@ const routes = [
     path: '/ap/pretplata',
     name: 'pretplataNaApoteke',
     component: PretplataNaApoteke,
+  }
+  ,
+  {
+    path: '/ap/zakaziD',
+    name: 'FormaZakazivanjaKodDermatologa',
+    component: FormaZakazivanjaKodDermatologa,
+  },
+  {
+    path: '/ap/sviLekovi',
+    name: 'LekoviNeautentifiKovanKorisnik',
+    component: LekoviNeautentifikovanKorisnik,
+  },
+  {
+    path: '/ap/zakaziF',
+    name: 'FormaZakazivanjeFarmaceut',
+    component: FormaZakazivanjeFarmaceut,
   }
 
 ]

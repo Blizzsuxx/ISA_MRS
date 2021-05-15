@@ -80,4 +80,18 @@ public class PosetaController {
         System.out.println("sanja sanja");
         return true;
     }
+
+    @GetMapping(path="/dobaviSlobodnePoseteDermatologa")
+    @PreAuthorize("hasRole('PACIJENT')")
+    public List<PosetaDTO> slobodnePoseteD(){
+        return posetaService.slobodnePoseteD();
+    }
+
+    @PostMapping(path="/rezervisiPosetuD")
+    @PreAuthorize("hasRole('PACIJENT')")
+    public String rezervisiPosetuD( @RequestBody String id){
+
+        return this.posetaService.zakaziPosetuD(id);
+    }
+
 }

@@ -41,6 +41,12 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
+    @GetMapping("/dobaviLijekoveN")
+    public List<StanjeLijekaDTO> dobaviLijekoveNeautentifikovan(){
+
+        return apotekaService.dobaviSveDostupneLijekove();
+    }
+
     @GetMapping("/dobaviLijekoveA/{id}")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<LijekDTO> dobaviLijekoveA(@PathVariable Long id){

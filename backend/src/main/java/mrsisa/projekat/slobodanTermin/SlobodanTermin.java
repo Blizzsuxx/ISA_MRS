@@ -2,6 +2,7 @@ package mrsisa.projekat.slobodanTermin;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.*;
 import java.time.LocalTime;
@@ -16,7 +17,7 @@ public class SlobodanTermin {
     private double cijenaTermina;
 
     @ManyToOne( fetch = FetchType.LAZY)
-    private Dermatolog dermatolog;
+    private Radnik radnik;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
@@ -56,12 +57,12 @@ public class SlobodanTermin {
         this.cijenaTermina = cijenaTermina;
     }
 
-    public Dermatolog getDermatolog() {
-        return dermatolog;
+    public Radnik getRadnik() {
+        return radnik;
     }
 
-    public void setDermatolog(Dermatolog dermatolog) {
-        this.dermatolog = dermatolog;
+    public void setRadnik(Radnik radnik) {
+        this.radnik = radnik;
     }
 
     public Apoteka getApoteka() {

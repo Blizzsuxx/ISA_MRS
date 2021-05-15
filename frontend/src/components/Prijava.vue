@@ -98,10 +98,11 @@
       onSubmit(formName) {
         console.log(formName)
         var s = {username: this.korisnik.korisnickoIme, password: this.korisnik.sifra }
+        console.log(s)
         this.$store.dispatch('APKorisnici/validateLogin', s).then(
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
-                
+               
                 if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
                   this.$router.push('/ap/AdministratorSistema')
                 } else if (s.uloga === 'ROLE_ADMIN_APOTEKE'){

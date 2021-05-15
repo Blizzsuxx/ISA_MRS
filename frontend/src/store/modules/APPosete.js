@@ -6,6 +6,7 @@ const state = {
     zakazanePosetePacijenta : [],
     istorijaDermatolog : [],
     istorijaFarmaceut : [],
+    slobodnePoseteD: [],
 };
 
 const getters = {
@@ -109,16 +110,30 @@ const actions = {
             alert("Zakazan pregled");
             return response;
         })
-    }
+    },
+    dobaviSlobodnePoseteDermatologa(context){
 
+        return axios.get('http://localhost:8080/api/v1/posete/dobaviSlobodnePoseteDermatologa',{ headers: authHeader()})
+           .then(response => {
+               let poseteSve =response.data
+               context.commit('postaviSlobodnePoseteD',poseteSve)
+           })
+    },
+    rezervisiPosetuD(context, id){
+        axios.post('http://localhost:8080/api/v1/posete/rezervisiPosetuD',id, {headers : authHeader()}).then(response => {
+            
+            alert(response.data);
+            return response;
+        })
+    }
 }
 
 const mutations = {
     postaviPosete:(state, posete) => (state.svePosete = posete),
     postaviPosetePacijenta:(state, posete1)=>(state.zakazanePosetePacijenta=posete1),
     postaviIstorijuD:(state,posete2)=>(state.istorijaDermatolog=posete2),
-    postaviIstorijuF:(state,posete2)=>(state.istorijaFarmaceut=posete2)
-
+    postaviIstorijuF:(state,posete2)=>(state.istorijaFarmaceut=posete2),
+    postaviSlobodnePoseteD:(state, slob)=>(state.slobodnePoseteD=slob)
 }
 
 export default{

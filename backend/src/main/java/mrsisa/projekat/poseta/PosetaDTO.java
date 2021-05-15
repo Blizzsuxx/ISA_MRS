@@ -25,9 +25,23 @@ public class PosetaDTO {
     private String opis;
     private Apoteka apoteka;
     private List<Lijek> prepisaniLekovi;
+    private double cena;
+    private int ocena;
 
     public List<Lijek> getPrepisaniLekovi() {
         return prepisaniLekovi;
+    }
+
+    public PosetaDTO(Long id, Radnik r, String pocetak, String kraj, String opis,  Apoteka apoteka, int ocena, double cena){
+        this.id=id;
+        this.radnik=r;
+        this.pocetak=pocetak;
+        this.kraj=kraj;
+        this.opis=opis;
+        this.apoteka=apoteka;
+        this.ocena=ocena;
+        this.cena=cena;
+
     }
 
     public void setPrepisaniLekovi(List<Lijek> prepisaniLekovi) {
@@ -41,6 +55,22 @@ public class PosetaDTO {
             }
         }
 
+    }
+
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
+    }
+
+    public int getOcena() {
+        return ocena;
+    }
+
+    public void setOcena(int ocena) {
+        this.ocena = ocena;
     }
 
     public Long getId() {

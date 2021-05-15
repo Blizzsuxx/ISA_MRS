@@ -288,4 +288,29 @@ public class PosetaService {
         return li;
 
     }
+
+    public List<PosetaDTO> slobodnePoseteD() {
+        List<PosetaDTO> svePosete=new ArrayList<>();
+        Dermatolog d1=new Dermatolog();d1.setFirstName("Milos");d1.setLastName("Milinkovic");
+        Dermatolog d2=new Dermatolog();d2.setFirstName("Zoki");d2.setLastName("Lazarevic");
+        LocalDateTime dan1=LocalDateTime.now();
+        LocalDateTime dan2=LocalDateTime.now().plusMinutes(30);
+        LocalDateTime dan12=LocalDateTime.now().plusDays(1);
+        LocalDateTime dan22=LocalDateTime.now().plusDays(1).plusMinutes(30);
+        Apoteka a1=new Apoteka(); a1.setIme("Zdravkovic apoteka");
+        Apoteka a2=new Apoteka();a2.setIme("Tvoja apoteka");
+        PosetaDTO p1=new PosetaDTO(1L,d1,dan1+"", dan2+"","",a1,4,1000);
+        PosetaDTO p2=new PosetaDTO(2L,d2,dan1+"", dan2+"","",a2,5,1500);
+        PosetaDTO p3=new PosetaDTO(3L,d1,dan12+"", dan22+"","",a1, 4,1000);
+        svePosete.add(p1);
+        svePosete.add(p2);
+        svePosete.add(p3);
+        return svePosete;
+
+
+    }
+
+    public String zakaziPosetuD(String id) {
+        return "Uspesno ste zakazali posetu kod dermatologa Sime.";
+    }
 }
