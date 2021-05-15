@@ -1,6 +1,7 @@
 package mrsisa.projekat.narudzbenica;
 
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.ponuda.Ponuda;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
@@ -21,7 +22,7 @@ public class Narudzbenica {
 
 
     @OneToMany(mappedBy = "narudzbenica", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StanjeLijeka> ponude;
+    private List<Ponuda> ponude;
 
     @Column(name="rok", nullable = false)
     private LocalDateTime rok;
@@ -75,11 +76,11 @@ public class Narudzbenica {
         this.zavrsena = zavrsena;
     }
 
-    public List<StanjeLijeka> getPonude() {
+    public List<Ponuda> getPonude() {
         return ponude;
     }
 
-    public void setPonude(List<StanjeLijeka> ponude) {
+    public void setPonude(List<Ponuda> ponude) {
         this.ponude = ponude;
     }
 }

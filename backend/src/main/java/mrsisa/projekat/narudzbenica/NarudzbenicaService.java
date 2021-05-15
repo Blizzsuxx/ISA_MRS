@@ -39,7 +39,6 @@ public class NarudzbenicaService {
     public void kreirajNarudzbenicu( @RequestBody Map<String, Object> podaci) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(podaci.get("lijekovi"));
         LocalDateTime datum =  LocalDateTime.parse((String)podaci.get("datum"),format);
         Long idApoteka = Long.valueOf((Integer) podaci.get("apoteka"));
         Apoteka apoteka = this.apotekaRepository.findById(idApoteka).orElse(null);
@@ -57,10 +56,22 @@ public class NarudzbenicaService {
             tempStanje.setLijek(tempLijek);
             tempStanje.setKolicina(temp.getKolicina());
             tempStanje.setNarudzbenica(narudzbenica);
-
             this.stanjeLijekaRepository.save(tempStanje);
         }
         this.narudzbenicaRepository.save(narudzbenica);
 
+    }
+    @Transactional
+    public List<NarudzbenicaDTO> dobaviSveNarudzbeniceAdmin(Long id) {
+        List<NarudzbenicaDTO> narudzbenice =  new ArrayList<>();
+        NarudzbenicaDTO temp;
+        for(Narudzbenica narudzbenica : this.narudzbenicaRepository.findAll()){
+            if(narudzbenica.getApoteka().getId().equals(id)){
+                temp = new NarudzbenicaDTO(narudzbenica);
+                temp.setBrojPonuda(narudzbenica.getPonude().size());
+                narudzbenice.add(temp);
+            }
+        }
+        return narudzbenice;
     }
 }
