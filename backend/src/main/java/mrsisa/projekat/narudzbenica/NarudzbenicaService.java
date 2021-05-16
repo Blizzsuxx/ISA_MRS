@@ -7,13 +7,16 @@ import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
+import mrsisa.projekat.ponuda.PonudaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -73,5 +76,20 @@ public class NarudzbenicaService {
             }
         }
         return narudzbenice;
+    }
+    @Transactional
+    public NarudzbenicaDTO dobaviJednuNarudzbeniceAdmin(Long narudzbenica_id) {
+        System.out.println("Andrija je najjaci");
+        Narudzbenica narudzbenica =  this.narudzbenicaRepository.findById(narudzbenica_id).orElse(null);
+        if(narudzbenica!=null){
+            System.out.println(narudzbenica.getId());
+            NarudzbenicaDTO narudzbenicaDTO =  new NarudzbenicaDTO(narudzbenica);
+            narudzbenicaDTO.setBrojPonuda(narudzbenica.getPonude().size());
+            return narudzbenicaDTO;
+        }
+        else{
+            return  new NarudzbenicaDTO();
+        }
+
     }
 }

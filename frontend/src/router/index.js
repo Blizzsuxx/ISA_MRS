@@ -50,6 +50,7 @@ import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora
 import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
 import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
+import NarudzbenicaProzor from "../components/NarudzbenicaProzor"
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -61,6 +62,12 @@ const routes = [
     name: 'PrikazNarudzbenica',
     component: PrikazNarudzbenica,
     meta:{title: 'Istorija narudzbenica'}
+  },
+  {
+    path: '/prikazNarudzbenice/:id',
+    name: 'NarudzbenicaProzor',
+    component: NarudzbenicaProzor,
+    meta:{title: 'Narudzbenica'}
   },
   {
     path: '/godisnjiOdmori',

@@ -2,7 +2,8 @@ import axios from 'axios'
 import authHeader from './AuthHeader'
 
 const state = {
-    sveNarudzbenice :[]
+    sveNarudzbenice :[],
+    narudzbenica :null
 
 };
 
@@ -18,8 +19,14 @@ const actions = {
                 console.log(narudzbenice)
                 context.commit('postaviNarudzbenice',narudzbenice)
             })
+    },
 
-
+    dobaviNarudzbenicu (context,id) {
+        return axios.get(`http://localhost:8080/api/v1/narudzbenice/${id}/admin`, { headers: authHeader()})
+            .then(response => {
+                let narudzbenice =response.data
+                context.commit('postaviNarudzbenicu',narudzbenice)
+            })
     },
     
 
@@ -27,7 +34,7 @@ const actions = {
 
 const mutations = {
     postaviNarudzbenice:(state, narudzbenice) => (state.sveNarudzbenice = narudzbenice),
-    
+    postaviNarudzbenicu:(state,narudzbenica)=>(state.narudzbenica = narudzbenica)
 }
 
 export default{
