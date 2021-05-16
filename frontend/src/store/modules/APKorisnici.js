@@ -19,8 +19,19 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    dobaviTrenutnogKorisnika(){
+        return axios.get('http://localhost:8080/api/korisnici/dobaviTrenutnogKorisnika', { headers: authHeader()})
+        .then(response => {
+            return response.data;
+        })
+    },
+    azurirajNalog(context, korisnik){
+        return axios.put('http://localhost:8080/api/korisnici/azurirajNalog', 
+        {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
+        email: korisnik.email, uloga: korisnik.uloga, sifra: korisnik.sifra,
+        rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
+    },
     promjenaLozinke(context, lozinka){
-        console.log(lozinka);
         return axios.get(`http://localhost:8080/api/korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
         .then(response => {
             return response.data;

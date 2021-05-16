@@ -148,4 +148,31 @@ public class KorisnikController {
         Korisnik k = (Korisnik)auth.getPrincipal();
         return k.isPrijavljen();
     }
+
+    @GetMapping(produces = "application/json", value = "/dobaviTrenutnogKorisnika")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    public KorisnikDTO getTrenutnogKorisnik(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return new KorisnikDTO(k);
+    }
+
+    @PutMapping(consumes = "application/json", value="/azurirajNalog")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    public KorisnikDTO azurirajNalog(@RequestBody KorisnikDTO dummy){
+        Korisnik k = this.korisnikService.findByUsername(dummy.getKorisnickoIme());
+
+        if (k == null)
+            return null;
+
+        k.setFirstName(dummy.getIme());
+        k.setLastName(dummy.getPrezime());
+        k.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        if (!dummy.getSifra().isEmpty())
+            k.setPassword(passwordEncoder.encode(dummy.getSifra()));
+
+        this.korisnikService.save(k);
+
+        return dummy;
+    }
 }

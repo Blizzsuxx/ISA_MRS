@@ -117,7 +117,7 @@
 <script>
 import moment from 'moment'
   export default {
-    name: 'FormaApoteke',
+    name: 'FormaKorisnika',
     data() {
         var validatePass = (rule, value, callback) => {
             if (value === '') {

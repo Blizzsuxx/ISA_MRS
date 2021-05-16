@@ -9,13 +9,16 @@
             <i></i>
             <span>Dodatne Opcije</span>
             </template>
-            <el-menu-item v-if='potvrda' index="1-1" @click="odjava">Nalog</el-menu-item>
+            <el-menu-item v-if='potvrda' index="1-1" @click="infoNaloga">Nalog</el-menu-item>
             <el-menu-item index="1-2" @click="odjava">Odjava</el-menu-item>
         </el-submenu>
     </el-menu>
     <el-main>
         <div v-if="indikator == 1">
             <PotvrdaLozinke :izmjeniPotvrdu="izmjeniPotvrdu"/>
+        </div>
+        <div v-if="indikator == 2">
+            <Nalog/>
         </div>
         <div v-else>
         </div>
@@ -24,6 +27,7 @@
 
 <script>
 import PotvrdaLozinke from './PotvrdaLozinke'
+import Nalog from './Nalog'
 
 export default {
     name: 'Dobavljac',
@@ -95,11 +99,14 @@ export default {
             } else {
                 this.open2();
             }
+        },
+        infoNaloga(){
+            this.indikator = 2;
         }
 
     },
     components:{
-        PotvrdaLozinke
+        PotvrdaLozinke, Nalog
     },
     
   }
