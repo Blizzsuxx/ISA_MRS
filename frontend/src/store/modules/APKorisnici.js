@@ -19,6 +19,19 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    promjenaLozinke(lozinka){
+        return axios.get(`http://localhost:8080/api/korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
+        .then(response => {
+            return response.data;
+        })
+    },
+    potvrdaLozinke(){
+        return axios.get('http://localhost:8080/api/korisnici/potvrdaPrijave', { headers: authHeader()})
+        .then(response => {
+            console.log(response.data);
+            return response.data;
+        })
+    },
     login(kredecijali) {
         return axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
         .then(response => {

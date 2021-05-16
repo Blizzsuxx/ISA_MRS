@@ -53,6 +53,9 @@ public abstract class  Korisnik implements UserDetails {
     @Column(name="potvrda_email")
     private boolean potvrdaEmail;
 
+    @Column(name="prijavljen")
+    private boolean prijavljen;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "korisnik_uloga",
             joinColumns = @JoinColumn(name = "korisnik_id", referencedColumnName = "id"),
@@ -250,5 +253,13 @@ public abstract class  Korisnik implements UserDetails {
 
     public void setPotvrdaEmail(boolean potvrdaEmail) {
         this.potvrdaEmail = potvrdaEmail;
+    }
+
+    public boolean isPrijavljen() {
+        return prijavljen;
+    }
+
+    public void setPrijavljen(boolean prijavljen) {
+        this.prijavljen = prijavljen;
     }
 }

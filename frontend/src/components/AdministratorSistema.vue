@@ -65,6 +65,9 @@
         <div v-else-if="indikator == 6">
             <FormaLijekova :izmjeniIndikator="izmjeniIndikator"/>
         </div>
+        <div v-else-if="indikator == 8">
+            <PotvrdaLozinke/>
+        </div>
         <div v-else>
         </div>
     </el-main>
@@ -77,6 +80,7 @@ import LoyaltyPrograma from './LoyaltyPrograma'
 import FormaApoteke from './FormaApoteke'
 import FormaKorisnika from './FormaKorisnika'
 import FormaLijekova from './FormaLijekova'
+import PotvrdaLozinke from './PotvrdaLozinke'
 
 export default {
     name: 'AdministratorSistema',
@@ -87,6 +91,14 @@ export default {
           indikator: 0,  
         }
         
+    },
+    mounted() {
+        this.$store.dispatch("APKorisnici/potvrdaLozinke").
+        then(response => {
+            if (!response){
+                this.indikator = 8;
+            }
+        });
     },
     methods: {
          handleOpen(key, keyPath) {
@@ -159,7 +171,8 @@ export default {
 
     },
     components:{
-        DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova
+        DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova,
+        PotvrdaLozinke
     },
     
   }
