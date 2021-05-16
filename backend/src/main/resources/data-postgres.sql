@@ -150,11 +150,11 @@ insert into narudzbenica (rok,zavrsena,apoteka_id) values ('2021-06-30 00:00:00'
 
 --STANJE LIJEKOVA NARUDZBENICE
 
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,false,1,'2021-06-30 00:00:00');
 
 
 --PONUDE
 
-insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Prva',0,6,1);
-insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,6,1);
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Prva',0,7,1);
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,7,1);
