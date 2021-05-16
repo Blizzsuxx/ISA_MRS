@@ -9,7 +9,8 @@
             <i></i>
             <span>Dodatne Opcije</span>
             </template>
-            <el-menu-item index="1-1" @click="odjava">Odjava</el-menu-item>
+            <el-menu-item v-if='potvrda' index="1-1" @click="odjava">Nalog</el-menu-item>
+            <el-menu-item index="1-2" @click="odjava">Odjava</el-menu-item>
         </el-submenu>
     </el-menu>
     <el-main>
