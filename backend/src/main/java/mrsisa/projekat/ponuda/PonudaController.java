@@ -31,11 +31,11 @@ public class PonudaController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
-    @PutMapping(path="/{id}/prihvati")
-    public void prihvatiPonudu(@PathVariable Long id){
+    @PutMapping(path="narudzbenica/{n_id}/prihvati/{id}")
+    public void prihvatiPonudu(@PathVariable Long n_id,@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        this.ponudaService.prihvatiPonudu(id);
+        this.ponudaService.prihvatiPonudu(id,n_id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")

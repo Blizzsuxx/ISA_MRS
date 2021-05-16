@@ -37,7 +37,6 @@ export default {
   name: "PrikazNarudzbenica",
   data() {
     return {
-      farmaceut : null
     }
   },
   components: {

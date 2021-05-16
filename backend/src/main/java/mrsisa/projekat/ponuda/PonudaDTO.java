@@ -5,7 +5,7 @@ public class PonudaDTO {
     private String dobavljac;
     private String nazivPonude;
     private double cijenaPonude;
-
+    private int status;
     public PonudaDTO(){
 
     }
@@ -15,6 +15,7 @@ public class PonudaDTO {
         this.dobavljac = ponuda.getDobavljac().getUsername();
         this.nazivPonude = ponuda.getNazivPonude();
         this.cijenaPonude  = ponuda.getCijenaPonude();
+        this.status = ponuda.getStatus();
     }
 
     public Long getId() {
@@ -47,5 +48,13 @@ public class PonudaDTO {
 
     public void setCijenaPonude(double cijenaPonude) {
         this.cijenaPonude = cijenaPonude;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

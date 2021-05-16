@@ -130,6 +130,13 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
+    public StanjeLijeka(Lijek lijek, int kolicina, boolean prodaja,LocalDateTime datumIstekaCijene) {
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.datumIstekaCijene = datumIstekaCijene;
+    }
+
     public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime vrijemeIsteka) {
         this.id = id;
         this.lijek = lijek;

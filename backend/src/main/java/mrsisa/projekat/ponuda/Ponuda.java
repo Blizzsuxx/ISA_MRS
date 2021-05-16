@@ -1,6 +1,7 @@
 package mrsisa.projekat.ponuda;
 
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.pacijent.Pacijent;
 
 import javax.persistence.*;
@@ -20,7 +21,7 @@ public class Ponuda {
     private Dobavljac dobavljac;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Dobavljac narudzbenica;
+    private Narudzbenica narudzbenica;
 
     @Column(name="status",nullable = false)
     private int status;
@@ -67,11 +68,11 @@ public class Ponuda {
         this.status = status;
     }
 
-    public Dobavljac getNarudzbenica() {
+    public Narudzbenica getNarudzbenica() {
         return narudzbenica;
     }
 
-    public void setNarudzbenica(Dobavljac narudzbenica) {
+    public void setNarudzbenica(Narudzbenica narudzbenica) {
         this.narudzbenica = narudzbenica;
     }
 

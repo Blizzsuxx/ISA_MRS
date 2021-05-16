@@ -134,3 +134,18 @@ insert into godisnji_odmor (datum_od,datum_do,odobren,apoteka_id,radnik_korisnik
 values ('2021-05-01 00:00:00','2021-05-21 00:00:00',null,1,9);
 insert into godisnji_odmor (datum_od,datum_do,odobren,apoteka_id,radnik_korisnik)
 values ('2021-06-10 00:00:00','2021-06-30 00:00:00',null,1,10);
+
+--NARUDZBENICE
+
+insert into narudzbenica (rok,zavrsena,apoteka_id) values ('2021-06-30 00:00:00',false,1);
+
+--STANJE LIJEKOVA NARUDZBENICE
+
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1,false,1,'2021-06-30 00:00:00');
+
+
+--PONUDE
+
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Prva',0,6,1);
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,6,1);
