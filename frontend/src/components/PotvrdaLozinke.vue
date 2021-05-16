@@ -91,13 +91,17 @@
         }
       };
     },
+
+    props: ['izmjeniPotvrdu'],
+
     methods: {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid){
                this.$store.dispatch('APKorisnici/promjenaLozinke', this.ruleForm.pass)
                 .then(response=>{
-                return response.data;
+                    this.izmjeniPotvrdu(response);
+                    return response;
                 }); 
             }
         });

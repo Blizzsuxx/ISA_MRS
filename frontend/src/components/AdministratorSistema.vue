@@ -4,7 +4,7 @@
      background-color="#409EFF"
     text-color="#fff"
     active-text-color="#D6E3F1">
-        <el-submenu index="1">
+        <el-submenu index="1" v-if='potvrda'>
             <template #title>
             <i></i>
             <span>Korisnici</span>
@@ -14,7 +14,7 @@
             <el-menu-item index="1-3" @click="promjeniti('Dermatolozi')">Dermatolozi</el-menu-item>
             <el-menu-item index="1-4" @click="promjeniti('Dobavljaci')">Dobavljaci</el-menu-item>
         </el-submenu>
-        <el-submenu index="2">
+        <el-submenu index="2" v-if='potvrda'>
             <template #title>
             <i></i>
             <span>Apoteke i Lijekovi</span>
@@ -22,7 +22,7 @@
             <el-menu-item index="2-1" @click="dobaviLijekove">Svi Lijekovi</el-menu-item>
             <el-menu-item index="2-1" @click="dobaviApoteke">Sve Apoteke</el-menu-item>
         </el-submenu>
-        <el-submenu index="3">
+        <el-submenu index="3" v-if='potvrda'>
             <template #title>
             <i></i>
             <span>Registracije i Kreiranje</span>
@@ -31,7 +31,7 @@
             <el-menu-item index="3-2" @click="kreiranjeLijekova">Lijekovi</el-menu-item>
             <el-menu-item index="3-3" @click="kreiranjeApoteka">Apoteke</el-menu-item>
         </el-submenu>
-        <el-submenu index="4">
+        <el-submenu index="4" v-if='potvrda'>
             <template #title>
             <i></i>
             <span>Loyalty Programa</span>
@@ -66,7 +66,7 @@
             <FormaLijekova :izmjeniIndikator="izmjeniIndikator"/>
         </div>
         <div v-else-if="indikator == 8">
-            <PotvrdaLozinke/>
+            <PotvrdaLozinke :izmjeniPotvrdu="izmjeniPotvrdu"/>
         </div>
         <div v-else>
         </div>
@@ -88,7 +88,8 @@ export default {
         return {
           korisnici: [],
           lijekovi: [],
-          indikator: 0,  
+          indikator: 0,
+          potvrda: false,  
         }
         
     },
@@ -97,11 +98,35 @@ export default {
         then(response => {
             if (!response){
                 this.indikator = 8;
+                this.open3();
+            } else {
+                this.potvrda = true;
             }
         });
     },
     methods: {
-         handleOpen(key, keyPath) {
+        open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno izmjenjena lozinka.',
+          type: 'success'
+        });
+        },
+        open2() {
+        this.$message({
+          showClose: true,
+          message: 'Podaci nisu validni.',
+          type: 'error'
+        });
+        },
+        open3() {
+        this.$message({
+          showClose: true,
+          message: 'Prilikom prve primjene lozinku je potrebno izmjeniti.',
+          type: 'info'
+        });
+        },
+        handleOpen(key, keyPath) {
             console.log(key, keyPath);
         },
         handleClose(key, keyPath) {
@@ -166,6 +191,15 @@ export default {
                 this.dobaviLijekove();
             } else if (this.indikator === 7){
                 this.dobaviApoteke();
+            }
+        },
+        izmjeniPotvrdu(izmjena){
+            this.potvrda = izmjena;
+            if(this.potvrda){
+                this.indikator = 0;
+                this.open1();
+            } else {
+                this.open2();
             }
         }
 
