@@ -94,7 +94,7 @@ insert into dobavljaci (radnik) values (7);
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
 potvrda_email, prijavljen) values
 ('pera1', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Pera', 'Peric', 'peraperic1@gmail.com',
-'2017-10-01 21:58:58', 'ROLE_DOBAVLJAC', true, '2017-10-01 21:58:58', true, true);
+'2017-10-01 21:58:58', 'ROLE_DOBAVLJAC', true, '2017-10-01 21:58:58', true, false);
 insert into radnici (korisnik) values (8);
 insert into dobavljaci (radnik) values (8);
 

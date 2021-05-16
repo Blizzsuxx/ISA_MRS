@@ -120,7 +120,9 @@
                     this.$router.push('/profilApoteke')
                   } else if (s.uloga === 'ROLE_PACIJENT'){
                     this.$router.push('/ap/pacijent')
-                  } 
+                  } else if (s.uloga === 'ROLE_DOBAVLJAC'){
+                    this.$router.push('/ap/Dobavljac')
+                  }
                 } 
                 return response;
             },

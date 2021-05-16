@@ -35,6 +35,7 @@ import AzuriranjeApoteka from "../components/AzuriranjeApoteka"
 import Prijava from "../components/Prijava"
 
 import AdministratorSistema from '../components/AdministratorSistema';
+import Dobavljac from '../components/Dobavljac'
 
 import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
 import FarmaceutiBrisanje from "../components/FarmaceutiBrisanje"
@@ -261,6 +262,11 @@ const routes = [
     path: '/ap/pretplata',
     name: 'pretplataNaApoteke',
     component: PretplataNaApoteke,
+  },
+  {
+    path: '/ap/Dobavljac',
+    name: 'Dobavljac',
+    component: Dobavljac
   }
 
 ]
