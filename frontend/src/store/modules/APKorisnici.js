@@ -19,6 +19,11 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    kreirajZalbu(context, zalba){
+        zalba.datumVrijeme = moment(String(zalba.datumVrijeme)).format('YYYY-MM-DD hh:mm');
+        console.log(zalba);
+        return axios.post('http://localhost:8080/api/zalbe/sacuvajZalbu', zalba, { headers: authHeader()})
+    },
     dobaviTrenutnogKorisnika(){
         return axios.get('http://localhost:8080/api/korisnici/dobaviTrenutnogKorisnika', { headers: authHeader()})
         .then(response => {

@@ -106,7 +106,7 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
 potvrda_email, prijavljen) values
 ('zarko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Zarko', 'Kisa', 'zarkoKisa@gmail.com',
  '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58', true, true);
-insert into pacijenti (korisnik) values (9);
+insert into pacijenti (korisnik, broj_poena) values (9, 10);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (9, 6);
 
 

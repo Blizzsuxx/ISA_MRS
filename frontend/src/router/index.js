@@ -52,6 +52,10 @@ import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
 import NarudzbenicaProzor from "../components/NarudzbenicaProzor"
 import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
+
+import Zalbe from "../components/Zalbe"
+import ZalbeIstorija from '../components/ZalbeIstorija'
+
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -281,6 +285,16 @@ const routes = [
     path: '/ap/Dobavljac',
     name: 'Dobavljac',
     component: Dobavljac
+  },
+  {
+    path: '/ap/kreirajZalbu',
+    name: 'Zalbe',
+    component: Zalbe
+  },
+  {
+    path: '/ap/zalbeIstorija',
+    name: 'ZalbeIstorija',
+    component: ZalbeIstorija
   }
 
 ]
