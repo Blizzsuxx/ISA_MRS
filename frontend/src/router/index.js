@@ -50,6 +50,10 @@ import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora
 import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
 import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
+
+import Zalbe from "../components/Zalbe"
+import ZalbeIstorija from '../components/ZalbeIstorija'
+
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -267,8 +271,17 @@ const routes = [
     path: '/ap/Dobavljac',
     name: 'Dobavljac',
     component: Dobavljac
+  },
+  {
+    path: '/ap/kreirajZalbu',
+    name: 'Zalbe',
+    component: Zalbe
+  },
+  {
+    path: '/ap/zalbeIstorija',
+    name: 'Zalbe',
+    component: ZalbeIstorija
   }
-
 ]
 
 const router = createRouter({
