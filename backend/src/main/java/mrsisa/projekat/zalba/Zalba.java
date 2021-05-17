@@ -1,5 +1,7 @@
 package mrsisa.projekat.zalba;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,6 +25,7 @@ public class Zalba {
     @Column(name="datum_vrijeme")
     private String datumVrijeme;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "zalba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Odgovor> odgovori;
 

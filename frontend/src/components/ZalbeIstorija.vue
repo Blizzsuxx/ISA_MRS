@@ -38,24 +38,61 @@
 </style>
 
 <template>
-<el-main>
-    <NavMeniZaPacijenta/>
-    <h2>Kreiraj Zalbu</h2>
-    <div id="unos">
-    <el-form :model="zalba" status-icon :rules="rules" ref="zalba" label-width="120px" class="demo-ruleForm">
-    <el-form-item label="Naslov" prop="naslov">
-        <el-input type="text" v-model="zalba.naslov" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item label="Text" prop="text">
-        <el-input type="textarea" v-model="zalba.text" autocomplete="off"></el-input>
-    </el-form-item>
-    <el-form-item>
-        <el-button type="primary" @click="submitForm('zalba')">Potvrda</el-button>
-        <el-button @click="resetForm('ruleForm')">Reset</el-button>
-    </el-form-item>
-    </el-form>
+<NavMeniZaPacijenta/>
+
+    <el-table
+    :data="zalbe.filter(data => !search || data.naslov.includes(search.toLowerCase()) || data.datumVrijeme.includes(search.toLowerCase())
+                      || data.pacijent.includes(search.toLowerCase()))"
+    style="width: 100%">
+    <el-table-column
+      label="Naslov"
+      prop="naslov">
+    </el-table-column>
+    <el-table-column
+      label="Pacijent"
+      prop="pacijent">
+    </el-table-column>
+    <el-table-column
+      label="Datum i Vrijeme"
+      prop="datumVrijeme">
+    </el-table-column>
+    <el-table-column
+      align="right">
+      <template #header>
+        <el-input
+          v-model="search"
+          size="mini"
+          placeholder="Type to search"/>
+      </template>
+      <template #default="scope">
+        <el-button
+          size="mini"
+          @click="sadrzaj(scope.$index, scope.row)">Sadrzaj</el-button>
+        <el-button
+          size="mini"
+          @click="odgovori(scope.$index, scope.row)">Odgovori</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+
+  <el-dialog
+    title="Sadrzaj Zalbe"
+    v-model="centerDialogVisible"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
     </div>
-</el-main>
+    <div>
+      <p>{{zalba.text}}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
 </template>
 
 <script>
@@ -64,44 +101,31 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     name: 'ZalbeIstorija',
     data() {
       return {
-        zalba: {
-          naslov: '',
-          text: '',
-
-        },
-        rules: {
-          naslov: [
-            { required: true, message: 'Unesite naslov!', trigger: 'blur' }
-          ],
-          text: [
-            { required: true, message: 'Unesite text!', trigger: 'blur' }
-          ],
-        }
+        zalbe: [],
+        search: '',
+        centerDialogVisible: false,
+        zalba: {}
       };
     },
     components : {
        NavMeniZaPacijenta
     },
-    props: [],
-
+    mounted(){
+        this.$store.dispatch('APKorisnici/dobaviZalbe')
+        .then(response => {
+            this.zalbe = response.data;
+        })
+    },
     methods: {
-        open1() {
-        this.$message({
-          showClose: true,
-          message: 'Uspjesno kreirana zalba.',
-          type: 'success'
-        });
-      },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-            if (valid){
-               this.open1();
-            }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        sadrzaj(index, row) {
+            console.log(index);
+            this.centerDialogVisible = true;
+            this.zalba = row;
+        },
+        odgovori(index, row) {
+            console.log(index);
+            console.log(row);
+        }
     }
   }
 </script>
