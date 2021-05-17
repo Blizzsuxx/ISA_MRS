@@ -7,6 +7,8 @@ public class NarudzbenicaDTO {
     private int brojPonuda;
     private String rok;
     private boolean zavrsena;
+    private boolean prihvacena;
+    private boolean pripada;
 
 
     public NarudzbenicaDTO(){
@@ -18,6 +20,7 @@ public class NarudzbenicaDTO {
         this.id = narudzbenica.getId();
         this.rok = narudzbenica.getRok().format(dtf);
         this.zavrsena  = narudzbenica.isZavrsena();
+        this.prihvacena = narudzbenica.isPrihvacena();
     }
 
     public Long getId() {
@@ -50,5 +53,21 @@ public class NarudzbenicaDTO {
 
     public void setZavrsena(boolean zavrsena) {
         this.zavrsena = zavrsena;
+    }
+
+    public boolean isPrihvacena() {
+        return prihvacena;
+    }
+
+    public void setPrihvacena(boolean prihvacena) {
+        this.prihvacena = prihvacena;
+    }
+
+    public boolean isPripada() {
+        return pripada;
+    }
+
+    public void setPripada(boolean pripada) {
+        this.pripada = pripada;
     }
 }

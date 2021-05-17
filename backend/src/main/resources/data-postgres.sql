@@ -146,7 +146,15 @@ values ('2021-06-10 00:00:00','2021-06-30 00:00:00',null,1,11);
 
 --NARUDZBENICE
 
-insert into narudzbenica (rok,zavrsena,apoteka_id) values ('2021-06-30 00:00:00',false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-06-30 00:00:00',true,1,false,1);
+
+
+
+--STANEJ LIJEKOVA APOTEKE
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,1,1,true,10,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,2,1,true,20,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,3,1,true,30,'2021-06-30 00:00:00');
+
 
 --STANJE LIJEKOVA NARUDZBENICE
 

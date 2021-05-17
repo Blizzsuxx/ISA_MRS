@@ -5,14 +5,14 @@
       Rok: {{narudzbenica.rok}}
       </el-col>
     <el-col :span="8">
-      Zavrsena: Nije
+      Zavrsena: {{zavrsena}}
       </el-col>
     <el-col :span="8">
       Ukupan broj ponuda: {{narudzbenica.brojPonuda}}
       </el-col>
     </el-row>
    <el-row :gutter="20">
-     <PonudeTabela :ponude="$store.state.Ponude.svePonude" :zavrsena="narudzbenica.zavrsena" @odobrena-ponuda="odobrenaPonuda"></PonudeTabela>
+     <PonudeTabela :ponude="$store.state.Ponude.svePonude" :narudzbenica="narudzbenica" @odobrena-ponuda="odobrenaPonuda"></PonudeTabela>
      </el-row>  
 </template>
 <style scoped>
@@ -53,9 +53,22 @@ export default {
     NavAdminApoteke,
     PonudeTabela
   },
+  computed:{
+    zavrsena(){
+      if(!this.loaded)
+        return ""
+      if(!this.narudzbenica.zavrsena){
+        return "Nije zavrsena"
+      }
+      else{
+        return "Zavrsena"
+      }
+    }
+  },
   mounted() {
     this.$store.dispatch("Narudzbenice/dobaviNarudzbenicu",this.id).then(()=>{
         this.narudzbenica =  this.$store.state.Narudzbenice.narudzbenica;
+        console.log(this.narudzbenica)
         this.loaded = true;
         
     })
@@ -63,7 +76,7 @@ export default {
   },
   methods:{
     odobrenaPonuda(){
-      this.narudzbenica.zavrsena=true;
+      this.narudzbenica.prihvacena=true;
     }
   }
 };
