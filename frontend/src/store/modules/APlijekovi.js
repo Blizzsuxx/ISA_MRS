@@ -110,8 +110,6 @@ const actions = {
     },
     dodajLijekUNarudzbinu(context,lijek){
         let sviLijekovi  = state.dtoLijekovi
-        //let naruceni  = state.lijekoviZaPorucivanje
-        
         sviLijekovi = sviLijekovi.map(element=>{
             
             if(element.id ===lijek.id){
