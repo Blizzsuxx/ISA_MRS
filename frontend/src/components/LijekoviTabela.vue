@@ -68,10 +68,14 @@
 
 
     <el-table-column
-      property="lijek.prodaja"
-      label="Prodaja"
+      label="Akcija"
       :formatter="formatirajProizvodnju"
      >
+     <template #default="scope">
+       <router-link :to="{name:'DodavanjeAkcije',params:{id:scope.row.id}}">
+        Dodaj akciju
+      </router-link>
+      </template>
     </el-table-column>
     
   </el-table>

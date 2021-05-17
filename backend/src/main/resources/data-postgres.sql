@@ -25,7 +25,7 @@ insert into apoteka (ime,adresa_id) values ('Druga apoteka',1);
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
 potvrda_email, prijavljen) values
 ('dunja', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Dunja', 'Dunjica', 'dunjadunjica@gmail.com',
-'2017-10-01 21:58:58', 'ROLE_ADMIN_APOTEKE', true, '2017-10-01 21:58:58', true, false);
+'2017-10-01 21:58:58', 'ROLE_ADMIN_APOTEKE', true, '2017-10-01 21:58:58', true, true);
 insert into administratori (korisnik) values (1);
 insert into administratori_apoteke (administrator,apoteka_id) values (1,1);
 

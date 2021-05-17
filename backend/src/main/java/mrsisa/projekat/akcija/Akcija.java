@@ -3,7 +3,6 @@ package mrsisa.projekat.akcija;
 import javax.persistence.*;
 
 import mrsisa.projekat.lijek.Lijek;
-import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 @Entity
 public class Akcija {
@@ -15,8 +14,11 @@ public class Akcija {
     private int procenatPopusta;
     @Column(name = "opis", nullable = true)
     private String opis;
-    @OneToOne(cascade = CascadeType.ALL)
-    private StanjeLijeka stanje;
+
+
+    public Akcija(){
+
+    }
     public Long getId() {
         return id;
     }
@@ -33,7 +35,6 @@ public class Akcija {
         this.procenatPopusta = procenatPopusta;
     }
 
-
     public String getOpis() {
         return opis;
     }
@@ -49,8 +50,6 @@ public class Akcija {
         this.opis = opis;
     }
 
-    public Akcija() {
 
-    }
 
 }

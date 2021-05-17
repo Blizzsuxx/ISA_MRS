@@ -52,7 +52,7 @@ import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
 import NarudzbenicaProzor from "../components/NarudzbenicaProzor"
 import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
-
+import DodavanjeAkcije from "../components/DodavanjeAkcije"
 import Zalbe from "../components/Zalbe"
 import ZalbeIstorija from '../components/ZalbeIstorija'
 
@@ -79,6 +79,12 @@ const routes = [
     name: 'NarudzbenicaProzor',
     component: NarudzbenicaProzor,
     meta:{title: 'Narudzbenica'}
+  },
+  {
+    path: '/dodavanjeAkcije/:id',
+    name: 'DodavanjeAkcije',
+    component: DodavanjeAkcije,
+    meta:{title: 'Dodavanje akcije'}
   },
   {
     path: '/godisnjiOdmori',
