@@ -3,6 +3,10 @@ package mrsisa.projekat.akcija;
 import javax.persistence.*;
 
 import mrsisa.projekat.lijek.Lijek;
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class Akcija {
@@ -14,7 +18,16 @@ public class Akcija {
     private int procenatPopusta;
     @Column(name = "opis", nullable = true)
     private String opis;
+    @Column(name = "datumOd",nullable = false)
+    private LocalDateTime datumOd;
+    @Column (name="datumDo",nullable = false)
+    private LocalDateTime datumDo;
 
+    public Akcija(int procenatPopusta, LocalDateTime datumOd, LocalDateTime datumDo){
+        this.procenatPopusta = procenatPopusta;
+        this.datumDo = datumDo;
+        this.datumOd = datumOd;
+    }
 
     public Akcija(){
 
@@ -50,6 +63,19 @@ public class Akcija {
         this.opis = opis;
     }
 
+    public LocalDateTime getDatumOd() {
+        return datumOd;
+    }
 
+    public void setDatumOd(LocalDateTime datumOd) {
+        this.datumOd = datumOd;
+    }
 
+    public LocalDateTime getDatumDo() {
+        return datumDo;
+    }
+
+    public void setDatumDo(LocalDateTime datumDo) {
+        this.datumDo = datumDo;
+    }
 }
