@@ -28,7 +28,9 @@ public class NarudzbenicaController {
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PostMapping(value="/kreirajNarudzbenicu")
     public void kreirajNarudzbenicu( @RequestBody Map<String, Object> podaci){
-        this.narudzbenicaService.kreirajNarudzbenicu(podaci);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        this.narudzbenicaService.kreirajNarudzbenicu(podaci,adminApoteke);
     }
 
 
@@ -45,6 +47,14 @@ public class NarudzbenicaController {
     public NarudzbenicaDTO dobaviJednuNarudzbenicuAdmin(@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        return this.narudzbenicaService.dobaviJednuNarudzbeniceAdmin(id);
+        return this.narudzbenicaService.dobaviJednuNarudzbeniceAdmin(id,adminApoteke);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @DeleteMapping(path="/{id}/admin")
+    public void obrisiNarudzbenicu(@PathVariable Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        this.narudzbenicaService.orbisiNarudzbenicu(id);
     }
 }

@@ -34,10 +34,12 @@
       label="Opcije"
      >
       <template #default="scope">
-        <el-button type="primary" plain v-if="scope.row.status===0 && !zavrsena" @click="()=>prihvatiPonudu(scope.row.id)"  size="small">Potvrdi</el-button>
-        <el-button type="danger" plain v-if="scope.row.status===0 && !zavrsena" @click="()=>odbijPonudu(scope.row.id)"  size="small">Odbij</el-button>
-        <div v-if="scope.row.status===0">
+        <el-button type="primary" plain v-if="scope.row.status===0 && narudzbenica.zavrsena && ! narudzbenica.prihvacena && narudzbenica.pripada" @click="()=>prihvatiPonudu(scope.row.id)"  size="small">Potvrdi</el-button>
+        <div v-if="scope.row.status===2">
             Odobrena
+            </div>
+        <div v-if="scope.row.status===1">
+            Odbijena
             </div>
       </template>
     </el-table-column>
@@ -59,13 +61,8 @@
               this.$emit("odobrena-ponuda");
           });
       },
-      odbijPonudu(id){
-          this.$store.dispatch("Ponude/odbijPonudu",id).then(()=>{
-               this.$store.dispatch("Ponude/dobaviPonude",this.nId);
-          });
-      },
     },
-    props: ["ponude","zavrsena"],
+    props: ["ponude","narudzbenica"],
     emits: ["odobrena-ponuda"]
   }
 </script>

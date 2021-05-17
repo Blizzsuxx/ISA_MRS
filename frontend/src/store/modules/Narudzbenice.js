@@ -28,6 +28,12 @@ const actions = {
                 context.commit('postaviNarudzbenicu',narudzbenice)
             })
     },
+    izbrisiNarudzbenicu(context,id){
+        return axios.delete(`http://localhost:8080/api/v1/narudzbenice/${id}/admin`, { headers: authHeader()})
+            .then(() => {
+                
+            })
+    }
     
 
 }

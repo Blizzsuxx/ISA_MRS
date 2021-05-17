@@ -35,14 +35,6 @@ public class PonudaController {
     public void prihvatiPonudu(@PathVariable Long n_id,@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        this.ponudaService.prihvatiPonudu(id,n_id);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
-    @PutMapping(path="/{id}/odbij")
-    public void odbijPonudu(@PathVariable Long id){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        this.ponudaService.odbijPonudu(id);
+        this.ponudaService.prihvatiPonudu(id,n_id,adminApoteke);
     }
 }
