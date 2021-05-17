@@ -60,6 +60,7 @@
 
 <script>
 import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
+
   export default {
     name: 'Zalbe',
     data() {
@@ -67,7 +68,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         zalba: {
           naslov: '',
           text: '',
-
+          
         },
         rules: {
           naslov: [
@@ -95,7 +96,13 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid){
-               this.open1();
+                this.$store.dispatch('APKorisnici/kreirajZalbu', 
+                {naslov: this.zalba.naslov, text: this.zalba.text, 
+                datumVrijeme: new Date()})
+                .then(response => {
+                    console.log(response);
+                    this.open1();
+                });
             }
         });
       },

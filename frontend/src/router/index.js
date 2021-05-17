@@ -279,7 +279,7 @@ const routes = [
   },
   {
     path: '/ap/zalbeIstorija',
-    name: 'Zalbe',
+    name: 'ZalbeIstorija',
     component: ZalbeIstorija
   }
 ]

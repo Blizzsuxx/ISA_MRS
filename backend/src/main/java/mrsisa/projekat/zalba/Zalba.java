@@ -21,21 +21,21 @@ public class Zalba {
     private String pacijent;
 
     @Column(name="datum_vrijeme")
-    private LocalDateTime datumVrijeme;
+    private String datumVrijeme;
 
     @OneToMany(mappedBy = "zalba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Odgovor> odgovori;
 
     public Zalba() {}
 
-    public Zalba(String naslov, String text, String pacijent, LocalDateTime datumVrijeme) {
+    public Zalba(String naslov, String text, String pacijent, String datumVrijeme) {
         this.naslov = naslov;
         this.text = text;
         this.pacijent = pacijent;
         this.datumVrijeme = datumVrijeme;
     }
 
-    public Zalba(String naslov, String text, String pacijent, LocalDateTime datumVrijeme, List<Odgovor> odgovori) {
+    public Zalba(String naslov, String text, String pacijent, String datumVrijeme, List<Odgovor> odgovori) {
         this.naslov = naslov;
         this.text = text;
         this.pacijent = pacijent;
@@ -67,11 +67,11 @@ public class Zalba {
         this.pacijent = pacijent;
     }
 
-    public LocalDateTime getDatumVrijeme() {
+    public String getDatumVrijeme() {
         return datumVrijeme;
     }
 
-    public void setDatumVrijeme(LocalDateTime datumVrijeme) {
+    public void setDatumVrijeme(String datumVrijeme) {
         this.datumVrijeme = datumVrijeme;
     }
 
