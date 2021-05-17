@@ -51,6 +51,7 @@ import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
 import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
 import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
 import NarudzbenicaProzor from "../components/NarudzbenicaProzor"
+import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -62,6 +63,12 @@ const routes = [
     name: 'PrikazNarudzbenica',
     component: PrikazNarudzbenica,
     meta:{title: 'Istorija narudzbenica'}
+  },
+  {
+    path: '/adminApoteke/potvrda',
+    name: 'PrvaPrijavaAdminApoteke',
+    component: PrvaPrijavaAdminApoteke,
+    meta:{title: 'Resetovanje lozinke'}
   },
   {
     path: '/prikazNarudzbenice/:id',

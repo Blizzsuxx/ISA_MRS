@@ -117,7 +117,15 @@
                     this.$router.push('/ap/AdministratorSistema')
                   } else if (s.uloga === 'ROLE_ADMIN_APOTEKE' || 
                   s.uloga === "ROLE_ADMIN_APOTEKA"){
-                    this.$router.push('/profilApoteke')
+                    this.$store.dispatch("APKorisnici/potvrdaLozinke").then(response=>{
+                      if(!response){
+                        this.$router.push('/adminApoteke/potvrda')
+                      }
+                      else{
+                         this.$router.push('/profilApoteke')
+                      }
+                    })
+                   
                   } else if (s.uloga === 'ROLE_PACIJENT'){
                     this.$router.push('/ap/pacijent')
                   } else if (s.uloga === 'ROLE_DOBAVLJAC'){

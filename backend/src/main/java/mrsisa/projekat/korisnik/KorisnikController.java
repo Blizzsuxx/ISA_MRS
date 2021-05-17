@@ -128,7 +128,7 @@ public class KorisnikController {
     }
 
     @GetMapping(value = "/promjenaLozinke/{lozinka}")
-    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
     public boolean promjeniLozinku(@PathVariable String lozinka){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();
@@ -142,7 +142,7 @@ public class KorisnikController {
     }
 
     @GetMapping(value="/potvrdaPrijave")
-    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
     public boolean potvrdaPrijave(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();
