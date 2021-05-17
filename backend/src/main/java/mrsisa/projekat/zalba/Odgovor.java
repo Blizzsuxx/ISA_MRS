@@ -1,5 +1,7 @@
 package mrsisa.projekat.zalba;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -20,21 +22,22 @@ public class Odgovor {
     private String administrator;
 
     @Column(name="datum_vrijeme")
-    private LocalDateTime datumVrijeme;
+    private String datumVrijeme;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Zalba zalba;
 
     public Odgovor() {}
 
-    public Odgovor(String naslov, String text, String administrator, LocalDateTime datumVrijeme) {
+    public Odgovor(String naslov, String text, String administrator, String datumVrijeme) {
         this.naslov = naslov;
         this.text = text;
         this.administrator = administrator;
         this.datumVrijeme = datumVrijeme;
     }
 
-    public Odgovor(String naslov, String text, String administrator, LocalDateTime datumVrijeme, Zalba zalba) {
+    public Odgovor(String naslov, String text, String administrator, String datumVrijeme, Zalba zalba) {
         this.naslov = naslov;
         this.text = text;
         this.administrator = administrator;
@@ -66,11 +69,11 @@ public class Odgovor {
         this.administrator = administrator;
     }
 
-    public LocalDateTime getDatumVrijeme() {
+    public String getDatumVrijeme() {
         return datumVrijeme;
     }
 
-    public void setDatumVrijeme(LocalDateTime datumVrijeme) {
+    public void setDatumVrijeme(String datumVrijeme) {
         this.datumVrijeme = datumVrijeme;
     }
 

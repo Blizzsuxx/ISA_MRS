@@ -19,6 +19,9 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    dobaviOdgovore(context, id){
+        return axios.get(`http://localhost:8080/api/odgovori/dobaviOdgovoreZalbe/${id}`, {headers: authHeader()});
+    },
     dobaviZalbe(){
         return axios.get('http://localhost:8080/api/zalbe/dobaviZalbe', {headers: authHeader()});
     },
