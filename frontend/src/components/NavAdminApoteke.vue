@@ -11,7 +11,8 @@
   <el-menu-item index="5"><router-link to="/pregledFarmaceuta">Pregled zaposlenih farmaceuta</router-link></el-menu-item>
   <el-menu-item index="6"><router-link to="/slobodanTermin">Kreiranje slobodnih termina</router-link></el-menu-item>
   <el-menu-item index="7"><router-link to="/zaposljavanjeDermatologa">Zaposljavanje dermatologa</router-link></el-menu-item>
-  <el-menu-item index="7"><router-link to="/zaposljavanjeFarmaceuta">Zaposljavanje farmaceuta</router-link></el-menu-item>
-  <el-menu-item index="7"><router-link to="/prikazNarudzbenica">Istorija narudzbenica</router-link></el-menu-item>
+  <el-menu-item index="8"><router-link to="/zaposljavanjeFarmaceuta">Zaposljavanje farmaceuta</router-link></el-menu-item>
+  <el-menu-item index="9"><router-link to="/prikazNarudzbenica">Istorija narudzbenica</router-link></el-menu-item>
+  <el-menu-item index="10"><router-link to="/adminApoteke/potvrda">Resetovanje lozinke</router-link></el-menu-item>
 </el-menu>
 </template>
