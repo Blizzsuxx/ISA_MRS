@@ -11,8 +11,8 @@
     <el-menu-item index="2-2"><router-link to="/ap/istorijaPosetaFarmaceut">Istorija poseta farmaceutu</router-link></el-menu-item>
     <el-menu-item index="2-3"><router-link to="/ap/zakazanePoseteDermatologuPacijent">Zakazane posete dermatolozima</router-link></el-menu-item>
     <el-menu-item index="2-4"><router-link to="/ap/zakazanePoseteFarmaceutuPacijent">Zakazane posete farmaceutima</router-link></el-menu-item>
-    <el-menu-item index="2-5"><router-link to="/ap">Zakazivanje kod dermatologa</router-link></el-menu-item>
-    <el-menu-item index="2-6"><router-link to="/ap">Zakazivanje kod farmaceuta</router-link></el-menu-item>
+    <el-menu-item index="2-5"><router-link to="/ap/zakaziD">Zakazivanje kod dermatologa</router-link></el-menu-item>
+    <el-menu-item index="2-6"><router-link to="/ap/zakaziF">Zakazivanje kod farmaceuta</router-link></el-menu-item>
     
   </el-submenu>
 

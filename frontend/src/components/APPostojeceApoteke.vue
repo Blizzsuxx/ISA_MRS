@@ -22,17 +22,17 @@
       width="120">
     </el-table-column>
     <el-table-column
-      property="adresa.Mesto"
+      property="mjesto"
       label="Mesto"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
-      property="adresa.ulica"
+      property="ulica"
       label="Ulica"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
-      property="adresa.broj"
+      property="broj"
       label="Broj"
       show-overflow-tooltip>
     </el-table-column>
@@ -70,7 +70,7 @@ export default defineComponent ({
       
       await this.$store.dispatch("APApoteke/dobaviApoteke")
       this.zaTabelu =this.$store.state.APApoteke.sveApoteke;
-      
+      console.log(this.zaTabelu[0])
     },
     name: 'APPostojeceApoteke',
     methods: {

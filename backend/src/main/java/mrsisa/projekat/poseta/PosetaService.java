@@ -8,6 +8,7 @@ import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -311,6 +312,22 @@ public class PosetaService {
     }
 
     public String zakaziPosetuD(String id) {
+
+
         return "Uspesno ste zakazali posetu kod dermatologa Sime.";
+    }
+
+    public boolean izbaciPosetuF(String id) {
+
+        for(Poseta poseta : this.posetaRepository.findAll()){
+            if(poseta.getId()==Integer.parseInt(id.trim())){
+                SlobodanTermin sl=new SlobodanTermin(poseta, 1L);//proveriti generisanje id
+                //sacuvati slobodan termin u bazu //sacuvati sve posete sem ove u bazu i to je to
+                break;
+            }
+        }
+
+
+        return true;
     }
 }

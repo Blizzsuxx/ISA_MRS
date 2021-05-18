@@ -3,7 +3,11 @@ import authHeader from './AuthHeader'
 const state = {    
     sveApoteke :[],
     apoteka : null,
-    slobodniTermini : []
+    slobodniTermini : [],
+    farmaceuti : [],
+    slobodneApoteke : [],
+    oznaka: false,
+
   
 };
 
@@ -19,12 +23,10 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke',{ headers: authHeader()})
         .then(response => {
             let apotekeSve =response.data
+            //console.log(apotekeSve[0].adresa.ulica)
             context.commit('postaviApoteke',apotekeSve)
         })
     },
-
-
-
 
     dodajApoteku (context, apoteka){
         return axios.post("http://localhost:8080/api/v1/apoteka/sacuvajApoteku", apoteka, { headers: authHeader()});
@@ -67,13 +69,67 @@ const actions = {
             })
             .catch(error=>console.log(error))
     },
+    dobaviSlobodneTermineFarmaceut( context,id){//ovo treba da vrati sve apoteke koje imaju slobodne termine u zadatom periodu
+        console.log(id)
+        return axios.get( `http://localhost:8080/api/v1/slobodanTermin/slobodanTerminApoteke/${id}`,{ headers: authHeader()})
+            .then(response => {
+                let slobodniTermini =response.data
+                let listaApoteka=[]
+                console.log(response.data)
+                let i=0;
+                for ( i = 0; i < response.data.length; i++) {
+                    console.log("a")
+                   listaApoteka[i]=response.data[i].apoteka
+                  }
+                console.log(listaApoteka)
+                context.commit('postaviSlobodneApoteke',listaApoteka)
+                context.commit('postaviSlobodneTermine',slobodniTermini)
+                console.log()
+            })
+            .catch(error=>console.log(error))
+    },
+    dobaviFarmaceute({commit,state}, ime){
+        let farmaceuti = []
+        let i=0;
+        
+        for ( i = 0; i < state.slobodniTermini.length; i++) {
+            if(state.slobodniTermini[i].apoteka.ime==ime){
+                commit('postaviApoteku',state.slobodniTermini[i].apoteka)
+                farmaceuti[i]={"ime":state.slobodniTermini[i].imeRadnika,"prezime":state.slobodniTermini[i].prezimeRadnika,"ocena":state.slobodniTermini[i].ocena }
+          }}
+          
+          commit('postaviFarmaceute',farmaceuti)
+    },
+    zakaziPosetu( {commit,state},id){//u fji dobavi farmaceuta sam stavila i apoteku koja je izabrana, pa ako budem htela
+        //da saljem ceo termin, mogu pronaci preko toga koji je to ceo termin, ovakoo saljem samo farmaceuta
+        var naziv=id.split(" ")
+        let i=0;
+        let idPosete=""
+        for ( i = 0; i < state.slobodniTermini.length; i++) {
+            if(state.slobodniTermini[i].apoteka.ime==state.apoteka.ime && state.slobodniTermini[i].imeRadnika==naziv[0] && state.slobodniTermini[i].prezimeRadnika==naziv[1]){
+            idPosete=state.slobodniTermini[i].id   
+            }}
+        console.log(id)
+        return axios.put( `http://localhost:8080/api/v1/slobodanTermin/zakaziFarmaceuta`,{"a":idPosete},{ headers: authHeader()})
+            .then(response => {
+                if(response.data){
+                    commit("setujOznaku",true)
+                }else{
+                    commit("setujOznaku",false)
+                }
+                //console.log(commit)   
+            })
+            .catch(error=>console.log(error))
+    }
 
 }
-
 const mutations = {
     postaviApoteke:(state, apoteke) => (state.sveApoteke = apoteke),
     postaviApoteku:(state,apoteka)=> (state.apoteka = apoteka),
-    postaviSlobodneTermine :(state,slobodniTermini)=>(state.slobodniTermini = slobodniTermini)
+    postaviSlobodneTermine :(state,slobodniTermini)=>(state.slobodniTermini = slobodniTermini),
+    postaviFarmaceute:(state,f)=>(state.farmaceuti = f),
+    postaviSlobodneApoteke:(state,apoteka)=> (state.slobodneApoteke = apoteka),
+    setujOznaku:(state, oz)=>(state.oznaka=oz)
 }
 
 export default{

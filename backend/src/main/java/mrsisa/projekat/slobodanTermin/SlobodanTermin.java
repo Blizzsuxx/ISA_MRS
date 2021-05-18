@@ -2,9 +2,11 @@ package mrsisa.projekat.slobodanTermin;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -12,8 +14,8 @@ public class SlobodanTermin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalTime pocetakTermina;
-    private LocalTime krajTermina;
+    private LocalDateTime pocetakTermina;
+    private LocalDateTime krajTermina;
     private double cijenaTermina;
 
     @ManyToOne( fetch = FetchType.LAZY)
@@ -22,6 +24,16 @@ public class SlobodanTermin {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
+    public SlobodanTermin(Poseta poseta, Long id) {
+        this.id=id;
+        this.radnik= poseta.getRadnik();
+        this.pocetakTermina=poseta.getPocetak();
+        this.krajTermina=poseta.getKraj();
+        //this.cijenaTermina=poseta.getCena(); TODO razmisliti o dodavanju apoteke u ovu klasu
+    }
+
+    public SlobodanTermin() {
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -33,19 +45,19 @@ public class SlobodanTermin {
         return id;
     }
 
-    public LocalTime getPocetakTermina() {
+    public LocalDateTime getPocetakTermina() {
         return pocetakTermina;
     }
 
-    public void setPocetakTermina(LocalTime pocetakTermina) {
+    public void setPocetakTermina(LocalDateTime pocetakTermina) {
         this.pocetakTermina = pocetakTermina;
     }
 
-    public LocalTime getKrajTermina() {
+    public LocalDateTime getKrajTermina() {
         return krajTermina;
     }
 
-    public void setKrajTermina(LocalTime krajTermina) {
+    public void setKrajTermina(LocalDateTime krajTermina) {
         this.krajTermina = krajTermina;
     }
 

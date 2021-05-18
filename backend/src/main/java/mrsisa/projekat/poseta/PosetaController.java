@@ -68,17 +68,24 @@ public class PosetaController {
     @PreAuthorize("hasRole('PACIJENT')")
     public boolean izbPosetu( @RequestBody Map<String,Object> podaci){
 
-        System.out.println(podaci.get("a"));
-        System.out.println("sanja sanja");
-        return true;
+        String podaci1=podaci+"";
+        String[] deo1=podaci1.split(" ");
+        String id=deo1[0].split("=")[2];
+        String id2=id.replace(",", "");
+        System.out.println("faca "+id);
+        return this.posetaService.izbaciPosetuF(id2);//isto je izbaciti posetu i farmaceutu i dermatologu
     }
     @RequestMapping(method = RequestMethod.POST, value = "/otkaziF")
     @PreAuthorize("hasRole('PACIJENT')")
     public boolean izbPosetuF( @RequestBody Map<String,Object> podaci){
-
-        System.out.println(podaci.get("a"));
-        System.out.println("sanja sanja");
-        return true;
+        System.out.println("micka se licka");
+        System.out.println(podaci);
+        String podaci1=podaci+"";
+        String[] deo1=podaci1.split(" ");
+        String id=deo1[0].split("=")[2];
+        String id2=id.replace(",", "");
+        System.out.println("faca "+id);
+        return this.posetaService.izbaciPosetuF(id2);
     }
 
     @GetMapping(path="/dobaviSlobodnePoseteDermatologa")

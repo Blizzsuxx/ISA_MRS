@@ -10,6 +10,7 @@ import java.util.Map;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -138,6 +139,7 @@ public class ApotekaController {
         Apoteka a = new Apoteka(dummy);
         apotekaService.save(a);
     }
+
 
 
 }
