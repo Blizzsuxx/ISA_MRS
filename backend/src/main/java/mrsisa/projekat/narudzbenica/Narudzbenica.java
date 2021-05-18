@@ -1,10 +1,13 @@
 package mrsisa.projekat.narudzbenica;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.ponuda.Ponuda;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,7 +24,7 @@ public class Narudzbenica {
 
 
     @OneToMany(mappedBy = "narudzbenica", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StanjeLijeka> ponude;
+    private List<Ponuda> ponude;
 
     @Column(name="rok", nullable = false)
     private LocalDateTime rok;
@@ -29,6 +32,12 @@ public class Narudzbenica {
 
     @Column(name="zavrsena",nullable = false)
     private boolean zavrsena;
+
+    @Column(name="prihvacena",nullable=false)
+    private boolean prihvacena;
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    public AdministratorApoteke administratorApoteke;
 
     public Narudzbenica(){
 
@@ -75,11 +84,27 @@ public class Narudzbenica {
         this.zavrsena = zavrsena;
     }
 
-    public List<StanjeLijeka> getPonude() {
+    public List<Ponuda> getPonude() {
         return ponude;
     }
 
-    public void setPonude(List<StanjeLijeka> ponude) {
+    public void setPonude(List<Ponuda> ponude) {
         this.ponude = ponude;
+    }
+
+    public boolean isPrihvacena() {
+        return prihvacena;
+    }
+
+    public void setPrihvacena(boolean prihvacena) {
+        this.prihvacena = prihvacena;
+    }
+
+    public AdministratorApoteke getAdministratorApoteke() {
+        return administratorApoteke;
+    }
+
+    public void setAdministratorApoteke(AdministratorApoteke administratorApoteke) {
+        this.administratorApoteke = administratorApoteke;
     }
 }

@@ -118,8 +118,6 @@ const actions = {
     },
     dodajLijekUNarudzbinu(context,lijek){
         let sviLijekovi  = state.dtoLijekovi
-        //let naruceni  = state.lijekoviZaPorucivanje
-        
         sviLijekovi = sviLijekovi.map(element=>{
             
             if(element.id ===lijek.id){
@@ -142,8 +140,10 @@ const actions = {
             let new_elem = JSON.parse(JSON.stringify(elem))
             return new_elem;
         })
+        let datum1 = moment(String(datum)).format('YYYY-MM-DD hh:mm').split(" ")[0]+" 23:59";
+       
         axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
-                                                datum: moment(String(datum)).format('YYYY-MM-DD hh:mm'),
+                                                datum: datum1,
                                                                                     apoteka:1},{ headers: authHeader()})
         .then(response => {
             context.commit('resetujLijekoveZaPorucivanje',[])

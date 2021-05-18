@@ -35,6 +35,7 @@ import AzuriranjeApoteka from "../components/AzuriranjeApoteka"
 import Prijava from "../components/Prijava"
 
 import AdministratorSistema from '../components/AdministratorSistema';
+import Dobavljac from '../components/Dobavljac'
 
 import BrisanjeDermatologa  from  "../components/BrisanjeDermatologa"
 import FarmaceutiBrisanje from "../components/FarmaceutiBrisanje"
@@ -53,11 +54,42 @@ import FormaZakazivanjeFarmaceut from "../components/FormaZakazivanjeFarmaceut"
 import PrihvatanjeGodisnjihOdmora from "../components/PrihvatanjeGodisnjihOdmora"
 import DermatologZaposljavanje from "../components/DermatologZaposljavanje"
 import FarmaceutZaposljavanje from "../components/FarmaceutZaposljavanje"
+import PrikazNarudzbenica from "../components/PrikazNarudzbenica"
+import NarudzbenicaProzor from "../components/NarudzbenicaProzor"
+import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
+import DodavanjeAkcije from "../components/DodavanjeAkcije"
+import Zalbe from "../components/Zalbe"
+import ZalbeIstorija from '../components/ZalbeIstorija'
+
 const routes = [
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/prikazNarudzbenica',
+    name: 'PrikazNarudzbenica',
+    component: PrikazNarudzbenica,
+    meta:{title: 'Istorija narudzbenica'}
+  },
+  {
+    path: '/adminApoteke/potvrda',
+    name: 'PrvaPrijavaAdminApoteke',
+    component: PrvaPrijavaAdminApoteke,
+    meta:{title: 'Resetovanje lozinke'}
+  },
+  {
+    path: '/prikazNarudzbenice/:id',
+    name: 'NarudzbenicaProzor',
+    component: NarudzbenicaProzor,
+    meta:{title: 'Narudzbenica'}
+  },
+  {
+    path: '/dodavanjeAkcije/:id',
+    name: 'DodavanjeAkcije',
+    component: DodavanjeAkcije,
+    meta:{title: 'Dodavanje akcije'}
   },
   {
     path: '/godisnjiOdmori',
@@ -259,6 +291,21 @@ const routes = [
     path: '/ap/pretplata',
     name: 'pretplataNaApoteke',
     component: PretplataNaApoteke,
+  },
+  {
+    path: '/ap/Dobavljac',
+    name: 'Dobavljac',
+    component: Dobavljac
+  },
+  {
+    path: '/ap/kreirajZalbu',
+    name: 'Zalbe',
+    component: Zalbe
+  },
+  {
+    path: '/ap/zalbeIstorija',
+    name: 'ZalbeIstorija',
+    component: ZalbeIstorija
   }
   ,
   {

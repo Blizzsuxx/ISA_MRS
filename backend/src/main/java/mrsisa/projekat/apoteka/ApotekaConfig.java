@@ -1,18 +1,11 @@
 package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.AdresaRepository;
-import mrsisa.projekat.lijek.Lijek;
-import mrsisa.projekat.lijek.LijekRepository;
-import mrsisa.projekat.stanjelijeka.StanjeLijeka;
-import mrsisa.projekat.stanjelijeka.StanjeLijekaConfig;
-import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Configuration
 public class ApotekaConfig {

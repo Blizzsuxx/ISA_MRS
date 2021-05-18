@@ -25,7 +25,11 @@
 
   <el-menu-item index="4"><router-link to="/ap/penali">Uvid u penale</router-link></el-menu-item>
   <el-menu-item index="5"><router-link to="/ap/pretplata">Promocije</router-link></el-menu-item>
-  <el-menu-item index="6"><router-link to="/ap">Zalbe</router-link></el-menu-item>
+  <el-submenu index="6">
+    <template #title>Zalbe</template>
+    <el-menu-item index="6-1"><router-link to="/ap/kreirajZalbu">Kreiranje Zalbe</router-link></el-menu-item>
+    <el-menu-item index="6-2"><router-link to="/ap/zalbeIstorija">Istorija Zalbi</router-link></el-menu-item>
+  </el-submenu>
   
   <el-menu-item index="7"><router-link to="/ap/profil">Profil</router-link></el-menu-item>
 </el-menu>

@@ -2,6 +2,8 @@ package mrsisa.projekat.stanjelijeka;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
@@ -43,6 +45,10 @@ public class StanjeLijeka {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Narudzbenica narudzbenica;
+
+
+    @OneToOne(fetch=FetchType.LAZY)
+    private Akcija akcija;
 
     public Rezervacija getRezervacija() {
         return rezervacija;
@@ -130,6 +136,13 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
+    public StanjeLijeka(Lijek lijek, int kolicina, boolean prodaja,LocalDateTime datumIstekaCijene) {
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.datumIstekaCijene = datumIstekaCijene;
+    }
+
     public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime vrijemeIsteka) {
         this.id = id;
         this.lijek = lijek;
@@ -160,5 +173,11 @@ public class StanjeLijeka {
         this.eRecept = eRecept;
     }
 
+    public Akcija getAkcija() {
+        return akcija;
+    }
 
+    public void setAkcija(Akcija akcija) {
+        this.akcija = akcija;
+    }
 }

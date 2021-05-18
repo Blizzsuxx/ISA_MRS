@@ -1,5 +1,6 @@
 package mrsisa.projekat.korisnik;
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
 import mrsisa.projekat.util.MailSender;
@@ -12,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,9 @@ import java.util.Map;
 @RequestMapping(path="api/korisnici")
 @CrossOrigin
 public class KorisnikController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private TokenUtils tokenUtils;
@@ -120,5 +125,54 @@ public class KorisnikController {
         } else {
             return null;
         }
+    }
+
+    @GetMapping(value = "/promjenaLozinke/{lozinka}")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
+    public boolean promjeniLozinku(@PathVariable String lozinka){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        if (k.getPassword().equals(passwordEncoder.encode(lozinka)))
+            return false;
+
+        k.setPassword(passwordEncoder.encode(lozinka));
+        k.setPrijavljen(true);
+        this.korisnikService.save(k);
+        return true;
+    }
+
+    @GetMapping(value="/potvrdaPrijave")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
+    public boolean potvrdaPrijave(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return k.isPrijavljen();
+    }
+
+    @GetMapping(produces = "application/json", value = "/dobaviTrenutnogKorisnika")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    public KorisnikDTO getTrenutnogKorisnik(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return new KorisnikDTO(k);
+    }
+
+    @PutMapping(consumes = "application/json", value="/azurirajNalog")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC')")
+    public KorisnikDTO azurirajNalog(@RequestBody KorisnikDTO dummy){
+        Korisnik k = this.korisnikService.findByUsername(dummy.getKorisnickoIme());
+
+        if (k == null)
+            return null;
+
+        k.setFirstName(dummy.getIme());
+        k.setLastName(dummy.getPrezime());
+        k.setBirthday(LocalDateTime.parse(dummy.getRodjendan(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        if (!dummy.getSifra().isEmpty())
+            k.setPassword(passwordEncoder.encode(dummy.getSifra()));
+
+        this.korisnikService.save(k);
+
+        return dummy;
     }
 }

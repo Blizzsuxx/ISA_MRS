@@ -168,7 +168,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
             }
             
             this.tableData = this.$store.state.APPosete.svePosete.filter((item) => {
-              console.log(((item)));
+              
                 return time >= ((new Date(Date.parse(item.kraj))).getTime() -  (new Date(Date.parse(item.pocetak))).getTime()) / (1000 * 3600 * 24)} );
         }
     },

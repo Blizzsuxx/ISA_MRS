@@ -87,9 +87,6 @@
               </el-form-item>
               
             </el-form>
-            <div id="unos-link" class="text-right">
-              <a href="/ap/AdministratorSistema">Lijekovi!</a>
-            </div>
           </div>
         </div>
       </div>
@@ -155,6 +152,8 @@
       };
       
     },
+    props: ['izmjeniIndikator'],
+
     methods: {
       open1() {
         this.$message({
@@ -170,7 +169,7 @@
         this.$store.dispatch('APlijekovi/dodajLijek', l)
         .then(response => {
             this.open1();
-            this.$router.push('/ap/AdministratorSistema');
+            this.izmjeniIndikator(2, 'nesto');
           return response;
         });
         
