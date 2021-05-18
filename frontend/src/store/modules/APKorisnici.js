@@ -19,9 +19,21 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    kreirajOdgovor(context, sadrzaj){
+        sadrzaj.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
+        return axios.post('http://localhost:8080/api/odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
+    },
+    dobaviSveZalbe(){
+        return axios.get('http://localhost:8080/api/zalbe/dobaviSveZalbe',{headers: authHeader()});
+    },
+    dobaviOdgovore(context, id){
+        return axios.get(`http://localhost:8080/api/odgovori/dobaviOdgovoreZalbe/${id}`, {headers: authHeader()});
+    },
+    dobaviZalbe(){
+        return axios.get('http://localhost:8080/api/zalbe/dobaviZalbe', {headers: authHeader()});
+    },
     kreirajZalbu(context, zalba){
-        zalba.datumVrijeme = moment(String(zalba.datumVrijeme)).format('YYYY-MM-DD hh:mm');
-        console.log(zalba);
+        zalba.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
         return axios.post('http://localhost:8080/api/zalbe/sacuvajZalbu', zalba, { headers: authHeader()})
     },
     dobaviTrenutnogKorisnika(){
