@@ -3,6 +3,7 @@ package mrsisa.projekat.zalba;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class OdgovorService {
         return this.odgovorRepository.findAllByZalba(z);
     }
 
+    @Transactional
     public void sacuvaj(OdgovorDTO o){
         Zalba z = this.zalbaRepository.findById(o.getId()).orElse(null);
         Odgovor odgovor = new Odgovor(o);

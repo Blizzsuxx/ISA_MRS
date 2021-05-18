@@ -175,5 +175,5 @@ insert into zalbe(datum_vrijeme, naslov, pacijent, text) values ('2021-05-14 04:
 
 -- ODGOVORI
 
-insert into odgovori(datum_vrijeme, naslov, administrator, text, zalba_id) values ('2021-05-14 04:40', 't', 'sulejman1', 'aaa', 1);
-insert into odgovori(datum_vrijeme, naslov, administrator, text, zalba_id) values ('2021-05-14 04:40', 'tt', 'sulejman1', 'bbb', 1);
+insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'aaa', 1);
+insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'bbb', 1);
