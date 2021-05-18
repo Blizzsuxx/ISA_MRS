@@ -12,9 +12,6 @@ public class Odgovor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="naslov", nullable = false)
-    private String naslov;
-
     @Column(name="text", nullable = false)
     private String text;
 
@@ -30,29 +27,24 @@ public class Odgovor {
 
     public Odgovor() {}
 
-    public Odgovor(String naslov, String text, String administrator, String datumVrijeme) {
-        this.naslov = naslov;
+    public Odgovor(String text, String administrator, String datumVrijeme) {
         this.text = text;
         this.administrator = administrator;
         this.datumVrijeme = datumVrijeme;
     }
 
-    public Odgovor(String naslov, String text, String administrator, String datumVrijeme, Zalba zalba) {
-        this.naslov = naslov;
+    public Odgovor(String text, String administrator, String datumVrijeme, Zalba zalba) {
         this.text = text;
         this.administrator = administrator;
         this.datumVrijeme = datumVrijeme;
         this.zalba = zalba;
     }
 
-    public String getNaslov() {
-        return naslov;
+    public Odgovor(OdgovorDTO o){
+        this.text = o.getText();
+        this.administrator = o.getKorisnickoIme();
+        this.datumVrijeme = o.getDatumVrijeme();
     }
-
-    public void setNaslov(String naslov) {
-        this.naslov = naslov;
-    }
-
     public String getText() {
         return text;
     }

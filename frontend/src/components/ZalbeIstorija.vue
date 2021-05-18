@@ -108,13 +108,9 @@
   justify-content: center;  padding-bottom: 20px;">
     </div>
     <el-table
-    :data="odgovoriZalbe.filter(data => !searchOdgovori || data.naslov.includes(searchOdgovori.toLowerCase()) || data.datumVrijeme.includes(searchOdgovori.toLowerCase())
+    :data="odgovoriZalbe.filter(data => !searchOdgovori ||  data.datumVrijeme.includes(searchOdgovori.toLowerCase())
                       || data.pacijent.includes(searchOdgovori.toLowerCase()))"
     style="width: 100%">
-    <el-table-column
-      label="Naslov"
-      prop="naslov">
-    </el-table-column>
     <el-table-column
       label="Administrator"
       prop="administrator">

@@ -19,6 +19,10 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+    kreirajOdgovor(context, sadrzaj){
+        sadrzaj.datumVrijeme = moment(String(sadrzaj.datumVrijeme)).format('YYYY-MM-DD hh:mm');
+        return axios.post('http://localhost:8080/api/odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
+    },
     dobaviSveZalbe(){
         return axios.get('http://localhost:8080/api/zalbe/dobaviSveZalbe',{headers: authHeader()});
     },

@@ -26,4 +26,15 @@ public class OdgovorService {
                 .orElse(null);
         return this.odgovorRepository.findAllByZalba(z);
     }
+
+    public void sacuvaj(OdgovorDTO o){
+        Zalba z = this.zalbaRepository.findById(o.getId()).orElse(null);
+        Odgovor odgovor = new Odgovor(o);
+        odgovor.setZalba(z);
+        assert z != null;
+        z.getOdgovori().add(odgovor);
+        this.odgovorRepository.save(odgovor);
+        this.zalbaRepository.save(z);
+
+    }
 }
