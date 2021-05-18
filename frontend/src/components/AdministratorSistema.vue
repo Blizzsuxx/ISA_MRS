@@ -38,12 +38,20 @@
             </template>
             <el-menu-item index="4-1" @click="loyaltyPrograma">Loyalty Programa</el-menu-item>
         </el-submenu>
-        <el-submenu index="5">
+        <el-submenu index="5" v-if='potvrda'>
+            <template #title>
+            <i></i>
+            <span>Zalbe</span>
+            </template>
+            <el-menu-item index="5-1" @click="pregledZalbi">Pregled Zalbi</el-menu-item>
+            <el-menu-item index="5-2" @click="istorijaZalbi">Istorija Zalbi</el-menu-item>
+        </el-submenu>
+        <el-submenu index="6">
             <template #title>
             <i></i>
             <span>Dodatne Opcije</span>
             </template>
-            <el-menu-item index="5-1" @click="odjava">Odjava</el-menu-item>
+            <el-menu-item index="6-1" @click="odjava">Odjava</el-menu-item>
         </el-submenu>
     </el-menu>
     <el-main>
@@ -68,6 +76,9 @@
         <div v-else-if="indikator == 8">
             <PotvrdaLozinke :izmjeniPotvrdu="izmjeniPotvrdu"/>
         </div>
+        <div v-else-if="indikator == 9">
+            <ZalbePregled/>
+        </div>
         <div v-else>
         </div>
     </el-main>
@@ -81,6 +92,7 @@ import FormaApoteke from './FormaApoteke'
 import FormaKorisnika from './FormaKorisnika'
 import FormaLijekova from './FormaLijekova'
 import PotvrdaLozinke from './PotvrdaLozinke'
+import ZalbePregled from './ZalbePregled'
 
 export default {
     name: 'AdministratorSistema',
@@ -90,6 +102,7 @@ export default {
           lijekovi: [],
           indikator: 0,
           potvrda: false,  
+          zalbe: []
         }
         
     },
@@ -201,12 +214,19 @@ export default {
             } else {
                 this.open2();
             }
+        },
+        pregledZalbi(){
+           this.indikator = 9;
+
+        },
+        istorijaZalbi(){
+            this.indikator = 9;
         }
 
     },
     components:{
         DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova,
-        PotvrdaLozinke
+        PotvrdaLozinke, ZalbePregled
     },
     
   }

@@ -38,5 +38,10 @@ public class ZalbaController {
         return this.zalbaService.findAllByPacijent(k.getUsername());
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'PACIJENT')")
+    @GetMapping(path = "/dobaviSveZalbe")
+    public List<Zalba> dobaviSveZalbe(){
+        return this.zalbaService.findAll();
+    }
 
 }

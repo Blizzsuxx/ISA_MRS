@@ -24,4 +24,8 @@ public class ZalbaService {
     public List<Zalba> findAllByPacijent(String pacijent){
         return this.zalbaRepository.findAllByPacijent(pacijent);
     }
+
+    public List<Zalba> findAll(){
+        return this.zalbaRepository.findAll();
+    }
 }
