@@ -4,6 +4,7 @@ package mrsisa.projekat.poseta;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +115,13 @@ public class PosetaController {
 
     @PostMapping(value="/zakaziPosetu")
     public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+        Long pregledID = Long.parseLong( podaci.get("pregledID").toString());
+        Poseta poseta = this.posetaService.findId(pregledID);
+        Pacijent pacijent = poseta.getPacijent();
+        Apoteka apoteka = poseta.getApoteka();
+        Radnik radnik = poseta.getRadnik();
+        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
+        System.out.println(dateTime);
         this.posetaService.kreirajPosetu(podaci);
     }
 
