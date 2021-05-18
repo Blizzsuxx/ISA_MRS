@@ -71,14 +71,14 @@ public class DermatologConfig {
             ));
 
             SlobodanTermin slobodanTermin = new SlobodanTermin();
-            slobodanTermin.setRadnik(repozitorijum.findById(4).orElse(null));
+            slobodanTermin.setRadnik(repozitorijum.findById(5).orElse(null));
             slobodanTermin.setApoteka(apotekaRepository.findById(1L).orElse(null));
             slobodanTermin.setPocetakTermina(LocalDateTime.of(2021,6,6,10,00));
             slobodanTermin.setKrajTermina(LocalDateTime.of(2021,6,6,11,00));
             slobodanTermin.setCijenaTermina(100);
             slobodanTerminRepository.save(slobodanTermin);
             SlobodanTermin slobodanTermin1 = new SlobodanTermin();
-            slobodanTermin1.setRadnik(repozitorijum.findById(4).orElse(null));
+            slobodanTermin1.setRadnik(repozitorijum.findById(5).orElse(null));
             slobodanTermin1.setApoteka(apotekaRepository.findById(1L).orElse(null));
             slobodanTermin1.setPocetakTermina(LocalDateTime.of(2021,7,7,11,00));
             slobodanTermin1.setKrajTermina(LocalDateTime.of(2021,7,7,12,00));
