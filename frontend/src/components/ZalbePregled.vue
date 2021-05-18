@@ -38,7 +38,7 @@
 </style>
 
 <template>
-<NavMeniZaPacijenta/>
+
 
     <el-table
     :data="zalbe.filter(data => !search || data.naslov.includes(search.toLowerCase()) || data.datumVrijeme.includes(search.toLowerCase())
@@ -75,6 +75,9 @@
         <el-button
           size="mini"
           @click="odgovori(scope.$index, scope.row)">Odgovori</el-button>
+        <el-button
+          size="mini"
+          @click="dodajOdgovor(scope.$index, scope.row)">Dodaj Odgovor</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -108,7 +111,7 @@
   justify-content: center;  padding-bottom: 20px;">
     </div>
     <el-table
-    :data="odgovoriZalbe.filter(data => !searchOdgovori ||  data.datumVrijeme.includes(searchOdgovori.toLowerCase())
+    :data="odgovoriZalbe.filter(data => !searchOdgovori  || data.datumVrijeme.includes(searchOdgovori.toLowerCase())
                       || data.pacijent.includes(searchOdgovori.toLowerCase()))"
     style="width: 100%">
     <el-table-column
@@ -160,10 +163,31 @@
     </el-dialog>
 
     </el-dialog>
+
+    <el-dialog
+    title="Kreiraj odgovor"
+    v-model="cetvrtiProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+        <h4>Sadrzaj</h4>
+        <el-input type="textarea" v-model="odgovorPoslat.text" autocomplete="off"></el-input>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+          <el-button @click="potvrdiOdgovor">Potvrdi</el-button>
+        <el-button @click="cetvrtiProzor = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
+
 </template>
 
 <script>
-import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
   export default {
     name: 'ZalbeIstorija',
     data() {
@@ -173,17 +197,24 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         prviProzor: false,
         drugiProzor: false,
         treciProzor: false,
+        cetvrtiProzor: false,
         zalba: {},
         odgovoriZalbe: [],
         searchOdgovori: '',
         odgovor: {},
+        odgovorPoslat: {
+            id: 0,
+            text: "",
+            korisnickoIme: "",
+            datumVrijeme: ""
+        }
       };
     },
     components : {
-       NavMeniZaPacijenta
+     
     },
     mounted(){
-        this.$store.dispatch('APKorisnici/dobaviZalbe')
+        this.$store.dispatch('APKorisnici/dobaviSveZalbe')
         .then(response => {
             this.zalbe = response.data;
         })
@@ -201,14 +232,25 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
                 this.odgovoriZalbe = response.data;
                 this.drugiProzor = true;
             })
-
-
         },
         sadrzajOdgovora(index, row){
             console.log(index);
             console.log(row);
             this.treciProzor = true;
             this.odgovor = row;
+        },
+        dodajOdgovor(index, row){
+            this.zalba = row;
+            this.cetvrtiProzor = true;
+            console.log(index);
+            console.log(row);
+        },
+        potvrdiOdgovor(){
+            this.odgovorPoslat.id = this.zalba.id;
+            this.$store.dispatch('APKorisnici/kreirajOdgovor', this.odgovorPoslat)
+            .then(response => {
+                console.log(response);
+            })
         }
     }
   }

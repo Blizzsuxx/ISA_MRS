@@ -1,5 +1,7 @@
 package mrsisa.projekat.zalba;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,9 +12,6 @@ public class Odgovor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="naslov", nullable = false)
-    private String naslov;
-
     @Column(name="text", nullable = false)
     private String text;
 
@@ -20,36 +19,32 @@ public class Odgovor {
     private String administrator;
 
     @Column(name="datum_vrijeme")
-    private LocalDateTime datumVrijeme;
+    private String datumVrijeme;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Zalba zalba;
 
     public Odgovor() {}
 
-    public Odgovor(String naslov, String text, String administrator, LocalDateTime datumVrijeme) {
-        this.naslov = naslov;
+    public Odgovor(String text, String administrator, String datumVrijeme) {
         this.text = text;
         this.administrator = administrator;
         this.datumVrijeme = datumVrijeme;
     }
 
-    public Odgovor(String naslov, String text, String administrator, LocalDateTime datumVrijeme, Zalba zalba) {
-        this.naslov = naslov;
+    public Odgovor(String text, String administrator, String datumVrijeme, Zalba zalba) {
         this.text = text;
         this.administrator = administrator;
         this.datumVrijeme = datumVrijeme;
         this.zalba = zalba;
     }
 
-    public String getNaslov() {
-        return naslov;
+    public Odgovor(OdgovorDTO o){
+        this.text = o.getText();
+        this.administrator = o.getKorisnickoIme();
+        this.datumVrijeme = o.getDatumVrijeme();
     }
-
-    public void setNaslov(String naslov) {
-        this.naslov = naslov;
-    }
-
     public String getText() {
         return text;
     }
@@ -66,11 +61,11 @@ public class Odgovor {
         this.administrator = administrator;
     }
 
-    public LocalDateTime getDatumVrijeme() {
+    public String getDatumVrijeme() {
         return datumVrijeme;
     }
 
-    public void setDatumVrijeme(LocalDateTime datumVrijeme) {
+    public void setDatumVrijeme(String datumVrijeme) {
         this.datumVrijeme = datumVrijeme;
     }
 
