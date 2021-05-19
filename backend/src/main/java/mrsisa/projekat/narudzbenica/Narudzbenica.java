@@ -36,7 +36,7 @@ public class Narudzbenica {
     @Column(name="prihvacena",nullable=false)
     private boolean prihvacena;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     public AdministratorApoteke administratorApoteke;
 
     public Narudzbenica(){
