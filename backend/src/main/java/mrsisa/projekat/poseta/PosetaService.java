@@ -43,7 +43,19 @@ public class PosetaService {
 
     @Transactional
     public void kreirajPosetu(Map<String, Object> podaci){
-        Poseta p = new Poseta();
+        Long pregledID = Long.parseLong( podaci.get("pregledID").toString());
+        Poseta poseta = this.findId(pregledID);
+        Pacijent pacijent = poseta.getPacijent();
+        Apoteka apoteka = poseta.getApoteka();
+        Radnik radnik = poseta.getRadnik();
+        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
+        Poseta novaPoseta = new Poseta();
+        novaPoseta.setPacijent(pacijent);
+        novaPoseta.setApoteka(apoteka);
+        novaPoseta.setRadnik(radnik);
+        novaPoseta.setPocetak(LocalDateTime.parse(dateTime.get(0).substring(0,23)));
+        novaPoseta.setKraj(LocalDateTime.parse(dateTime.get(1).substring(0,23)));
+        this.posetaRepository.save(novaPoseta);
         System.out.println(podaci.get("korisnik"));
     }
     public List<PosetaDTO> dobaviPosete(){

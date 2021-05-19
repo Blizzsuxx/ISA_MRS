@@ -12,10 +12,11 @@
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
           <el-menu-item index="2-1">Profil</el-menu-item>
-          <el-link href="/ap/dermatolog/pacijenti">
+          
+          <el-link href="/ap/dermatolog/pacijenti" v-if="this.radnik != null && this.radnik.promenioSifru">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
             </el-link>
-          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
+          <el-menu-item index="2-3" @click="kliknut" v-if="this.radnik != null && this.radnik.promenioSifru">Zakazivanje Odmora</el-menu-item>
           <el-menu-item index="2-4">Odjava</el-menu-item>
         </el-submenu>
 
@@ -56,7 +57,7 @@
 
           <el-table-column
               align="right">
-            <template #default="scope">
+            <template #default="scope" v-if="this.radnik != null && this.radnik.promenioSifru">
               <el-button
                   size="mini"
                   type="info"
@@ -103,9 +104,14 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 
     async mounted(){
       //pozivanje ucitavanja podataka poseta
+      await this.$store.dispatch('APKorisnici/trenutniRadnik');
       await this.$store.dispatch("APPosete/dobaviPoseteAktivne")
       this.tableData = this.$store.state.APPosete.svePosete;
-      
+      this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
+      console.log(this.radnik.promenioSifru)
+      if(!this.radnik.promenioSifru){
+        alert("Molimo vas da promenite sifru, kliknite na profil");
+      }      
     },
 
     methods: {
@@ -169,6 +175,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
     },
 
     async getPacijent(row){
+
       await this.$store.dispatch('APPacijenti/pacijentZaPrelged', row.pacijent);
     },
 
@@ -191,6 +198,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 
       return {
         tableData: this.$store.state.APPosete.svePosete,
+        radnik: this.$store.state.APKorisnici.trenutniRadnik,
       }
     }
   };

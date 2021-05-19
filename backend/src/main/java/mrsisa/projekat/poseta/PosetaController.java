@@ -115,13 +115,7 @@ public class PosetaController {
 
     @PostMapping(value="/zakaziPosetu")
     public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
-        Long pregledID = Long.parseLong( podaci.get("pregledID").toString());
-        Poseta poseta = this.posetaService.findId(pregledID);
-        Pacijent pacijent = poseta.getPacijent();
-        Apoteka apoteka = poseta.getApoteka();
-        Radnik radnik = poseta.getRadnik();
-        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
-        System.out.println(dateTime);
+
         this.posetaService.kreirajPosetu(podaci);
     }
 

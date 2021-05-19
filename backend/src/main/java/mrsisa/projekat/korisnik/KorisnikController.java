@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path="api/korisnici")
@@ -60,6 +61,12 @@ public class KorisnikController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Radnik radnik = (Radnik)auth.getPrincipal();
         return radnik;
+    }
+
+    @PostMapping(path = "/izmeni")
+    public void izmeni(@RequestBody Map<String, Object> info){
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        this.korisnikService.izmeni(info, trenutniRadnik());
     }
 
     @GetMapping(produces = "application/json", value = "/dobaviKorisnika/{korisnickoIme}")

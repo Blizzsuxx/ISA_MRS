@@ -165,7 +165,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
       },
 
       zavrsiPregled(){
-        this.$store.dispatch("RezervisaniLekovi/postaviRezervacije", {"apoteka": this.apoteka, "pacijent" : this.korisnik, "zapisano" : this.ref, "pregledID" : this.pregledID, "lijekovi" : this.izabraniLijekovi});
+        this.$store.dispatch("ERecepti/postaviErecept", {"pacijent" : this.korisnik, "zapisano" : this.poruka, "pregledID" : this.pregledID, "lijekovi" : this.izabraniLijekovi});
       }
         
     },

@@ -19,6 +19,9 @@ public abstract class Radnik extends Korisnik {
     @JsonIgnore
     private List<GodisnjiOdmor> godisnjiOdmori;
 
+    @Column(name = "promenioSifru")
+    private Boolean promenioSifru = false;
+
     public Radnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday, List<GodisnjiOdmor> godisnjiOdmori, List<Poseta> posete) {
         super(username, password, firstName, lastName, email, birthday);
         this.godisnjiOdmori = godisnjiOdmori;
@@ -62,5 +65,13 @@ public abstract class Radnik extends Korisnik {
 
     public void setGodisnjiOdmori(List<GodisnjiOdmor> godisnjiOdmori) {
         this.godisnjiOdmori = godisnjiOdmori;
+    }
+
+    public Boolean getPromenioSifru() {
+        return promenioSifru;
+    }
+
+    public void setPromenioSifru(Boolean promenioSifru) {
+        this.promenioSifru = promenioSifru;
     }
 }

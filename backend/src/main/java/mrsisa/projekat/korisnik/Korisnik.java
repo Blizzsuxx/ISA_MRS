@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.pacijent.Pacijent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -176,7 +177,8 @@ public abstract class  Korisnik implements UserDetails {
     public void setPassword(String password) {
         Timestamp now = new Timestamp(new Date().getTime());
         this.setLastPasswordResetDate(now);
-        this.password = password;
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
 
     public String getFirstName() {
