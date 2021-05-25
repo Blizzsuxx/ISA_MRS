@@ -37,6 +37,33 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-dialog
+    title="Narudzbenica Info"
+    v-model="prviProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+      <p><strong>Id</strong></p>
+      <el-input :model-value='narudzbenica.id' v-model="narudzbenica.id" readonly></el-input>
+      <p><strong>Rok</strong></p>
+      <el-input  :model-value='narudzbenica.id' v-model="narudzbenica.rok" readonly></el-input>
+      <p><strong>Status</strong></p>
+      <el-input  :model-value='narudzbenica.zavrsena' v-model="narudzbenica.zavrsena" readonly></el-input>
+      <p><strong>Korisnicko Ime Admina Apoteke</strong></p>
+      <el-input :model-value='narudzbenica.korisnickoImeAdminaApoteke' v-model="narudzbenica.korisnickoImeAdminaApoteke" readonly></el-input>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="prviProzor = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
+
 </template>
 
 <script>
@@ -45,6 +72,8 @@
       return {
         ponude: [],
         search: '',
+        narudzbenica: {},
+        prviProzor: false
       }
     },
     mounted() {
@@ -55,8 +84,12 @@
     },
     methods: {
       narudzbenicaInfo(index, row){
-          console.log(index);
-          console.log(row);
+          this.$store.dispatch("Ponude/dobaviNarudzbenicuPonude", row.id)
+          .then(response => {
+            this.narudzbenica = response.data;
+            console.log(this.narudzbenica.korisnickoImeAdminaApoteke);
+            this.prviProzor = true;
+           });
       }
       
     },

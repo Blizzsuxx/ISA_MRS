@@ -9,7 +9,7 @@ public class NarudzbenicaDTO {
     private boolean zavrsena;
     private boolean prihvacena;
     private boolean pripada;
-
+    private String korisnickoImeAdminaApoteke;
 
     public NarudzbenicaDTO(){
 
@@ -21,6 +21,7 @@ public class NarudzbenicaDTO {
         this.rok = narudzbenica.getRok().format(dtf);
         this.zavrsena  = narudzbenica.isZavrsena();
         this.prihvacena = narudzbenica.isPrihvacena();
+        this.korisnickoImeAdminaApoteke = narudzbenica.getAdministratorApoteke().getUsername();
     }
 
     public Long getId() {
@@ -69,5 +70,13 @@ public class NarudzbenicaDTO {
 
     public void setPripada(boolean pripada) {
         this.pripada = pripada;
+    }
+
+    public String getKorisnickoImeAdminaApoteke() {
+        return korisnickoImeAdminaApoteke;
+    }
+
+    public void setKorisnickoImeAdminaApoteke(String korisnickoImeAdminaApoteke) {
+        this.korisnickoImeAdminaApoteke = korisnickoImeAdminaApoteke;
     }
 }

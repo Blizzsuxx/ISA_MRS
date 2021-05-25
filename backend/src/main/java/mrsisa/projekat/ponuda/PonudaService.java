@@ -35,6 +35,11 @@ public class PonudaService {
     }
 
     @Transactional
+    public NarudzbenicaDTO dobaviNarudzbenicuPonude(Long id){
+        return new NarudzbenicaDTO(this.ponudaRepository.findById(id).orElseThrow().getNarudzbenica());
+    }
+
+    @Transactional
     public List<PonudaDTO> dobaviSvePonudeDostavljaca(Dobavljac d){
         List<PonudaDTO> ponude = new ArrayList<>();
         for (Ponuda ponuda : this.ponudaRepository.findAllByDobavljac(d)){

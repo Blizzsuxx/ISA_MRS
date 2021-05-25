@@ -3,6 +3,7 @@ package mrsisa.projekat.ponuda;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.narudzbenica.NarudzbenicaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -47,5 +48,11 @@ public class PonudaController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Dobavljac d = (Dobavljac) auth.getPrincipal();
         return this.ponudaService.dobaviSvePonudeDostavljaca(d);
+    }
+
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @GetMapping(path="/dobaviNarudzbenicuPonude/{id}")
+    public NarudzbenicaDTO dobaviNarudzbenicuPonude(@PathVariable Long id){
+        return this.ponudaService.dobaviNarudzbenicuPonude(id);
     }
 }
