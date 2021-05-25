@@ -37,7 +37,7 @@ public class PosetaConfig {
             p.setApoteka(apotekaRepository.findOneById(1));
             p.setErecepti(erecepti.findAll());
             p.setPacijent(pacijenti.findOneByUsername("zarko"));
-            p.setRadnik(radnikRepository.getOne(4));
+            p.setRadnik(radnikRepository.getOne(5));
             repozitorijum.save(p);
 
             Poseta p2 = new Poseta();
@@ -46,7 +46,7 @@ public class PosetaConfig {
             p2.setApoteka(apotekaRepository.findOneById(1));
             p2.setErecepti(erecepti.findAll());
             p2.setPacijent(pacijenti.findOneByUsername("zarko"));
-            p2.setRadnik(radnikRepository.getOne(4));
+            p2.setRadnik(radnikRepository.getOne(5));
             repozitorijum.save(p2);
 
         };
