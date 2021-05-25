@@ -3,12 +3,14 @@ package mrsisa.projekat.erecept;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Proxy(lazy = false)
 public class Erecept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

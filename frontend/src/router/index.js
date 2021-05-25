@@ -6,6 +6,7 @@ import APPostojeceApoteke from '../components/APPostojeceApoteke'
 import IzmenaLicnihInfoKorisnik from '../components/IzmenaLicnihInfoKorisnik'
 import APFarmaceut from '../components/APFarmaceut'
 import APDermatolog from '../components/APDermatolog'
+import IzmenaPodatakaRadnik from '../components/IzmenaPodatakaRadnik'
 import PocetnaStranaPacijenta from '../components/PocetnaStranaPacijenta'
 
 import ASLijekovi from '../components/ASLijekovi'
@@ -157,6 +158,12 @@ const routes = [
     component: APDermatolog,
   },
   {
+    path: '/ap/izmena',
+    name: 'IzmenaPodatakaRadnik',
+    component: IzmenaPodatakaRadnik,
+  }
+  ,
+  {
     path: '/ap/DTOLijekovi',
     name: 'ASLijekovi',
     component: ASLijekovi,
@@ -208,7 +215,7 @@ const routes = [
 
   },
   {
-    path: '/ap/Pregled',
+    path: '/ap/Pregled/:pacijentID+:pregledID',
     name: 'APPregled',
     component: APPregled
   },

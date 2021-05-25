@@ -86,8 +86,13 @@ const actions = {
             }
         })  
     },
-    proveriAlergije (context, lijekovi, korisnik){
-        axios.post('http://localhost:8080/api/v1/apoteka/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik}, {headers : authHeader()})
+
+    proveriAlergije (context, data){
+        console.log("QQQ");
+        var korisnik = data.a;
+        var lijekovi = data.s;
+        console.log(korisnik);
+        axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik}, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
             return response
@@ -96,8 +101,8 @@ const actions = {
     },
 
 
-    proveriDostupnost (context, lijekovi, apoteka){
-        axios.post('http://localhost:8080/api/v1/apoteka/proveriDostupnost',{"lijekovi" : lijekovi, "apoteka" : apoteka}, {headers : authHeader()})
+    proveriDostupnost (context, lijekovi, pregledID){
+        axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',{"lijekovi" : lijekovi, "pregledID" : pregledID}, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
             return response

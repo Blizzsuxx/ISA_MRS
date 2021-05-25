@@ -47,6 +47,7 @@ export default {
       modalOpen: false,
       value2: '',
       korisnik : null,
+      pregledID : null,
       radnik : {pregledi : ["aaa"]},
         shortcuts: [{
           text: 'Prvi slobodan termin',
@@ -137,7 +138,7 @@ export default {
   methods: {
       promjeniCijenu(){
           console.log("andrija je najajci")
-          this.$store.dispatch("APPosete/zakaziPosetu",{'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik})
+          this.$store.dispatch("APPosete/zakaziPosetu",{'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik, "pregledID" : this.pregledID})
           this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazan vam je pregled za " + this.value2, "address" : "mahajiraaji@gmail.com"})
       }
   },

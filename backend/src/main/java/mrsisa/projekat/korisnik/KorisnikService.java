@@ -1,10 +1,16 @@
 package mrsisa.projekat.korisnik;
 
+import mrsisa.projekat.radnik.Radnik;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @Service
 public class KorisnikService implements UserDetailsService {
@@ -36,5 +42,15 @@ public class KorisnikService implements UserDetailsService {
 
     public Korisnik findByEmailIdIgnoreCase(String email) {
         return korisnikRepository.findByEmailIgnoreCase(email);
+    }
+    
+    @Transactional
+    public void izmeni(Map<String, Object> info, Radnik radnik) {
+        radnik.setFirstName(info.get("ime").toString());
+        radnik.setLastName(info.get("prezime").toString());
+        radnik.setEmail(info.get("email").toString());
+        radnik.setPassword(info.get("sifra").toString());
+        radnik.setPromenioSifru(true);
+        this.korisnikRepository.save(radnik);
     }
 }

@@ -9,9 +9,11 @@ import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -34,7 +36,27 @@ public class PosetaService {
         return null;
     }
 
+
+    public Poseta findId(Long id){
+
+        return this.posetaRepository.getOne(id);
+    }
+
+    @Transactional
     public void kreirajPosetu(Map<String, Object> podaci){
+        Long pregledID = Long.parseLong( podaci.get("pregledID").toString());
+        Poseta poseta = this.findId(pregledID);
+        Pacijent pacijent = poseta.getPacijent();
+        Apoteka apoteka = poseta.getApoteka();
+        Radnik radnik = poseta.getRadnik();
+        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
+        Poseta novaPoseta = new Poseta();
+        novaPoseta.setPacijent(pacijent);
+        novaPoseta.setApoteka(apoteka);
+        novaPoseta.setRadnik(radnik);
+        novaPoseta.setPocetak(LocalDateTime.parse(dateTime.get(0).substring(0,23)));
+        novaPoseta.setKraj(LocalDateTime.parse(dateTime.get(1).substring(0,23)));
+        this.posetaRepository.save(novaPoseta);
         System.out.println(podaci.get("korisnik"));
     }
     public List<PosetaDTO> dobaviPosete(){
@@ -60,8 +82,9 @@ public class PosetaService {
 
 
         Poseta p1 = new Poseta((long)1, pac, f, d1, d2, a, new ArrayList<Erecept>());
-        Poseta p2 = new Poseta((long)1, pac, d, d1, d2, a, new ArrayList<Erecept>());
-        return List.of(new PosetaDTO(p1), new PosetaDTO(p2));
+        Poseta p2 = new Poseta((long)2, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        Poseta p3 = new Poseta((long)3, pac, d, d1, d2, a, new ArrayList<Erecept>());
+        return List.of(new PosetaDTO(p1), new PosetaDTO(p2), new PosetaDTO(p3));
     }
 
 
@@ -329,5 +352,28 @@ public class PosetaService {
 
 
         return true;
+    }
+
+    
+    @Transactional
+    public void zabeleziOdsustvo(Long id) {
+        Poseta poseta = this.posetaRepository.findById(id).orElse(null);
+        poseta.setOtkazano(true);
+    }
+
+    @Transactional(readOnly=true)
+    public List<PosetaDTO> getAktivnePosete(Radnik radnik) {
+
+        return dobaviPosete(); //hotfix
+
+        /*
+        List<Poseta> posete = this.posetaRepository.findByRadnikAktivno(radnik.getId());
+        ArrayList<PosetaDTO> dtoPosete = new ArrayList<>();
+        for(Poseta a : posete){
+            dtoPosete.add(new PosetaDTO(a));
+        }
+
+        return dtoPosete;
+        */
     }
 }

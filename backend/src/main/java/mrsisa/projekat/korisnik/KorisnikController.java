@@ -4,6 +4,7 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
 import mrsisa.projekat.util.MailSender;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.util.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -83,6 +84,19 @@ public class KorisnikController {
         else
             temp = user.getRole();
         return ResponseEntity.ok(new UserTokenState(jwt, (long) expiresIn, temp));
+    }
+
+    @GetMapping(path = "trenutniRadnik")
+    public Radnik trenutniRadnik(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Radnik radnik = (Radnik)auth.getPrincipal();
+        return radnik;
+    }
+
+    @PostMapping(path = "/izmeni")
+    public void izmeni(@RequestBody Map<String, Object> info){
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        this.korisnikService.izmeni(info, trenutniRadnik());
     }
 
     @GetMapping(produces = "application/json", value = "/dobaviKorisnika/{korisnickoIme}")

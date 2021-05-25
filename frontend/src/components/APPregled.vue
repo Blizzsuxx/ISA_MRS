@@ -43,7 +43,7 @@
           
         <h3>Pregled svih lijekova</h3> 
         
-        <LijekoviTabela @promjenjena-selekcija="selektujRedove" ref='dijete' v-bind:lijekovi="$store.state.APlijekovi.sviLijekovi" referenca="multipleTable" />
+        <LijekoviTabelaPregled @promjenjena-selekcija="selektujRedove" ref='dijete' v-bind:lijekovi="$store.state.APlijekovi.sviLijekovi" referenca="multipleTable" />
         <div style="margin-top: 20px">
             <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
             <el-button type="primary" @click="dodeliLekove()" plain>Dodeli Lekove</el-button>
@@ -87,17 +87,19 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import LijekoviTabela from  './LijekoviTabela'
+import LijekoviTabelaPregled from  './LijekoviTabelaPregled'
 import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
   export default defineComponent ({
     name: 'APDermatolog',
     components : {
-        LijekoviTabela,
+        LijekoviTabelaPregled,
         ModalniProzorZakazivanja,
     },
     async mounted(){
+        this.$store.dispatch('APKorisnici/trenutniRadnik');
         await this.$store.dispatch("APlijekovi/dobaviLijekove");
         await this.$store.dispatch("APKorisnici/dobaviDermatologe");
+        
         console.log("");
     },
     setup() {
@@ -114,8 +116,8 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
         this.$refs.prozor.modalOpen = true;
         this.$refs.prozor.radnik = this.radnik;
-        this.$refs.prozor.radnik = this.korisnik
-        
+        this.$refs.prozor.pregledID = this.pregledID;
+        this.$refs.prozor.korisnik = this.korisnik;
 
       },
 
@@ -130,20 +132,23 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
       },
       dodeliLekove(){
         console.log("aa");
-        this.$store.dispatch("APlijekovi/proveriAlergije",this.$refs.dijete.multipleSelection, this.korisnik);
+        console.log(this.korisnik)
+        this.$store.dispatch("APlijekovi/proveriAlergije",{"s":this.$refs.dijete.multipleSelection, "a":this.korisnik});
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
-          this.poruka = "Greska";
+          this.poruka = "Pacijent je alergican!";
+          this.izabraniLijekovi = [];
           return;
         } else {
           this.greaska = false;
         }
-        this.$store.dispatch("APlijekovi/proveriDostupnost",this.$refs.dijete.multipleSelection, this.apoteka);
+        this.$store.dispatch("APlijekovi/proveriDostupnost",this.$refs.dijete.multipleSelection, this.pregledID);
 
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
-          this.$store.dispatch("Mail/posaljiMail", {"text" : "test", "address" : "mahajiraaji@gmail.com"});
-          this.poruka = "Greska";
+          this.izabraniLijekovi = [];
+          this.$store.dispatch("Mail/posaljiMail", {"text" : "zatrazio lekove: " + "lekovi " + "u apoteci: " + "teka " + "koji nisu dostupni!", "address" : "mahajiraaji@gmail.com"});
+          this.poruka = "Lek nije dostupan!";
 
           return;
         } else {
@@ -151,6 +156,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
           console.log("bb");
           alert("uspesno ste dodelili lekove");
+          this.izabraniLijekovi = this.$refs.dijete.multipleSelection;
         this.$refs.dijete.$refs.multipleTable.clearSelection();
       },
     
@@ -159,21 +165,25 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
       },
 
       zavrsiPregled(){
-        this.$store.dispatch("RezervisaniLekovi/postaviRezervacije", {"apoteka": this.apoteka, "pacijent" : this.korisnik, "zapisano" : this.ref});
+        this.$store.dispatch("ERecepti/postaviErecept", {"pacijent" : this.korisnik, "zapisano" : this.poruka, "pregledID" : this.pregledID, "lijekovi" : this.izabraniLijekovi});
       }
         
     },
         data() {
 
-          const radnik123 = this.$store.state.APKorisnici.dermatolozi[0];
+          
+          
 
       return {
         greska : false,
         prozor: false,
         modalOpen: false,
         poruka : "",
-        korisnik : null,
-        radnik : radnik123,
+        korisnik : this.$route.params.pacijentID,
+        radnik : this.$store.state.APKorisnici.trenutniRadnik,
+        pregledID : this.$route.params.pregledID,
+        izabraniLijekovi : []
+        
       }
     }
   });

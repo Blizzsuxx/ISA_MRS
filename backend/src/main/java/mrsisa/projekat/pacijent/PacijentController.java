@@ -61,6 +61,26 @@ public class PacijentController {
 		return true;
 
 	}
+	@PostMapping(value="/proveriAlergije")
+	public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
+		List<Map<String,Object>> lekovi = (List<Map<String,Object>>) params.get("lijekovi");
+		String id = (String) params.get("korisnik");
+		Pacijent p = this.pacijentService.findOne(id);
+		if(p == null){
+			return false;
+		}
+		for(Map<String, Object> lek : lekovi){
+			int lekId = (Integer)lek.get("id");
+			System.out.println(params.get("korisnik"));
+			for(Lijek l : p.getAlergije()){
+				if(l.getId() == lekId){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 
 	@PutMapping("/izmeni")
 	@PreAuthorize("hasRole('PACIJENT')")
