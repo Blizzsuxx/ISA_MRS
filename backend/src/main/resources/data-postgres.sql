@@ -177,3 +177,10 @@ insert into zalbe(datum_vrijeme, naslov, pacijent, text) values ('2021-05-14 04:
 
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'aaa', 1);
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'bbb', 1);
+
+
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1);
+
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1);

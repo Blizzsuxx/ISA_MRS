@@ -18,6 +18,7 @@ import APAkcije from './modules/APAkcije'
 import LoyaltyPrograma from './modules/LoyaltyPrograma'
 import Narudzbenice from './modules/Narudzbenice'
 import Ponude from './modules/Ponude'
+import Ocene from './modules/Ocene'
 
 export default createStore({
     state () {
@@ -45,6 +46,7 @@ export default createStore({
         APAkcije,
         LoyaltyPrograma,
         Narudzbenice,
-        Ponude
+        Ponude,
+        Ocene
       }
   })

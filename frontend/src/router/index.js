@@ -60,7 +60,7 @@ import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
 import DodavanjeAkcije from "../components/DodavanjeAkcije"
 import Zalbe from "../components/Zalbe"
 import ZalbeIstorija from '../components/ZalbeIstorija'
-
+import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -322,6 +322,11 @@ const routes = [
     path: '/ap/zakaziF',
     name: 'FormaZakazivanjeFarmaceut',
     component: FormaZakazivanjeFarmaceut,
+  },
+  {
+    path: '/ap/oceni',
+    name: 'FormaZaOcenjivanje',
+    component: FormaZaOcenjivanje,
   }
 
 ]

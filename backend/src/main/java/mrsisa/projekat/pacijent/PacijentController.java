@@ -8,6 +8,7 @@ import mrsisa.projekat.erecept.EreceptDTO;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.tipPenala.Penal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,29 @@ public class PacijentController {
 	@PreAuthorize("hasRole('PACIJENT')")
 	public List<Penal> dobaviPenale(){
 		return pacijentService.dobaviPenale();
+	}
+
+	@GetMapping(path="/dobaviSvojeDermatologe")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeDermatologe(){
+		return pacijentService.dobaviSvojeDermatologe();
+	}
+
+	@GetMapping(path="/dobaviSvojeFarmaceute")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeFarmaceute(){
+		return pacijentService.dobaviSvojeFarmaceute();
+	}
+	@GetMapping(path="/dobaviSvojeApoteke")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeApooteke(){
+		return pacijentService.dobaviSvojeApoteke();
+	}
+
+	@PutMapping(path="/posaljiOcenu/{id}")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public void posaljiOcenu(@PathVariable String id){
+		pacijentService.posaljiOcenu(id);
 	}
 
 	@PostMapping(consumes = "application/json", path = "/izbaciAlergije")

@@ -7,6 +7,7 @@ import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
@@ -42,6 +43,8 @@ public class Apoteka {
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GodisnjiOdmor> godisnjiOdmori;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ocena> ocene;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
@@ -181,4 +184,12 @@ public class Apoteka {
     public void setAkcija(List<Akcija> akcija) {
         this.akcija = akcija;
     }*/
+
+    public List<Ocena> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
+    }
 }

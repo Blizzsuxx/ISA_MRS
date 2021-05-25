@@ -5,6 +5,7 @@ import javax.persistence.*;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
@@ -28,6 +29,8 @@ public class Dermatolog extends Radnik{
     @ManyToMany(mappedBy = "dermatolozi")
     private List<Apoteka> apoteke;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Ocena> ocene;
 
     public Dermatolog() {
     }
@@ -71,5 +74,13 @@ public class Dermatolog extends Radnik{
 
     public void setApoteke(List<Apoteka> apoteke) {
         this.apoteke = apoteke;
+    }
+
+    public List<Ocena> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
     }
 }

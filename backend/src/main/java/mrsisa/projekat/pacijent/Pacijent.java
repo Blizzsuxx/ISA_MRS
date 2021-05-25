@@ -7,6 +7,7 @@ import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.tipPenala.Penal;
 
@@ -43,6 +44,9 @@ public class Pacijent extends Korisnik {
 
     @OneToOne(fetch=FetchType.LAZY)
 	private Kategorija kategorija;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Ocena> ocene;
 
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
@@ -132,5 +136,13 @@ public class Pacijent extends Korisnik {
 
 	public void setKategorija(Kategorija kategorija) {
 		this.kategorija = kategorija;
+	}
+
+	public List<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(List<Ocena> ocene) {
+		this.ocene = ocene;
 	}
 }

@@ -57,6 +57,7 @@ public class DermatologConfig {
                     apotekaRepository.findById(1L).orElse(null)
 
             ));
+
             repozitorijum.save(new Dermatolog(
                     "matija",
                     "matija",

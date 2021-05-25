@@ -3,11 +3,21 @@ package mrsisa.projekat.pacijent;
 import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.dermatolog.DermatologDTO;
+import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
+import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.ocena.Ocena;
+import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -26,16 +36,22 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PacijentService {
 	private final PacijentRepository pacijentRepository;
 	private final UlogaRepository ulogaRepository;
-
+	private final PosetaRepository posetaRepository;
+	private final DermatologRepository dermatologRepository;
+	private final FarmaceutRepository farmaceutRepository;
 	@Autowired
-	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository){
+	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository, PosetaRepository posete,FarmaceutRepository f, DermatologRepository d){
 		this.pacijentRepository = pacijentRepository;
 		this.ulogaRepository = ulogaRepository;
+		this.posetaRepository=posete;
+		this.dermatologRepository=d;
+		this.farmaceutRepository=f;
 	}
 
 	public Pacijent findByUsername(String username){
@@ -278,4 +294,114 @@ public class PacijentService {
 		apo.add(apoteka3);apoteka3.setId(3L);
 		return apo;
     }
+
+    @Transactional
+    public List<OcenaDTO> dobaviSvojeDermatologe() {
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		//this.dermatologRepository.findAll();
+		List<OcenaDTO> dermatolozi=new ArrayList<>();
+		System.out.println(svePosete.size());
+		for(Poseta p : svePosete){
+			Dermatolog d=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+			if(d!=null){
+				for(Ocena o :((Dermatolog)d).getOcene()){
+
+					if(o.getPacijent().getId()==9){ //TODO ovde dobaviti id pacijenta, tj poslati kao param
+
+						dermatolozi.add(new OcenaDTO(o,p.getRadnik()));
+						break;
+					}
+				}
+				if(d.getOcene().size()==0){
+					OcenaDTO dermOcena=new OcenaDTO(d);
+					dermatolozi.add(dermOcena);
+				}
+
+			}
+		}
+		System.out.println(dermatolozi.size());
+		return dermatolozi;
+
+    }
+    @Transactional
+	public List<OcenaDTO> dobaviSvojeFarmaceute() {
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		List<OcenaDTO> farmaceuti=new ArrayList<>();
+		for(Poseta p : svePosete){
+			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
+			if(f!=null){
+				for(Ocena o :((Farmaceut)f).getOcene()){
+					if(o.getPacijent().getId()==9){ //TODO ovde dobaviti id pacijenta, tj poslati kao param
+						farmaceuti.add(new OcenaDTO(o,p.getRadnik()));
+						break;
+					}
+				}
+				if(f.getOcene().size()==0){
+					OcenaDTO dermOcena=new OcenaDTO(f);
+					farmaceuti.add(dermOcena);
+				}
+
+			}
+		}
+		return farmaceuti;
+
+	}
+	@Transactional
+	public List<OcenaDTO> dobaviSvojeApoteke() {
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		List<OcenaDTO> apoteka=new ArrayList<>();
+		for(Poseta p : svePosete){
+			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
+			Dermatolog d=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+			if(f!=null){
+			for(Ocena o :((Farmaceut)f).getOcene()){
+				if(o.getPacijent().getId()==9){
+			apoteka.add(new OcenaDTO(o,p.getApoteka()));
+			break;
+				}
+			}
+			if(f.getOcene().size()==0){
+				OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
+				apoteka.add(dermOcena);
+			}}
+
+
+			if(d!=null){
+				for(Ocena o :(d).getOcene()){
+					if(o.getPacijent().getId()==9){
+						apoteka.add(new OcenaDTO(o,p.getApoteka()));
+						break;
+					}
+				}
+				if(d.getOcene().size()==0){
+					OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
+					apoteka.add(dermOcena);
+				}}
+
+		}
+		//TODO smisli kako da dobijes lekove iz apoteke, preko stanja?
+		return apoteka;
+	}
+	@Transactional
+	public void posaljiOcenu(String id) {
+		System.out.println(id);
+		System.out.println("bela vila");
+		String podela[]=id.split("a");
+		Ocena o=new Ocena();
+		o.setOcena(Integer.parseInt(podela[1].trim()));
+		if(id.startsWith("D")){
+			//setovati korisnika!! Todo
+			String novaP[]=podela[0].split("D");
+			Dermatolog d= this.dermatologRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
+			d.getOcene().add(o);//korisniku setovati ocenu
+			System.out.println(o.getOcena()+" jana");
+			return;
+		}else if(id.startsWith("F")){
+			String novaP[]=podela[0].split("F");
+			Farmaceut d= this.farmaceutRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
+			d.getOcene().add(o);//korisniku setovati ocenu i save
+			System.out.println(o.getOcena()+" jana");
+			return;
+		}
+	}
 }
