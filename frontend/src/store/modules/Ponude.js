@@ -11,6 +11,9 @@ const getters = {
 };
 
 const actions = {
+    dobaviPonudeDobavljaca(){
+        return axios.get('http://localhost:8080/api/v1/ponuda/dobaviPonudeDobavljaca', { headers : authHeader()});
+    },
     dobaviPonude (context,id) {
         axios.get(`http://localhost:8080/api/v1/ponuda/narudzbenica/${id}/admin`, { headers: authHeader()})
             .then(response => {

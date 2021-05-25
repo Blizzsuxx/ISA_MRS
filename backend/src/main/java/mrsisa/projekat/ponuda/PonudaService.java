@@ -4,6 +4,7 @@ package mrsisa.projekat.ponuda;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.dobavljac.Dobavljac;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.narudzbenica.NarudzbenicaDTO;
 import mrsisa.projekat.narudzbenica.NarudzbenicaRepository;
@@ -33,6 +34,14 @@ public class PonudaService {
         this.stanjeLijekaRepository = stanjeLijekaRepository;
     }
 
+    @Transactional
+    public List<PonudaDTO> dobaviSvePonudeDostavljaca(Dobavljac d){
+        List<PonudaDTO> ponude = new ArrayList<>();
+        for (Ponuda ponuda : this.ponudaRepository.findAllByDobavljac(d)){
+            ponude.add(new PonudaDTO(ponuda));
+        }
+        return ponude;
+    }
     @Transactional
     public List<PonudaDTO> dobaviSvePonudeNarudzbeniceAdmin(Long id) {
         List<PonudaDTO> ponude = new ArrayList<>();
