@@ -17,6 +17,10 @@ const state = {
 
 
 const actions = {
+    dobaviLijekoveDobavljaca(){
+        return axios.get('http://localhost:8080/api/v1/lijekovi/dobaviStanjeLijekovaDobavljaca', { headers: authHeader() });
+    },
+
     dodajLijek (context, lijek){
         return axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek, { headers: authHeader()});
 
