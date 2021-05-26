@@ -161,7 +161,6 @@ const actions = {
     dobaviPoruceneNepostojece(context){
 
         axios.get('http://localhost:8080/api/v1/stanjeLijeka/dobaviZatrazene',{ headers: authHeader()}).then(response=>{
-            console.log(response.data)
             context.commit('postaviPoruceneNepostojece',response.data)
         })
     },
@@ -169,7 +168,6 @@ const actions = {
     oznaciPregledano(context,id){
 
         axios.put(`http://localhost:8080/api/v1/stanjeLijeka/ocistiZatrazeni/${id}`,{},{ headers: authHeader()}).then(response=>{
-            console.log(response.data)
             context.commit('postaviPoruceneNepostojece',response.data)
         })
     },

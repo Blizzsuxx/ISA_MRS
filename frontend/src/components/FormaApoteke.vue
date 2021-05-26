@@ -38,6 +38,8 @@
 </style>
 
 <template>
+  <div>
+    <div id="map" class="map"></div>
   <div id="unos">
     <h2 class="text-center text-white pt-5">{{naslov}}</h2>
     <div class="container">
@@ -85,9 +87,19 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
+
+  import Map from 'ol/Map'
+  import TileLayer from 'ol/layer/Tile'
+  import View from 'ol/View'
+  import OSM from 'ol/source/OSM'
+  import 'ol/ol.css'
+  import {fromLonLat} from 'ol/proj';
+  import {toLonLat} from 'ol/proj';
+  import axios from 'axios'
   export default {
     name: 'FormaApoteke',
     data() {
@@ -100,6 +112,8 @@
           ulica: '',
           broj: '',
           ptt: '',
+          sirina: '',
+          duzina: ''
         },
          rules: {
           naziv: [
@@ -124,7 +138,7 @@
     methods: {
       onSubmit() {
         var ap = {ime: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
-        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj};
+        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj,duzina:this.apoteka.duzina,sirina:this.apoteka.sirina};
         this.$store.dispatch('APApoteke/dodajApoteku', ap)
         .then(response => {
             alert("Dodata apoteka");
@@ -136,6 +150,44 @@
       resetForm(formName){
         this.$refs[formName].resetFields();
       }
+    },
+    mounted(){
+
+        let map =  new Map({
+            target: 'map',
+            layers: [
+              new TileLayer({
+                source: new OSM()
+              })
+            ],
+            view: new View({
+              center: fromLonLat([19.83,45.26]),
+              zoom: 13
+            })
+          });
+        let vm=this;
+        map.on('singleclick', function (evt) {
+            
+            let coordinate = toLonLat(evt.coordinate, 'EPSG:3857');
+            vm.apoteka.duzina = coordinate[0];
+            vm.apoteka.sirina = coordinate[1];
+            axios.get(`http://nominatim.openstreetmap.org/reverse?format=json&lon=${coordinate[0]}&lat=${coordinate[1]}`)
+                        .then(response => 
+                        {console.log(response.data)
+                        let podatak = "";
+                        if(response.data.address.quarter!=undefined){
+                            podatak = response.data.address.quarter
+                        }
+                        else{
+                          podatak = response.data.address.neighbourhood
+                        }
+                        vm.apoteka.mjesto = podatak+","+response.data.address.city
+                        vm.apoteka.ptt = response.data.address.postcode
+                        vm.apoteka.ulica =  response.data.address.road
+                        vm.apoteka.broj = response.data.address.house_number
+                        }
+                        )
+        });
     }
   }
 </script>

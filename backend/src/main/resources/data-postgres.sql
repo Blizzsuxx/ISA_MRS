@@ -13,7 +13,7 @@ popust_gold, od_gold, do_gold, broj_poena_pregleda, broj_poena_savetovanja, odob
 values (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 
 --ADRESE
-insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',10.0,12.0);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.83,45.26);
 
 
 

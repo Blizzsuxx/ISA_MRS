@@ -109,7 +109,6 @@ const actions = {
             if(state.slobodniTermini[i].apoteka.ime==state.apoteka.ime && state.slobodniTermini[i].imeRadnika==naziv[0] && state.slobodniTermini[i].prezimeRadnika==naziv[1]){
             idPosete=state.slobodniTermini[i].id   
             }}
-        console.log(id)
         return axios.put( `http://localhost:8080/api/v1/slobodanTermin/zakaziFarmaceuta`,{"a":idPosete},{ headers: authHeader()})
             .then(response => {
                 if(response.data){
@@ -117,7 +116,6 @@ const actions = {
                 }else{
                     commit("setujOznaku",false)
                 }
-                //console.log(commit)   
             })
             .catch(error=>console.log(error))
     }
