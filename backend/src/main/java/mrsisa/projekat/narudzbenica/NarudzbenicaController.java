@@ -57,4 +57,10 @@ public class NarudzbenicaController {
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
         this.narudzbenicaService.orbisiNarudzbenicu(id);
     }
+
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @GetMapping("/dobaviSveNarudzbenice")
+    public List<NarudzbenicaDTO> dobaviSveNarudzbenice(){
+        return this.narudzbenicaService.dobaviSveNarudzbenice();
+    }
 }

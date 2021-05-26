@@ -11,6 +11,15 @@ const getters = {
 };
 
 const actions = {
+    kreirajPonudu(context, ponuda){
+        return axios.post('http://localhost:8080/api/v1/ponuda/kreirajPonudu', ponuda, {headers : authHeader()})
+    },
+    dobaviPonudeDobavljaca(){
+        return axios.get('http://localhost:8080/api/v1/ponuda/dobaviPonudeDobavljaca', { headers : authHeader()});
+    },
+    dobaviNarudzbenicuPonude(context, id){
+        return axios.get(`http://localhost:8080/api/v1/ponuda/dobaviNarudzbenicuPonude/${id}`, { headers : authHeader()});
+    },
     dobaviPonude (context,id) {
         axios.get(`http://localhost:8080/api/v1/ponuda/narudzbenica/${id}/admin`, { headers: authHeader()})
             .then(response => {
