@@ -89,7 +89,15 @@ public class StanjeLijekaService {
         List<StanjeLijekaDTO> stanjaLijekova =  new ArrayList<>();
         StanjeLijekaDTO temp ;
         for(StanjeLijeka stanjeLijeka: this.stanjeLijekaRepository.findAll()){
-            if(stanjeLijeka.getApoteka().equals(adminApoteke.getApoteka()) && stanjeLijeka.getZatrazen()>0){
+            if(stanjeLijeka.getApoteka()==null)
+                    continue;
+            System.out.println("--------AAA------");
+            System.out.println(stanjeLijeka.getApoteka().getId());
+            System.out.println(adminApoteke.getApoteka().getId());
+            System.out.println(stanjeLijeka.getZatrazen());
+            System.out.println("---------AAA------");
+            if(stanjeLijeka.getApoteka().getId().equals(adminApoteke.getApoteka().getId()) && stanjeLijeka.getZatrazen()>0){
+                System.out.println("Usao je ovde");
                 temp = new StanjeLijekaDTO(stanjeLijeka);
                 temp.setImeApoteke(stanjeLijeka.getApoteka().getIme());
                 stanjaLijekova.add(temp);

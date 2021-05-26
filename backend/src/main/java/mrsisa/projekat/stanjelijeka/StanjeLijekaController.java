@@ -51,10 +51,11 @@ public class StanjeLijekaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping("/ocistiZatrazeni/{id}")
-    public void ocistiZatrazeni(@PathVariable Long id){
+    public List<StanjeLijekaDTO> ocistiZatrazeni(@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
         this.stanjeLijekaService.ocistiZatrazeni(id);
+        return this.stanjeLijekaService.dobaviZatrazene(adminApoteke);
     }
 
 

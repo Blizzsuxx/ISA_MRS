@@ -151,7 +151,7 @@ insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apote
 
 
 --STANEJ LIJEKOVA APOTEKE
-insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,1,1,true,10,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene,zatrazen,zatrazen_datum) values (10,1,1,true,10,'2021-06-30 00:00:00',2,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,2,1,true,20,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,3,1,true,30,'2021-06-30 00:00:00');
 
