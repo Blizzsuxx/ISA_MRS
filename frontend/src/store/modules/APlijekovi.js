@@ -10,6 +10,7 @@ const state = {
     lijekoviZaPorucivanje:[],
     apotekaLijekovi: [],
     dostupniLekovi: [],
+    poruceniNepostojeci: [],
     greska: false,
 
 };
@@ -157,6 +158,24 @@ const actions = {
         
     },
 
+    dobaviPoruceneNepostojece(context){
+
+        axios.get('http://localhost:8080/api/v1/stanjeLijeka/dobaviZatrazene',{ headers: authHeader()}).then(response=>{
+            console.log(response.data)
+            context.commit('postaviPoruceneNepostojece',response.data)
+        })
+    },
+
+    oznaciPregledano(context,id){
+
+        axios.put(`http://localhost:8080/api/v1/stanjeLijeka/ocistiZatrazeni/${id}`,{},{ headers: authHeader()}).then(response=>{
+            console.log(response.data)
+            context.commit('postaviPoruceneNepostojece',response.data)
+        })
+    },
+
+    
+
     promjeniCijenu (contex,lijek){
        
 
@@ -243,6 +262,7 @@ const mutations = {
     postaviLijekoviPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje.push(lijekovi)),
     resetujLijekoveZaPorucivanje:(state,lijekovi)=>(state.lijekoviZaPorucivanje = lijekovi),
     dobaviLijekoveApoteke:(state, lijekovi)=>(state.apotekaLijekovi = lijekovi),
+    postaviPoruceneNepostojece:(state,poruceniNepostojeci)=>(state.poruceniNepostojeci = poruceniNepostojeci),
     postaviGresku:(state, er)=>(state.greska = er),
 }
 

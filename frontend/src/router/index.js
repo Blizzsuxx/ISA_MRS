@@ -61,12 +61,17 @@ import PrvaPrijavaAdminApoteke from "../components/PrvaPrijavaAdminApoteke"
 import DodavanjeAkcije from "../components/DodavanjeAkcije"
 import Zalbe from "../components/Zalbe"
 import ZalbeIstorija from '../components/ZalbeIstorija'
-
+import PoruceniNepostojeci from '../components/PoruceniNepostojeci'
 const routes = [
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/poruceni',
+    name: 'PoruceniNepostojeci',
+    component: PoruceniNepostojeci,
   },
   {
     path: '/prikazNarudzbenica',

@@ -7,6 +7,7 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -24,9 +25,11 @@ import java.util.Map;
 @RequestMapping(path="api/v1/posete")
 public class PosetaController {
     private final PosetaService posetaService;
+    private final StanjeLijekaRepository stanjeLijekaRepository;
     @Autowired
-    public PosetaController(PosetaService apotekaService){
+    public PosetaController(PosetaService apotekaService,StanjeLijekaRepository stanjeLijekaRepository){
         this.posetaService = apotekaService;
+        this.stanjeLijekaRepository = stanjeLijekaRepository;
     }
 
     @PostMapping("/zabeleziOdsustvo")
@@ -87,20 +90,21 @@ public class PosetaController {
                     if(stanjeLijeka.getKolicina() < (int)lek.get("kolicina")){
                         return true;
                     }
+                    else{
+                        stanjeLijeka.setZatrazen(stanjeLijeka.getZatrazen()+1);
+                        stanjeLijeka.setZatrazenDatum(LocalDateTime.now());
+                        this.stanjeLijekaRepository.save(stanjeLijeka);
+                    }
                     break;
                 }
             }
-
             if(!lekPostojiUApoteci){
                 return true;
             }
         }
 
-
         return false;
     }
-
-
     @GetMapping(path="/dobaviIstorijuD")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<PosetaDTO> dobaviIstorijuD(){

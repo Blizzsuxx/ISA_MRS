@@ -34,6 +34,15 @@ public class StanjeLijeka {
 
     @Column(name = "datumIstekaCijene", nullable = true)
     private LocalDateTime datumIstekaCijene;
+
+
+    @Column(name = "zatrazen", nullable = true, columnDefinition = "integer default 0")
+    private int zatrazen;
+
+    @Column(name = "zatrazenDatum", nullable = true)
+    private LocalDateTime zatrazenDatum;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Apoteka apoteka;
@@ -49,6 +58,8 @@ public class StanjeLijeka {
 
     @OneToOne(fetch=FetchType.LAZY)
     private Akcija akcija;
+
+
 
     public Rezervacija getRezervacija() {
         return rezervacija;
@@ -179,5 +190,21 @@ public class StanjeLijeka {
 
     public void setAkcija(Akcija akcija) {
         this.akcija = akcija;
+    }
+
+    public int getZatrazen() {
+        return zatrazen;
+    }
+
+    public void setZatrazen(int zatrazen) {
+        this.zatrazen = zatrazen;
+    }
+
+    public LocalDateTime getZatrazenDatum() {
+        return zatrazenDatum;
+    }
+
+    public void setZatrazenDatum(LocalDateTime zatrazenDatum) {
+        this.zatrazenDatum = zatrazenDatum;
     }
 }

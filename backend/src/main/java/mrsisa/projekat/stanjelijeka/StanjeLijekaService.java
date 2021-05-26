@@ -1,6 +1,7 @@
 package mrsisa.projekat.stanjelijeka;
 
 
+import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
@@ -8,6 +9,7 @@ import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -80,5 +82,34 @@ public class StanjeLijekaService {
 
     public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {
         return stanjeLijekaRepository.nadjiStanja(id);
+    }
+
+    @Transactional
+    public List<StanjeLijekaDTO> dobaviZatrazene(AdministratorApoteke adminApoteke) {
+        List<StanjeLijekaDTO> stanjaLijekova =  new ArrayList<>();
+        StanjeLijekaDTO temp ;
+        for(StanjeLijeka stanjeLijeka: this.stanjeLijekaRepository.findAll()){
+            if(stanjeLijeka.getApoteka()==null)
+                    continue;
+            System.out.println("--------AAA------");
+            System.out.println(stanjeLijeka.getApoteka().getId());
+            System.out.println(adminApoteke.getApoteka().getId());
+            System.out.println(stanjeLijeka.getZatrazen());
+            System.out.println("---------AAA------");
+            if(stanjeLijeka.getApoteka().getId().equals(adminApoteke.getApoteka().getId()) && stanjeLijeka.getZatrazen()>0){
+                System.out.println("Usao je ovde");
+                temp = new StanjeLijekaDTO(stanjeLijeka);
+                temp.setImeApoteke(stanjeLijeka.getApoteka().getIme());
+                stanjaLijekova.add(temp);
+            }
+        }
+        return stanjaLijekova;
+    }
+    public void ocistiZatrazeni(Long id) {
+        StanjeLijeka stanjeLijeka =  this.stanjeLijekaRepository.findById(id).orElse(null);
+        if(stanjeLijeka!=null){
+            stanjeLijeka.setZatrazen(0);
+            this.stanjeLijekaRepository.save(stanjeLijeka);
+        }
     }
 }
