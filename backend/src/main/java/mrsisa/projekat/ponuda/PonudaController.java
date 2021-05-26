@@ -55,4 +55,12 @@ public class PonudaController {
     public NarudzbenicaDTO dobaviNarudzbenicuPonude(@PathVariable Long id){
         return this.ponudaService.dobaviNarudzbenicuPonude(id);
     }
+
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @PostMapping(path="/kreirajPonudu")
+    public boolean kreirajPonudu(@RequestBody PonudaDTO ponudaDTO){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Dobavljac d = (Dobavljac) auth.getPrincipal();
+        return this.ponudaService.kreirajPonudu(ponudaDTO, d);
+    }
 }

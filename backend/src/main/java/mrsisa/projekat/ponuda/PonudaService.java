@@ -35,6 +35,15 @@ public class PonudaService {
     }
 
     @Transactional
+    public boolean kreirajPonudu(PonudaDTO ponudaDTO, Dobavljac d){
+        Ponuda p = new Ponuda(ponudaDTO);
+        p.setDobavljac(d);
+        p.setNarudzbenica(this.narudzbenicaRepository.findById(ponudaDTO.getIdNarudzbenice()).orElseThrow());
+        this.ponudaRepository.save(p);
+        return true;
+    }
+
+    @Transactional
     public NarudzbenicaDTO dobaviNarudzbenicuPonude(Long id){
         return new NarudzbenicaDTO(this.ponudaRepository.findById(id).orElseThrow().getNarudzbenica());
     }

@@ -32,7 +32,7 @@
           @click="sadrzaj(scope.$index, scope.row)">Sadrzaj</el-button>
         <el-button
           size="mini"
-          @click="kreirajPonudu(scope.$index, scope.row)">Ponuda</el-button>
+          @click="ponudaProzor(scope.$index, scope.row)">Ponuda</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -92,10 +92,14 @@
     <div style="display: flex;
   justify-content: center;  padding-bottom: 20px;">
     </div>
-    
+    <p><strong>Naziv Ponude</strong></p>
+    <el-input v-model="ponuda.nazivPonude"></el-input>
+    <p><strong>Cijena Ponude</strong></p>
+    <el-input  v-model.number="ponuda.cijenaPonude"></el-input>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="prviProzor = false">Izadji</el-button>
+        <el-button @click="drugiProzor = false">Izadji</el-button>
+        <el-button type="primary" @click="kreirajPonudu">Potvrdi</el-button>
       </span>
     </template>
     </el-dialog>
@@ -113,7 +117,10 @@
         searchOdgovori: '',
         narudzbenica: {},
         ponuda: {
-
+            nazivPonude: '',
+            status: 0,
+            cijenaPonude: 0,
+            idNarudzbenice: 0,
         }
       }
     },
@@ -126,14 +133,44 @@
         });
     },
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno kreirana ponuda.',
+          type: 'success'
+        });
+        },
+    open2() {
+        this.$message({
+          showClose: true,
+          message: 'Podaci nisu validni.',
+          type: 'error'
+        });
+        },
+
       sadrzaj(index, row) {
         console.log(index, row);
         this.narudzbenica = row;
         this.prviProzor = true;
       },
-      kreirajPonudu(index, row) {
+      ponudaProzor(index, row) {
         this.narudzbenica = row;
         this.drugiProzor = true;
+      },
+      kreirajPonudu(){
+        if (this.ponuda.nazivPonuda === '' || this.ponuda.cijenaPonude <= 0){
+            this.open2();
+        } else {
+            this.drugiProzor = false;
+            this.ponuda.idNarudzbenice = this.narudzbenica.id;
+            this.$store.dispatch("Ponude/kreirajPonudu", this.ponuda)
+            .then(response => {
+                console.log(response.data);
+                this.open1();
+                this.drugiProzor = false;
+             
+            });
+        }
       }
     },
   }
