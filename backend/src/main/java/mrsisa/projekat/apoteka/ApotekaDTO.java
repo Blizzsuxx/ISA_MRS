@@ -9,6 +9,8 @@ public class ApotekaDTO {
     private String ptt;
     private String ulica;
     private String broj;
+    private double duzina;
+    private double sirina;
 
     public ApotekaDTO() {
 
@@ -25,6 +27,8 @@ public class ApotekaDTO {
         this.ptt = apoteka.getAdresa().getPtt();
         this.ulica  = apoteka.getAdresa().getUlica();
         this.broj = apoteka.getAdresa().getBroj();
+        this.duzina = apoteka.getAdresa().getgDuzina();
+        this.sirina = apoteka.getAdresa().getgSirina();
     }
     public void setAdresa(Adresa adresa){
         this.mjesto = adresa.getMesto();
@@ -87,5 +91,21 @@ public class ApotekaDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public double getDuzina() {
+        return duzina;
+    }
+
+    public void setDuzina(double duzina) {
+        this.duzina = duzina;
+    }
+
+    public double getSirina() {
+        return sirina;
+    }
+
+    public void setSirina(double sirina) {
+        this.sirina = sirina;
     }
 }

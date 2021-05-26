@@ -154,4 +154,14 @@ public class ApotekaService {
             }
         }
     }
+
+    public void sacuvajApoteku(ApotekaDTO dummy) {
+        Apoteka apoteka = new Apoteka(dummy);
+        Adresa adresa =  new Adresa(dummy.getMjesto(),dummy.getPtt(), dummy.getUlica(), dummy.getBroj(),dummy.getDuzina(), dummy.getSirina());
+        //this.adresaRepository.save(adresa);
+        apoteka.setAdresa(adresa);
+        this.apotekaRepository.save(apoteka);
+
+
+    }
 }
