@@ -35,6 +35,8 @@ public class ApotekaDTO {
         this.ptt = adresa.getPtt();
         this.ulica = adresa.getUlica();
         this.broj  =  adresa.getBroj();
+        this.sirina = adresa.getgSirina();
+        this.duzina = adresa.getgDuzina();
     }
 
     public ApotekaDTO(String naziv, String mjesto, String ptt, String ulica, String broj) {

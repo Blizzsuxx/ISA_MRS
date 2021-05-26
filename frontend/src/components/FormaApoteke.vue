@@ -138,7 +138,7 @@
     methods: {
       onSubmit() {
         var ap = {ime: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
-        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj};
+        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj,duzina:this.apoteka.duzina,sirina:this.apoteka.sirina};
         this.$store.dispatch('APApoteke/dodajApoteku', ap)
         .then(response => {
             alert("Dodata apoteka");
@@ -174,7 +174,14 @@
             axios.get(`http://nominatim.openstreetmap.org/reverse?format=json&lon=${coordinate[0]}&lat=${coordinate[1]}`)
                         .then(response => 
                         {console.log(response.data)
-                        vm.apoteka.mjesto = response.data.address.quarter+","+response.data.address.city
+                        let podatak = "";
+                        if(response.data.address.quarter!=undefined){
+                            podatak = response.data.address.quarter
+                        }
+                        else{
+                          podatak = response.data.address.neighbourhood
+                        }
+                        vm.apoteka.mjesto = podatak+","+response.data.address.city
                         vm.apoteka.ptt = response.data.address.postcode
                         vm.apoteka.ulica =  response.data.address.road
                         vm.apoteka.broj = response.data.address.house_number
