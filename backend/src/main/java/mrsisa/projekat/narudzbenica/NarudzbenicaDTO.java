@@ -1,6 +1,11 @@
 package mrsisa.projekat.narudzbenica;
 
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
+
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NarudzbenicaDTO {
     private Long id;
@@ -10,9 +15,22 @@ public class NarudzbenicaDTO {
     private boolean prihvacena;
     private boolean pripada;
     private String korisnickoImeAdminaApoteke;
+    private List<StanjeLijekaDTO> listaStanja;
 
     public NarudzbenicaDTO(){
 
+    }
+
+    public NarudzbenicaDTO(Narudzbenica narudzbenica, boolean dummy){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        this.id = narudzbenica.getId();
+        this.rok = narudzbenica.getRok().format(dtf);
+        this.zavrsena  = narudzbenica.isZavrsena();
+        this.prihvacena = narudzbenica.isPrihvacena();
+        this.korisnickoImeAdminaApoteke = narudzbenica.getAdministratorApoteke().getUsername();
+        this.listaStanja = new ArrayList<>();
+        for (StanjeLijeka sl : narudzbenica.getLijekovi())
+            this.listaStanja.add(new StanjeLijekaDTO(sl));
     }
 
     public NarudzbenicaDTO(Narudzbenica narudzbenica){
@@ -78,5 +96,13 @@ public class NarudzbenicaDTO {
 
     public void setKorisnickoImeAdminaApoteke(String korisnickoImeAdminaApoteke) {
         this.korisnickoImeAdminaApoteke = korisnickoImeAdminaApoteke;
+    }
+
+    public List<StanjeLijekaDTO> getListaStanja() {
+        return listaStanja;
+    }
+
+    public void setListaStanja(List<StanjeLijekaDTO> listaStanja) {
+        this.listaStanja = listaStanja;
     }
 }

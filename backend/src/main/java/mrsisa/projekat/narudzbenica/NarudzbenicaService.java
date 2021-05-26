@@ -42,6 +42,14 @@ public class NarudzbenicaService {
     }
 
     @Transactional
+    public List<NarudzbenicaDTO> dobaviSveNarudzbenice(){
+        List<NarudzbenicaDTO> narudzbenice = new ArrayList<>();
+        for (Narudzbenica n : this.narudzbenicaRepository.findAll())
+            narudzbenice.add(new NarudzbenicaDTO(n, true));
+        return narudzbenice;
+    }
+
+    @Transactional
     public void kreirajNarudzbenicu(@RequestBody Map<String, Object> podaci, AdministratorApoteke administrator) {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         ObjectMapper mapper = new ObjectMapper();

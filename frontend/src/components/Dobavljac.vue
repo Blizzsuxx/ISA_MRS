@@ -10,7 +10,7 @@
             <span>Ponude</span>
             </template>
             <el-menu-item index="1-1" @click="mojePonude">Moje Ponude</el-menu-item>
-            <el-menu-item index="1-2" @click="odjava">Ponude</el-menu-item>
+            <el-menu-item index="1-2" @click="narudzbenice">Narudzbenice</el-menu-item>
             <el-menu-item index="1-3" @click="stanjeLijekova">Lijekovi na Stanju</el-menu-item>
         </el-submenu>
         <el-submenu index="2">
@@ -35,6 +35,9 @@
         <div v-if="indikator == 4">
             <DobavljacLijekovi/>
         </div>
+        <div v-if="indikator == 5">
+            <DobavljacNarudzbenice/>
+        </div>
         <div v-else>
         </div>
     </el-main>
@@ -45,6 +48,7 @@ import PotvrdaLozinke from './PotvrdaLozinke'
 import Nalog from './Nalog'
 import DobavljacPonude from './DobavljacPonude'
 import DobavljacLijekovi from './DobavljacLijekovi'
+import DobavljacNarudzbenice from './DobavljacNarudzbenice'
 
 export default {
     name: 'Dobavljac',
@@ -125,11 +129,14 @@ export default {
         },
         stanjeLijekova(){
             this.indikator = 4;
+        },
+        narudzbenice(){
+            this.indikator = 5;
         }
 
     },
     components:{
-        PotvrdaLozinke, Nalog, DobavljacPonude, DobavljacLijekovi
+        PotvrdaLozinke, Nalog, DobavljacPonude, DobavljacLijekovi, DobavljacNarudzbenice
     },
     
   }
