@@ -5,6 +5,8 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.dobavljac.DobavljacRepository;
+import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.narudzbenica.NarudzbenicaDTO;
 import mrsisa.projekat.narudzbenica.NarudzbenicaRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,20 +28,43 @@ public class PonudaService {
     private final PonudaRepository ponudaRepository;
     private final NarudzbenicaRepository narudzbenicaRepository;
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final DobavljacRepository dobavljacRepository;
 
     @Autowired
     public PonudaService(PonudaRepository ponudaRepository, NarudzbenicaRepository narudzbenicaRepository,
-                         StanjeLijekaRepository stanjeLijekaRepository) {
+                         StanjeLijekaRepository stanjeLijekaRepository, DobavljacRepository dobavljacRepository) {
         this.ponudaRepository = ponudaRepository;
         this.narudzbenicaRepository = narudzbenicaRepository;
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.dobavljacRepository = dobavljacRepository;
     }
 
     @Transactional
     public boolean kreirajPonudu(PonudaDTO ponudaDTO, Dobavljac d){
         Ponuda p = new Ponuda(ponudaDTO);
+        Narudzbenica n = this.narudzbenicaRepository.findById(ponudaDTO.getIdNarudzbenice()).orElseThrow();
+        if (LocalDateTime.now().isAfter(n.getRok()))
+            return false;
+
+        for (Ponuda ponudice : this.ponudaRepository.findAllByDobavljac(d)){
+            if (ponudice.getNarudzbenica().getId().equals(n.getId()))
+                return false;
+        }
+
+        for (StanjeLijeka sl : n.getLijekovi()){
+            boolean indikator = false;
+            for (Lijek l : this.dobavljacRepository.findById(d.getId()).orElseThrow().getLijekoviNaStanju()){
+                if (sl.getLijek().getId().equals(l.getId())){
+                    indikator = true;
+                    break;
+                }
+            }
+            if (!indikator)
+                return false;
+        }
+        
         p.setDobavljac(d);
-        p.setNarudzbenica(this.narudzbenicaRepository.findById(ponudaDTO.getIdNarudzbenice()).orElseThrow());
+        p.setNarudzbenica(n);
         this.ponudaRepository.save(p);
         return true;
     }

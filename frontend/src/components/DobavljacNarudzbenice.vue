@@ -147,7 +147,13 @@
           type: 'error'
         });
         },
-
+      open3() {
+        this.$message({
+          showClose: true,
+          message: 'Problem sa datumom ili sadrzajem.',
+          type: 'error'
+        });
+        },
       sadrzaj(index, row) {
         console.log(index, row);
         this.narudzbenica = row;
@@ -165,10 +171,12 @@
             this.ponuda.idNarudzbenice = this.narudzbenica.id;
             this.$store.dispatch("Ponude/kreirajPonudu", this.ponuda)
             .then(response => {
-                console.log(response.data);
-                this.open1();
-                this.drugiProzor = false;
-             
+                if (response.data){
+                    this.open1();
+                    this.drugiProzor = false;
+                } else {
+                    this.open3();
+                } 
             });
         }
       }
