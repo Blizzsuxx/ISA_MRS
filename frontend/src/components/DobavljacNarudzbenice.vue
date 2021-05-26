@@ -73,7 +73,11 @@
           size="mini"
           placeholder="Type to search"/>
       </template>
-     
+        <template #default="scope">
+        <el-button
+          size="mini"
+          @click="lijekInfo(scope.$index, scope.row)">Lijek</el-button>
+      </template>
     </el-table-column>
   </el-table>
     <template #footer>
@@ -81,6 +85,48 @@
         <el-button @click="prviProzor = false">Izadji</el-button>
       </span>
     </template>
+
+    <el-dialog
+    title="Informacije o Lijeku"
+    v-model="centerDialogVisible"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    <el-image  style="width: 100px; height: 100px; border: 1px solid;" :src="url" :fit="fit">
+      <template #error>
+        <div class="image-slot">
+          <i class="el-icon-info"></i>
+        </div>
+      </template>
+    </el-image>
+    </div>
+    <div>
+      <p><strong>Naziv</strong></p>
+      <el-input :model-value='lijek.naziv' v-model="lijek.naziv" readonly></el-input>
+      <p><strong>Napomena</strong></p>
+      <el-input  v-model="lijek.napomena" readonly></el-input>
+      <p><strong>Oblik Lijeka</strong></p>
+      <el-input  v-model="lijek.oblikLijeka" readonly></el-input>
+      <p><strong>Ocijena</strong></p>
+      <el-input v-model="lijek.ocijena" readonly></el-input>
+      <p><strong>Proizvodjac</strong></p>
+      <el-input v-model="lijek.proizvodjac" readonly></el-input>
+      <p><strong>Vrsta Lijeka</strong></p>
+      <el-input v-model="lijek.vrstaLijeka" readonly></el-input>
+      <p><strong>Sastav</strong></p>
+      <el-input v-model="lijek.sastav" readonly></el-input>
+      <p><strong>Poeni</strong></p>
+      <el-input v-model.number="lijek.poeni" readonly></el-input>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Izadji</el-button>
+      </span>
+    </template>
+
+  </el-dialog>
     </el-dialog>
 
     <el-dialog
@@ -121,7 +167,9 @@
             status: 0,
             cijenaPonude: 0,
             idNarudzbenice: 0,
-        }
+        },
+        lijek: {},
+        centerDialogVisible: false
       }
     },
     mounted() {
@@ -179,6 +227,10 @@
                 } 
             });
         }
+      },
+      lijekInfo(index, row){
+        this.lijek = row.lijek;
+        this.centerDialogVisible = true;
       }
     },
   }

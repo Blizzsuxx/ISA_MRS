@@ -62,7 +62,7 @@ public class PonudaService {
             if (!indikator)
                 return false;
         }
-        
+
         p.setDobavljac(d);
         p.setNarudzbenica(n);
         this.ponudaRepository.save(p);
@@ -71,7 +71,7 @@ public class PonudaService {
 
     @Transactional
     public NarudzbenicaDTO dobaviNarudzbenicuPonude(Long id){
-        return new NarudzbenicaDTO(this.ponudaRepository.findById(id).orElseThrow().getNarudzbenica());
+        return new NarudzbenicaDTO(this.ponudaRepository.findById(id).orElseThrow().getNarudzbenica(), true);
     }
 
     @Transactional
