@@ -44,7 +44,6 @@ const actions = {
 
 
     azurirajApotekuAdmin(context,apoteka){
-        console.log(apoteka)
         return axios.put("http://localhost:8080/api/v1/apoteka/admin",apoteka, { headers: authHeader()})
        .then(response => {
 
@@ -60,6 +59,13 @@ const actions = {
          
         })
     },
+    // dobaviApotekuKorisnik(context, id){
+    //     return axios.get(`http://localhost:8080/api/v1/apoteka/${id}/profil/korisnik`,{ headers: authHeader()})
+    //     .then(response => {
+    //         context.commit('postaviApoteku',response.data)
+         
+    //     })
+    // },
     dobaviSlobodneTermine( context,id){
         return axios.get( `http://localhost:8080/api/v1/slobodanTermin/apoteka/${id}`,{ headers: authHeader()})
             .then(response => {

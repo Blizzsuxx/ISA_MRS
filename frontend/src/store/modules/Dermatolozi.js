@@ -22,6 +22,15 @@ const actions = {
 
 
     },
+    dobaviDermatologeKorisnik (context,id) {
+        axios.get(`http://localhost:8080/api/v1/dermatolog/korisnik/${id}`, { headers: authHeader()})
+            .then(response => {
+                let dermatolozi =response.data
+                context.commit('postaviDermatologe',dermatolozi)
+            })
+
+
+    },
     dobaviDermatologeAdmin (context) {
         axios.get('http://localhost:8080/api/v1/dermatolog/admin', { headers: authHeader()})
             .then(response => {
@@ -71,6 +80,8 @@ const actions = {
             })
             .catch(error=>console.log(error))
     },
+
+    
     kreirajSlobodanTermin(context,objekat){
         return axios.post( `http://localhost:8080/api/v1/slobodanTermin/`,objekat,{ headers: authHeader()}).then(()=>{
             context.commit('dodajSlobodanTermin',objekat)

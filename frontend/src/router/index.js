@@ -63,6 +63,7 @@ import Zalbe from "../components/Zalbe"
 import ZalbeIstorija from '../components/ZalbeIstorija'
 import PoruceniNepostojeci from '../components/PoruceniNepostojeci'
 import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
+import ProfilApotekeKorisnik from '../components/ProfilApotekeKorisnik'
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -91,6 +92,12 @@ const routes = [
     name: 'NarudzbenicaProzor',
     component: NarudzbenicaProzor,
     meta:{title: 'Narudzbenica'}
+  },
+  {
+    path: '/apoteka/:id',
+    name: 'ProfilApotekeKorisnik',
+    component: ProfilApotekeKorisnik,
+    meta:{title: 'Apoteka'}
   },
   {
     path: '/dodavanjeAkcije/:id',

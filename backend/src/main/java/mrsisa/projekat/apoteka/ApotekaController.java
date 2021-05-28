@@ -42,6 +42,13 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping("{id}/lijekovi/profil")
+    public List<StanjeLijekaDTO> dobaviLijekoveProfil(@PathVariable Long id){
+
+        return apotekaService.dobaviStanjaLijekova(id);
+    }
+
     @GetMapping("/dobaviLijekoveN")
     public List<StanjeLijekaDTO> dobaviLijekoveNeautentifikovan(){
 
@@ -122,7 +129,7 @@ public class ApotekaController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('PACIJENT','ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/{id}")
     public ApotekaDTO dobaviApoteku(@PathVariable Long id){
 

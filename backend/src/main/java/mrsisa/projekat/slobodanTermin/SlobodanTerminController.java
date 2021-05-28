@@ -18,12 +18,12 @@ public class SlobodanTerminController {
     public SlobodanTerminController(SlobodanTerminService slobodanTerminService){
         this.slobodanTerminService = slobodanTerminService;
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('PACIJENT','ROLE_ADMIN_APOTEKA')")
     @GetMapping("/dermatolog/{id}")
     public List<SlobodanTerminDTO> dobaviSlobodneTermineDermatologa(@PathVariable Integer id){
         return this.slobodanTerminService.dobaviSlobodneTermineDermatologa(id);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('PACIJENT','ROLE_ADMIN_APOTEKA')")
     @GetMapping("/apoteka/{id}")
     public List<SlobodanTerminDTO> dobaviSlobodneTermineApoteka(@PathVariable Long id){
         return this.slobodanTerminService.dobaviSlobodneTermineApoteka(id);

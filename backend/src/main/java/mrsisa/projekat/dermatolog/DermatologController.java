@@ -46,6 +46,15 @@ public class DermatologController {
         return dermatologService.dobaviDermatologeAdmin(adminApoteke.getApoteka().getId());
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(path="/korisnik/{id}")
+    public List<DermatologDTO> dobaviDermatologeKorisnik(@PathVariable Long id){
+
+        return dermatologService.dobaviDermatologeAdmin(id);
+    }
+
+
+
     @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/admin/nezaposleni")
     public List<DermatologDTO> dobaviNezaposleneDermatologeAdmin(){
