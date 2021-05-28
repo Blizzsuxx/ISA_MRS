@@ -45,12 +45,17 @@
         </ul>
       </template>
     </el-table-column>
-    <el-table-column property="ocjena" label="Ocjena">
+    <el-table-column property="ocjena" label="Ocjena" :formatter="formirajOcjenu">
     </el-table-column>
   </el-table>
   <div style="margin-top: 20px"></div>
 </template>
-
+<style scoped>
+.el-table__body tr.current-row>td{
+    background-color: #f3aeae !important;
+     color: #fff;
+  }
+</style>
 <script>
 export default {
   name: "DermatoloziTabela",
@@ -73,6 +78,14 @@ export default {
     handleCurrentChange(val) {
       this.$refs.referenca.setCurrentRow(val);
       this.$emit("promjenjena-selekcija", val);
+    },
+    formirajOcjenu(val){
+      if(val.ocjena==-1){
+        return "Neocjenjen"
+      }
+      else{
+        return val.ocjena;
+      }
     },
     filtrirajTabelu(podaci) {
       if (this.search) {

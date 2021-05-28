@@ -3,10 +3,12 @@ package mrsisa.projekat.stanjelijeka;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.format.DateTimeFormatter;
@@ -22,21 +24,23 @@ public class StanjeLijekaController {
     public StanjeLijekaController(StanjeLijekaService stanjeLijekaService){
         this.stanjeLijekaService = stanjeLijekaService;
     }
-
-    @PutMapping("/promjenaStatusaProdaje")
-    public List<Long> promjenaStatusaProdaje(@RequestBody List<Long> identifikatori){
-        return this.stanjeLijekaService.promjenaStatusaProdaje(identifikatori);
-    }
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
-    @PutMapping("/izbrisiLijekove")
-    public void izbrisiLijekove(@RequestBody List<Long> identifikatori){
-        this.stanjeLijekaService.izbrisiLijekove(identifikatori);
+    @DeleteMapping("/izbrisiLijekove/{id}")
+    public int izbrisiLijekove(@PathVariable Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return this.stanjeLijekaService.izbrisiLijekove(id,adminApoteke.getApoteka().getId());
     }
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping("/promjeniCijenu")
     public void promjeniCijenu(@RequestParam Long id, @RequestParam double cijena,
                                              @RequestParam String datumIstekaCijene){
-        this.stanjeLijekaService.promjeniCijenu(id,cijena,datumIstekaCijene);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        boolean greska =  this.stanjeLijekaService.promjeniCijenu(id,cijena,datumIstekaCijene,adminApoteke.getApoteka().getId());
+        if (greska){
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
     }
 
 

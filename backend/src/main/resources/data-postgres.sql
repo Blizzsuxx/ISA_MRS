@@ -226,11 +226,7 @@ insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izda
 --insert into prepisani_lijekovi(id, lijek_id) values (4,9);
 
 
---spajanje lekova i erecepata
-insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (30,1);
-insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (31,2);
-insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (32,3);
-insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (33,4);
+
 
 
 --STANJE LEKOVA ZA RECEPTE
@@ -240,4 +236,8 @@ insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datu
 insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,1,1.00,false,1,'2021-06-30 00:00:00',32);
 
 
-
+--spajanje lekova i erecepata
+insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (30,12);
+insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (31,13);
+insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (32,14);
+insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (33,15);

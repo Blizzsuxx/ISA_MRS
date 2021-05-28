@@ -1,6 +1,7 @@
 package mrsisa.projekat.dermatolog;
 
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.ocena.Ocena;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ public class DermatologDTO {
     private String email;
     private String rodjendan;
     private List<String> apoteke;
+    private double ocjena ;
     public DermatologDTO(){
 
     }
@@ -27,6 +29,14 @@ public class DermatologDTO {
         this.rodjendan = dermatolog.getBirthday().format(dtf);
         this.id = dermatolog.getId();
         this.apoteke =  new ArrayList<>();
+        int suma = 0;
+        for (Ocena ocena: dermatolog.getOcene()) {
+            suma +=ocena.getOcena();
+        }
+        if(dermatolog.getOcene().size()!=0)
+            this.ocjena =  suma/dermatolog.getOcene().size();
+        else
+            this.ocjena = -1;
     }
     public DermatologDTO(Farmaceut farmaceut){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -37,6 +47,14 @@ public class DermatologDTO {
         this.rodjendan = farmaceut.getBirthday().format(dtf);
         this.id = farmaceut.getId();
         this.apoteke =  new ArrayList<>();
+        int suma = 0;
+        for (Ocena ocena: farmaceut.getOcene()) {
+            suma +=ocena.getOcena();
+        }
+        if(farmaceut.getOcene().size()!=0)
+            this.ocjena =  suma/farmaceut.getOcene().size();
+        else
+            this.ocjena = -1;
     }
 
     public Integer getId() {
@@ -93,5 +111,13 @@ public class DermatologDTO {
 
     public void setApoteke(List<String> apoteke) {
         this.apoteke = apoteke;
+    }
+
+    public double getOcjena() {
+        return ocjena;
+    }
+
+    public void setOcjena(double ocjena) {
+        this.ocjena = ocjena;
     }
 }
