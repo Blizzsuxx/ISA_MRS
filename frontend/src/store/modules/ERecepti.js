@@ -22,6 +22,22 @@ const actions = {
             
         })
     },
+
+
+
+
+    postaviErecept(context, podaci){
+        axios.post('http://localhost:8080/api/v1/erecepti/postaviErecept', podaci,{ headers: authHeader()}).then(response => {
+    
+                alert("Pregled uspesno zavrsen");
+                return response;
+            })
+      },
+
+
+
+
+
     dobaviPreuzeteRecepte (context) {
         return axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte',{ headers: authHeader()})
         .then(response => {

@@ -4,13 +4,22 @@
      background-color="#409EFF"
     text-color="#fff"
     active-text-color="#D6E3F1">  
-        <el-submenu index="1">
+        <el-submenu index="1" v-if='potvrda'>
+            <template #title>
+            <i></i>
+            <span>Ponude</span>
+            </template>
+            <el-menu-item index="1-1" @click="mojePonude">Moje Ponude</el-menu-item>
+            <el-menu-item index="1-2" @click="narudzbenice">Narudzbenice</el-menu-item>
+            <el-menu-item index="1-3" @click="stanjeLijekova">Lijekovi na Stanju</el-menu-item>
+        </el-submenu>
+        <el-submenu index="2">
             <template #title>
             <i></i>
             <span>Dodatne Opcije</span>
             </template>
-            <el-menu-item v-if='potvrda' index="1-1" @click="infoNaloga">Nalog</el-menu-item>
-            <el-menu-item index="1-2" @click="odjava">Odjava</el-menu-item>
+            <el-menu-item v-if='potvrda' index="2-1" @click="infoNaloga">Nalog</el-menu-item>
+            <el-menu-item index="2-2" @click="odjava">Odjava</el-menu-item>
         </el-submenu>
     </el-menu>
     <el-main>
@@ -20,6 +29,15 @@
         <div v-if="indikator == 2">
             <Nalog/>
         </div>
+        <div v-if="indikator == 3">
+            <DobavljacPonude/>
+        </div>
+        <div v-if="indikator == 4">
+            <DobavljacLijekovi/>
+        </div>
+        <div v-if="indikator == 5">
+            <DobavljacNarudzbenice/>
+        </div>
         <div v-else>
         </div>
     </el-main>
@@ -28,6 +46,9 @@
 <script>
 import PotvrdaLozinke from './PotvrdaLozinke'
 import Nalog from './Nalog'
+import DobavljacPonude from './DobavljacPonude'
+import DobavljacLijekovi from './DobavljacLijekovi'
+import DobavljacNarudzbenice from './DobavljacNarudzbenice'
 
 export default {
     name: 'Dobavljac',
@@ -102,11 +123,20 @@ export default {
         },
         infoNaloga(){
             this.indikator = 2;
+        },
+        mojePonude(){
+            this.indikator = 3;
+        },
+        stanjeLijekova(){
+            this.indikator = 4;
+        },
+        narudzbenice(){
+            this.indikator = 5;
         }
 
     },
     components:{
-        PotvrdaLozinke, Nalog
+        PotvrdaLozinke, Nalog, DobavljacPonude, DobavljacLijekovi, DobavljacNarudzbenice
     },
     
   }

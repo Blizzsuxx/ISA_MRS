@@ -2,8 +2,11 @@ package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dobavljac.Dobavljac;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -38,7 +41,7 @@ public class LijekController {
         return lijekoviDTO;
     }
 
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','DOBAVLJAC')")
     @GetMapping(produces = "application/json", value = "/dobaviDTOLijek/{naziv}")
     public LijekDTO getLijekDTO(@PathVariable String naziv){
         Lijek l = this.lijekService.findByNaziv(naziv);
@@ -88,4 +91,11 @@ public class LijekController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @GetMapping(value="/dobaviStanjeLijekovaDobavljaca")
+    public List<LijekDTO> dobaviStanjeLijekovaDobavljaca(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Dobavljac d = (Dobavljac) auth.getPrincipal();
+        return this.lijekService.dobaviLijekoveDobavljaca(d);
+    }
 }

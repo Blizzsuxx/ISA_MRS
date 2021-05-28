@@ -13,6 +13,7 @@ const state = {
     administratoriSistema: [],
     administratoriApoteke: [],
     farmaceuti: [],
+    trenutniRadnik: null,
     stanje: initialState
 };
 
@@ -129,6 +130,17 @@ const actions = {
             if (error.response.status == 403 || error.response.status == 401){
                 alert('Zabranjen pristup!');
             }
+        })
+    },
+
+
+    trenutniRadnik(context){
+
+
+
+        return axios.get('http://localhost:8080/api/korisnici/trenutniRadnik', { headers: authHeader()})
+        .then(response => {
+            context.commit('postaviTrenutnogRadnika', response.data);
         })
     },
 
@@ -252,7 +264,8 @@ const mutations = {
     },
     registerFailure(state) {
         state.stanje.status.loggedIn = false;
-    }
+    },
+    postaviTrenutnogRadnika:(state, radnik)=>(state.trenutniRadnik = radnik)
 }
 
 export default{

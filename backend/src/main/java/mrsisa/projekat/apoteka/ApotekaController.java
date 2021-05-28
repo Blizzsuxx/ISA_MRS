@@ -136,8 +136,9 @@ public class ApotekaController {
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajApoteku")
     public void sacuvajApoteku(@RequestBody ApotekaDTO dummy) {
-        Apoteka a = new Apoteka(dummy);
-        apotekaService.save(a);
+        //Apoteka a = new Apoteka(dummy);
+        apotekaService.sacuvajApoteku(dummy);
+
     }
 
 

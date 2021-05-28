@@ -1,6 +1,7 @@
 package mrsisa.projekat.pacijent;
 
 import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
@@ -10,6 +11,7 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.tipPenala.Penal;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,12 +21,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "pacijenti")
+@Proxy(lazy = false)
 @PrimaryKeyJoinColumn(name = "korisnik")
 public class Pacijent extends Korisnik {
 	@Column(name="broj_poena")
 	private int brojPoena;
 
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JsonIgnore
 	private List<Erecept> eRecepti;
 
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

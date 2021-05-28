@@ -4,6 +4,7 @@ const state = {
     sviPacijenti :[],
     kategorija : [],
     pretplata : [],
+    trenutniPacijent: null,
 
 };
 
@@ -59,6 +60,10 @@ const actions = {
             }
             console.log(state.pretplata)
         })
+    },
+
+    pacijentZaPrelged(context, pacijent){
+        context.commit('postaviPacijentaZaPregled', pacijent);
     }
 
 }
@@ -67,6 +72,7 @@ const mutations = {
     postaviPacijente:(state, pacijenti) => (state.sviPacijenti = pacijenti),
     postaviKategoriju:(state, kat) => (state.kategorija = kat),
     postaviApoteke:(state, apo) => (state.pretplata = apo),
+    postaviPacijentaZaPregled:(state, pacijentNov) => (state.trenutniPacijent = pacijentNov)
 }
 
 export default{

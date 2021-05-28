@@ -14,6 +14,8 @@ public class StanjeLijekaDTO {
     private double cijena;
     private String datumIstekaCijene;
     private String imeApoteke;
+    private int zatrazen;
+    private String zatrazenDatum;
 
 
     public StanjeLijekaDTO(){
@@ -38,6 +40,9 @@ public class StanjeLijekaDTO {
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();
         this.datumIstekaCijene  = stanjeLijeka.getDatumIstekaCijene().format(format);
+        this.zatrazen = stanjeLijeka.getZatrazen();
+        if (stanjeLijeka.getZatrazenDatum() != null)
+        this.zatrazenDatum =  stanjeLijeka.getZatrazenDatum().format(format);
     }
 
     public String getImeApoteke() {
@@ -94,5 +99,21 @@ public class StanjeLijekaDTO {
 
     public void setDatumIstekaCijene(String datumIstekaCijene) {
         this.datumIstekaCijene = datumIstekaCijene;
+    }
+
+    public int getZatrazen() {
+        return zatrazen;
+    }
+
+    public void setZatrazen(int zatrazen) {
+        this.zatrazen = zatrazen;
+    }
+
+    public String getZatrazenDatum() {
+        return zatrazenDatum;
+    }
+
+    public void setZatrazenDatum(String zatrazenDatum) {
+        this.zatrazenDatum = zatrazenDatum;
     }
 }

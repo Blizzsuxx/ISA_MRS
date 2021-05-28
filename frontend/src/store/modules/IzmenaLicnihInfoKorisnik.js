@@ -3,7 +3,9 @@ import authHeader from './AuthHeader'
 
 const state = {    
     korisnik: null,
-   loading: true
+   loading: true,
+   radnik: null,
+
 };
 
 const getters = {//pazi ovo je nebitno
@@ -46,10 +48,30 @@ const actions = {
         })  
         
     },
+
+
+    izmeniPodatkeRadnik (context,input) {
+        
+        console.log(input);
+        var info = {"ime" : input.ime, "prezime" : input.prezime, "email" : input.email, "sifra" : input.sifra};
+
+        axios.post('http://localhost:8080/api/korisnici/izmeni', info, {headers : authHeader()})
+        .then(response => {
+            context.commit('postaviProfilRadnik',input)
+            console.log("da")
+        
+            return response
+        })  
+        
+    },
+
+
+
 }
 
 const mutations = {
     postaviProfil:(state, korisnik1) => (state.korisnik = korisnik1),
+    postaviProfilRadnik:(state, radnik1) => (state.radnik = radnik1),
     postaviLoading:(state, loading) => (state.loading = loading),
 }
 

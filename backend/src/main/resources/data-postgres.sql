@@ -13,7 +13,7 @@ popust_gold, od_gold, do_gold, broj_poena_pregleda, broj_poena_savetovanja, odob
 values (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
 
 --ADRESE
-insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',10.0,12.0);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.83,45.26);
 
 
 
@@ -143,6 +143,7 @@ insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, 
 values ('napomena1', 'erijus', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
 insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
 values ('napomena1', 'penicilin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 8, 1);
 
 
 
@@ -155,11 +156,13 @@ values ('2021-06-10 00:00:00','2021-06-30 00:00:00',null,1,11);
 --NARUDZBENICE
 
 insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-06-30 00:00:00',true,1,false,1);
-
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-05-30 00:00:00',true,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-04-30 00:00:00',true,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-07-30 00:00:00',true,1,false,1);
 
 
 --STANEJ LIJEKOVA APOTEKE
-insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,1,1,true,10,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene,zatrazen,zatrazen_datum) values (10,1,1,true,10,'2021-06-30 00:00:00',2,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,2,1,true,20,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,3,1,true,30,'2021-06-30 00:00:00');
 
@@ -168,14 +171,19 @@ insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_ist
 
 insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,false,1,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,false,1,'2021-06-30 00:00:00');
-
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,2.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,2.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,3.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,3.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,4.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,4,4.00,false,1,'2021-06-30 00:00:00');
 
 
 
 --PONUDE
 
 insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Prva',0,7,1);
-insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,7,1);
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,8,1);
 
 
 -- ZALBE

@@ -13,6 +13,8 @@ public class RezervacijaController {
 
     @PostMapping(value="/postaviRezervacije")
     public void postaviRezervacije( @RequestBody Map<String, Object> podaci){
+
+
         return;
     }
 

@@ -17,7 +17,7 @@ public class Ponuda {
     @Column(name="nazivPonude", nullable = false)
     private String nazivPonude;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Dobavljac dobavljac;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -34,6 +34,12 @@ public class Ponuda {
     public Ponuda(String nazivPonude, Dobavljac dobavljac) {
         this.nazivPonude = nazivPonude;
         this.dobavljac = dobavljac;
+    }
+
+    public Ponuda(PonudaDTO ponudaDTO){
+        this.nazivPonude = ponudaDTO.getNazivPonude();
+        this.status = ponudaDTO.getStatus();
+        this.cijenaPonude = ponudaDTO.getCijenaPonude();
     }
 
     public Long getId() {

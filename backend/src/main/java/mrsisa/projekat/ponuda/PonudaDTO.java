@@ -6,6 +6,8 @@ public class PonudaDTO {
     private String nazivPonude;
     private double cijenaPonude;
     private int status;
+    private Long idNarudzbenice;
+
     public PonudaDTO(){
 
     }
@@ -56,5 +58,13 @@ public class PonudaDTO {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Long getIdNarudzbenice() {
+        return idNarudzbenice;
+    }
+
+    public void setIdNarudzbenice(Long idNarudzbenice) {
+        this.idNarudzbenice = idNarudzbenice;
     }
 }
