@@ -37,7 +37,7 @@ public class PacijentController {
 
 	@GetMapping(path="/dobaviPacijenta")
 	@PreAuthorize("hasRole('PACIJENT')")
-	public Pacijent dobaviPacijenta(){
+	public PacijentDTO dobaviPacijenta(){
 		//System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 		return pacijentService.dobaviPacijenta();
 	}
@@ -93,13 +93,7 @@ public class PacijentController {
 		return pacijentService.dobaviERecepte();
 	}
 
-	@GetMapping(path="/promeniAlergije")
-	@PreAuthorize("hasRole('PACIJENT')")
-	public boolean promeniAlergije(@RequestBody List<Lijek> info){
-		if(info==null){
-			return false;
-		}else{return true;}
-	}
+
 
 	@GetMapping(path="/dobaviPenale")
 	@PreAuthorize("hasRole('PACIJENT')")
@@ -128,6 +122,18 @@ public class PacijentController {
 	@PreAuthorize("hasRole('PACIJENT')")
 	public void posaljiOcenu(@PathVariable String id){
 		pacijentService.posaljiOcenu(id);
+	}
+
+	@PostMapping(consumes = "application/json", path="/promeniAlergije")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public boolean promeniAlergije(@RequestBody List<Lijek> info){
+		System.out.println(info);
+		System.out.println(info.get(0)+"jasna");
+		if(info==null){
+			return false;
+		}else{
+			pacijentService.dodajAlergije(info);
+			return true;}
 	}
 
 	@PostMapping(consumes = "application/json", path = "/izbaciAlergije")

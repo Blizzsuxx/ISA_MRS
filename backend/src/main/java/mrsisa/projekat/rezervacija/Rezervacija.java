@@ -28,6 +28,9 @@ public class Rezervacija {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StanjeLijeka> rezervisaniLijekovi;
 
+    @Column(nullable = false)
+    private boolean izdato;
+
     public Rezervacija(long id, Pacijent pacijent, Apoteka apoteka, ArrayList<StanjeLijeka> rezervisaniLijekovi, LocalDateTime datumRezervacije) {
         this.id = id;
         this.pacijent = pacijent;
@@ -78,5 +81,13 @@ public class Rezervacija {
 
     public void setRezervisaniLijekovi(List<StanjeLijeka> rezervisaniLijekovi) {
         this.rezervisaniLijekovi = rezervisaniLijekovi;
+    }
+
+    public boolean isIzdato() {
+        return izdato;
+    }
+
+    public void setIzdato(boolean izdato) {
+        this.izdato = izdato;
     }
 }

@@ -18,8 +18,8 @@
       width="120">
     </el-table-column>
     <el-table-column
-      property="prepisaniLijekovi[0].apoteka.ime"
-      label="Naziv aopteke"
+      property="nazivApoteke"
+      label="Naziv apoteke"
       show-overflow-tooltip>
     </el-table-column>
      <el-table-column
@@ -56,7 +56,7 @@
       width="120">
     </el-table-column>
     <el-table-column
-      property="lijek.vrsta"
+      property="lijek.vrstaLijeka"
       label="Vrsta"
       show-overflow-tooltip>
     </el-table-column>
@@ -107,7 +107,7 @@ export default defineComponent ({
     methods: {
        handleEdit: function(index, row){
         console.log(row)
-        this.modalniInfo.lekovi = this.podaci[index].prepisaniLijekovi
+        this.modalniInfo.lekovi = this.podaci[index].prepisaniLijekovi2
         //TODO pazi na sortirtanje, proveri
         console.log()
       },

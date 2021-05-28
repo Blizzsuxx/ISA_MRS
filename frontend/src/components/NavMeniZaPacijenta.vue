@@ -20,7 +20,7 @@
     <template #title>Lekovi</template>
     <el-menu-item index="3-1"><router-link to="/ap/recepti">eRecepti</router-link></el-menu-item>
     <el-menu-item index="3-2"><router-link to="/ap/rezervacije">Rezervisani lekovi</router-link></el-menu-item>
-    <el-menu-item index="3-3"><router-link to="/ap/istorijaLekova">Izdati lekovi</router-link></el-menu-item>
+    <el-menu-item index="3-3"><router-link to="/ap/istorijaLekova">Izdati lekovi preko erecepta</router-link></el-menu-item>
   </el-submenu>
 
   <el-menu-item index="4"><router-link to="/ap/penali">Uvid u penale</router-link></el-menu-item>

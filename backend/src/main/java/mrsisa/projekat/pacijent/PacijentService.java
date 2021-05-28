@@ -8,10 +8,12 @@ import mrsisa.projekat.dermatolog.DermatologDTO;
 import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
+import mrsisa.projekat.erecept.EreceptRepository;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.pacijent.Pacijent;
@@ -26,6 +28,7 @@ import mrsisa.projekat.uloga.Uloga;
 import mrsisa.projekat.uloga.UlogaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
@@ -45,13 +48,18 @@ public class PacijentService {
 	private final PosetaRepository posetaRepository;
 	private final DermatologRepository dermatologRepository;
 	private final FarmaceutRepository farmaceutRepository;
+	private final LijekRepository lekRepository;
+	private final EreceptRepository ereceptRepository;
 	@Autowired
-	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository, PosetaRepository posete,FarmaceutRepository f, DermatologRepository d){
+	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository, PosetaRepository posete,
+						   FarmaceutRepository f, DermatologRepository d, LijekRepository lek, EreceptRepository ereceptR){
 		this.pacijentRepository = pacijentRepository;
 		this.ulogaRepository = ulogaRepository;
 		this.posetaRepository=posete;
 		this.dermatologRepository=d;
 		this.farmaceutRepository=f;
+		this.lekRepository=lek;
+		this.ereceptRepository=ereceptR;
 	}
 
 	public Pacijent findByUsername(String username){
@@ -70,53 +78,34 @@ public class PacijentService {
     public Pacijent findOne(String id){return pacijentRepository.findOneByUsername(id);}
 	//TODO ovde dodje kod svih metoda jos string sa kljucem nekim
 
-	public Pacijent dobaviPacijenta(){
-		//return findOne("zarko");
-		Pacijent p=new Pacijent("zarko", "pera", "pera","pera", LocalDateTime.now());
-		List<Lijek> lek=new ArrayList<>();
-		Adresa a=new Adresa("mesto", "ptt", "ulica",  "45", 50,50);
-		p.setAdresa(a);
-		p.setEmail("pera@gmail.com");
-		lek.add(new Lijek(
-				1L,
-				"Paracetamol",
-				"Protiv bolova",
-				"tableta",
-				"ljiek",
-				"Biofarm",
-				"Lijek"
-		));
-		lek.add(new Lijek(
-				2L,
-				"Brufen",
-				"Protiv bolova",
-				"tableta",
-				"lek",
-				"Biofarm",
-				"Lek"
-		));
-		lek.add(new Lijek(
-				3L,
-				"Buscopan",
-				"Protiv bolova",
-				"tableta",
-				"lek",
-				"Biofarm",
-				"Lek"
-		));
-		p.setAlergije(lek);
-		//System.out.println(findOne("pera1").getFirstName());
-		return p;//findOne("pera1");*/
+	@Transactional
+	public PacijentDTO dobaviPacijenta(){
+		Pacijent p=pacijentRepository.findOneById(9);
+
+		PacijentDTO dto=new PacijentDTO(p);
+		return dto;
+
 	}
 
 	public boolean promeni(List<String> podaci) { //pazi, uvek salji sve, i to istim redom
-
+		//[Zarko, Kida pasa, Novi Sad, Jevrejska, 2a, zarkoKisa@gmail.com, datum] fali datum rodjenja i pol TODO i ako se promeni ulica mora i geo sirina ANDRIJA
+		Pacijent p=pacijentRepository.findByEmail(podaci.get(5));
+		p.setFirstName(podaci.get(0));
+		p.setLastName(podaci.get(1));
+		p.getAdresa().setMesto(podaci.get(2));
+		p.getAdresa().setUlica(podaci.get(3));
+		p.getAdresa().setBroj(podaci.get(4));
+		pacijentRepository.save(p);
 		return true;
 	}
 	@Transactional
 	public List<RezervacijaDTO> dobaviRezervacije() {
 		//TODO: dodaj id preko kog treba da se dobavi korisnik
-		Pacijent p=dobaviPacijenta();
+		List<RezervacijaDTO> dto=new ArrayList<>();
+		return dto;
+
+
+		/*Pacijent p=new Pacijent();//dobaviPacijenta();
 		ArrayList<Rezervacija> rez=new ArrayList<>();
 		Apoteka a=new Apoteka(1L, "Apoteka 1",null);
 		ArrayList<StanjeLijeka> rezLek=new ArrayList<>();
@@ -172,10 +161,19 @@ public class PacijentService {
 		//return findAll();
 		//
 	}
-
+	@Transactional
     public List<EreceptDTO> dobaviERecepteIzdate() {
+		List<Erecept> sviRecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi 9
+		List<EreceptDTO> trazeniRecepti=new ArrayList<>();
+		for(Erecept e : sviRecepti){
+			if(e.isIzdato()){
+				trazeniRecepti.add(new EreceptDTO(e,1));
+			}
 
-		Pacijent p=dobaviPacijenta();
+		}
+		return trazeniRecepti;
+
+		/*Pacijent p=new Pacijent();//dobaviPacijenta();
 		StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
 		StanjeLijeka s2=new StanjeLijeka(p.getAlergije().get(1),2,false);
 		List<StanjeLijeka> sl=new ArrayList<>();
@@ -202,12 +200,12 @@ public class PacijentService {
 		dto.add(new EreceptDTO(rec));
 		dto.add(new EreceptDTO(rec1));
 		return dto;
-		//return findOne("pera1").getIzdatiPrekoERecepta();
+		//return findOne("pera1").getIzdatiPrekoERecepta();*/
 
     }
-
+	@Transactional
 	public List<EreceptDTO> dobaviERecepte() {
-		Pacijent p=dobaviPacijenta();
+		Pacijent p=new Pacijent();//dobaviPacijenta();
 		StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
 		StanjeLijeka s2=new StanjeLijeka(p.getAlergije().get(1),2,false);
 		StanjeLijeka s3=new StanjeLijeka(p.getAlergije().get(2),7,false);
@@ -240,18 +238,16 @@ public class PacijentService {
 		//return findOne("pera1").geteRecepti();
 
 	}
-
+	@Transactional
 	public void izbaciAlergije(List<Lijek> dummy) {
-		//doabviti pacijenta, i izbaciti alergije, ove iz liste
-       //Pacijent p=findOne(id);
-		 Pacijent p=new Pacijent();
-		 p=dobaviPacijenta();
+
+		 Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9 nemoj molim te
 		 for(Lijek l : dummy){
 		 	for(Lijek a : p.getAlergije()){
 		 		if(a.getId().equals(l.getId())){p.getAlergije().remove(a); break;}
 			}
 		 }
-		 //save(p);
+		 this.pacijentRepository.save(p);
 	}
 	//TODO, mozda prilikom svakog logovanja korisnika da se prodje kroz sve njegove rezervacije i da se proveri da li su istekle??
 	public void izbaciRezervaciju(RezervacijaDTO stanje) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
@@ -267,7 +263,7 @@ public class PacijentService {
 	}
 
 	public List<Penal> dobaviPenale() {
-		Pacijent p=dobaviPacijenta();
+		Pacijent p=new Pacijent();//dobaviPacijenta();
 		List<Penal> penali=new ArrayList<>();
 		DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
 		String dan=LocalDateTime.now().format(df);
@@ -355,11 +351,12 @@ public class PacijentService {
 			Dermatolog d=this.dermatologRepository.findByIdD(p.getRadnik().getId());
 			if(f!=null){
 			for(Ocena o :((Farmaceut)f).getOcene()){
+                if(o.getPacijent()!=null){
 				if(o.getPacijent().getId()==9){
 			apoteka.add(new OcenaDTO(o,p.getApoteka()));
 			break;
 				}
-			}
+			}}
 			if(f.getOcene().size()==0){
 				OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
 				apoteka.add(dermOcena);
@@ -368,10 +365,11 @@ public class PacijentService {
 
 			if(d!=null){
 				for(Ocena o :(d).getOcene()){
+				    if(o.getPacijent()!=null){
 					if(o.getPacijent().getId()==9){
 						apoteka.add(new OcenaDTO(o,p.getApoteka()));
 						break;
-					}
+					}}
 				}
 				if(d.getOcene().size()==0){
 					OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
@@ -403,5 +401,23 @@ public class PacijentService {
 			System.out.println(o.getOcena()+" jana");
 			return;
 		}
+	}
+	@Transactional
+	public void dodajAlergije(List<Lijek> info) {
+		Pacijent p=this.pacijentRepository.findOneById(9); //TODO promeni 9
+		List<Lijek> lekovi=lekRepository.findAll();
+		List<Lijek> alergije=new ArrayList<>();
+		for(Lijek l : lekovi){
+			for(Lijek i :info) {
+				if (l.getId() == i.getId()) {
+					alergije.add(l);
+					break;
+				}
+
+			}
+		}
+		p.setAlergije(alergije);
+		System.out.println(p.getAlergije()+"boka");
+		this.pacijentRepository.save(p);
 	}
 }

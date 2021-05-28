@@ -1,6 +1,7 @@
 package mrsisa.projekat.dermatolog;
 
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
@@ -92,6 +93,7 @@ public class DermatologConfig {
     private static ArrayList<Poseta> generisiPosete(int i){
         ArrayList<Poseta> list = new ArrayList<Poseta>();
         Poseta p = new Poseta();
+        Pacijent pa=new Pacijent();pa.setId(9);p.setPacijent(pa);
         p.setPocetak(LocalDateTime.now());
         p.setKraj(LocalDateTime.now().plusMinutes(30));
         list.add(p);

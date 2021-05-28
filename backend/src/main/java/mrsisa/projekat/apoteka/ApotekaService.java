@@ -7,6 +7,9 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
+import mrsisa.projekat.lijek.LijekRepository;
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +26,14 @@ import java.util.Optional;
 public class ApotekaService {
     private final ApotekaRepository apotekaRepository;
     private final AdresaRepository adresaRepository;
+    private final LijekRepository lekRepository;
+    private final PacijentRepository pacijentRepository;
     @Autowired
-    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository){
+    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p){
         this.apotekaRepository = apotekaRepository;
         this.adresaRepository = adresaRepository;
+        this.lekRepository=l;
+        this.pacijentRepository=p;
     }
 
     public Apoteka save(Apoteka a){
@@ -67,14 +74,19 @@ public class ApotekaService {
         return dto;
     }
     @Transactional
-    public List<LijekDTO> dobaviLijekoveAlergija(Long id) {
-        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
-        List<StanjeLijeka> stanja = apoteka.getLijekovi();
-        ArrayList<LijekDTO> bezAlergija = new ArrayList<>();
-        if (stanja.isEmpty() == false) {
-            for (StanjeLijeka st : stanja) {
-                bezAlergija.add(new LijekDTO(st.getLijek()));
-            }
+    public List<LijekDTO> dobaviLijekoveAlergija(Long id) { //TODO dobiti id osobe za oduzimanje lekova
+        List<Lijek> sviLekovi= this.lekRepository.findAll();
+        Pacijent pacijent= this.pacijentRepository.findOneById(9);
+        List<LijekDTO> bezAlergija =new ArrayList<>();int a=0;
+        for(Lijek l : sviLekovi) {
+         a=0;
+            for(Lijek lp : pacijent.getAlergije()){
+                if(lp.getId()==l.getId()){
+                    a=1;
+                    break;
+                }
+            }if(a==0){
+            bezAlergija.add(new LijekDTO(l));}
         }
         return bezAlergija;
     }

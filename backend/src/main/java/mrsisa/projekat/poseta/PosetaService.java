@@ -4,8 +4,10 @@ package mrsisa.projekat.poseta;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
@@ -13,6 +15,7 @@ import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +24,14 @@ import java.util.Map;
 @Service
 public class PosetaService {
     private final PosetaRepository posetaRepository;
-
+    private final FarmaceutRepository farmaceutRepository;
+    private final DermatologRepository dermatologRepository;
     @Autowired
-    public PosetaService(PosetaRepository apotekaRepository){
-        this.posetaRepository = apotekaRepository;
+    public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm)
+    {
+        this.posetaRepository = posRepository;
+        this.farmaceutRepository=farm;
+        this.dermatologRepository=derm;
     }
 
     public List<PosetaDTO> dobaviPosete(Long id) {
@@ -142,8 +149,25 @@ public class PosetaService {
         ArrayList<PosetaDTO> dto=new ArrayList<>();dto.add(new PosetaDTO(poseta1));dto.add(new PosetaDTO(poseta2)); dto.add(new PosetaDTO(poseta3));
         return dto;
     }
-
+    @Transactional
     public List<PosetaDTO> dobaviIstorijuD() {
+        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(9); //TODO 9
+        List<PosetaDTO> zaSlanje=new ArrayList<>();
+        List<Dermatolog> farm=this.dermatologRepository.findAll();
+        for(Poseta p : istorija){
+            if(p.getKraj().isBefore(LocalDateTime.now())){
+                for(Dermatolog f :farm){
+                    if(f.getId()==p.getRadnik().getId()){
+
+                        if(p.getPacijent()!=null){
+
+                        zaSlanje.add(new PosetaDTO(p));}
+                    }
+                }
+            }
+        }
+        return zaSlanje;
+        /*
         Poseta poseta1=new Poseta();
         Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
         poseta1.setApoteka(apoteka1);
@@ -183,10 +207,32 @@ public class PosetaService {
         dto.get(0).setPrepisaniLekoviLista(erecepti);
         dto.get(1).setPrepisaniLekovi(new ArrayList<>());
         dto.get(2).setPrepisaniLekoviLista(erecepti);
-        return dto;
+        return dto;*/
     }
-
+    @Transactional
     public List<PosetaDTO> dobaviIstorijuF() {
+
+        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(9); //TODO 9
+
+        List<PosetaDTO> zaSlanje=new ArrayList<>();
+        List<Farmaceut> farm=this.farmaceutRepository.findAll();
+        for(Poseta p : istorija){
+            if(p.getKraj().isBefore(LocalDateTime.now())){
+                for(Farmaceut f :farm){
+                    if(f.getId()==p.getRadnik().getId()){
+                        if(p.getPacijent()!=null){
+                            System.out.println("---------------------------------------------------------");
+                            System.out.println(p.getErecepti().size());
+                            if(p.getErecepti().size()>0){
+                            System.out.println(p.getErecepti().get(0).getPrepisaniLijekovi().get(0));}
+                            System.out.println("---------------------------------------------------------");
+                        zaSlanje.add(new PosetaDTO(p));}
+                    }
+                }
+            }
+        }
+        return zaSlanje;
+        /*
         Poseta poseta1=new Poseta();
         Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
         poseta1.setApoteka(apoteka1);
@@ -226,7 +272,7 @@ public class PosetaService {
         dto.get(0).setPrepisaniLekoviLista(erecepti);
         dto.get(1).setPrepisaniLekovi(new ArrayList<>());
         dto.get(2).setPrepisaniLekoviLista(erecepti);
-        return dto;
+        return dto;*/
     }
 
     public List<Erecept> napraviErecepte(Pacijent p){//TODO obrisi ovu fju kad sredis bazu

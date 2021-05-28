@@ -29,6 +29,17 @@ public class Erecept {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Poseta poseta;
 
+    @Column(name="izdato",nullable = false)
+    private boolean izdato;
+
+    public boolean isIzdato() {
+        return izdato;
+    }
+
+    public void setIzdato(boolean izdato) {
+        this.izdato = izdato;
+    }
+
     public long getId() {
         return id;
     }

@@ -59,11 +59,25 @@ const actions = {
                 return true;
             }
         })
+        
         let lekoviAlergija = state.lekoviAlergija.concat(lekovi)
         commit('postaviAlergije',lekoviAlergija)
         commit('postaviLekove',lekoviBezAlergija)
         //posalji()
         
+        axios.post('http://localhost:8080/api/v1/profil/promeniAlergije',lekoviAlergija,{ headers: authHeader()})
+        .then(response => {
+            let tf = response.data
+            if(tf){
+            
+            console.log("da")
+        }
+            else{
+                //todo neki ispis
+                console.log("Nije dobro")
+            }
+            return response
+        })  
     },
     posalji(){
         let arr = new Array();

@@ -28,7 +28,7 @@ const actions = {
         arr.push(input.mesto)
         arr.push(input.ulica)
         arr.push(input.broj)
-
+        arr.push(input.email)
         arr.push(input.date1)
         
         axios.put('http://localhost:8080/api/v1/profil/izmeni',arr,{ headers: authHeader()})
