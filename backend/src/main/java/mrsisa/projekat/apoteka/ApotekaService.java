@@ -176,4 +176,16 @@ public class ApotekaService {
 
 
     }
+    @Transactional
+    public List<StanjeLijekaDTO> dobaviStanjaLijekovaAdmin(Long id) {
+        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
+        if(apoteka== null)
+            return new ArrayList<StanjeLijekaDTO>();
+        List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        for (StanjeLijeka sl:apoteka.getLijekovi())
+        {
+            povratna_stanja.add(new StanjeLijekaDTO(sl));
+        }
+        return povratna_stanja;
+    }
 }

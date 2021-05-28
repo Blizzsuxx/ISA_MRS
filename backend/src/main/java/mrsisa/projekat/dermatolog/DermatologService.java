@@ -3,6 +3,12 @@ package mrsisa.projekat.dermatolog;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmorRepository;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +22,17 @@ import java.util.List;
 public class DermatologService {
     private final DermatologRepository dermatologRepository;
     private final ApotekaRepository apotekeRepository;
+    private final PosetaRepository posetaRepository;
+    private final SlobodanTerminRepository slobodanTerminRepository;
+    private final GodisnjiOdmorRepository godisnjiOdmorRepository;
     @Autowired
-    public DermatologService(DermatologRepository dermatologRepository,ApotekaRepository apotekaRepository){
+    public DermatologService(DermatologRepository dermatologRepository, ApotekaRepository apotekaRepository, PosetaRepository posetaRepository,
+                             SlobodanTerminRepository slobodanTerminRepository, GodisnjiOdmorRepository godisnjiOdmorRepository){
         this.dermatologRepository = dermatologRepository;
         this.apotekeRepository = apotekaRepository;
+        this.posetaRepository = posetaRepository;
+        this.slobodanTerminRepository = slobodanTerminRepository;
+        this.godisnjiOdmorRepository =  godisnjiOdmorRepository;
     }
     @Transactional
     public List<DermatologDTO> dobaviDermatologe(){
@@ -61,7 +74,26 @@ public class DermatologService {
     }
     @Transactional
     public void otpustiDermatologa(Integer id,Long id_apoteke) {
+        //izbrisati i povez
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
+        for (Poseta poseta: this.posetaRepository.findAll()){
+            if(poseta.getApoteka().getId().equals(id_apoteke) && poseta.getRadnik().getId().equals(id)
+                ){
+                poseta.setOtkazano(true);
+                posetaRepository.save(poseta);
+            }
+        }
+        for (SlobodanTermin slobodanTermin : this.slobodanTerminRepository.findAll()){
+            if(slobodanTermin.getApoteka().getId().equals(id_apoteke) && slobodanTermin.getRadnik().getId().equals(id)){
+                this.slobodanTerminRepository.delete(slobodanTermin);
+            }
+        }
+
+        for (GodisnjiOdmor godisnjiOdmor : this.godisnjiOdmorRepository.findAll()){
+            if(godisnjiOdmor.getApoteka().getId().equals(id_apoteke) && godisnjiOdmor.getRadnik().getId().equals(id)){
+                this.godisnjiOdmorRepository.delete(godisnjiOdmor);
+            }
+        }
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
             if(dermatolog.getId().equals(id)){
                 apoteka.getDermatolozi().remove(dermatolog);

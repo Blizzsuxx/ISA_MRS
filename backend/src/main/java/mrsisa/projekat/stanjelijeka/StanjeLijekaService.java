@@ -5,6 +5,7 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
+import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,15 @@ import java.util.concurrent.atomic.AtomicReference;
 @Service
 public class StanjeLijekaService {
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final RezervacijaRepository rezervacijeRepository;
 
     @Autowired
-    public StanjeLijekaService(StanjeLijekaRepository stanjeLijekaRepository){
+    public StanjeLijekaService(StanjeLijekaRepository stanjeLijekaRepository, RezervacijaRepository rezervacijaRepository){
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.rezervacijeRepository = rezervacijaRepository;
     }
 
-    public void promjeniCijenu(Long id,double cijena,String datum){
+    public boolean promjeniCijenu(Long id,double cijena,String datum,Long apoteka_id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String[] dijelovi = datum.split("T");
         String noviDatum = (dijelovi[0]+" "+dijelovi[1]).split("\\.")[0];
@@ -33,51 +36,33 @@ public class StanjeLijekaService {
         LocalDateTime datum1 = LocalDateTime.parse(noviDatum,format);
         StanjeLijeka stanjeLijeka = stanjeLijekaRepository.findById(id).orElse(null);
         if(stanjeLijeka!=null){
+            if(stanjeLijeka.getApoteka().getId().equals(apoteka_id)){
             stanjeLijeka.setCijena(cijena);
             stanjeLijeka.setDatumIstekaCijene(datum1);
             stanjeLijekaRepository.save(stanjeLijeka);
-        }
-
-    }
-    public List<Long> promjenaStatusaProdaje(List<Long> identifikatori){
-        List<Long> zabranjeniIdentifikatori = new ArrayList<Long>();
-        List<StanjeLijeka> stanjeLijekova = stanjeLijekaRepository.findAllById(identifikatori);
-        Lijek privremeniLijek =  null;
-        Apoteka privremenaApoteka;
-        boolean rezervisan;
-        for (StanjeLijeka stanje: stanjeLijekova)
-        {
-            if(!stanje.isProdaja()) {
-                stanje.setProdaja(!stanje.isProdaja());
-                this.stanjeLijekaRepository.save(stanje);
+            return false;
             }
-            else {
-                rezervisan = false;
-                privremeniLijek = stanje.getLijek();
-                privremenaApoteka = stanje.getApoteka();
-                for(Rezervacija rez : privremenaApoteka.getRezervacije()){
-                    for(StanjeLijeka sl : rez.getRezervisaniLijekovi()){
-                        if(sl.getLijek().getId().equals(privremeniLijek.getId())){
-                            rezervisan = true;
+
+        }
+        return true;
+    }
+
+
+    public int izbrisiLijekove(Long identifikatori,Long apoteka_id) {
+        StanjeLijeka zaBrisanje  =  this.stanjeLijekaRepository.findById(identifikatori).orElse(null);
+        if(zaBrisanje!=null){
+            for(Rezervacija rezervacija: this.rezervacijeRepository.findAll()){
+                if(rezervacija.getApoteka().getId().equals(apoteka_id)){
+                    for(StanjeLijeka stanjeLijeka: rezervacija.getRezervisaniLijekovi()){
+                        if(stanjeLijeka.getId().equals(identifikatori)){
+                            return 1;
                         }
                     }
                 }
-                if(rezervisan){
-                    zabranjeniIdentifikatori.add(stanje.getId());
-                }
-                else{
-                    stanje.setProdaja(!stanje.isProdaja());
-                    this.stanjeLijekaRepository.save(stanje);
-                }
             }
-
         }
-    return zabranjeniIdentifikatori;
-    }
-
-    public void izbrisiLijekove(List<Long> identifikatori) {
-        List<StanjeLijeka> zaBrisanje  =  this.stanjeLijekaRepository.findAllById(identifikatori);
-        this.stanjeLijekaRepository.deleteAll(zaBrisanje);
+        this.stanjeLijekaRepository.delete(zaBrisanje);
+        return 0;
     }
 
     public List<StanjeLijeka> dobaviStanjaLijekova(Long id) {

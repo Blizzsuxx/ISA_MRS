@@ -59,6 +59,15 @@ const actions = {
         
         
     },
+    dobaviLijekoveAdmin(context){
+        return axios.get('http://localhost:8080/api/v1/apoteka/lijekovi/admin',{ headers: authHeader()})
+        .then(response => {
+            context.commit('postaviSveLijekove',response.data)
+            return response
+            
+        
+        })
+    },
     dobaviLijekoveKorisnik(context,id){
         return axios.get(`http://localhost:8080/api/v1/apoteka/${id}/lijekovi/profil`,{ headers: authHeader()})
         .then(response => {
@@ -190,7 +199,7 @@ const actions = {
     promjeniCijenu (contex,lijek){
        
 
-        return axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.datumIstekaCijene}})
+        return axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.value}})
         .then(() => {
 
             return contex;
@@ -198,69 +207,18 @@ const actions = {
         })
         
     },
-    izbrisiLijekove ({commit,state},lijekovi){
-        let arr = new Array();
-        lijekovi.forEach(element => {
-            arr.push(element.id)
-        });
-        let lijekoviNovi = state.sviLijekovi.filter(element=>{
-            if(lijekovi.filter(elem=>elem.id===element.id).length!=0){
-                return false;
-            }
-            return true;
-        });
-        
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove',arr,{ headers: authHeader()})
+    izbrisiLijekove (context,id){
+        return axios.delete(`http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove/${id.id}`,{ headers: authHeader()})
         .then(response => {
-            commit('postaviSveLijekove',lijekoviNovi)
+            console.log(context)
             return response
 
         })
+        
         
     },
    
-    promjeniStanje({commit,state},lijekovi){
-        let arr = new Array();
-        lijekovi.forEach(element => {
-            arr.push(element.id)
-        });
-        
-        axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjenaStatusaProdaje',arr,{ headers: authHeader()})
-        .then(response => {
-            let arry = response.data
-            commit('postaviZabranjene',response.data)
-            let odobrenilijekovi = lijekovi.filter(function(el){
-                if(arry.filter(elem=>elem===el.id).length!=0){
-                    
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            })
-            let sviLijekoviStari = state.sviLijekovi.filter(function(el){
-                
-                if(odobrenilijekovi.filter(elem=>elem.id===el.id).length!=0){
-                    
-                    return false;
-                }
-                else{
-                    return true;
-                }
-            })
-            
-            let sviLijekoviNovi = odobrenilijekovi.map(function(elem){
-                    elem.prodaja = ! elem.prodaja
-                    return elem
-            })
-           
-            let sviLijekovi = sviLijekoviNovi.concat(sviLijekoviStari)
-            
-            commit('postaviSveLijekove',sviLijekovi)
-            return response
-        })
-
-    }
+    
 
 }
 

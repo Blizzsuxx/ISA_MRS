@@ -110,7 +110,7 @@ import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
-  name: "Selecter",
+  name: "ProfilApoteke",
   props: { options: String },
   data() {
     return {
