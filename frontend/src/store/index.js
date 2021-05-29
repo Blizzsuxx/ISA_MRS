@@ -19,6 +19,7 @@ import LoyaltyPrograma from './modules/LoyaltyPrograma'
 import Narudzbenice from './modules/Narudzbenice'
 import Ponude from './modules/Ponude'
 import Ocene from './modules/Ocene'
+import QRKod from './modules/QRKod'
 
 export default createStore({
     state () {
@@ -47,6 +48,7 @@ export default createStore({
         LoyaltyPrograma,
         Narudzbenice,
         Ponude,
-        Ocene
+        Ocene,
+        QRKod
       }
   })

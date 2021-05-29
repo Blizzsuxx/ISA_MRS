@@ -51,7 +51,8 @@
             <i></i>
             <span>Dodatne Opcije</span>
             </template>
-            <el-menu-item index="6-1" @click="odjava">Odjava</el-menu-item>
+            <el-menu-item index="6-1" @click="ucitajQr">Ucitaj</el-menu-item>
+            <el-menu-item index="6-2" @click="odjava">Odjava</el-menu-item>
         </el-submenu>
     </el-menu>
     <el-main>
@@ -79,6 +80,9 @@
         <div v-else-if="indikator == 9">
             <ZalbePregled/>
         </div>
+        <div v-else-if="indikator == 10">
+            <QRKod/>
+        </div>
         <div v-else>
         </div>
     </el-main>
@@ -93,6 +97,7 @@ import FormaKorisnika from './FormaKorisnika'
 import FormaLijekova from './FormaLijekova'
 import PotvrdaLozinke from './PotvrdaLozinke'
 import ZalbePregled from './ZalbePregled'
+import QRKod from './QRKod'
 
 export default {
     name: 'AdministratorSistema',
@@ -221,12 +226,15 @@ export default {
         },
         istorijaZalbi(){
             this.indikator = 9;
+        },
+        ucitajQr(){
+            this.indikator = 10;
         }
 
     },
     components:{
         DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova,
-        PotvrdaLozinke, ZalbePregled
+        PotvrdaLozinke, ZalbePregled, QRKod
     },
     
   }
