@@ -20,6 +20,7 @@ insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21
 --APOTEKE
 insert into apoteka (ime,adresa_id) values ('Prva apoteka',1);
 insert into apoteka (ime,adresa_id) values ('Druga apoteka',1);
+insert into apoteka (ime,adresa_id) values ('Treca apoteka',1);
 
 -- ADMINISTRATORI APOTEKA
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
@@ -166,6 +167,9 @@ insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_ist
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,2,1,true,20,'2021-06-30 00:00:00');
 insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,3,1,true,30,'2021-06-30 00:00:00');
 
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene,zatrazen,zatrazen_datum) values (10,1,2,true,10,'2021-06-30 00:00:00',2,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,2,2,true,20,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_isteka_cijene) values (10,3,2,true,30,'2021-06-30 00:00:00');
 
 --STANJE LIJEKOVA NARUDZBENICE
 
