@@ -3,21 +3,62 @@ package mrsisa.projekat.qrkod;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.erecept.EreceptRepository;
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class QRKodService {
     private final ApotekaRepository apotekaRepository;
+    private final EreceptRepository ereceptRepository;
+    private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final PacijentRepository pacijentRepository;
 
     @Autowired
-    public QRKodService(ApotekaRepository apotekaRepository){
+    public QRKodService(ApotekaRepository apotekaRepository,
+                        EreceptRepository ereceptRepository,
+                        StanjeLijekaRepository stanjeLijekaRepository,
+                        PacijentRepository pacijentRepository){
         this.apotekaRepository = apotekaRepository;
+        this.ereceptRepository = ereceptRepository;
+        this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.pacijentRepository = pacijentRepository;
+    }
+
+    @Transactional
+    public boolean kreirajErecept(ApotekaDTO apotekaDTO){
+        String[] lista = apotekaDTO.getRezultat().split(",");
+        Apoteka a = this.apotekaRepository.findOneById(apotekaDTO.getId());
+        Pacijent p = this.pacijentRepository.findByUsername("zarko");
+        Erecept e = new Erecept();
+        e.setPacijent(p);
+        e.setSifra("sifra");
+        e.setDatumIzdavanja(LocalDateTime.now());
+
+        for (String stringic: lista){
+            String[] par = stringic.split(":");
+            for (StanjeLijeka sl: a.getLijekovi()){
+                if (sl.getLijek().getId()==Long.parseLong(par[0])){
+                    sl.setKolicina(sl.getKolicina() - Integer.parseInt(par[1]));
+                    sl.seteRecept(e);
+                    this.stanjeLijekaRepository.save(sl);
+                    break;
+                }
+            }
+        }
+
+        this.ereceptRepository.save(e);
+        return true;
     }
 
     @Transactional
@@ -38,7 +79,7 @@ public class QRKodService {
                 }
             }
             if (brojac == nizId.length)
-                apotekeDTO.add(new ApotekaDTO(apoteka, ukupnaCijena));
+                apotekeDTO.add(new ApotekaDTO(apoteka, ukupnaCijena, kod));
         }
 
         return apotekeDTO;

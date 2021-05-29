@@ -111,6 +111,14 @@ export default {
         
     },
     methods: {
+        open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno kreiran erecept.',
+          type: 'success'
+        })}
+        ,
+
         handleRemove(file, fileList) {
             console.log(file, fileList)
         },
@@ -138,7 +146,13 @@ export default {
             this.prviProzor = true;
         },
         rezervisi(index, row) {
-            console.log(index, row);
+            this.sadrzajApoteke = row;
+            this.$store.dispatch('QRKod/rezervisiERecept', this.sadrzajApoteke)
+            .then(response=>{
+                if (response.data){
+                    this.open1();
+                }
+            });
         }
     },
     components:{

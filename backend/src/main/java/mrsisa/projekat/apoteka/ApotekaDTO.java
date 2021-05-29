@@ -18,6 +18,7 @@ public class ApotekaDTO {
     private double sirina;
     private List<StanjeLijekaDTO> stanja;
     private double ukupnaCijena; // potrebno za Erecept
+    private String rezultat; // potrebno za Erecept
 
     public ApotekaDTO() {
 
@@ -28,7 +29,7 @@ public class ApotekaDTO {
         this.id = id;
     }
 
-    public ApotekaDTO(Apoteka apoteka, double ukupnaCijena){
+    public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat){
         this.id = apoteka.getId();
         this.ime = apoteka.getIme();
         this.mjesto = apoteka.getAdresa().getMesto();
@@ -39,6 +40,7 @@ public class ApotekaDTO {
         this.ukupnaCijena = ukupnaCijena;
         for (StanjeLijeka sl : apoteka.getLijekovi())
             this.stanja.add(new StanjeLijekaDTO(sl));
+        this.rezultat = rezultat;
     }
     public ApotekaDTO(Apoteka apoteka){
         this.id = apoteka.getId();
@@ -145,5 +147,13 @@ public class ApotekaDTO {
 
     public void setStanja(List<StanjeLijekaDTO> stanja) {
         this.stanja = stanja;
+    }
+
+    public String getRezultat() {
+        return rezultat;
+    }
+
+    public void setRezultat(String rezultat) {
+        this.rezultat = rezultat;
     }
 }

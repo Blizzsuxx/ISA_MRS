@@ -27,9 +27,15 @@ public class QRKodController {
         this.qrKodService = qrKodService;
     }
 
+    @PostMapping(value="/kreirajErecept")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    public boolean formirajErecept(@RequestBody ApotekaDTO apotekaDTO){
+        return this.qrKodService.kreirajErecept(apotekaDTO);
+    }
+
     @PostMapping(value="/posaljiKod")
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
-    public List<ApotekaDTO> proveriAlergije(@RequestBody String tekst){
+    public List<ApotekaDTO> dobaviApotekeErecepta(@RequestBody String tekst){
         String kod = tekst.substring(0, tekst.length()-1);
         String putanjaKoda = System.getProperty("user.dir") + "\\src\\main\\resources\\qrkod\\" + kod;
         System.out.println(putanjaKoda);
@@ -45,7 +51,6 @@ public class QRKodController {
         } catch(Exception e) {
 
         }
-
         return this.qrKodService.vratiApotekeNaOsnovuKoda(rezultat);
     }
 }
