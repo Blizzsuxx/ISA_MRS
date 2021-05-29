@@ -46,6 +46,11 @@
           <div id="unos-box" class="col-md-12">
             <el-form ref="lijek" :model="lijek" :rules="rules" label-width="140px">
               <h3 class="text-center text-info">{{naslovForme}}</h3>
+              <el-form-item label="Sifra:" prop="sifra">
+                <div class="grupa">
+                <el-input v-model="lijek.sifra"></el-input>
+                </div>
+              </el-form-item>
               <el-form-item label="Naziv:" prop="naziv">
                 <div class="grupa">
                 <el-input v-model="lijek.naziv"></el-input>
@@ -118,6 +123,7 @@
         naslov: 'Unos Lijeka',
         naslovForme: 'Unos Lijeka',
         lijek: {
+          sifra: '',
           naziv: '',
           vrstaLijeka: '',
           oblikLijeka: '',
@@ -127,6 +133,9 @@
           poeni: ''
         },
          rules: {
+           sifra: [
+             { required: true, message: 'Unesite sifru!', trigger: 'blur' },
+           ],
           naziv: [
             { required: true, message: 'Unesite naziv!', trigger: 'blur' },
           ],
@@ -163,7 +172,7 @@
         });
       },
       onSubmit() {
-        var l = {naziv: this.lijek.naziv, vrstaLijeka: this.lijek.vrstaLijeka, 
+        var l = {naziv: this.lijek.naziv, sifra: this.lijek.sifra, vrstaLijeka: this.lijek.vrstaLijeka, 
         oblikLijeka: this.lijek.oblikLijeka, sastav: this.lijek.sastav, proizvodjac: this.lijek.proizvodjac,
         napomena: this.lijek.napomena, poeni: this.lijek.poeni };
         this.$store.dispatch('APlijekovi/dodajLijek', l)

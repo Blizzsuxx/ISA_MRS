@@ -165,6 +165,7 @@ public class Lijek {
     }
 
     public Lijek(LijekDTO dummy){
+        this.sifra = dummy.getSifra();
         this.naziv = dummy.getNaziv();
         this.vrstaLijeka = dummy.getVrstaLijeka();
         this.oblikLijeka = dummy.getOblikLijeka();
