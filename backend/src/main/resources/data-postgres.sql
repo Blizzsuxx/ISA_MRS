@@ -127,23 +127,23 @@ insert into radnici (korisnik) values (11);
 insert into farmaceuti (radnik,apoteka_id) values (11,null);
 
 -- LIJEKOVI
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'baralgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'pantenol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'erijus', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('napomena1', 'penicilin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-values ('napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 8, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra1', 'napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra2', 'napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra3', 'napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra4', 'napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra5', 'napomena1', 'baralgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra6', 'napomena1', 'pantenol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra7', 'napomena1', 'erijus', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra8', 'napomena1', 'penicilin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+values ('sifra9', 'napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 8, 1);
 
 
 
