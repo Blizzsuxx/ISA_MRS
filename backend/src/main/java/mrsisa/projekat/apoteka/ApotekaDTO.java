@@ -1,6 +1,11 @@
 package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApotekaDTO {
     private Long id;
@@ -11,6 +16,9 @@ public class ApotekaDTO {
     private String broj;
     private double duzina;
     private double sirina;
+    private List<StanjeLijekaDTO> stanja;
+    private double ukupnaCijena; // potrebno za Erecept
+    private String rezultat; // potrebno za Erecept
 
     public ApotekaDTO() {
 
@@ -19,6 +27,20 @@ public class ApotekaDTO {
     public ApotekaDTO(Long id, String ime){
         this.ime = ime;
         this.id = id;
+    }
+
+    public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat){
+        this.id = apoteka.getId();
+        this.ime = apoteka.getIme();
+        this.mjesto = apoteka.getAdresa().getMesto();
+        this.ptt = apoteka.getAdresa().getPtt();
+        this.ulica = apoteka.getAdresa().getUlica();
+        this.broj = apoteka.getAdresa().getBroj();
+        this.stanja = new ArrayList<>();
+        this.ukupnaCijena = ukupnaCijena;
+        for (StanjeLijeka sl : apoteka.getLijekovi())
+            this.stanja.add(new StanjeLijekaDTO(sl));
+        this.rezultat = rezultat;
     }
     public ApotekaDTO(Apoteka apoteka){
         this.id = apoteka.getId();
@@ -109,5 +131,29 @@ public class ApotekaDTO {
 
     public void setSirina(double sirina) {
         this.sirina = sirina;
+    }
+
+    public double getUkupnaCijena() {
+        return ukupnaCijena;
+    }
+
+    public void setUkupnaCijena(double ukupnaCijena) {
+        this.ukupnaCijena = ukupnaCijena;
+    }
+
+    public List<StanjeLijekaDTO> getStanja() {
+        return stanja;
+    }
+
+    public void setStanja(List<StanjeLijekaDTO> stanja) {
+        this.stanja = stanja;
+    }
+
+    public String getRezultat() {
+        return rezultat;
+    }
+
+    public void setRezultat(String rezultat) {
+        this.rezultat = rezultat;
     }
 }

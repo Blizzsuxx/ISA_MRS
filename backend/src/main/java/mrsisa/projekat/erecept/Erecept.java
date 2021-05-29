@@ -16,7 +16,7 @@ public class Erecept {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "sifra", nullable = false, unique = true)
+    @Column(name = "sifra") // NA OVO SE VRATITI
     private String sifra;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

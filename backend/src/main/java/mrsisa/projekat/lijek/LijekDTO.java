@@ -2,6 +2,7 @@ package mrsisa.projekat.lijek;
 
 public class LijekDTO {
     private long id;
+    private String sifra;
     private String naziv;
     private String vrstaLijeka;
     private String oblikLijeka;
@@ -130,5 +131,13 @@ public class LijekDTO {
 
     public void setPoeni(int poeni) {
         this.poeni = poeni;
+    }
+
+    public String getSifra() {
+        return sifra;
+    }
+
+    public void setSifra(String sifra) {
+        this.sifra = sifra;
     }
 }

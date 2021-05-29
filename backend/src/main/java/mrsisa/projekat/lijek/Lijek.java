@@ -15,8 +15,11 @@ public class Lijek {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="sifra", nullable = false, unique = true)
+    private String sifra;
+
     // za sada ovako
-    @Column(name = "naziv", nullable = false, unique = true)
+    @Column(name = "naziv", nullable = false)
     private String naziv;
     @Column(name = "vrstaLijeka", nullable = false)
     private String vrstaLijeka;
@@ -119,6 +122,14 @@ public class Lijek {
         this.poeni = poeni;
     }
 
+    public String getSifra() {
+        return sifra;
+    }
+
+    public void setSifra(String sifra) {
+        this.sifra = sifra;
+    }
+
     public Lijek() {
 
     }
@@ -154,6 +165,7 @@ public class Lijek {
     }
 
     public Lijek(LijekDTO dummy){
+        this.sifra = dummy.getSifra();
         this.naziv = dummy.getNaziv();
         this.vrstaLijeka = dummy.getVrstaLijeka();
         this.oblikLijeka = dummy.getOblikLijeka();
