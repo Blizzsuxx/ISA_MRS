@@ -48,7 +48,7 @@ public class  FarmaceutController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
 
-        farmaceutService.otpustiDermatologa(id);
+        farmaceutService.otpustiDermatologa(id,adminApoteke.getApoteka().getId());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")

@@ -4,6 +4,7 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.administratorSistema.AdministratorSistema;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -73,11 +74,11 @@ public class DermatologController {
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
-    @PutMapping(path="/zaposliDermatologa/{id}")
-    public void zaposliDermatologa(@PathVariable Integer id){
+    @PostMapping(path="/zaposliDermatologa")
+    public void zaposliDermatologa(@RequestBody RadnoVrijemeDTO radnoVrijemeDTO){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        dermatologService.zaposliDermatologa(id,adminApoteke.getApoteka().getId());
+        dermatologService.zaposliDermatologa(radnoVrijemeDTO,adminApoteke.getApoteka().getId());
     }
 
     @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")

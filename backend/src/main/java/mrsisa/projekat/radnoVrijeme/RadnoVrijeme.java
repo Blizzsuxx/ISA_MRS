@@ -1,11 +1,14 @@
 package mrsisa.projekat.radnoVrijeme;
 
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.farmaceut.Farmaceut;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -19,12 +22,28 @@ public class RadnoVrijeme {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Dermatolog dermatolog;
-    private LocalTime pocetakRadnogVremena;
-    private LocalTime krajRadnogVremena;
+
+    @OneToOne(fetch=FetchType.LAZY)
+    private Farmaceut farmaceuet;
+
+    @Column(name = "pocetakRadnogVremena", nullable = false)
+    private LocalDateTime pocetakRadnogVremena;
+
+    @Column(name = "krajRadnogVremena", nullable = false)
+    private LocalDateTime krajRadnogVremena;
 
     public RadnoVrijeme(){
 
     }
+
+    public RadnoVrijeme(Apoteka apoteka, Dermatolog dermatolog, Farmaceut farmaceuet, LocalDateTime pocetakRadnogVremena, LocalDateTime krajRadnogVremena) {
+        this.apoteka = apoteka;
+        this.dermatolog = dermatolog;
+        this.farmaceuet = farmaceuet;
+        this.pocetakRadnogVremena = pocetakRadnogVremena;
+        this.krajRadnogVremena = krajRadnogVremena;
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,19 +68,27 @@ public class RadnoVrijeme {
         this.dermatolog = dermatolog;
     }
 
-    public LocalTime getPocetakRadnogVremena() {
+    public LocalDateTime getPocetakRadnogVremena() {
         return pocetakRadnogVremena;
     }
 
-    public void setPocetakRadnogVremena(LocalTime pocetakRadnogVremena) {
+    public void setPocetakRadnogVremena(LocalDateTime pocetakRadnogVremena) {
         this.pocetakRadnogVremena = pocetakRadnogVremena;
     }
 
-    public LocalTime getKrajRadnogVremena() {
+    public LocalDateTime getKrajRadnogVremena() {
         return krajRadnogVremena;
     }
 
-    public void setKrajRadnogVremena(LocalTime krajRadnogVremena) {
+    public void setKrajRadnogVremena(LocalDateTime krajRadnogVremena) {
         this.krajRadnogVremena = krajRadnogVremena;
+    }
+
+    public Farmaceut getFarmaceuet() {
+        return farmaceuet;
+    }
+
+    public void setFarmaceuet(Farmaceut farmaceuet) {
+        this.farmaceuet = farmaceuet;
     }
 }

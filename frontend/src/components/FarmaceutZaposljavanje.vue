@@ -45,6 +45,7 @@
 import NavAdminApoteke from "./NavAdminApoteke";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
+
 export default {
   name: "FarmaceutZaposljavanje",
   props: { options: String },

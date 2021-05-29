@@ -27,65 +27,65 @@ public class DermatologConfig {
                                                   RadnoVrijemeRepository radnoVrijemeRepository, SlobodanTerminRepository slobodanTerminRepository, PosetaRepository posete){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return args ->{
-            RadnoVrijeme radnoVrijeme =  new RadnoVrijeme();
-            radnoVrijeme.setApoteka(apotekaRepository.findById(1L).orElse(null));
-
-            repozitorijum.save(new Dermatolog(
-                    "marko",
-                    "marko",
-                    "Marko",
-                    "Markovic",
-                    "markomarkovic@gmail.com",
-                    LocalDateTime.now(),
-                    null,
-                    generisiPosete(0),
-                    apotekaRepository.findById(1L).orElse(null)
-
-            ));
-            radnoVrijeme.setDermatolog(repozitorijum.findById(4).orElse(null));
-            radnoVrijeme.setPocetakRadnogVremena(LocalTime.of(10,00));
-            radnoVrijeme.setKrajRadnogVremena(LocalTime.of(17,00));
-            radnoVrijemeRepository.save(radnoVrijeme);
-            repozitorijum.save(new Dermatolog(
-                    "nikola",
-                    "nikola",
-                    "Nikola",
-                    "Nikolic",
-                    "nikolanikolic@gmail.com",
-                    LocalDateTime.now(),
-                    null,
-                    generisiPosete(1),
-                    apotekaRepository.findById(1L).orElse(null)
-
-            ));
-
-            repozitorijum.save(new Dermatolog(
-                    "matija",
-                    "matija",
-                    "Matija",
-                    "Matija",
-                    "matijamatija@gmail.com",
-                    LocalDateTime.now(),
-                    null,
-                    generisiPosete(2),
-                    apotekaRepository.findById(1L).orElse(null)
-
-            ));
-
-            SlobodanTermin slobodanTermin = new SlobodanTermin();
-            slobodanTermin.setRadnik(repozitorijum.findById(5).orElse(null));
-            slobodanTermin.setApoteka(apotekaRepository.findById(1L).orElse(null));
-            slobodanTermin.setPocetakTermina(LocalDateTime.of(2021,6,6,10,00));
-            slobodanTermin.setKrajTermina(LocalDateTime.of(2021,6,6,11,00));
-            slobodanTermin.setCijenaTermina(100);
-            slobodanTerminRepository.save(slobodanTermin);
-            SlobodanTermin slobodanTermin1 = new SlobodanTermin();
-            slobodanTermin1.setRadnik(repozitorijum.findById(5).orElse(null));
-            slobodanTermin1.setApoteka(apotekaRepository.findById(1L).orElse(null));
-            slobodanTermin1.setPocetakTermina(LocalDateTime.of(2021,7,7,11,00));
-            slobodanTermin1.setKrajTermina(LocalDateTime.of(2021,7,7,12,00));
-            slobodanTermin1.setCijenaTermina(150);
-            slobodanTerminRepository.save(slobodanTermin1);
+//            RadnoVrijeme radnoVrijeme =  new RadnoVrijeme();
+//            radnoVrijeme.setApoteka(apotekaRepository.findById(1L).orElse(null));
+//
+//            repozitorijum.save(new Dermatolog(
+//                    "marko",
+//                    "marko",
+//                    "Marko",
+//                    "Markovic",
+//                    "markomarkovic@gmail.com",
+//                    LocalDateTime.now(),
+//                    null,
+//                    generisiPosete(0),
+//                    apotekaRepository.findById(1L).orElse(null)
+//
+//            ));
+//            radnoVrijeme.setDermatolog(repozitorijum.findById(4).orElse(null));
+//            radnoVrijeme.setPocetakRadnogVremena(LocalTime.of(10,00));
+//            radnoVrijeme.setKrajRadnogVremena(LocalTime.of(17,00));
+//            radnoVrijemeRepository.save(radnoVrijeme);
+//            repozitorijum.save(new Dermatolog(
+//                    "nikola",
+//                    "nikola",
+//                    "Nikola",
+//                    "Nikolic",
+//                    "nikolanikolic@gmail.com",
+//                    LocalDateTime.now(),
+//                    null,
+//                    generisiPosete(1),
+//                    apotekaRepository.findById(1L).orElse(null)
+//
+//            ));
+//
+//            repozitorijum.save(new Dermatolog(
+//                    "matija",
+//                    "matija",
+//                    "Matija",
+//                    "Matija",
+//                    "matijamatija@gmail.com",
+//                    LocalDateTime.now(),
+//                    null,
+//                    generisiPosete(2),
+//                    apotekaRepository.findById(1L).orElse(null)
+//
+//            ));
+//
+//            SlobodanTermin slobodanTermin = new SlobodanTermin();
+//            slobodanTermin.setRadnik(repozitorijum.findById(5).orElse(null));
+//            slobodanTermin.setApoteka(apotekaRepository.findById(1L).orElse(null));
+//            slobodanTermin.setPocetakTermina(LocalDateTime.of(2021,6,6,10,00));
+//            slobodanTermin.setKrajTermina(LocalDateTime.of(2021,6,6,11,00));
+//            slobodanTermin.setCijenaTermina(100);
+//            slobodanTerminRepository.save(slobodanTermin);
+//            SlobodanTermin slobodanTermin1 = new SlobodanTermin();
+//            slobodanTermin1.setRadnik(repozitorijum.findById(5).orElse(null));
+//            slobodanTermin1.setApoteka(apotekaRepository.findById(1L).orElse(null));
+//            slobodanTermin1.setPocetakTermina(LocalDateTime.of(2021,7,7,11,00));
+//            slobodanTermin1.setKrajTermina(LocalDateTime.of(2021,7,7,12,00));
+//            slobodanTermin1.setCijenaTermina(150);
+//            slobodanTerminRepository.save(slobodanTermin1);
         };
     }
 
