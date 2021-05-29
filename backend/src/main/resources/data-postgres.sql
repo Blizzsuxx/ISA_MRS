@@ -241,3 +241,13 @@ insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values 
 insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (31,13);
 insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (32,14);
 insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (33,15);
+
+
+--DERMATOLOZI
+
+insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
+                       potvrda_email, prijavljen) values
+('milos', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Marko', 'Markovic', 'milos@gmail.com',
+ '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58', true, true);
+insert into radnici (korisnik) values (12);
+insert into dermatolozi (radnik) values (12);

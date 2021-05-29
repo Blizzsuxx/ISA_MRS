@@ -1,6 +1,6 @@
 import axios from 'axios'
 import authHeader from './AuthHeader'
-
+import moment from 'moment'
 const state = {
     sviDermatolozi :[],
     radnoVrijeme : null,
@@ -55,8 +55,12 @@ const actions = {
                 
             })
     },
-    zaposliDermatologa(context,id){
-        return axios.put(`http://localhost:8080/api/v1/dermatolog/zaposliDermatologa/${id}`, {},{ headers: authHeader()})
+    zaposliDermatologa(context,radnoVrijeme){
+        console.log(String(radnoVrijeme.pocetakRadnogVremena))
+        radnoVrijeme.pocetakRadnogVremena = moment(String(radnoVrijeme.pocetakRadnogVremena)).format('DD-MM-YYYY HH:mm')
+        radnoVrijeme.krajRadnogVremena = moment(String(radnoVrijeme.krajRadnogVremena)).format('DD-MM-YYYY HH:mm')
+        console.log(radnoVrijeme)
+        return axios.post(`http://localhost:8080/api/v1/dermatolog/zaposliDermatologa`, radnoVrijeme,{ headers: authHeader()})
             .then(() => {   
                 return context;  
             })

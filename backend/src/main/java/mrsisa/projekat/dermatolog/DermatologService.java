@@ -7,6 +7,9 @@ import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmorRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeDTO;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeRepository;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +31,17 @@ public class DermatologService {
     private final PosetaRepository posetaRepository;
     private final SlobodanTerminRepository slobodanTerminRepository;
     private final GodisnjiOdmorRepository godisnjiOdmorRepository;
+    private final RadnoVrijemeRepository radnoVrijemeRepository;
     @Autowired
     public DermatologService(DermatologRepository dermatologRepository, ApotekaRepository apotekaRepository, PosetaRepository posetaRepository,
-                             SlobodanTerminRepository slobodanTerminRepository, GodisnjiOdmorRepository godisnjiOdmorRepository){
+                             SlobodanTerminRepository slobodanTerminRepository, GodisnjiOdmorRepository godisnjiOdmorRepository,
+                             RadnoVrijemeRepository radnoVrijemeRepository){
         this.dermatologRepository = dermatologRepository;
         this.apotekeRepository = apotekaRepository;
         this.posetaRepository = posetaRepository;
         this.slobodanTerminRepository = slobodanTerminRepository;
         this.godisnjiOdmorRepository =  godisnjiOdmorRepository;
+        this.radnoVrijemeRepository = radnoVrijemeRepository;
     }
     @Transactional
     public List<DermatologDTO> dobaviDermatologe(){
@@ -94,6 +103,11 @@ public class DermatologService {
                 this.godisnjiOdmorRepository.delete(godisnjiOdmor);
             }
         }
+        for(RadnoVrijeme radnoVrijeme: this.radnoVrijemeRepository.findAll()){
+            if(radnoVrijeme.getApoteka().getId().equals(id_apoteke) && radnoVrijeme.getDermatolog().getId().equals(id)){
+                this.radnoVrijemeRepository.delete(radnoVrijeme);
+            }
+        }
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
             if(dermatolog.getId().equals(id)){
                 apoteka.getDermatolozi().remove(dermatolog);
@@ -124,11 +138,17 @@ public class DermatologService {
         return dermatolozi;
     }
     @Transactional
-    public void zaposliDermatologa(Integer id,Long id_apoteke) {
+    public void zaposliDermatologa(RadnoVrijemeDTO radnoVrijemeDTO, Long id_apoteke) {
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
-        Dermatolog dermatolog =  this.dermatologRepository.findById(id).orElse(null);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Dermatolog dermatolog =  this.dermatologRepository.findById(radnoVrijemeDTO.getRadnik()).orElse(null);
+        System.out.println(radnoVrijemeDTO.getPocetakRadnogVremena());
+        System.out.println(LocalDateTime.parse((String)radnoVrijemeDTO.getPocetakRadnogVremena(),dtf));
         if (dermatolog!=null){
+            RadnoVrijeme radnoVrijeme =  new RadnoVrijeme(apoteka,dermatolog,null, LocalDateTime.parse(radnoVrijemeDTO.getPocetakRadnogVremena(),dtf),LocalDateTime.parse(radnoVrijemeDTO.getKrajRadnogVremena(),dtf));
+            this.radnoVrijemeRepository.save(radnoVrijeme);
             apoteka.getDermatolozi().add(dermatolog);
+            this.apotekeRepository.save(apoteka);
         }
     }
 }

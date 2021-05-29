@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class RadnoVrijemeDTO {
-    private Integer dermatolog;
+    private Integer radnik;
     private Long apoteka;
     private String pocetakRadnogVremena;
     private String krajRadnogVremena;
@@ -12,8 +12,10 @@ public class RadnoVrijemeDTO {
 
     public RadnoVrijemeDTO(RadnoVrijeme radnoVrijeme){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
-        this.dermatolog = radnoVrijeme.getDermatolog().getId();
-        this.apoteka = radnoVrijeme.getApoteka().getId();
+        if(radnoVrijeme.getDermatolog()!=null)
+            this.radnik = radnoVrijeme.getDermatolog().getId();
+        else
+            this.radnik  = radnoVrijeme.getFarmaceuet().getId();
         this.pocetakRadnogVremena = dtf.format(radnoVrijeme.getPocetakRadnogVremena());
         this.krajRadnogVremena = dtf.format(radnoVrijeme.getKrajRadnogVremena());
 
@@ -21,12 +23,12 @@ public class RadnoVrijemeDTO {
     public RadnoVrijemeDTO() {
     }
 
-    public Integer getDermatolog() {
-        return dermatolog;
+    public Integer getRadnik() {
+        return radnik;
     }
 
-    public void setDermatolog(Integer dermatolog) {
-        this.dermatolog = dermatolog;
+    public void setRadnik(Integer radnik) {
+        this.radnik = radnik;
     }
 
     public Long getApoteka() {
