@@ -21,6 +21,7 @@
     <el-menu-item index="3-1"><router-link to="/ap/recepti">eRecepti</router-link></el-menu-item>
     <el-menu-item index="3-2"><router-link to="/ap/rezervacije">Rezervisani lekovi</router-link></el-menu-item>
     <el-menu-item index="3-3"><router-link to="/ap/istorijaLekova">Izdati lekovi preko erecepta</router-link></el-menu-item>
+    <el-menu-item index="3-4"><router-link to="/ap/qrkod">Izdati preko qr koda</router-link></el-menu-item>
   </el-submenu>
 
   <el-menu-item index="4"><router-link to="/ap/penali">Uvid u penale</router-link></el-menu-item>
@@ -32,5 +33,37 @@
   </el-submenu>
   
   <el-menu-item index="7"><router-link to="/ap/profil">Profil</router-link></el-menu-item>
+  <el-submenu index="8">
+    <template #title>Dodatne Opcije</template>
+    <el-menu-item index="8-1" @click="odjava">Odjava</el-menu-item>
+  </el-submenu>
 </el-menu>
 </template>
+
+<script>
+
+export default {
+    name: 'Pacijent',
+    data()  {
+        return {
+      
+        }
+        
+    },
+    mounted() {
+        
+    },
+    methods: {
+        
+        odjava(){
+            this.$store.dispatch('APKorisnici/logout');
+            this.$router.push('/ap/prijava');
+        },
+        
+        
+
+    },
+   
+    
+  }
+</script>

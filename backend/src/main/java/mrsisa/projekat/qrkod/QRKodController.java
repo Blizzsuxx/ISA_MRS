@@ -6,8 +6,12 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.pacijent.Pacijent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -28,13 +32,15 @@ public class QRKodController {
     }
 
     @PostMapping(value="/kreirajErecept")
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @PreAuthorize("hasRole('PACIJENT')")
     public boolean formirajErecept(@RequestBody ApotekaDTO apotekaDTO){
-        return this.qrKodService.kreirajErecept(apotekaDTO);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pacijent p = (Pacijent) auth.getPrincipal();
+        return this.qrKodService.kreirajErecept(apotekaDTO, p);
     }
 
     @PostMapping(value="/posaljiKod")
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @PreAuthorize("hasRole('PACIJENT')")
     public List<ApotekaDTO> dobaviApotekeErecepta(@RequestBody String tekst){
         String kod = tekst.substring(0, tekst.length()-1);
         String putanjaKoda = System.getProperty("user.dir") + "\\src\\main\\resources\\qrkod\\" + kod;

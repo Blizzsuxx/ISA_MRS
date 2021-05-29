@@ -64,6 +64,8 @@ import ZalbeIstorija from '../components/ZalbeIstorija'
 import PoruceniNepostojeci from '../components/PoruceniNepostojeci'
 import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
 import ProfilApotekeKorisnik from '../components/ProfilApotekeKorisnik'
+import QRKod from '../components/QRKod'
+
 const routes = [
   {
     path: '/ap/lijekovi',
@@ -347,6 +349,11 @@ const routes = [
     path: '/ap/oceni',
     name: 'FormaZaOcenjivanje',
     component: FormaZaOcenjivanje,
+  },
+  {
+    path: '/ap/qrkod',
+    name: 'QRKod',
+    component: QRKod
   }
 
 ]

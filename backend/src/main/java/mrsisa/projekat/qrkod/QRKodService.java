@@ -36,12 +36,11 @@ public class QRKodService {
     }
 
     @Transactional
-    public boolean kreirajErecept(ApotekaDTO apotekaDTO){
+    public boolean kreirajErecept(ApotekaDTO apotekaDTO, Pacijent p ){
         String[] lista = apotekaDTO.getRezultat().split(",");
         Apoteka a = this.apotekaRepository.findOneById(apotekaDTO.getId());
-        Pacijent p = this.pacijentRepository.findByUsername("zarko");
         Erecept e = new Erecept();
-        e.setPacijent(p);
+        e.setPacijent(this.pacijentRepository.findByUsername(p.getUsername()));
         e.setSifra("sifra");
         e.setDatumIzdavanja(LocalDateTime.now());
 

@@ -1,4 +1,5 @@
 <template>
+    <NavMeniZaPacijenta/>
     <el-upload
   class="upload-demo"
   action="https://jsonplaceholder.typicode.com/posts/"
@@ -93,7 +94,7 @@
 </template>
 
 <script>
-
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
 export default {
     name: 'QRKod',
     data()  {
@@ -155,8 +156,8 @@ export default {
             });
         }
     },
-    components:{
-       
+    components : {
+       NavMeniZaPacijenta
     },
     
   }
