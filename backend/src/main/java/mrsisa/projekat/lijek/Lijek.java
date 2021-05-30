@@ -2,6 +2,7 @@ package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -32,8 +33,8 @@ public class Lijek {
     //private RezimIzdavanja rezimIzdavanja;
     @Column(name = "napomena", nullable = false)
     private String napomena;
-    @Column(name = "ocijena", nullable = false)
-    private double ocijena;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ocena> ocene;
     @Column(name = "poeni", nullable = false)
     private int poeni;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -98,12 +99,12 @@ public class Lijek {
         this.napomena = napomena;
     }
 
-    public double getOcijena() {
-        return ocijena;
+    public List<Ocena> getOcene() {
+        return ocene;
     }
 
-    public void setOcijena(double ocijena) {
-        this.ocijena = ocijena;
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
     }
 
     public Dobavljac getDobavljac() {
@@ -160,7 +161,7 @@ public class Lijek {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
-        this.ocijena = ocijena;
+        //this.ocijena = ocijena;
         this.dobavljac = dobavljac;
     }
 

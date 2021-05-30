@@ -2,7 +2,7 @@ import axios from 'axios'
 import authHeader from './AuthHeader'
 const state = {
     sviPacijenti :[],
-    kategorija : [],
+    kategorija : "",
     pretplata : [],
     trenutniPacijent: null,
 

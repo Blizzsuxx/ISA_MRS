@@ -66,6 +66,22 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <el-row>
+  <el-col :span="6"  v-for="item in this.lista" :key="item.opis">
+    <el-card :body-style="{ padding: '0px' }">
+      <img src="../assets/eksn.png" class="image">
+      <div style="padding: 14px;">
+        <h4>{{item.stanjeLijeka.lijek.naziv}}</h4>
+        <span>{{item.opis}}</span>
+        <div class="bottom">
+          <time class="time">{{ currentDate }}</time>
+         
+        </div>
+      </div>
+    </el-card>
+  </el-col>
+</el-row>
 </el-main>
 </template>
 
@@ -84,6 +100,8 @@ export default defineComponent ({
       
       return {
        zaTabelu: this.$store.state.APApoteke.sveApoteke,
+       lista: [],
+       broj: 0
       }
     },
     async mounted(){
@@ -103,10 +121,14 @@ export default defineComponent ({
           this.$refs.multipleTable.clearSelection();
         }
       },
-      handleEdit(index, row) {
+      async handleEdit(index, row) {
              console.log(index, row);
-             this.$router.push('akcijeApoteke') //potrebno je proslediti apoteku i njene akcije, :()
-        
+             await this.$store.dispatch("APAkcije/dobaviAkcije",row.id).then(response=>{
+             //this.$router.push('akcijeApoteke') //potrebno je proslediti apoteku i njene akcije, :()
+             this.lista =this.$store.state.APAkcije.akcije;
+            console.log(response)
+            console.log(this.lista)
+            })
       },
       async handleEdit2( row) {
         if(confirm("Da li zelite da otkazete pretplatu na apoteku "+row.ime+ " ?")){

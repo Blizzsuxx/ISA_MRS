@@ -10,7 +10,7 @@ insert into uloga (name) values ('ROLE_PACIJENT');  -- 6
 insert into popust (popust_regular, od_regular,
 do_regular, popust_silver, od_silver, do_silver,
 popust_gold, od_gold, do_gold, broj_poena_pregleda, broj_poena_savetovanja, odobren)
-values (0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, false);
+values (0, 0, 30, 10, 31, 50, 20, 51, 1000, 2, 1, false);
 
 --ADRESE
 insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.83,45.26);
@@ -20,6 +20,8 @@ insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21
 --APOTEKE
 insert into apoteka (ime,adresa_id) values ('Prva apoteka',1);
 insert into apoteka (ime,adresa_id) values ('Druga apoteka',1);
+insert into apoteka (ime,adresa_id) values ('Dr Max',1);
+insert into apoteka (ime,adresa_id) values ('Jankovic',1);
 insert into apoteka (ime,adresa_id) values ('Treca apoteka',1);
 
 -- ADMINISTRATORI APOTEKA
@@ -107,7 +109,7 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
 potvrda_email, prijavljen) values
 ('zarko', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Zarko', 'Kisa', 'zarkoKisa@gmail.com',
  '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58', true, true);
-insert into pacijenti (korisnik, broj_poena, adresa_id) values (9, 10,1);
+insert into pacijenti (korisnik, broj_poena, adresa_id) values (9, 20,1);
 insert into korisnik_uloga (korisnik_id, uloga_id) values (9, 6);
 
 
@@ -128,23 +130,23 @@ insert into radnici (korisnik) values (11);
 insert into farmaceuti (radnik,apoteka_id) values (11,null);
 
 -- LIJEKOVI
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra1', 'napomena1', 'paracetamol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra2', 'napomena1', 'kafetin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra3', 'napomena1', 'analgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra4', 'napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra5', 'napomena1', 'baralgin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra6', 'napomena1', 'pantenol', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra7', 'napomena1', 'erijus', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-insert into lijek (sifra, napomena, naziv, oblik_lijeka, ocijena, proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
-values ('sifra8', 'napomena1', 'penicilin', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 7, 1);
-values ('sifra9', 'napomena1', 'paracetamol2', 'kapsula', 10.0, 'biofarm', 'sastav1', 'vrsta1', 8, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra1', 'napomena1', 'paracetamol', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra2', 'napomena1', 'kafetin', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra3', 'napomena1', 'analgin', 'kapsula', 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra4', 'napomena1', 'paracetamol2', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra5', 'napomena1', 'baralgin', 'kapsula', 'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra6', 'napomena1', 'pantenol', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra7', 'napomena1', 'erijus', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra, napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra8', 'napomena1', 'penicilin', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+values ('sifra9', 'napomena1', 'paracetamol2', 'kapsula',  'biofarm', 'sastav1', 'vrsta1', 8, 1);
 
 
 
@@ -247,6 +249,17 @@ insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values 
 insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values (33,15);
 
 
+--stanje lekova za rezervacije
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
 --DERMATOLOZI
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
@@ -255,3 +268,58 @@ insert into korisnici (username, password, first_name, last_name, email, birthda
  '2017-10-01 21:58:58', 'ROLE_DERMATOLOG', true, '2017-10-01 21:58:58', true, true);
 insert into radnici (korisnik) values (12);
 insert into dermatolozi (radnik) values (12);
+
+
+--REZERVACIJE
+
+insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (1,'2021-06-28 00:00:00',false,1,9 );
+insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (2,'2021-06-28 00:00:00',false,1,9 );
+insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (3,'2021-04-28 00:00:00',false,1,9 );
+insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (4,'2021-04-28 00:00:00',true,1,9 );
+insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (5,'2021-04-28 00:00:00',true,1,9 );
+
+--povezivanje rezervacije i leka
+
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (1,16);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (1,17);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (2,18);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (2,19);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (3,20);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (4,21);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (4,22);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (5,23);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (5,24);
+insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijekovi_id) values (5,25);
+
+
+
+--PACIJENT I PRETPLATA NA APOTEKE
+insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,3);
+insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,4);
+
+--LEK ZA AKCIJU
+insert into lijek (sifra,napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra10','napomena1', 'flogo', 'mast',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra,napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra11','napomena1', 'marisol', 'kapi',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+insert into lijek (sifra,napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)
+values ('sifra12','napomena1', 'krema za ruke', 'krema',  'biofarm', 'sastav1', 'vrsta1', 7, 1);
+
+
+
+--EKSN
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (1,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (2,'2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (3,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija',10);
+
+
+--STANJE LEKA ZA AKCIJE
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,9,1.00,false,50,'2021-06-30 00:00:00',3,1);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,10,1.00,false,50,'2021-06-30 00:00:00',3,2);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,11,2.00,false,80,'2021-06-30 00:00:00',4,3);
+
+
+--PENALI
+insert into penali (dan, opis, traje_do, id_korisnika) values ('2021-05-30 00:00:00', 'Korisnik nije dosao po lek.','2021-06-20 00:00:00','9');
+
+insert into pacijenti_penali (pacijent_korisnik, penali_id) values (9,1);

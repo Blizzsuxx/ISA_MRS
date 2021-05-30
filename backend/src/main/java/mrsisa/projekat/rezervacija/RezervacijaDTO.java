@@ -14,6 +14,9 @@ public class RezervacijaDTO {
     private String nazivApoteke;
     private String datumVazenja;
 
+    public RezervacijaDTO(Rezervacija r) {
+    }
+
     public String getNazivLeka() {
         return nazivLeka;
     }

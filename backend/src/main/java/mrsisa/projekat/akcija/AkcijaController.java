@@ -21,9 +21,9 @@ public class AkcijaController {
     }
 
     //@PreAuthorize("hasRole('PACIJENT')")
-    @GetMapping(produces = "application/json", value = "/dobaviAkcije")
-    public List<AkcijaDTO> getAkcijaDTO( ){
-        return this.akcijaService.vratiAkcije();
+    @PutMapping( value = "/dobaviAkcije/{id}")
+    public List<AkcijaDTO> getAkcijaDTO(@PathVariable String id){
+        return this.akcijaService.vratiAkcije(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")

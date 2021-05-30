@@ -1,5 +1,7 @@
 package mrsisa.projekat.lijek;
 
+import mrsisa.projekat.ocena.Ocena;
+
 public class LijekDTO {
     private long id;
     private String sifra;
@@ -23,7 +25,12 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
-        this.ocijena = l.getOcijena();
+        this.ocijena=0;
+        for(Ocena o : l.getOcene()){
+            this.ocijena+=o.getOcena();
+        }
+        this.ocijena=this.ocijena/l.getOcene().size();
+        //this.ocijena = l.getOcijena();
         this.poeni = l.getPoeni();
     }
 

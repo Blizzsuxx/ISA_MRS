@@ -42,15 +42,18 @@ public class Pacijent extends Korisnik {
 
 	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Lijek> alergije;
-
-    @OneToMany(fetch =FetchType.LAZY)
+	@JsonIgnore
+    @OneToMany(fetch =FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Penal> penali;
 
-    @OneToOne(fetch=FetchType.LAZY)
-	private Kategorija kategorija;
+	@Column(name="kategorija")
+	private String kategorija;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Ocena> ocene;
+
+    @OneToMany(fetch = FetchType.LAZY)
+	private List<Apoteka> pretplata;
 
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
@@ -134,11 +137,11 @@ public class Pacijent extends Korisnik {
 		this.brojPoena = brojPoena;
 	}
 
-	public Kategorija getKategorija() {
+	public String getKategorija() {
 		return kategorija;
 	}
 
-	public void setKategorija(Kategorija kategorija) {
+	public void setKategorija(String kategorija) {
 		this.kategorija = kategorija;
 	}
 
@@ -148,5 +151,13 @@ public class Pacijent extends Korisnik {
 
 	public void setOcene(List<Ocena> ocene) {
 		this.ocene = ocene;
+	}
+
+	public List<Apoteka> getPretplata() {
+		return pretplata;
+	}
+
+	public void setPretplata(List<Apoteka> pretplata) {
+		this.pretplata = pretplata;
 	}
 }

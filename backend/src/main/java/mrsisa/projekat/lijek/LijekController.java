@@ -61,7 +61,7 @@ public class LijekController {
 
         l.setNapomena(dummy.getNapomena());
         l.setOblikLijeka(dummy.getOblikLijeka());
-        l.setOcijena(dummy.getOcijena());
+       // l.setOcijena(dummy.getOcijena()); TODO ocene su liste
         l.setProizvodjac(dummy.getProizvodjac());
         l.setSastav(dummy.getSastav());
         l.setVrstaLijeka(dummy.getVrstaLijeka());

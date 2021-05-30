@@ -22,7 +22,7 @@ public class Rezervacija {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
-    @Column( nullable = false, unique = true)
+    @Column( nullable = false)
     private LocalDateTime datumRezervacije;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

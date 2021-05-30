@@ -1,11 +1,14 @@
 package mrsisa.projekat.akcija;
 
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jms.JmsProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -17,18 +20,33 @@ import java.util.Map;
 public class AkcijaService {
     private final AkcijaRepository akcijaRepository;
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final ApotekaRepository apotekaRepository;
     @Autowired
-    public AkcijaService(AkcijaRepository akcijaRepository,StanjeLijekaRepository stanjeLijekaRepository){
+    public AkcijaService(AkcijaRepository akcijaRepository,StanjeLijekaRepository stanjeLijekaRepository, ApotekaRepository apotekaRepository){
         this.akcijaRepository = akcijaRepository;
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.apotekaRepository=apotekaRepository;
     }
-    public List<AkcijaDTO> vratiAkcije() {
-        StanjeLijekaDTO sd=new StanjeLijekaDTO();
-//        AkcijaDTO dto=new AkcijaDTO("akcija Bromazepana 20%",sd,1L, LocalDate.now());
-//        AkcijaDTO dto1=new AkcijaDTO("akcija Brufena 20%",sd,2L, LocalDate.now());
-//        AkcijaDTO dto2=new AkcijaDTO("akcija Baralgina 30%",sd,3L, LocalDate.now());
+    @Transactional
+    public List<AkcijaDTO> vratiAkcije(String id) {
+
+        Apoteka apoteka=this.apotekaRepository.findOneById(Long.parseLong(id.trim()));
         List<AkcijaDTO> lista=new ArrayList<>();
-//        lista.add(dto);lista.add(dto1);lista.add(dto2);
+        for(StanjeLijeka s : apoteka.getLijekovi()){
+            System.out.println("------*************--");
+            if(s.getAkcija()!=null){
+                System.out.println("-----------------------------------------");
+                System.out.println(s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()));
+
+                if((s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()) || s.getAkcija().getDatumOd().isBefore(LocalDateTime.now())) &&
+                        (s.getAkcija().getDatumDo().isEqual(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))
+                ){
+                    lista.add(new AkcijaDTO(s.getAkcija(),s));
+
+                }
+            }
+        }
+        System.out.println("velicina:"+lista.size() );
         return lista;
     }
 

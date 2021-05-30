@@ -3,6 +3,7 @@ package mrsisa.projekat.pacijent;
 import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.dermatolog.DermatologDTO;
 import mrsisa.projekat.dermatolog.DermatologRepository;
@@ -17,13 +18,17 @@ import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
+import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.tipPenala.Penal;
+import mrsisa.projekat.tipPenala.PenalRepository;
 import mrsisa.projekat.uloga.Uloga;
 import mrsisa.projekat.uloga.UlogaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +37,13 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
+
 import mrsisa.projekat.adresa.Adresa;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PacijentService {
@@ -50,9 +54,15 @@ public class PacijentService {
 	private final FarmaceutRepository farmaceutRepository;
 	private final LijekRepository lekRepository;
 	private final EreceptRepository ereceptRepository;
+	private final RezervacijaRepository rezervacijaRepository;
+	private final ApotekaRepository apotekaRepository;
+	private final PopustRepository popustRepository;
+	private final PenalRepository penalRepository;
 	@Autowired
 	public PacijentService(PacijentRepository pacijentRepository, UlogaRepository ulogaRepository, PosetaRepository posete,
-						   FarmaceutRepository f, DermatologRepository d, LijekRepository lek, EreceptRepository ereceptR){
+						   FarmaceutRepository f, DermatologRepository d, LijekRepository lek, PopustRepository popustR,
+						   EreceptRepository ereceptR, RezervacijaRepository rezervacijaRepository, ApotekaRepository apotekaR,
+						   PenalRepository penal){
 		this.pacijentRepository = pacijentRepository;
 		this.ulogaRepository = ulogaRepository;
 		this.posetaRepository=posete;
@@ -60,6 +70,10 @@ public class PacijentService {
 		this.farmaceutRepository=f;
 		this.lekRepository=lek;
 		this.ereceptRepository=ereceptR;
+		this.rezervacijaRepository=rezervacijaRepository;
+		this.apotekaRepository=apotekaR;
+		this.popustRepository=popustR;
+		this.penalRepository=penal;
 	}
 
 	public Pacijent findByUsername(String username){
@@ -101,52 +115,16 @@ public class PacijentService {
 	@Transactional
 	public List<RezervacijaDTO> dobaviRezervacije() {
 		//TODO: dodaj id preko kog treba da se dobavi korisnik
+
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
 		List<RezervacijaDTO> dto=new ArrayList<>();
-		return dto;
+		for(Rezervacija r : sveRezervacije){
+			if(r.getDatumRezervacije().isAfter(LocalDateTime.now())){
+			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
 
-
-		/*Pacijent p=new Pacijent();//dobaviPacijenta();
-		ArrayList<Rezervacija> rez=new ArrayList<>();
-		Apoteka a=new Apoteka(1L, "Apoteka 1",null);
-		ArrayList<StanjeLijeka> rezLek=new ArrayList<>();
-		ArrayList<StanjeLijeka> rezLek2=new ArrayList<>();
-		rezLek.add(new StanjeLijeka(p.getAlergije().get(0),1,false));
-		rezLek.get(0).setCijena(1000);
-		rezLek.add(new StanjeLijeka(p.getAlergije().get(1),2,false));
-		rezLek.get(1).setCijena(500);
-
-		rezLek2.add(new StanjeLijeka(p.getAlergije().get(0),1,false));
-		rezLek2.get(0).setCijena(1000);
-		rezLek2.add(new StanjeLijeka(p.getAlergije().get(2),2,false));
-		rezLek2.get(1).setCijena(500);
-
-		Rezervacija r= new Rezervacija(1L,p,a,rezLek, LocalDateTime.now());
-		Rezervacija r2= new Rezervacija(2L,p,a,rezLek2, LocalDateTime.now());
-		rez.add(r);
-		rez.add(r2);
-
-		p.setRezervacije(rez);
-		List<RezervacijaDTO> dto=new ArrayList<>();
-
-		for(Rezervacija reze : p.getRezervacije()){
-
-			for(StanjeLijeka sl : reze.getRezervisaniLijekovi()){
-				dto.add(new RezervacijaDTO(reze, sl));
-			}
+				dto.add(new RezervacijaDTO(r,s));}}
 		}
-		dto.get(0).setDatumVazenja("25.04.2021.");
-		dto.get(1).setDatumVazenja("25.04.2021.");
-		dto.get(2).setDatumVazenja("30.04.2021.");
-		dto.get(3).setDatumVazenja("29.04.2021.");
 		return dto;
-		/*List<RezervacijaDTO> dto=new ArrayList<>();
-		for(Rezervacija reze : findOne("zarko").getRezervacije()){
-
-			for(StanjeLijeka sl : reze.getRezervisaniLijekovi()){
-				dto.add(new RezervacijaDTO(reze, sl));
-			}}
-
-		return dto;*/
 
 	}
 
@@ -262,60 +240,75 @@ public class PacijentService {
 		//save(p);
 	}
 
+	@Transactional
 	public List<Penal> dobaviPenale() {
-		Pacijent p=new Pacijent();//dobaviPacijenta();
-		List<Penal> penali=new ArrayList<>();
-		DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
-		String dan=LocalDateTime.now().format(df);
-		Penal p1=new Penal(dan, "Niste preuzeli recept");
-		Penal p2=new Penal(dan, "Niste preuzeli recept");
-		penali.add(p1);
-		penali.add(p2);
-		p.setPenali(penali);
+		//Pacijent p=this.pacijentRepository.findOneById(9); //todo 9
+		List<Penal> penali=this.penalRepository.findAllByIdPacijent(9+"");
 		return penali;
 	}
+	@Transactional
+    public String dobaviKategoriju() {
+		//TODO 9
+		Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9
+		Popust popust=this.popustRepository.findById(1); //postoji samo 1 //TODO proveri
+		String tekst="";
+		if(popust.getOdRegular()<=p.getBrojPoena() && popust.getDoRegular()>p.getBrojPoena())
+		{
+			tekst+="Pripadate REGULAR kategoriji.\n";
+		}else if(popust.getOdSilver()<=p.getBrojPoena() && popust.getDoSilver()>p.getBrojPoena())
+		{
+			tekst+="Pripadate SILVER kategoriji.\n";
+		}else
+		{
+			tekst+="Pripadate GOLD kategoriji.\n ";
+		}
+		tekst+=" Sa tom kategorijom ostvarujete popust od "+popust.getPopustRegular()
+				+"% na svaku rezervaciju leka, pregled kod dermatologa i farmaceuta.\n\nTrenutno imate: "+p.getBrojPoena()+" poena.";
 
-    public Kategorija dobaviKategoriju() {
-		Kategorija k =new Kategorija(20,20, "GOLD");
-		return k;
+
+		return tekst;
     }
 
+    @Transactional
     public List<ApotekaDTO> dobaviPretplatu() {
+		List<Apoteka> apoteke=this.pacijentRepository.findOneById(9).getPretplata(); //todo 9
 		List<ApotekaDTO> apo=new ArrayList<>();
-		ApotekaDTO apoteka1=new ApotekaDTO("apoteka1","mesto","nesto","meseto","nana");
-		ApotekaDTO apoteka2=new ApotekaDTO("apoteka2","mesto","nesto","meseto","nana");
-		ApotekaDTO apoteka3=new ApotekaDTO("apoteka3","mesto","nesto","meseto","nana");
-		apo.add(apoteka1);apoteka1.setId(1L);
-		apo.add(apoteka2);apoteka2.setId(2L);
-		apo.add(apoteka3);apoteka3.setId(3L);
-		return apo;
+		for(Apoteka a : apoteke){
+			apo.add(new ApotekaDTO(a));
+		}
+        return apo;
     }
 
     @Transactional
     public List<OcenaDTO> dobaviSvojeDermatologe() {
 		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
-		//this.dermatologRepository.findAll();
+		HashMap<Integer, OcenaDTO> ocene=new HashMap<>();
 		List<OcenaDTO> dermatolozi=new ArrayList<>();
-		System.out.println(svePosete.size());
+
 		for(Poseta p : svePosete){
+			if(p.getRadnik()!=null){
 			Dermatolog d=this.dermatologRepository.findByIdD(p.getRadnik().getId());
-			if(d!=null){
-				for(Ocena o :((Dermatolog)d).getOcene()){
+			if(d!=null) {
+				for (Ocena o : ((Dermatolog) d).getOcene()) {
 
-					if(o.getPacijent().getId()==9){ //TODO ovde dobaviti id pacijenta, tj poslati kao param
-
-						dermatolozi.add(new OcenaDTO(o,p.getRadnik()));
+					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
+						ocene.put(p.getRadnik().getId(), new OcenaDTO(o, p.getRadnik()));
+						//dermatolozi.add(new OcenaDTO(o, p.getRadnik()));
 						break;
 					}
 				}
-				if(d.getOcene().size()==0){
-					OcenaDTO dermOcena=new OcenaDTO(d);
-					dermatolozi.add(dermOcena);
+				if (d.getOcene().size() == 0) {
+					OcenaDTO dermOcena = new OcenaDTO(d);
+					ocene.put(p.getRadnik().getId(), dermOcena);
+					//dermatolozi.add(dermOcena);
 				}
-
+			}
 			}
 		}
-		System.out.println(dermatolozi.size());
+		for(OcenaDTO o: ocene.values()){
+			dermatolozi.add(o);
+		}
+		//System.out.println(dermatolozi.size());
 		return dermatolozi;
 
     }
@@ -323,21 +316,29 @@ public class PacijentService {
 	public List<OcenaDTO> dobaviSvojeFarmaceute() {
 		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
 		List<OcenaDTO> farmaceuti=new ArrayList<>();
+		HashMap<Integer, OcenaDTO> ocene=new HashMap<>();
 		for(Poseta p : svePosete){
+			if(p.getRadnik()!=null){
 			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
-			if(f!=null){
-				for(Ocena o :((Farmaceut)f).getOcene()){
-					if(o.getPacijent().getId()==9){ //TODO ovde dobaviti id pacijenta, tj poslati kao param
-						farmaceuti.add(new OcenaDTO(o,p.getRadnik()));
+			if(f!=null) {
+				for (Ocena o : ((Farmaceut) f).getOcene()) {
+					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
+						ocene.put(f.getId(),new OcenaDTO(o, p.getRadnik()));
+						// farmaceuti.add(new OcenaDTO(o, p.getRadnik()));
 						break;
 					}
 				}
-				if(f.getOcene().size()==0){
-					OcenaDTO dermOcena=new OcenaDTO(f);
-					farmaceuti.add(dermOcena);
-				}
+				if (f.getOcene().size() == 0) {
+					OcenaDTO dermOcena = new OcenaDTO(f);
 
+					ocene.put(f.getId(),dermOcena);
+					//farmaceuti.add(dermOcena);
+				}
 			}
+			}
+		}
+		for(OcenaDTO o: ocene.values()){
+			farmaceuti.add(o);
 		}
 		return farmaceuti;
 
@@ -345,45 +346,102 @@ public class PacijentService {
 	@Transactional
 	public List<OcenaDTO> dobaviSvojeApoteke() {
 		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
-		List<OcenaDTO> apoteka=new ArrayList<>();
+		HashMap<Long,OcenaDTO> apoteka=new HashMap<>();
 		for(Poseta p : svePosete){
-			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
-			Dermatolog d=this.dermatologRepository.findByIdD(p.getRadnik().getId());
-			if(f!=null){
-			for(Ocena o :((Farmaceut)f).getOcene()){
-                if(o.getPacijent()!=null){
-				if(o.getPacijent().getId()==9){
-			apoteka.add(new OcenaDTO(o,p.getApoteka()));
-			break;
+			if(p.getRadnik()!=null) {
+				Farmaceut f = this.farmaceutRepository.findByIdD(p.getRadnik().getId());
+				Dermatolog d = this.dermatologRepository.findByIdD(p.getRadnik().getId());
+				if (f != null) {
+					for (Ocena o : ((Farmaceut) f).getOcene()) {
+						if (o.getPacijent() != null) {
+							if (o.getPacijent().getId() == 9) {
+								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka()));
+								break;
+							}
+						}
+					}
+					if (f.getOcene().size() == 0) {
+						OcenaDTO dermOcena = new OcenaDTO(p.getApoteka());
+						apoteka.put(p.getApoteka().getId(), dermOcena);
+					}
 				}
-			}}
-			if(f.getOcene().size()==0){
-				OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
-				apoteka.add(dermOcena);
-			}}
 
 
-			if(d!=null){
-				for(Ocena o :(d).getOcene()){
-				    if(o.getPacijent()!=null){
-					if(o.getPacijent().getId()==9){
-						apoteka.add(new OcenaDTO(o,p.getApoteka()));
-						break;
-					}}
+				if (d != null) {
+					for (Ocena o : (d).getOcene()) {
+						if (o.getPacijent() != null) {
+							if (o.getPacijent().getId() == 9) {
+								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka()));
+								break;
+							}
+						}
+					}
+					if (d.getOcene().size() == 0) {
+						OcenaDTO dermOcena = new OcenaDTO(p.getApoteka());
+						apoteka.put(p.getApoteka().getId(), dermOcena);
+					}
 				}
-				if(d.getOcene().size()==0){
-					OcenaDTO dermOcena=new OcenaDTO(p.getApoteka());
-					apoteka.add(dermOcena);
-				}}
+			}
+		}
+
+		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi na 9
+		for(Erecept e : sviErecepti){
+			if(e.getPrepisaniLijekovi().get(0)!=null){
+				if(e.getPrepisaniLijekovi().get(0).getApoteka()!=null){
+					OcenaDTO ereceptOcena=new OcenaDTO(e.getPrepisaniLijekovi().get(0).getApoteka()); //ocena apoteke preko erecepta
+					apoteka.put(e.getPrepisaniLijekovi().get(0).getApoteka().getId(),ereceptOcena);
+				}
+			}
+		}
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
+		for(Rezervacija r : sveRezervacije){
+			if(r.isIzdato() && r.getApoteka()!=null){
+				OcenaDTO dto=new OcenaDTO(r.getApoteka());
+				apoteka.put(r.getApoteka().getId(),dto);
+			}
 
 		}
-		//TODO smisli kako da dobijes lekove iz apoteke, preko stanja?
-		return apoteka;
+		List<OcenaDTO> krajnjeOcene=new ArrayList<OcenaDTO>();
+		for(OcenaDTO o : apoteka.values()){
+			krajnjeOcene.add(o);
+		}
+
+		return krajnjeOcene;
 	}
+
+	@Transactional  //ovde se prikupe sve ocene za sve lekove koje je koristio pacijent
+	public List<OcenaDTO> dobaviSvojeLekove(){
+		List<OcenaDTO> lekoviOcena=new ArrayList<>();
+		HashMap<Long, OcenaDTO> ocene=new HashMap<>();
+		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi na 9
+		for(Erecept e : sviErecepti){
+			for(StanjeLijeka s : e.getPrepisaniLijekovi()){
+				if(s.getLijek()!=null){
+				OcenaDTO ereceptOcena=new OcenaDTO(s.getLijek()); //ocena apoteke preko erecepta
+				ocene.put(s.getLijek().getId(), ereceptOcena);
+				}
+			}
+		}
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
+		for(Rezervacija r : sveRezervacije){
+			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
+				if(s.getLijek()!=null) {
+					OcenaDTO dto = new OcenaDTO(s.getLijek());
+					ocene.put(s.getLijek().getId(), dto);
+					}
+				}
+			}
+
+		for(OcenaDTO o: ocene.values()){
+			lekoviOcena.add(o);
+		}
+		return lekoviOcena;
+	}
+
 	@Transactional
 	public void posaljiOcenu(String id) {
-		System.out.println(id);
-		System.out.println("bela vila");
+		//System.out.println(id);
+		//System.out.println("bela vila");
 		String podela[]=id.split("a");
 		Ocena o=new Ocena();
 		o.setOcena(Integer.parseInt(podela[1].trim()));
@@ -393,12 +451,29 @@ public class PacijentService {
 			Dermatolog d= this.dermatologRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
 			d.getOcene().add(o);//korisniku setovati ocenu
 			System.out.println(o.getOcena()+" jana");
+			this.dermatologRepository.save(d);
 			return;
 		}else if(id.startsWith("F")){
 			String novaP[]=podela[0].split("F");
 			Farmaceut d= this.farmaceutRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
 			d.getOcene().add(o);//korisniku setovati ocenu i save
 			System.out.println(o.getOcena()+" jana");
+			this.farmaceutRepository.save(d);
+			return;
+		}else if(id.startsWith("A")){
+			String novaP[]=podela[0].split("A");
+			Apoteka d= this.apotekaRepository.findOneById(Integer.parseInt(novaP[1].trim()));
+			d.getOcene().add(o);//korisniku setovati ocenu i save
+			System.out.println(o.getOcena()+" jana");
+			this.apotekaRepository.save(d);
+			return;
+		}else if(id.startsWith("L")){
+			String novaP[]=podela[0].split("L");
+			System.out.println(novaP[1].trim());
+			Lijek d= this.lekRepository.findOneById(Long.parseLong(novaP[1].trim()));
+			d.getOcene().add(o);//korisniku setovati ocenu i save
+			System.out.println(o.getOcena()+" jana");
+			this.lekRepository.save(d);
 			return;
 		}
 	}
@@ -420,4 +495,44 @@ public class PacijentService {
 		System.out.println(p.getAlergije()+"boka");
 		this.pacijentRepository.save(p);
 	}
+
+	@Transactional
+	public void otkaziPretplatu(String id) {
+		Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9
+		for(Apoteka a: p.getPretplata()){
+			if((a.getId()+"").equals(id)){
+				p.getPretplata().remove(a);
+				break;
+			}
+		}
+		this.pacijentRepository.save(p);
+
+
+	}
+
+	@Transactional //PAZIIII broj je 1 za lek 2 za savetovanje 3 za pregled
+	public void nijePreuzeolek(Integer id,int br){ //ili LONG
+		Pacijent p=this.pacijentRepository.findOneById(id);
+		DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
+		String dan=LocalDateTime.now().format(df);
+		LocalDateTime istice=LocalDateTime.now().plusMonths(1);
+		LocalDateTime pocetakmeseca=istice.withDayOfMonth(1);
+
+		String opis="";
+		if(br==1){
+			opis="Korisnik nije preuzeo lek dana: "+dan;
+		}else  if(br==2){
+			opis="Korisnik nije dosao na savetovanje dana: "+dan;
+		}else{
+			opis="Korisnik nije dosao na pregled dana: "+dan;
+		}
+		Penal penal=new Penal(dan, opis, pocetakmeseca);
+		penal.setIdKorisnika(id+"");
+		p.getPenali().add(penal);
+		this.pacijentRepository.save(p);
+	//	this.penalRepository.save(penal);
+	}
+
+
+
 }

@@ -3,11 +3,11 @@
  <NavMeniZaPacijenta/>
 
  <el-row>
-  <el-col :span="6" v-for="(o, index) in broj" :key="o" :offset="index > 0 ? broj : 0">
+  <el-col :span="6" v-for="(o, index) in broj" :key="o" :offset="index > 0 ? broj : 1">
     <el-card :body-style="{ padding: '0px' }">
       <img src="../assets/eksn.png" class="image">
       <div style="padding: 14px;">
-        <span>{{lista[o].opis}}</span>
+        <span>{{lista[0].opis}}</span>
         <div class="bottom">
           <time class="time">{{ currentDate }}</time>
          
@@ -53,17 +53,19 @@ export default  {
  data() {
     return {
       currentDate: new Date(),
-      lista: [],
+      lista: [{opis: "super akcija kreme za ruke", stanjeLijeka: null}],
       broj: 0
       
     };
   },
   async mounted(){ //ovde ima greska prikazuju se od 1 i 2, bez 0??
       
-      await this.$store.dispatch("APAkcije/dobaviAkcije")
+      //await this.$store.dispatch("APAkcije/dobaviAkcije")
       console.log(this.lista);
       this.broj=this.$store.state.APAkcije.akcije.length-1
+      console.log(this.broj)
       this.lista =this.$store.state.APAkcije.akcije;
+      console.log(this.lista)
       
     }
     

@@ -1,10 +1,19 @@
 <template>
     <NavMeniZaPacijenta/>
-    <p> Kategorija kojoj pripadate je <b>{{this.naziv}} </b>.<br>
-    Sa tom kategorijom, ostvarujete popust <b>{{this.popust }} % </b> na svaku rezervaciju leka, kao i na savetovanje i pregled kod dermatologa.</p>
-    <br><br>
-    <p>Trenutno imate: <b>{{this.poeni}} </b> poena.</p> 
+   
+    <el-card class="box-card" >
+  <div class="box-card" v-if="this.gold==1">
+    {{this.tekst}}
+  </div>
+  <div  class="box-card2" v-if="this.gold==2">
 
+{{this.tekst}}
+  </div>
+  <div  class="box-card3" v-if="this.gold==3">
+
+{{this.tekst}}
+  </div>
+</el-card>
 
 
 </template>
@@ -14,19 +23,38 @@ export default  {
  components :{NavMeniZaPacijenta},
  data() { 
         return {
-          naziv: "Silver",
-          popust: "20",
-          poeni: "5"
+          tekst: "",
+          gold: 1
+         
         }
     },
  name: 'PregledKategorija',
     async mounted(){
      this.$store.dispatch("APPacijenti/dobaviKategorijuPacijenta").then(()=>{
-        this.naziv=this.$store.state.APPacijenti.kategorija.naziv;
-        this.popust=this.$store.state.APPacijenti.kategorija.popust;
-        this.poeni=this.$store.state.APPacijenti.kategorija.maxBrPoena;
+        this.tekst=this.$store.state.APPacijenti.kategorija;
+        
+        if(this.tekst.includes("GOLD")){this.gold=1;}
+        else if(this.tekst.includes("REGULAR")){this.gold=3;}
+        else {this.gold=2;}
+        console.log(this.gold)
      })
     
     },
 };
 </script>
+<style>
+  
+
+  .box-card {
+   
+    background-color: #f5db53;
+  }
+   .box-card2 {
+   
+    background-color: #b9b59e;
+  }
+   .box-card3 {
+   
+    background-color: #409EFF;
+  }
+</style>

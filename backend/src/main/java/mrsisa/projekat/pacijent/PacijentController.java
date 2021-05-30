@@ -44,7 +44,7 @@ public class PacijentController {
 
 	@GetMapping(path="/dobaviKategoriju")
 	@PreAuthorize("hasRole('PACIJENT')")
-	public Kategorija dobaviKategoriju(){//umesto max poena vratiti moje trenutne poene
+	public String dobaviKategoriju(){//umesto max poena vratiti moje trenutne poene
 		return pacijentService.dobaviKategoriju();
 	}
 
@@ -58,7 +58,7 @@ public class PacijentController {
 	//@PreAuthorize("hasRole('PACIJENT')")
 	public boolean otkaziPretplatu(@RequestBody String id){//umesto max poena vratiti moje trenutne poene
 
-		System.out.println("da "+id);
+		pacijentService.otkaziPretplatu(id);
 		return true;
 
 	}
@@ -136,6 +136,12 @@ public class PacijentController {
 	@PreAuthorize("hasRole('PACIJENT')")
 	public List<OcenaDTO> dobaviSvojeApooteke(){
 		return pacijentService.dobaviSvojeApoteke();
+	}
+
+	@GetMapping(path="/dobaviSvojeLekove")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeLekove(){
+		return pacijentService.dobaviSvojeLekove();
 	}
 
 	@PutMapping(path="/posaljiOcenu/{id}")

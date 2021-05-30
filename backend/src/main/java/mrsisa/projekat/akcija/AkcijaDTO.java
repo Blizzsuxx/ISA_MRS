@@ -1,5 +1,6 @@
 package mrsisa.projekat.akcija;
 
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 
 import java.time.LocalDate;
@@ -53,9 +54,9 @@ public class AkcijaDTO {
     public AkcijaDTO() {
     }
 
-    public AkcijaDTO(Akcija a) {
+    public AkcijaDTO(Akcija a, StanjeLijeka s) {
         this.opis = a.getOpis();
-        //this.stanjeLijeka = a.getStanjeLijeka();
+        this.stanjeLijeka = new StanjeLijekaDTO(s);
         this.Id = a.getId();
         this.datumVazenja = LocalDate.now();
     }

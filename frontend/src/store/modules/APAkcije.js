@@ -11,8 +11,8 @@ const getters = {
 };
 
 const actions = {
-    dobaviAkcije (context) { 
-        return axios.get('http://localhost:8080/api/v1/akcija/dobaviAkcije',{ headers: authHeader()})
+    dobaviAkcije (context,id) { 
+        return axios.put(`http://localhost:8080/api/v1/akcija/dobaviAkcije/${id}`,{},{ headers: authHeader()})
         .then(response => {
         let sve =response.data
         context.commit('postaviAkcije',sve)
