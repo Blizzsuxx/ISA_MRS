@@ -25,11 +25,13 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
-        this.ocijena=0;
+        this.ocijena=-1;
         for(Ocena o : l.getOcene()){
             this.ocijena+=o.getOcena();
         }
-        this.ocijena=this.ocijena/l.getOcene().size();
+        if(l.getOcene().size()!=0)
+            this.ocijena=this.ocijena/l.getOcene().size();
+
         //this.ocijena = l.getOcijena();
         this.poeni = l.getPoeni();
     }

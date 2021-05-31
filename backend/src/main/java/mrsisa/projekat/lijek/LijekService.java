@@ -59,41 +59,15 @@ public class LijekService {
         ));
 
     }
-
+    @Transactional
     public List<LijekDTO> dobaviSveDTOLijekove(){
-        return List.of(new LijekDTO(
-                    1L,
-                    "marko",
-                    "marko",
-                    10.0,
-                    "marko",
-                    "marko"
-                ),
-                new LijekDTO(
-                        2L,
-                        "andrija",
-                        "andrija",
-                        5,
-                        "marko",
-                        "marko"
-                ),
-                new LijekDTO(
-                        3L,
-                        "dragan",
-                        "dragan",
-                        6,
-                        "marko",
-                        "marko"
-                ),
-                new LijekDTO(
-                        4L,
-                        "natasa",
-                        "natasa",
-                        7,
-                        "marko",
-                        "marko"
-                )
-        );
+        List<Lijek> lijekovi = this.findAll();
+        List<LijekDTO> lijekoviDTO = new ArrayList<>();
+
+        for (Lijek l : lijekovi)
+            lijekoviDTO.add(new LijekDTO(l));
+
+        return lijekoviDTO;
     }
 
 }

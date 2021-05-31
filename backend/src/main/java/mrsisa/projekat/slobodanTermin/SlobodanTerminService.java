@@ -44,7 +44,9 @@ public class SlobodanTerminService {
     }
 
     public void kreirajNoviTermin(SlobodanTerminDTO dto) {
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        System.out.println(dto.getPocetakTermina());
+        System.out.println(dto.getKrajTermina());
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         SlobodanTermin novi =  new SlobodanTermin();
         novi.setRadnik(radnikRepository.findById(dto.getId().intValue()).orElse(null));
         novi.setApoteka(apotekaRepository.findById(1L).orElse(null));

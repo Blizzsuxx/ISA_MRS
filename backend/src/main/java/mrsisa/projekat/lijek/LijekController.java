@@ -32,13 +32,9 @@ public class LijekController {
     @PreAuthorize("hasAnyRole('ADMIN_APOTEKA','ADMIN_SISTEMA')")
     @GetMapping("/DTOlijekovi")
     public List<LijekDTO> dobaviSveDTOLijekove() {
-        List<Lijek> lijekovi = this.lijekService.findAll();
-        List<LijekDTO> lijekoviDTO = new ArrayList<>();
 
-        for (Lijek l : lijekovi)
-            lijekoviDTO.add(new LijekDTO(l));
+        return this.lijekService.dobaviSveDTOLijekove();
 
-        return lijekoviDTO;
     }
 
     @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','DOBAVLJAC')")

@@ -163,7 +163,6 @@ const actions = {
         context.commit('postaviSveLijekove',sviLijekovi)
     },
     zavrsiNarucivanje(context,datum){
-      
         let lijekovi = state.lijekoviZaPorucivanje.map(elem=>{
             let new_elem = JSON.parse(JSON.stringify(elem))
             return new_elem;
@@ -171,8 +170,7 @@ const actions = {
         let datum1 = moment(String(datum)).format('YYYY-MM-DD hh:mm').split(" ")[0]+" 23:59";
        
         axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
-                                                datum: datum1,
-                                                                                    apoteka:1},{ headers: authHeader()})
+                                                datum: datum1},{ headers: authHeader()})
         .then(response => {
             context.commit('resetujLijekoveZaPorucivanje',[])
           return response;
