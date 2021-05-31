@@ -294,8 +294,8 @@ insert into rezervacija_rezervisani_lijekovi (rezervacija_id, rezervisani_lijeko
 
 
 --PACIJENT I PRETPLATA NA APOTEKE
-insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,3);
-insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,4);
+--insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,3);
+--insert into pacijenti_pretplata (pacijent_korisnik, pretplata_id) values (9,4);
 
 --LEK ZA AKCIJU
 insert into lijek (sifra,napomena, naziv, oblik_lijeka,  proizvodjac, sastav, vrsta_lijeka, dobavljac_radnik, poeni)

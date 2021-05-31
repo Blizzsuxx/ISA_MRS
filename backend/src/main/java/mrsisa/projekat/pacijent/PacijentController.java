@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -55,13 +57,13 @@ public class PacijentController {
 		return pacijentService.dobaviPretplatu();
 	}
 	@PutMapping(path="/otkaziPretplatu")
-	//@PreAuthorize("hasRole('PACIJENT')")
+	@PreAuthorize("hasRole('PACIJENT')")
 	public boolean otkaziPretplatu(@RequestBody String id){//umesto max poena vratiti moje trenutne poene
-
-		pacijentService.otkaziPretplatu(id);
-		return true;
-
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Pacijent p = (Pacijent)auth.getPrincipal();
+		return  pacijentService.otkaziPretplatu(id, p);
 	}
+
 	@PostMapping(value="/proveriAlergije")
 	public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
 		List<Map<String,Object>> lekovi = (List<Map<String,Object>>) params.get("lijekovi");

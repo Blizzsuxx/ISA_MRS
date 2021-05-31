@@ -11,12 +11,7 @@
   <el-table
     ref="zaTabelu"
     :data="zaTabelu"
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
+    style="width: 100%">
     <el-table-column
       property="ime"
       label="Naziv"
@@ -59,10 +54,19 @@
     <el-table-column
       label="Prikazi">
       <template #default="scope">
+        <el-popconfirm
+        confirmButtonText='Da'
+        cancelButtonText='Ne'
+        icon="el-icon-info"
+        iconColor="red"
+        title="Zelite da otkazete pretplatu?"
+        @confirm='handleEdit2(scope.row)'>
+        <template #reference>
         <el-button
           size="mini"
-          @click="handleEdit2( scope.row)">Otkazi pretplatu</el-button>
-        
+          >Otkazi pretplatu</el-button>
+        </template>
+        </el-popconfirm>
       </template>
     </el-table-column>
   </el-table>
@@ -131,16 +135,11 @@ export default defineComponent ({
             })
       },
       async handleEdit2( row) {
-        if(confirm("Da li zelite da otkazete pretplatu na apoteku "+row.ime+ " ?")){
+         console.log("JEEEEEEEEEEEEEEL UDJE");
           
-          var id=row.id;
-          
-          await this.$store.dispatch("APPacijenti/otkaziPretplatu",id)
+          await this.$store.dispatch("APPacijenti/otkaziPretplatu",row.id)
           this.zaTabelu =this.$store.state.APPacijenti.pretplata;
-        }
-        else{
-          console.log("ne");
-        }
+       
         
       },
      pretrazi() {

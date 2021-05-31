@@ -14,6 +14,11 @@
     :data="zaTabelu"
     style="width: 100%">
     <el-table-column
+      property="id"
+      label="ID"
+      width="120">
+    </el-table-column> 
+    <el-table-column
       property="ime"
       label="Naziv"
       width="120">
@@ -43,14 +48,19 @@
       label="Udaljenost"
       show-overflow-tooltip>
     </el-table-column>
-     <el-table-column
-      align="right">
+    <el-table-column
+      align="right"> 
+
+
+
       <template #default="scope">
         <el-button
           size="mini"
           type="danger"
-          @click="pretplata(scope.$index, scope.row)">Pretplata</el-button>
+          :disabled="scope.row.pretplacen"
+          @click="pretplata(scope.$index, scope.row)">{{scope.row.pretplacen?'Pretplacen':'Pretplata'}}</el-button>
       </template>
+
     </el-table-column>
   </el-table>
 </el-main>
@@ -74,9 +84,9 @@ export default defineComponent ({
     },
     async mounted(){
       
-      await this.$store.dispatch("APApoteke/dobaviApoteke")
+      await this.$store.dispatch("APApoteke/dobaviApotekePacijenta")
       this.zaTabelu =this.$store.state.APApoteke.sveApoteke;
-      console.log(this.zaTabelu[0])
+      console.log(this.zaTabelu)
     },
     name: 'APPostojeceApoteke',
     components:{
@@ -92,8 +102,31 @@ export default defineComponent ({
           this.$refs.multipleTable.clearSelection();
         }
       },
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno izvrsena pretplata na apoteku.',
+          type: 'success'
+        })}
+      ,
+      open2() {
+        this.$message({
+          showClose: true,
+          message: 'Doslo je do greske',
+          type: 'error'
+        })}
+      ,
       pretplata(index, row){
-        console.log(index, row);
+        console.log(row.id);
+        row.pretplacen = true;
+        this.$store.dispatch("APApoteke/pretplataNaApoteku", row.id)
+        .then(response => {
+          if (response.data){
+            this.open1();
+          } else{
+            this.open2();
+          }
+        });
       },
      pretrazi() {
        //ovde ili instalirati onu glupost, koja nzm cemu sluzi, ili poslati beku
