@@ -54,11 +54,20 @@
 
 
       <template #default="scope">
+        <el-popconfirm
+        confirmButtonText='Da'
+        cancelButtonText='Ne'
+        icon="el-icon-info"
+        iconColor="red"
+        title="Zelite da se pretplatite na izabranu apoteku?"
+        @confirm='pretplata(scope.$index, scope.row)'>
+        <template #reference>
         <el-button
           size="mini"
           type="danger"
-          :disabled="scope.row.pretplacen"
-          @click="pretplata(scope.$index, scope.row)">{{scope.row.pretplacen?'Pretplacen':'Pretplata'}}</el-button>
+          :disabled="scope.row.pretplacen">{{scope.row.pretplacen?'Pretplacen':'Pretplata'}}</el-button>
+        </template>
+        </el-popconfirm>
       </template>
 
     </el-table-column>
