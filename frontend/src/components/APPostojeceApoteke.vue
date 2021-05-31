@@ -1,5 +1,7 @@
 <template>
+<NavMeniZaPacijenta/>
 <el-main>
+
 <h2>Sve registrovane apoteke</h2>
 <div style="margin-top: 20px">
     <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button> -->
@@ -10,12 +12,7 @@
   <el-table
     ref="zaTabelu"
     :data="zaTabelu"
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
-    <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
+    style="width: 100%">
     <el-table-column
       property="ime"
       label="Naziv"
@@ -46,13 +43,22 @@
       label="Udaljenost"
       show-overflow-tooltip>
     </el-table-column>
+     <el-table-column
+      align="right">
+      <template #default="scope">
+        <el-button
+          size="mini"
+          type="danger"
+          @click="pretplata(scope.$index, scope.row)">Pretplata</el-button>
+      </template>
+    </el-table-column>
   </el-table>
 </el-main>
 </template>
 
 const { defineComponent, ref } = Vue;
 <script>
-
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
    import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
@@ -73,6 +79,9 @@ export default defineComponent ({
       console.log(this.zaTabelu[0])
     },
     name: 'APPostojeceApoteke',
+    components:{
+       NavMeniZaPacijenta
+  },
     methods: {
       toggleSelection(rows) {
         if (rows) {
@@ -82,6 +91,9 @@ export default defineComponent ({
         } else {
           this.$refs.multipleTable.clearSelection();
         }
+      },
+      pretplata(index, row){
+        console.log(index, row);
       },
      pretrazi() {
        //ovde ili instalirati onu glupost, koja nzm cemu sluzi, ili poslati beku
