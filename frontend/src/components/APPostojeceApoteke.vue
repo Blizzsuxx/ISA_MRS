@@ -1,5 +1,7 @@
 <template>
+<NavMeniZaPacijenta/>
 <el-main>
+
 <h2>Sve registrovane apoteke</h2>
 <div style="margin-top: 20px">
     <!-- <el-button @click="toggleSelection([tableData[1], tableData[2]])">Toggle selection status of second and third rows</el-button> -->
@@ -10,12 +12,12 @@
   <el-table
     ref="zaTabelu"
     :data="zaTabelu"
-    style="width: 100%"
-    @selection-change="handleSelectionChange">
+    style="width: 100%">
     <el-table-column
-      type="selection"
-      width="55">
-    </el-table-column>
+      property="id"
+      label="ID"
+      width="120">
+    </el-table-column> 
     <el-table-column
       property="ime"
       label="Naziv"
@@ -46,13 +48,36 @@
       label="Udaljenost"
       show-overflow-tooltip>
     </el-table-column>
+    <el-table-column
+      align="right"> 
+
+
+
+      <template #default="scope">
+        <el-popconfirm
+        confirmButtonText='Da'
+        cancelButtonText='Ne'
+        icon="el-icon-info"
+        iconColor="red"
+        title="Zelite da se pretplatite na izabranu apoteku?"
+        @confirm='pretplata(scope.$index, scope.row)'>
+        <template #reference>
+        <el-button
+          size="mini"
+          type="danger"
+          :disabled="scope.row.pretplacen">{{scope.row.pretplacen?'Pretplacen':'Pretplata'}}</el-button>
+        </template>
+        </el-popconfirm>
+      </template>
+
+    </el-table-column>
   </el-table>
 </el-main>
 </template>
 
 const { defineComponent, ref } = Vue;
 <script>
-
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
    import { defineComponent, ref } from 'vue'
 export default defineComponent ({
   setup() {
@@ -68,11 +93,14 @@ export default defineComponent ({
     },
     async mounted(){
       
-      await this.$store.dispatch("APApoteke/dobaviApoteke")
+      await this.$store.dispatch("APApoteke/dobaviApotekePacijenta")
       this.zaTabelu =this.$store.state.APApoteke.sveApoteke;
-      console.log(this.zaTabelu[0])
+      console.log(this.zaTabelu)
     },
     name: 'APPostojeceApoteke',
+    components:{
+       NavMeniZaPacijenta
+  },
     methods: {
       toggleSelection(rows) {
         if (rows) {
@@ -82,6 +110,32 @@ export default defineComponent ({
         } else {
           this.$refs.multipleTable.clearSelection();
         }
+      },
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno izvrsena pretplata na apoteku.',
+          type: 'success'
+        })}
+      ,
+      open2() {
+        this.$message({
+          showClose: true,
+          message: 'Doslo je do greske',
+          type: 'error'
+        })}
+      ,
+      pretplata(index, row){
+        console.log(row.id);
+        row.pretplacen = true;
+        this.$store.dispatch("APApoteke/pretplataNaApoteku", row.id)
+        .then(response => {
+          if (response.data){
+            this.open1();
+          } else{
+            this.open2();
+          }
+        });
       },
      pretrazi() {
        //ovde ili instalirati onu glupost, koja nzm cemu sluzi, ili poslati beku

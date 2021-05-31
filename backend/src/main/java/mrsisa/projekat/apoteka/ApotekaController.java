@@ -10,6 +10,7 @@ import java.util.Map;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
+import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,9 +109,15 @@ public class ApotekaController {
 
     @GetMapping(path="/dobaviApoteke")
     public List<ApotekaDTO> dobaviApoteke(){
-    	
-
     	return apotekaService.dobaviApoteke();
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value="/dobaviApotekePacijenta")
+    public List<ApotekaDTO> dobaviApotekePacijenta(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pacijent pacijent = (Pacijent)auth.getPrincipal();
+        return apotekaService.dobaviApotekePacijenta(pacijent);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
@@ -156,6 +163,13 @@ public class ApotekaController {
 
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value = "/pretplataApoteke/{idApoteke}")
+    public boolean pretplatiSeNaAApoteku(@PathVariable long idApoteke){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pacijent p = (Pacijent)auth.getPrincipal();
+        return apotekaService.pretplatiSeNaAApoteku(p, idApoteke);
+    }
 
 
 }

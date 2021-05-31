@@ -18,6 +18,19 @@ const getters = {
 };
 
 const actions = {
+    pretplataNaApoteku(context, idApoteke){
+        return axios.get(`http://localhost:8080/api/v1/apoteka/pretplataApoteke/${idApoteke}`,{ headers: authHeader()});
+    },
+
+    dobaviApotekePacijenta(context){
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApotekePacijenta',{ headers: authHeader()})
+        .then(response => {
+            let apotekeSve =response.data
+            //console.log(apotekeSve[0].adresa.ulica)
+            context.commit('postaviApoteke',apotekeSve)
+        })
+    },
+
     dobaviApoteke (context) {
 
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviApoteke',{ headers: authHeader()})

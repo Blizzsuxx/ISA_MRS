@@ -19,6 +19,7 @@ public class ApotekaDTO {
     private List<StanjeLijekaDTO> stanja;
     private double ukupnaCijena; // potrebno za Erecept
     private String rezultat; // potrebno za Erecept
+    private boolean pretplacen;
 
     public ApotekaDTO() {
 
@@ -52,6 +53,18 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
     }
+    public ApotekaDTO(Apoteka apoteka, boolean pretplacen){
+        this.id = apoteka.getId();
+        this.ime = apoteka.getIme();
+        this.mjesto = apoteka.getAdresa().getMesto();
+        this.ptt = apoteka.getAdresa().getPtt();
+        this.ulica  = apoteka.getAdresa().getUlica();
+        this.broj = apoteka.getAdresa().getBroj();
+        this.duzina = apoteka.getAdresa().getgDuzina();
+        this.sirina = apoteka.getAdresa().getgSirina();
+        this.pretplacen = pretplacen;
+    }
+
     public void setAdresa(Adresa adresa){
         this.mjesto = adresa.getMesto();
         this.ptt = adresa.getPtt();
@@ -155,5 +168,13 @@ public class ApotekaDTO {
 
     public void setRezultat(String rezultat) {
         this.rezultat = rezultat;
+    }
+
+    public boolean isPretplacen() {
+        return pretplacen;
+    }
+
+    public void setPretplacen(boolean pretplacen) {
+        this.pretplacen = pretplacen;
     }
 }

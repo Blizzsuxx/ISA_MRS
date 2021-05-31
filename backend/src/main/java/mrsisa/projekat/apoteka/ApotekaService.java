@@ -55,6 +55,7 @@ public class ApotekaService {
         }
         return povratna_stanja;
     }
+
     @Transactional
     public List<ApotekaDTO> dobaviApoteke(){
         List<ApotekaDTO> apoteke = new ArrayList<>();
@@ -65,6 +66,16 @@ public class ApotekaService {
     	    apoteke.add(temp);
         }
     	return apoteke;
+    }
+
+    @Transactional
+    public List<ApotekaDTO> dobaviApotekePacijenta(Pacijent p){
+        Pacijent pacijent= this.pacijentRepository.findByUsername(p.getUsername());
+        List<ApotekaDTO> apoteke = new ArrayList<>();
+        for (Apoteka apoteka: this.apotekaRepository.findAll()){
+            apoteke.add(new ApotekaDTO(apoteka, apoteka.getPretplaceniPacijenti().contains(pacijent)));
+        }
+        return apoteke;
     }
 
     @Transactional
@@ -187,5 +198,20 @@ public class ApotekaService {
             povratna_stanja.add(new StanjeLijekaDTO(sl));
         }
         return povratna_stanja;
+    }
+
+    @Transactional
+    public boolean pretplatiSeNaAApoteku(Pacijent pac, Long idApoteke){
+        Apoteka a = this.apotekaRepository.findOneById(idApoteke);
+        Pacijent p = this.pacijentRepository.findByUsername(pac.getUsername());
+
+        for (Pacijent pacijent: a.getPretplaceniPacijenti())
+            if (pacijent.getUsername().equals(p.getUsername()))
+                return false;
+        a.getPretplaceniPacijenti().add(p);
+
+        this.apotekaRepository.save(a);
+
+        return true;
     }
 }

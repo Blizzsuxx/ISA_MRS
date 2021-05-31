@@ -497,15 +497,16 @@ public class PacijentService {
 	}
 
 	@Transactional
-	public void otkaziPretplatu(String id) {
-		Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9
-		for(Apoteka a: p.getPretplata()){
+	public boolean otkaziPretplatu(String id, Pacijent p) {
+		Pacijent pacijent = this.pacijentRepository.findByUsername(p.getUsername()); //TODO 9
+		for(Apoteka a: pacijent.getPretplata()){
 			if((a.getId()+"").equals(id)){
-				p.getPretplata().remove(a);
-				break;
+				pacijent.getPretplata().remove(a);
+				a.getPretplaceniPacijenti().remove(pacijent);
+				return true;
 			}
 		}
-		this.pacijentRepository.save(p);
+		return false;
 
 
 	}

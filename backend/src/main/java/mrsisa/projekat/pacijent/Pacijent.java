@@ -52,7 +52,7 @@ public class Pacijent extends Korisnik {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Ocena> ocene;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "pretplaceniPacijenti")
 	private List<Apoteka> pretplata;
 
 	public List<Rezervacija> getRezervacije() {
