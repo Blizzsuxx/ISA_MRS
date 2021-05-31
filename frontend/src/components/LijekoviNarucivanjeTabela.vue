@@ -39,6 +39,7 @@
       </el-table-column>
       <el-table-column
         property="ocijena"
+        :formatter="formirajOcjenu"
         label="Ocijena"
         width="180">
       </el-table-column>
@@ -79,6 +80,11 @@ export default {
      
       handleSelectionChange(val) {
         this.$emit("promjenjena-selekcija",val)
+      },
+      formirajOcjenu(val){
+        if(val.ocijena==-1)
+          return "Neocjenjen"
+        return val.ocijena
       },
       formatirajProizvodnju(row){
       

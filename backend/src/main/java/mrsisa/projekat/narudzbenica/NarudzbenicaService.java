@@ -54,8 +54,7 @@ public class NarudzbenicaService {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         ObjectMapper mapper = new ObjectMapper();
         LocalDateTime datum = LocalDateTime.parse((String) podaci.get("datum"), format);
-        Long idApoteka = Long.valueOf((Integer) podaci.get("apoteka"));
-        Apoteka apoteka = this.apotekaRepository.findById(idApoteka).orElse(null);
+        Apoteka apoteka = this.apotekaRepository.findById(administrator.getApoteka().getId()).orElse(null);
         Narudzbenica narudzbenica = new Narudzbenica();
         narudzbenica.setApoteka(apoteka);
         narudzbenica.setRok(datum);
