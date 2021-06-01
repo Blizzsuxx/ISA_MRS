@@ -3,6 +3,7 @@ package mrsisa.projekat.poseta;
 
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
@@ -10,8 +11,11 @@ import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentRepository;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.radnik.Radnik;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,18 +26,27 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class PosetaService {
     private final PosetaRepository posetaRepository;
     private final FarmaceutRepository farmaceutRepository;
     private final DermatologRepository dermatologRepository;
+    private final ApotekaRepository apotekaRepository;
+    private final PacijentRepository pacijentRepository;
+    private final SlobodanTerminRepository slobodanTerminRepository;
+
     @Autowired
-    public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm)
+    public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm,
+                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR)
     {
         this.posetaRepository = posRepository;
         this.farmaceutRepository=farm;
         this.dermatologRepository=derm;
+        this.apotekaRepository=apotekaRepository;
+        this.pacijentRepository=pacijentR;
+        this.slobodanTerminRepository=slobodanR;
     }
 
     public List<PosetaDTO> dobaviPosete(Long id) {
@@ -190,47 +203,7 @@ public class PosetaService {
             }
         }
         return zaSlanje;
-        /*
-        Poseta poseta1=new Poseta();
-        Apoteka apoteka1=new Apoteka();apoteka1.setIme("apo1");
-        poseta1.setApoteka(apoteka1);
-        Pacijent zarko=new Pacijent(); zarko.setFirstName("zarko");
 
-        Dermatolog derm=new Dermatolog(); derm.setFirstName("micko");derm.setLastName("C");
-        poseta1.setPacijent(zarko);
-        poseta1.setRadnik(derm);
-        poseta1.setPocetak(LocalDateTime.now());
-        poseta1.setKraj(LocalDateTime.now().plusMinutes(30));
-        poseta1.setId(1L);
-
-        Poseta poseta2=new Poseta();
-        Apoteka apoteka2=new Apoteka();apoteka2.setIme("apo2");
-        poseta2.setApoteka(apoteka2);
-        poseta2.setPacijent(zarko);
-        Dermatolog derm2=new Dermatolog(); derm2.setFirstName("micko2");derm2.setLastName("C");
-        poseta2.setRadnik(derm2);
-        poseta2.setPocetak(LocalDateTime.now().plusMinutes(50));
-        poseta2.setKraj(LocalDateTime.now().plusMinutes(70));
-        poseta2.setId(2L);
-
-        Poseta poseta3=new Poseta();
-        Apoteka apoteka3=new Apoteka();apoteka3.setIme("apo3");
-        poseta3.setApoteka(apoteka3);
-
-
-        poseta3.setPacijent(zarko);
-        poseta3.setRadnik(derm);
-        poseta3.setPocetak(LocalDateTime.now().plusDays(1));
-        poseta3.setKraj(LocalDateTime.now().plusDays(1).plusMinutes(30));
-        poseta3.setId(3L);
-        ArrayList<Poseta> posete=new ArrayList<>();posete.add(poseta1);posete.add(poseta2);posete.add(poseta3);
-        ArrayList<PosetaDTO> dto=new ArrayList<>();dto.add(new PosetaDTO(poseta1));dto.add(new PosetaDTO(poseta2)); dto.add(new PosetaDTO(poseta3));
-
-        List<Erecept> erecepti=napraviErecepte(zarko);
-        dto.get(0).setPrepisaniLekoviLista(erecepti);
-        dto.get(1).setPrepisaniLekovi(new ArrayList<>());
-        dto.get(2).setPrepisaniLekoviLista(erecepti);
-        return dto;*/
     }
     @Transactional
     public List<PosetaDTO> dobaviIstorijuF() {
@@ -359,29 +332,35 @@ public class PosetaService {
 
     }
 
-    public List<PosetaDTO> slobodnePoseteD() {
-        List<PosetaDTO> svePosete=new ArrayList<>();
-        Dermatolog d1=new Dermatolog();d1.setFirstName("Milos");d1.setLastName("Milinkovic");
-        Dermatolog d2=new Dermatolog();d2.setFirstName("Zoki");d2.setLastName("Lazarevic");
-        LocalDateTime dan1=LocalDateTime.now();
-        LocalDateTime dan2=LocalDateTime.now().plusMinutes(30);
-        LocalDateTime dan12=LocalDateTime.now().plusDays(1);
-        LocalDateTime dan22=LocalDateTime.now().plusDays(1).plusMinutes(30);
-        Apoteka a1=new Apoteka(); a1.setIme("Zdravkovic apoteka");
-        Apoteka a2=new Apoteka();a2.setIme("Tvoja apoteka");
-        PosetaDTO p1=new PosetaDTO(1L,d1,dan1+"", dan2+"","",a1,4,1000);
-        PosetaDTO p2=new PosetaDTO(2L,d2,dan1+"", dan2+"","",a2,5,1500);
-        PosetaDTO p3=new PosetaDTO(3L,d1,dan12+"", dan22+"","",a1, 4,1000);
-        svePosete.add(p1);
-        svePosete.add(p2);
-        svePosete.add(p3);
-        return svePosete;
+    public List<SlobodanTerminDTO> slobodnePoseteD() {
+        List<SlobodanTermin> sviTermini=this.slobodanTerminRepository.findAll();
 
+        List<SlobodanTerminDTO> zaSlanje=new ArrayList<>();
+        for(SlobodanTermin p : sviTermini){
+            //todo slobodan termin kad se yakaze izbaciti iz liste i sacuvati i ovde i kod farm
+                Dermatolog r=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+                Apoteka a=this.apotekaRepository.findOneById(p.getApoteka().getId());
+                if(r!=null && a!=null){
+
+                zaSlanje.add(new SlobodanTerminDTO(p,r,a));}
+
+        }
+        return zaSlanje;
 
     }
 
     public String zakaziPosetuD(String id) {
-
+        String broj=id.split("=")[0];
+        SlobodanTermin termin=this.slobodanTerminRepository.findOneById(Long.parseLong(broj.trim()));
+        Poseta p=new Poseta();
+        p.setRadnik(termin.getRadnik());//dovoljno da poseta ima pacijenta
+        p.setKraj(termin.getKrajTermina());
+        p.setPocetak(termin.getPocetakTermina());
+        p.setId(100L); //TODO id
+        p.setApoteka(termin.getApoteka());
+        Pacijent pacijent=this.pacijentRepository.findOneById(9);//todo 9
+        p.setPacijent(pacijent);
+        this.posetaRepository.save(p);
 
         return "Uspesno ste zakazali posetu kod dermatologa Sime.";
     }

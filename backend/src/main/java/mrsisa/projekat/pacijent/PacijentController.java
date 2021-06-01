@@ -123,6 +123,12 @@ public class PacijentController {
 		return pacijentService.dobaviPenale();
 	}
 
+	@GetMapping(path="/provariPenale")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public boolean proveriPenale(){
+		return pacijentService.proveriPenale();
+	}
+
 	@GetMapping(path="/dobaviSvojeDermatologe")
 	@PreAuthorize("hasRole('PACIJENT')")
 	public List<OcenaDTO> dobaviSvojeDermatologe(){

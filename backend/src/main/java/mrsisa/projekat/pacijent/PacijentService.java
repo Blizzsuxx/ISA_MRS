@@ -535,5 +535,15 @@ public class PacijentService {
 	}
 
 
-
+    public boolean proveriPenale() {
+		List<Penal> penali=this.penalRepository.findAllByIdPacijent(9+""); //todo 9
+		int broj=0;
+		for(Penal p :penali){
+			if(LocalDateTime.now().isBefore(p.getTrajeDo())){
+				broj++;
+			}
+		}
+		if(broj>=3){return false;}
+		return true;
+    }
 }

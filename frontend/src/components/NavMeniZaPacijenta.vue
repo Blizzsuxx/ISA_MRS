@@ -11,8 +11,8 @@
     <el-menu-item index="2-2"><router-link to="/ap/istorijaPosetaFarmaceut">Istorija poseta farmaceutu</router-link></el-menu-item>
     <el-menu-item index="2-3"><router-link to="/ap/zakazanePoseteDermatologuPacijent">Zakazane posete dermatolozima</router-link></el-menu-item>
     <el-menu-item index="2-4"><router-link to="/ap/zakazanePoseteFarmaceutuPacijent">Zakazane posete farmaceutima</router-link></el-menu-item>
-    <el-menu-item index="2-5"><router-link to="/ap/zakaziD">Zakazivanje kod dermatologa</router-link></el-menu-item>
-    <el-menu-item index="2-6"><router-link to="/ap/zakaziF">Zakazivanje kod farmaceuta</router-link></el-menu-item>
+    <el-menu-item index="2-5"><el-button  @click="handleZakaziD">Zakazivanje kod dermatologa</el-button></el-menu-item>
+    <el-menu-item index="2-6"><el-button  @click="handleZakaziF">Zakazivanje kod farmaceuta</el-button></el-menu-item>
     
   </el-submenu>
 
@@ -22,6 +22,7 @@
     <el-menu-item index="3-2"><router-link to="/ap/rezervacije">Rezervisani lekovi</router-link></el-menu-item>
     <el-menu-item index="3-3"><router-link to="/ap/istorijaLekova">Izdati lekovi preko erecepta</router-link></el-menu-item>
     <el-menu-item index="3-4"><router-link to="/ap/qrkod">Izdati preko qr koda</router-link></el-menu-item>
+    <el-menu-item index="3-5"><el-button  @click="handleRezLek">Rezervisi lek</el-button></el-menu-item>
   </el-submenu>
 
   <el-menu-item index="4"><router-link to="/ap/penali">Uvid u penale</router-link></el-menu-item>
@@ -59,9 +60,40 @@ export default {
             this.$store.dispatch('APKorisnici/logout');
             this.$router.push('/ap/prijava');
         },
-        
-        
+       async handleZakaziD(){
+         await this.$store.dispatch("APPacijenti/proveriPenale")
+           if(this.$store.state.APPacijenti.dozvola){
+             console.log("proslo");
+             this.$router.push('/ap/zakaziD');
+           }else{
+             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
+           }
+         
 
+        },
+         async handleZakaziF(){
+         await this.$store.dispatch("APPacijenti/proveriPenale")
+           if(this.$store.state.APPacijenti.dozvola){
+             console.log("proslo");
+             this.$router.push('/ap/zakaziF');
+           }else{
+             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
+           }
+         
+
+        },
+        async handleRezLek(){
+          ///ap/rezervisanjeLekova'
+           await this.$store.dispatch("APPacijenti/proveriPenale")
+           if(this.$store.state.APPacijenti.dozvola){
+             console.log("proslo");
+             this.$router.push('/ap/rezervisanjeLekova');
+           }else{
+             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
+           }
+        }
+        
+      
     },
    
     

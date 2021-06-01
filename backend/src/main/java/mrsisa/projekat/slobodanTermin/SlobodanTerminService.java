@@ -5,6 +5,7 @@ import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnik.RadnikRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +24,14 @@ public class SlobodanTerminService {
     final private ApotekaRepository apotekaRepository;
     final private DermatologRepository dermatologRepository;
     final private RadnikRepository radnikRepository;
+    final private PosetaRepository posetaRepository;
     public SlobodanTerminService(SlobodanTerminRepository slobodanTerminRepository,ApotekaRepository apotekaRepository,
-                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep){
+                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep, PosetaRepository posetaRepository){
         this.slobodanTerminRepository = slobodanTerminRepository;
         this.apotekaRepository = apotekaRepository;
         this.dermatologRepository = dermatologRepository;
         this.radnikRepository=radnikRep;
+        this.posetaRepository=posetaRepository;
     }
 
     public List<SlobodanTerminDTO> dobaviSlobodneTermineDermatologa(Integer id) {
@@ -96,6 +99,7 @@ public class SlobodanTerminService {
                 termini.get(termini.size()-1).setOcenaRadnika(5);
             }
         }
+
         return termini;
     }
 
@@ -114,8 +118,10 @@ public class SlobodanTerminService {
                 p.setId(1L);
                 p.setApoteka(termin.getApoteka()); //ovde posle dode save
                 System.out.println("uspeh");
+                this.posetaRepository.save(p);
                 break;
             }
         }
+
     }
 }

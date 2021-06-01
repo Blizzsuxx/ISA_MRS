@@ -53,6 +53,11 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
     }
+    public ApotekaDTO(Apoteka apoteka, int a){
+        this.id = apoteka.getId();
+        this.ime = apoteka.getIme();
+
+    }
     public ApotekaDTO(Apoteka apoteka, boolean pretplacen){
         this.id = apoteka.getId();
         this.ime = apoteka.getIme();

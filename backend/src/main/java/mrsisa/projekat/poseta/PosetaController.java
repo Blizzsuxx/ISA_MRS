@@ -6,6 +6,7 @@ import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnik.Radnik;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -149,7 +150,7 @@ public class PosetaController {
 
     @GetMapping(path="/dobaviSlobodnePoseteDermatologa")
     @PreAuthorize("hasRole('PACIJENT')")
-    public List<PosetaDTO> slobodnePoseteD(){
+    public List<SlobodanTerminDTO> slobodnePoseteD(){
         return posetaService.slobodnePoseteD();
     }
 

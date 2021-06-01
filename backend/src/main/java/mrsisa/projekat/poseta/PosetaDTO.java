@@ -2,6 +2,7 @@ package mrsisa.projekat.poseta;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
@@ -31,6 +32,18 @@ public class PosetaDTO {
     private List<LijekDTO> prepisaniLekovi;
     private double cena;
     private int ocena;
+
+    public PosetaDTO(Poseta p, Dermatolog d, Apoteka a) {
+        this.id = p.getId();
+        this.pacijent = null;
+        this.radnik = new RadnikDTO(d);
+        DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.pocetak = p.getPocetak().format(df);
+        this.kraj = p.getKraj().format(df);
+        this.opis = p.getOpis();
+        this.apoteka = new ApotekaDTO(a,1); //ovde mi ne treba adresa pa cu namestiti nov konstruktor
+        this.prepisaniLekovi=new ArrayList<>();
+    }
 
     public List<LijekDTO> getPrepisaniLekovi() {
         return prepisaniLekovi;

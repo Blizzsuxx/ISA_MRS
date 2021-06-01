@@ -8,6 +8,7 @@ import mrsisa.projekat.radnik.Radnik;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class SlobodanTermin {
@@ -84,4 +85,6 @@ public class SlobodanTermin {
     public void setApoteka(Apoteka apoteka) {
         this.apoteka = apoteka;
     }
+
+
 }

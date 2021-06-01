@@ -1,6 +1,8 @@
 package mrsisa.projekat.slobodanTermin;
 
+import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.radnik.Radnik;
 
 import java.time.LocalDateTime;
@@ -29,6 +31,19 @@ public class SlobodanTerminDTO {
         this.pocetakTermina = slobodantermin.getPocetakTermina().format(dtf);
         this.krajTermina = slobodantermin.getKrajTermina().format(dtf);
         this.cijenaTermina = slobodantermin.getCijenaTermina();
+
+    }
+
+    public SlobodanTerminDTO(SlobodanTermin slobodantermin, Dermatolog r, Apoteka a) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        this.id = slobodantermin.getId();
+        this.pocetakTermina = slobodantermin.getPocetakTermina().format(dtf);
+        this.krajTermina = slobodantermin.getKrajTermina().format(dtf);
+        this.cijenaTermina = slobodantermin.getCijenaTermina();
+        this.apoteka=new ApotekaDTO(a,1);
+        this.imeRadnika=r.getFirstName();
+        this.prezimeRadnika=r.getLastName();
+        this.ocenaRadnika=0;
     }
 
     public ApotekaDTO getApoteka() {

@@ -323,3 +323,19 @@ insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datu
 insert into penali (dan, opis, traje_do, id_korisnika) values ('2021-05-30 00:00:00', 'Korisnik nije dosao po lek.','2021-06-20 00:00:00','9');
 
 insert into pacijenti_penali (pacijent_korisnik, penali_id) values (9,1);
+
+
+--SLOBODNE POSETE DERMATOLOZIMA
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (5,600,'2021-06-14 04:55','2021-06-14 04:40',1,5);
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (6,600,'2021-06-14 05:55','2021-06-14 05:40',1,5);
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (7,600,'2021-06-14 06:55','2021-06-14 06:40',1,5);
+
+--SLOBODAN TERMIN F
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (1,500,'2021-06-14 04:55','2021-06-14 04:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (2,500,'2021-06-14 05:55','2021-06-14 05:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (3,500,'2021-06-14 06:55','2021-06-14 06:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (4,500,'2021-06-14 07:55','2021-06-14 07:40',1, 10);
+
+
+
+
