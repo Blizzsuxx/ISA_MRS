@@ -66,8 +66,10 @@ export default {
              console.log("proslo");
              this.$router.push('/ap/zakaziD');
            }else{
-             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
-           }
+            this.$message({
+                type: 'danger',
+                message: 'Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.'
+              }); }
          
 
         },
@@ -77,8 +79,11 @@ export default {
              console.log("proslo");
              this.$router.push('/ap/zakaziF');
            }else{
-             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
-           }
+             this.$message({
+                type: 'danger',
+                message: 'Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.'
+              });
+             }
          
 
         },
@@ -89,8 +94,11 @@ export default {
              console.log("proslo");
              this.$router.push('/ap/rezervisanjeLekova');
            }else{
-             alert("Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.");
-           }
+            this.$message({
+                type: 'danger',
+                message: 'Trenutno imate 3 ili vise penala, i ne mozete da zakazujete posetu dermatologu, farmaceutu ili da rezervisete lek.'
+              });
+            }
         }
         
       

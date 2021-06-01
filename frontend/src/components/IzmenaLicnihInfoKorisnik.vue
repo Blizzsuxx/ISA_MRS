@@ -124,7 +124,7 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
         this.backup.resource = this.form.resource
         this.backup.email=this.form.email  }
         }
-        //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
+       
 
       },
        vrati() {

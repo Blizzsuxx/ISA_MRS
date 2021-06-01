@@ -72,7 +72,10 @@ export default {
              this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek  iz apoteke: ", "address" : "rajtarovnatasa@gmail.com"})
      
            }else{
-             alert("rezervacija nije uspela");
+           this.$message({
+                type: 'danger',
+                message: 'Rezervacija nije uspela.'
+              });
            }
          })
          

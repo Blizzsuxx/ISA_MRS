@@ -178,11 +178,17 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue";
         await this.$store.dispatch("APApoteke/zakaziPosetu", osoba) //ovo prebaci u username
         var oznaka=this.$store.state.APApoteke.oznaka;
         if(oznaka){
-            alert("Rezervisali ste termin");
+           this.$message({
+                type: 'danger',
+                message: 'Rezervisali ste termin.'
+              });
             this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazali ste pregled kod rafmaceuta:" + row.ime, "address" : "rajtarovnatasa@gmail.com"})
       
             }else{
-                alert("Niste rezervisali termin");
+               this.$message({
+                type: 'danger',
+                message: 'Niste rezervisali termin.'
+              });
             }
         
         //mejl if

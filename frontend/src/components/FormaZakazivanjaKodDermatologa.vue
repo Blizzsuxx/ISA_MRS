@@ -31,13 +31,13 @@
     <el-table-column
       property="pocetakTermina"
       label="Pocetak posete"
-      :formatter="formirajDatum"
+     
       >
     </el-table-column>
     <el-table-column
       property="krajTermina"
       label="Kraj posete"
-      :formatter="formirajDatum"
+      
       >
     </el-table-column>
     <el-table-column
