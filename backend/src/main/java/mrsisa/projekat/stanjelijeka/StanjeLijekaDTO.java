@@ -37,7 +37,7 @@ public class StanjeLijekaDTO {
     public StanjeLijekaDTO(StanjeLijeka stanjeLijeka){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         this.id = stanjeLijeka.getId();
-        this.lijek = new LijekDTO(stanjeLijeka.getLijek());
+        this.lijek = new LijekDTO(stanjeLijeka.getLijek(),1);
         this.kolicina  =stanjeLijeka.getKolicina();
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();

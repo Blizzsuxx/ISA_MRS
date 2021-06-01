@@ -1,5 +1,6 @@
 <template>
 <el-main>
+  <NavMeniZaPacijenta/>
 <h2>Rezervisanje leka</h2>
 <el-input placeholder="Search table" v-model="search"></el-input>
   <el-table
@@ -77,27 +78,18 @@
       </template>
      </el-table-column>
   </el-table>
-  <div style="margin-top: 20px">
-    <label>Odaberite datum preuzimanja</label>
-   <el-form-item label="Pregled">
-              <el-date-picker
-                v-model="value2"
-                type="date"
-                :shortcuts="shortcuts"
-                
-                
-                
-                align="right">
-              </el-date-picker>
-            </el-form-item>
-    
-  </div>
+  <ModalniProzorKolicinaleka  ref="prozor"/>
 </el-main>
 </template>
 
 <script>
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
+import ModalniProzorKolicinaleka from './modal/ModalniProzorKolicinaleka.vue'
+
 export default {
   name: 'FormaRezervisanjLekova',
+  
+  components: {NavMeniZaPacijenta, ModalniProzorKolicinaleka},
   data() {
       return {
         multipleSelection: [],
@@ -117,11 +109,17 @@ export default {
 
      
       handleEdit( row){
-      let lijek=row.id;
+      //let lijek=row.id;
+      console.log(row )
+      console.log("nnn")
       var apoteka=row.imeApoteke
       console.log(apoteka)
-      this.$store.dispatch("APlijekovi/rezervisiLek",lijek, apoteka,"gg")
-      this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek " + lijek+" iz apoteke: "+apoteka, "address" : "rajtarovnatasa@gmail.com"})
+      this.$refs.prozor.ocenjivac.id = row.id
+      this.$refs.prozor.ocenjivac.apoteka = row.apoteka
+      this.$refs.prozor.dostupno=row.kolicina
+      this.$refs.prozor.modalOpen = true;
+      //this.$store.dispatch("APlijekovi/rezervisiLek",lijek, apoteka,"gg")
+     // this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek " + lijek+" iz apoteke: "+apoteka, "address" : "rajtarovnatasa@gmail.com"})
      
 
       },
