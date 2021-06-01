@@ -302,7 +302,7 @@ const routes = [
     component: Registracija,
   },
   {
-    path: '/ap/rezervisanjeLekova',
+    path: '/ap/rezervisanjeLekova/:id?',
     name: 'RezervisanjeLekova',
     component: RezervisanjeLekova,
   },

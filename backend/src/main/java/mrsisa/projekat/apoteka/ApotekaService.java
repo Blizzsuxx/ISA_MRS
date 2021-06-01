@@ -62,9 +62,15 @@ public class ApotekaService {
         if(apoteka== null)
             return new ArrayList<StanjeLijekaDTO>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        StanjeLijekaDTO temp;
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
-            povratna_stanja.add(new StanjeLijekaDTO(sl));
+            temp =  new StanjeLijekaDTO(sl);
+            temp.setImeApoteke(sl.getApoteka().getIme());
+            if(sl.getAkcija()!=null){
+                temp.setAkcija(new AkcijaDTO(sl.getAkcija()));
+            }
+            povratna_stanja.add(temp);
         }
         return povratna_stanja;
     }
@@ -141,14 +147,17 @@ public class ApotekaService {
         adresaRepository.save(apoteka.getAdresa());
         apotekaRepository.save(apoteka);
     }
-
+    @Transactional
     public List<StanjeLijekaDTO> dobaviSveDostupneLijekove() {
         //ovo iz svih apoteka vraca sve lekove, tj dto
         List<StanjeLijekaDTO> zaSlanje=new ArrayList<>();
         List<StanjeLijeka> stanja=this.stanjeLijekaRepository.findAll();
+        StanjeLijekaDTO temp;
         for(StanjeLijeka s: stanja){
             if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null ){
-                zaSlanje.add(new StanjeLijekaDTO(s));
+                temp = new StanjeLijekaDTO(s);
+                temp.setImeApoteke(s.getApoteka().getIme());
+                zaSlanje.add(temp);
             }
         }
 

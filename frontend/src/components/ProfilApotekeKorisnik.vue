@@ -1,5 +1,5 @@
 <template>
-  <NavAdminApoteke />
+  <NavMeniZaPacijenta/>
   <el-row :gutter="20">
     <el-col :span="24"
       ><div v-if="apotekaUcitana">
@@ -14,7 +14,10 @@
       </div></el-col
     >
   </el-row>
-
+  <router-link
+  :to="{name:'RezervisanjeLekova',params:{id:id}}">
+  Rezervisi lijekove
+  </router-link>  
   <el-row :gutter="20">
     <el-col :span="12">
       <h5>Dermatolozi</h5>
@@ -34,7 +37,7 @@
     <el-col :span="24"
       ><div v-if="apotekaUcitana">
         <h3>Lista dostupnih lijekova</h3>
-        <LijekoviTabela
+        <LijekoviTabelaKorisnik
           @promjenjena-selekcija="selektujRedove"
           ref="dijete"
           v-bind:lijekovi="$store.state.APlijekovi.sviLijekovi"
@@ -105,8 +108,8 @@
 </style>
 
 <script>
-import LijekoviTabela from "./LijekoviTabela";
-import NavAdminApoteke from "./NavAdminApoteke";
+import LijekoviTabelaKorisnik from "./LijekoviTabelaKorisnik";
+import NavMeniZaPacijenta from "./NavMeniZaPacijenta";
 import DermatoloziTabela from "./DermatoloziTabela";
 import { mapState } from "vuex";
 export default {
@@ -122,9 +125,9 @@ export default {
   },
   methods: {},
   components: {
-    NavAdminApoteke,
+    NavMeniZaPacijenta,
     DermatoloziTabela,
-    LijekoviTabela,
+    LijekoviTabelaKorisnik,
   },
   mounted() {
     this.$store.dispatch("Dermatolozi/dobaviDermatologeKorisnik",this.id);

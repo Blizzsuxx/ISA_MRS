@@ -1,7 +1,4 @@
 <template>
-<el-main>
-  <NavMeniZaPacijenta/>
-<h2>Rezervisanje leka</h2>
 <el-input placeholder="Search table" v-model="search"></el-input>
   <el-table
     :ref="referenca"
@@ -60,77 +57,54 @@
       property="cijena"
       label="Cijena"
      >
+      <template #default="scope">
+          <p v-if="scope.row.akcija===null">{{scope.row.cijena}}</p>
+          <p v-else><strike>{{scope.row.cijena}}</strike>     <span class="akcija">{{izracunajCijenu(scope.row)}}</span></p>
+        </template>
     </el-table-column>
 
     <el-table-column
-      property="imeApoteke"
-      label="Apoteka"
+      property="datumIstekaCijene"
+      label="Datum isteka cijene"
      
      >
-    </el-table-column>
-     <el-table-column
-      label="Rezervisi">
-      <template #default="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit( scope.row)">Rezervisi</el-button>
-        
-      </template>
-     </el-table-column>
+    </el-table-column>    
   </el-table>
-  <ModalniProzorKolicinaleka  ref="prozor"/>
-</el-main>
+  <div style="margin-top: 20px">
+   
+  </div>
 </template>
-
+<style scoped>
+  .akcija{
+    color:red;
+  }
+</style>
 <script>
-import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
-import ModalniProzorKolicinaleka from './modal/ModalniProzorKolicinaleka.vue'
-
 export default {
-  name: 'FormaRezervisanjLekova',
-  
-  components: {NavMeniZaPacijenta, ModalniProzorKolicinaleka},
+  name: 'LijekoviTabelaKorisnik',
   data() {
       return {
         multipleSelection: [],
-        search : '',
-        lijekovi : [],
-        id : parseInt(this.$route.params.id),
-        
+        search : ''
       }
     },
-    
-    async mounted(){
-      //pozivanje ucitavanja podataka poseta
-      if(typeof this.id!=="number"){
-      await this.$store.dispatch("APlijekovi/dobaviSveDostupneLijekove")
-      this.lijekovi = this.$store.state.APlijekovi.dostupniLekovi;
+    props: ['lijekovi','referenca'],
+    methods: {
+     
+      handleSelectionChange(val) {
+        this.$emit("promjenjena-selekcija",val)
+      },
+      formatirajProizvodnju(row){
+      
+      if(row.prodaja){
+        return "Prodaja"
       }
       else{
-        this.$store.dispatch("APlijekovi/dobaviLijekoveKorisnik",this.id).then(()=>{
-            
-          this.lijekovi = this.$store.state.APlijekovi.sviLijekovi;
-        })
+        return "Magacin"
       }
-      
-    },
-    methods: {
-
-     
-      handleEdit( row){
-      //let lijek=row.id;
-      console.log(row )
-      console.log("nnn")
-      var apoteka=row.imeApoteke
-      console.log(apoteka)
-      this.$refs.prozor.ocenjivac.id = row.id
-      this.$refs.prozor.ocenjivac.apoteka = row.apoteka
-      this.$refs.prozor.dostupno=row.kolicina
-      this.$refs.prozor.modalOpen = true;
-      //this.$store.dispatch("APlijekovi/rezervisiLek",lijek, apoteka,"gg")
-     // this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek " + lijek+" iz apoteke: "+apoteka, "address" : "rajtarovnatasa@gmail.com"})
-     
-
+      },
+      izracunajCijenu(row){
+          return (row.cijena*(1-row.akcija.procenatPopusta/100)).toFixed(1)
       },
       formirajDatum(row){
         try{
