@@ -11,6 +11,7 @@ import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.narudzbenica.NarudzbenicaDTO;
 import mrsisa.projekat.narudzbenica.NarudzbenicaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +95,7 @@ public class PonudaService {
     }
 
     @Transactional
-    public void prihvatiPonudu(Long id, Long narudzbenica_id, AdministratorApoteke administratorApoteke) {
+    public void prihvatiPonudu(Long id, Long narudzbenica_id, AdministratorApoteke administratorApoteke, ArrayList<StanjeLijekaDTO> stanjaLijekova) {
         boolean postoji = false;
         StanjeLijeka temp;
         Ponuda ponuda = this.ponudaRepository.findById(id).orElse(null);
@@ -119,8 +120,14 @@ public class PonudaService {
                         }
                     }
                     if (!postoji) {
-                        temp = new StanjeLijeka(stanjeLijeka.getLijek(), stanjeLijeka.getKolicina(), false);
+                        temp = new StanjeLijeka(stanjeLijeka.getLijek(), stanjeLijeka.getKolicina(), true);
                         temp.setApoteka(apoteka);
+                        for(StanjeLijekaDTO noveCijene: stanjaLijekova){
+                            if(temp.getLijek().getId().equals(noveCijene.getLijek().getId())){
+                                temp.setCijena(noveCijene.getCijena());
+                                temp.setDatumIstekaCijene(LocalDateTime.now());
+                            }
+                        }
                         this.stanjeLijekaRepository.save(temp);
                     }
 
@@ -154,5 +161,28 @@ public class PonudaService {
         }
 
     }
+    @Transactional
+    public List<Long> pripremi(Long id, Long n_id, AdministratorApoteke adminApoteke) {
+        List<Long> nepostojeciLijekovi = new ArrayList<Long>();
+        Ponuda ponuda = this.ponudaRepository.findById(id).orElse(null);
+        if(ponuda==null)
+            return new ArrayList<Long>();
+        Narudzbenica narudzbenica = this.narudzbenicaRepository.findById(n_id).orElse(null);
+        if(narudzbenica==null)
+            return new ArrayList<Long>();
+        Apoteka apoteka = narudzbenica.getApoteka();
+        boolean postoji;
+        for(StanjeLijeka stanjeLijeka: narudzbenica.getLijekovi()){
+            postoji  = false;
+            for(StanjeLijeka ap_stanjeLijeka: apoteka.getLijekovi()){
+                if(stanjeLijeka.getLijek().getId().equals(ap_stanjeLijeka.getLijek().getId())){
+                    postoji =  true;
+                }
+            }
+            if(!postoji)
+                nepostojeciLijekovi.add(stanjeLijeka.getLijek().getId());
+        }
 
+        return nepostojeciLijekovi;
+    }
 }

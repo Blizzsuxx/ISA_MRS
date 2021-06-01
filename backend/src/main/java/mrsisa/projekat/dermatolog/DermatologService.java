@@ -142,8 +142,6 @@ public class DermatologService {
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         Dermatolog dermatolog =  this.dermatologRepository.findById(radnoVrijemeDTO.getRadnik()).orElse(null);
-        System.out.println(radnoVrijemeDTO.getPocetakRadnogVremena());
-        System.out.println(LocalDateTime.parse((String)radnoVrijemeDTO.getPocetakRadnogVremena(),dtf));
         if (dermatolog!=null){
             RadnoVrijeme radnoVrijeme =  new RadnoVrijeme(apoteka,dermatolog,null, LocalDateTime.parse(radnoVrijemeDTO.getPocetakRadnogVremena(),dtf),LocalDateTime.parse(radnoVrijemeDTO.getKrajRadnogVremena(),dtf));
             this.radnoVrijemeRepository.save(radnoVrijeme);

@@ -73,6 +73,13 @@
             this.$router.go(-1)
             
         }
+        else{
+           this.$message({
+                type: 'danger',
+                message: 'Lozinke treba da se poklapaju.'
+              });
+              return;
+        }
       },
      
     }

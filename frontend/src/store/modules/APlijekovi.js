@@ -52,9 +52,6 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
-            return response
-            
-        
         })
         
         
@@ -63,9 +60,7 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/lijekovi/admin',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
-            return response
-            
-        
+            console.log(response.data)
         })
     },
     dobaviLijekoveKorisnik(context,id){

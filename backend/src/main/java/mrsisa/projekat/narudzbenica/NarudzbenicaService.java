@@ -10,6 +10,7 @@ import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ponuda.PonudaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -86,6 +87,9 @@ public class NarudzbenicaService {
             if (narudzbenica.getApoteka().getId().equals(id)) {
                 temp = new NarudzbenicaDTO(narudzbenica);
                 temp.setBrojPonuda(narudzbenica.getPonude().size());
+                for(StanjeLijeka stanjeLijeka: narudzbenica.getLijekovi()){
+                    temp.dodajStanje(new StanjeLijekaDTO(stanjeLijeka));
+                }
                 narudzbenice.add(temp);
             }
         }
@@ -107,6 +111,9 @@ public class NarudzbenicaService {
             }
             else{
                 narudzbenicaDTO.setPripada(false);
+            }
+            for(StanjeLijeka stanjeLijeka: narudzbenica.getLijekovi()){
+                narudzbenicaDTO.dodajStanje(new StanjeLijekaDTO(stanjeLijeka));
             }
             return narudzbenicaDTO;
         } else {

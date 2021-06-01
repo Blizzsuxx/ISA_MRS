@@ -55,6 +55,13 @@ const actions = {
             return response.data;
         })
     },
+
+    provjeraLozinke(context, lozinka){
+        return axios.get(`http://localhost:8080/api/korisnici/provjeraLozinke/${lozinka}`, { headers: authHeader()})
+        .then(response => {
+            return response.data;
+        })
+    },
     potvrdaLozinke(){
         return axios.get('http://localhost:8080/api/korisnici/potvrdaPrijave', { headers: authHeader()})
         .then(response => {

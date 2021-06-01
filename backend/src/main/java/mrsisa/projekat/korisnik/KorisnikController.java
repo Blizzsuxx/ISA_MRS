@@ -146,13 +146,22 @@ public class KorisnikController {
     public boolean promjeniLozinku(@PathVariable String lozinka){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();
-        if (k.getPassword().equals(passwordEncoder.encode(lozinka)))
+        if (passwordEncoder.matches(lozinka,k.getPassword()))
             return false;
-
         k.setPassword(passwordEncoder.encode(lozinka));
         k.setPrijavljen(true);
         this.korisnikService.save(k);
         return true;
+    }
+
+    @GetMapping(value = "/provjeraLozinke/{lozinka}")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
+    public boolean provjeraLozinke(@PathVariable String lozinka){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        if (passwordEncoder.matches(lozinka,k.getPassword()))
+            return true;
+        return false;
     }
 
     @GetMapping(value="/potvrdaPrijave")

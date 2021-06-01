@@ -183,8 +183,7 @@ public abstract class  Korisnik implements UserDetails {
     public void setPassword(String password) {
         Timestamp now = new Timestamp(new Date().getTime());
         this.setLastPasswordResetDate(now);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        this.password = encoder.encode(password);
+        this.password = password;
     }
 
     public String getFirstName() {

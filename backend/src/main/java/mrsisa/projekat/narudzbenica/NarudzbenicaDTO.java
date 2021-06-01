@@ -39,6 +39,7 @@ public class NarudzbenicaDTO {
         this.rok = narudzbenica.getRok().format(dtf);
         this.zavrsena  = narudzbenica.isZavrsena();
         this.prihvacena = narudzbenica.isPrihvacena();
+        this.listaStanja = new ArrayList<>();
         this.korisnickoImeAdminaApoteke = narudzbenica.getAdministratorApoteke().getUsername();
     }
 
@@ -104,5 +105,9 @@ public class NarudzbenicaDTO {
 
     public void setListaStanja(List<StanjeLijekaDTO> listaStanja) {
         this.listaStanja = listaStanja;
+    }
+
+    public void dodajStanje(StanjeLijekaDTO stanjeLijekaDTO){
+        this.listaStanja.add(stanjeLijekaDTO);
     }
 }
