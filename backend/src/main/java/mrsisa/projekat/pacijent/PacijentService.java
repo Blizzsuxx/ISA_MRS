@@ -292,14 +292,15 @@ public class PacijentService {
 				for (Ocena o : ((Dermatolog) d).getOcene()) {
 
 					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
-						ocene.put(p.getRadnik().getId(), new OcenaDTO(o, p.getRadnik()));
+						ocene.put(p.getRadnik().getId(), new OcenaDTO(o, d,"d"));
 						//dermatolozi.add(new OcenaDTO(o, p.getRadnik()));
 						break;
 					}
 				}
 				if (d.getOcene().size() == 0) {
 					OcenaDTO dermOcena = new OcenaDTO(d);
-					ocene.put(p.getRadnik().getId(), dermOcena);
+
+					ocene.put(d.getId(), dermOcena);
 					//dermatolozi.add(dermOcena);
 				}
 			}
@@ -323,7 +324,7 @@ public class PacijentService {
 			if(f!=null) {
 				for (Ocena o : ((Farmaceut) f).getOcene()) {
 					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
-						ocene.put(f.getId(),new OcenaDTO(o, p.getRadnik()));
+						ocene.put(f.getId(),new OcenaDTO(o, f,"f"));
 						// farmaceuti.add(new OcenaDTO(o, p.getRadnik()));
 						break;
 					}
@@ -355,7 +356,7 @@ public class PacijentService {
 					for (Ocena o : ((Farmaceut) f).getOcene()) {
 						if (o.getPacijent() != null) {
 							if (o.getPacijent().getId() == 9) {
-								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka()));
+								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka(),"a"));
 								break;
 							}
 						}
@@ -371,7 +372,7 @@ public class PacijentService {
 					for (Ocena o : (d).getOcene()) {
 						if (o.getPacijent() != null) {
 							if (o.getPacijent().getId() == 9) {
-								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka()));
+								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka(),"a"));
 								break;
 							}
 						}
@@ -445,6 +446,8 @@ public class PacijentService {
 		String podela[]=id.split("a");
 		Ocena o=new Ocena();
 		o.setOcena(Integer.parseInt(podela[1].trim()));
+		Pacijent pacijent=this.pacijentRepository.findOneById(9);
+		o.setPacijent(pacijent);
 		if(id.startsWith("D")){
 			//setovati korisnika!! Todo
 			String novaP[]=podela[0].split("D");

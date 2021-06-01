@@ -308,15 +308,15 @@ values ('sifra12','napomena1', 'krema za ruke', 'krema',  'biofarm', 'sastav1', 
 
 
 --EKSN
---insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (1,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
---insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (2,'2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);
---insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (3,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija',10);
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (1,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (2,'2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);
+insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (3,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija',10);
 
 
 --STANJE LEKA ZA AKCIJE
---insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,9,1.00,false,50,'2021-06-30 00:00:00',3,1);
---insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,10,1.00,false,50,'2021-06-30 00:00:00',3,2);
---insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,11,2.00,false,80,'2021-06-30 00:00:00',4,3);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,9,1.00,false,50,'2021-06-30 00:00:00',3,1);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (2,10,1.00,false,50,'2021-06-30 00:00:00',3,2);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (1,11,2.00,false,80,'2021-06-30 00:00:00',4,3);
 
 
 --PENALI
