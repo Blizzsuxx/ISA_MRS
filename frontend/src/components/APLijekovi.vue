@@ -21,7 +21,7 @@ export default {
   },
   mounted(){
       //pozivanje ucitavanja podataka lijekova
-      this.$store.dispatch("APlijekovi/dobaviLijekove")
+      this.$store.dispatch("APlijekovi/dobaviLijekoveAdmin")
      
       
     },

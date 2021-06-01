@@ -57,6 +57,10 @@
       property="cijena"
       label="Cijena"
      >
+      <template #default="scope">
+          <p v-if="scope.row.akcija===null">{{scope.row.cijena}}</p>
+          <p v-else><strike>{{scope.row.cijena}}</strike>     <span class="akcija">{{izracunajCijenu(scope.row)}}</span></p>
+        </template>
     </el-table-column>
 
     <el-table-column
@@ -84,7 +88,11 @@
     
   </div>
 </template>
-
+<style scoped>
+  .akcija{
+    color:red;
+  }
+</style>
 <script>
 export default {
   name: 'LijekoviTabela',
@@ -108,6 +116,9 @@ export default {
       else{
         return "Magacin"
       }
+      },
+      izracunajCijenu(row){
+          return (row.cijena*(1-row.akcija.procenatPopusta/100)).toFixed(1)
       },
       formirajDatum(row){
         try{

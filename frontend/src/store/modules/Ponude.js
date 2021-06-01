@@ -3,6 +3,7 @@ import authHeader from './AuthHeader'
 
 const state = {
     svePonude :[],
+    noviLijekovi :[],
 
 };
 
@@ -28,8 +29,14 @@ const actions = {
             })
     },
     prihvatiPonudu(context,params) {
-        return axios.put(`http://localhost:8080/api/v1/ponuda/narudzbenica/${params.nId}/prihvati/${params.id}`,{},{ headers: authHeader()})
+        return axios.put(`http://localhost:8080/api/v1/ponuda/narudzbenica/${params.nId}/prihvati/${params.id}`,params.lijekovi,{ headers: authHeader()})
             .then(() => {
+            })
+    },
+    pripremiPonudu(context,params) {
+        return axios.get(`http://localhost:8080/api/v1/ponuda/narudzbenica/${params.nId}/pripremi/${params.id}`,{ headers: authHeader()})
+            .then((response) => {
+                context.commit('postaviNoveLijekove',response.data)
             })
     },
     odbijPonudu(context,id) {
@@ -42,6 +49,7 @@ const actions = {
 
 const mutations = {
     postaviPonude:(state, ponude) => (state.svePonude = ponude),
+    postaviNoveLijekove:(state,noviLijekovi)=>(state.noviLijekovi = noviLijekovi)
    
 }
 
