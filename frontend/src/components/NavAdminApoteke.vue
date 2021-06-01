@@ -13,6 +13,6 @@
   <el-menu-item index="7"><router-link to="/zaposljavanjeDermatologa">Zaposljavanje dermatologa</router-link></el-menu-item>
   <el-menu-item index="8"><router-link to="/zaposljavanjeFarmaceuta">Zaposljavanje farmaceuta</router-link></el-menu-item>
   <el-menu-item index="9"><router-link to="/prikazNarudzbenica">Istorija narudzbenica</router-link></el-menu-item>
-  <el-menu-item index="10"><router-link to="/adminApoteke/potvrda">Resetovanje lozinke</router-link></el-menu-item>
+  <el-menu-item index="10"><router-link to="/adminApoteke/promjenaLozinke">Resetovanje lozinke</router-link></el-menu-item>
 </el-menu>
 </template>

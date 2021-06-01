@@ -45,7 +45,7 @@ public class ApotekaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/lijekovi/admin")
-    public List<StanjeLijekaDTO> dobaviLijekoveAdmin(@PathVariable Long id){
+    public List<StanjeLijekaDTO> dobaviLijekoveAdmin(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
         return apotekaService.dobaviStanjaLijekovaAdmin(adminApoteke.getApoteka().getId());

@@ -5,6 +5,8 @@ import com.sun.net.httpserver.HttpServer;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
+import mrsisa.projekat.akcija.Akcija;
+import mrsisa.projekat.akcija.AkcijaDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
@@ -193,9 +195,14 @@ public class ApotekaService {
         if(apoteka== null)
             return new ArrayList<StanjeLijekaDTO>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        StanjeLijekaDTO temp;
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
-            povratna_stanja.add(new StanjeLijekaDTO(sl));
+            temp = new StanjeLijekaDTO(sl);
+            if(sl.getAkcija()!=null)
+            temp.setAkcija(new AkcijaDTO(sl.getAkcija()));
+            povratna_stanja.add(temp);
+
         }
         return povratna_stanja;
     }

@@ -5,6 +5,7 @@ import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.dobavljac.Dobavljac;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
 import mrsisa.projekat.narudzbenica.NarudzbenicaDTO;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -35,10 +36,18 @@ public class PonudaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping(path="narudzbenica/{n_id}/prihvati/{id}")
-    public void prihvatiPonudu(@PathVariable Long n_id,@PathVariable Long id){
+    public void prihvatiPonudu(@RequestBody ArrayList<StanjeLijekaDTO> stanjaLijekova,@PathVariable Long n_id, @PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        this.ponudaService.prihvatiPonudu(id,n_id,adminApoteke);
+        this.ponudaService.prihvatiPonudu(id,n_id,adminApoteke,stanjaLijekova);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping(path="narudzbenica/{n_id}/pripremi/{id}")
+    public List<Long> pripremi(@PathVariable Long n_id,@PathVariable Long id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return this.ponudaService.pripremi(id,n_id,adminApoteke);
     }
 
 

@@ -64,6 +64,7 @@ import ZalbeIstorija from '../components/ZalbeIstorija'
 import PoruceniNepostojeci from '../components/PoruceniNepostojeci'
 import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
 import ProfilApotekeKorisnik from '../components/ProfilApotekeKorisnik'
+import PromjenaLozinke from "../components/PromjenaLozinke"
 import QRKod from '../components/QRKod'
 
 const routes = [
@@ -76,6 +77,12 @@ const routes = [
     path: '/poruceni',
     name: 'PoruceniNepostojeci',
     component: PoruceniNepostojeci,
+  },
+  {
+    path: '/adminApoteke/promjenaLozinke',
+    name: 'PromjenaLozinke',
+    component: PromjenaLozinke,
+    meta:{title: 'Promjena lozinke'}
   },
   {
     path: '/prikazNarudzbenica',

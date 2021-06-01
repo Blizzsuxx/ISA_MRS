@@ -20,7 +20,6 @@ const actions = {
         axios.get('http://localhost:8080/api/v1/narudzbenice/admin', { headers: authHeader()})
             .then(response => {
                 let narudzbenice =response.data
-                console.log(narudzbenice)
                 context.commit('postaviNarudzbenice',narudzbenice)
             })
     },
@@ -29,6 +28,7 @@ const actions = {
         return axios.get(`http://localhost:8080/api/v1/narudzbenice/${id}/admin`, { headers: authHeader()})
             .then(response => {
                 let narudzbenice =response.data
+                console.log(narudzbenice)
                 context.commit('postaviNarudzbenicu',narudzbenice)
             })
     },
