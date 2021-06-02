@@ -272,11 +272,11 @@ insert into dermatolozi (radnik) values (12);
 
 --REZERVACIJE
 
-insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (1,'2021-06-28 00:00:00',false,1,9 );
-insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (2,'2021-06-28 00:00:00',false,1,9 );
-insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (3,'2021-04-28 00:00:00',false,1,9 );
-insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (4,'2021-04-28 00:00:00',true,1,9 );
-insert into rezervacija (id,datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values (5,'2021-04-28 00:00:00',true,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-06-28 00:00:00',false,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-06-28 00:00:00',false,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',false,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',true,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',true,1,9 );
 
 --povezivanje rezervacije i leka
 

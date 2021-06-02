@@ -1,5 +1,6 @@
 package mrsisa.projekat.lijek;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dobavljac.Dobavljac;
 import mrsisa.projekat.ocena.Ocena;
@@ -40,8 +41,17 @@ public class Lijek {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Lijek> zamenskiLijekovi;
 
+    public List<Lijek> getZamenskiLijekovi() {
+        return zamenskiLijekovi;
+    }
 
+    public void setZamenskiLijekovi(List<Lijek> zamenskiLijekovi) {
+        this.zamenskiLijekovi = zamenskiLijekovi;
+    }
 
     public Long getId() {
         return id;
@@ -174,5 +184,21 @@ public class Lijek {
         this.proizvodjac = dummy.getProizvodjac();
         this.napomena = dummy.getNapomena();
         this.poeni = dummy.getPoeni();
+    }
+
+
+    public Lijek(Long id, String sifra, String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena, List<Ocena> ocene, int poeni, Dobavljac dobavljac, List<Lijek> zamenskiLijekovi) {
+        this.id = id;
+        this.sifra = sifra;
+        this.naziv = naziv;
+        this.vrstaLijeka = vrstaLijeka;
+        this.oblikLijeka = oblikLijeka;
+        this.sastav = sastav;
+        this.proizvodjac = proizvodjac;
+        this.napomena = napomena;
+        this.ocene = ocene;
+        this.poeni = poeni;
+        this.dobavljac = dobavljac;
+        this.zamenskiLijekovi = zamenskiLijekovi;
     }
 }

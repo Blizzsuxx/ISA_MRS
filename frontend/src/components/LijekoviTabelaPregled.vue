@@ -62,11 +62,14 @@
     </el-table-column>
 
 
-    <el-table-column
-      property="lijek.prodaja"
-      label="Prodaja"
-      :formatter="formatirajProizvodnju"
+    <el-table-column 
+      
+      label="Kolicina"
+      prop="kolicina"
      >
+       <template v-slot="scope">
+            <el-input-number v-model="scope.row.lijek.kolicina" :min="1" :max="99" size="small" controls-position="right" />
+        </template>
     </el-table-column>
     
   </el-table>
@@ -80,6 +83,7 @@
 export default {
   name: 'LijekoviTabela',
   data() {
+    
       return {
         multipleSelection: [],
         search : ''

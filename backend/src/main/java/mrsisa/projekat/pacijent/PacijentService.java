@@ -534,6 +534,25 @@ public class PacijentService {
 	//	this.penalRepository.save(penal);
 	}
 
+	@Transactional
+    public Boolean proveriAlergije(Map<String, Object> params) {
+		List<Map<String,Object>> lekovi = (List<Map<String,Object>>) params.get("lijekovi");
+		String id = (String) params.get("korisnik");
+		Pacijent p = findOne(id);
+		for(Map<String, Object> lek : lekovi){
+			Integer lekId = (Integer)lek.get("id");
+			System.out.println(params.get("korisnik"));
+			System.out.println(lek);
+			for(Lijek l : p.getAlergije()){
+				System.out.println("lek alergija: " + l.getId() + " id porucen: " + lekId);
+				System.out.println(l);
+				System.out.println(lek);
 
-
+				if(l.getId().toString().equals(lekId.toString())){
+					return true;
+				}
+			}
+		}
+		return false;
+    }
 }

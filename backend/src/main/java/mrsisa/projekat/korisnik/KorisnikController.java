@@ -3,6 +3,7 @@ package mrsisa.projekat.korisnik;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.bezbjednost.JwtAuthenticationRequest;
 import mrsisa.projekat.bezbjednost.UserTokenState;
+import mrsisa.projekat.radnik.RadnikDTO;
 import mrsisa.projekat.util.MailSender;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.util.TokenUtils;
@@ -87,15 +88,17 @@ public class KorisnikController {
     }
 
     @GetMapping(path = "trenutniRadnik")
-    public Radnik trenutniRadnik(){
+    public RadnikDTO trenutniRadnik(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Radnik radnik = (Radnik)auth.getPrincipal();
-        return radnik;
+        RadnikDTO radnikDTO = new RadnikDTO(radnik);
+        System.out.println(radnikDTO.getIme());
+        return radnikDTO;
     }
 
     @PostMapping(path = "/izmeni")
     public void izmeni(@RequestBody Map<String, Object> info){
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+
         this.korisnikService.izmeni(info, trenutniRadnik());
     }
 

@@ -12,6 +12,7 @@ const state = {
     dostupniLekovi: [],
     poruceniNepostojeci: [],
     greska: false,
+    zamenaLekovi: [],
 
 };
 
@@ -110,27 +111,32 @@ const actions = {
         })  
     },
 
-    proveriAlergije (context, data){
-        console.log("QQQ");
-        var korisnik = data.a;
-        var lijekovi = data.s;
-        console.log(korisnik);
-        axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',{"lijekovi" : lijekovi, "korisnik" : korisnik}, {headers : authHeader()})
+    async proveriAlergije (context, data){
+        axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',data, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return response
+            return Promise.resolve(1);
 
         })
     },
 
 
-    proveriDostupnost (context, lijekovi, pregledID){
-        axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',{"lijekovi" : lijekovi, "pregledID" : pregledID}, {headers : authHeader()})
+    async proveriDostupnost (context, params){
+        console.log(params);
+        axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return response
 
-        })
+        });
+
+        if(state.greska){
+            axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
+            .then(response => {
+                context.commit('postaviZamenuLekove',response.data)
+
+        });
+        }
+        return Promise.resolve(1);
     },
 
 
@@ -223,6 +229,7 @@ const actions = {
 const mutations = {
     
     postaviSveLijekove:(state,lijekovi)=>(state.sviLijekovi = lijekovi),
+    postaviZamenuLekove:(state, newZamena)=>(state.zamenaLekovi = newZamena),
     postaviDostupne:(state,lijekovi)=>(state.dostupniLekovi = lijekovi),
     postaviZabranjene:(state,zabranjeni)=>(state.zabranjeni  =zabranjeni),
     postaviDTOLijekove:(state, dtoLijekovi)=>(state.dtoLijekovi = dtoLijekovi),

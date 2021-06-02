@@ -1,6 +1,7 @@
 package mrsisa.projekat.korisnik;
 
 import mrsisa.projekat.radnik.Radnik;
+import mrsisa.projekat.radnik.RadnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,12 +46,21 @@ public class KorisnikService implements UserDetailsService {
     }
     
     @Transactional
-    public void izmeni(Map<String, Object> info, Radnik radnik) {
-        radnik.setFirstName(info.get("ime").toString());
-        radnik.setLastName(info.get("prezime").toString());
-        radnik.setEmail(info.get("email").toString());
-        radnik.setPassword(info.get("sifra").toString());
-        radnik.setPromenioSifru(true);
+    public void izmeni(Map<String, Object> info, RadnikDTO radnikDTO) {
+
+        Radnik radnik = (Radnik) this.korisnikRepository.findById(radnikDTO.getId()).orElse(null);
+        if(!(info.get("ime") == null) && !info.get("ime").toString().isEmpty()){
+            radnik.setFirstName(info.get("ime").toString());
+        }
+        if(!(info.get("prezime") == null) && !info.get("prezime").toString().isEmpty()){
+            radnik.setLastName(info.get("prezime").toString());
+        }
+        if(!(info.get("sifra") == null) && !info.get("sifra").toString().isEmpty()){
+            radnik.setPassword(info.get("sifra").toString());
+            radnik.setPromenioSifru(true);
+
+        }
+
         this.korisnikRepository.save(radnik);
     }
 }

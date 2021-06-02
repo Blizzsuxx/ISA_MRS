@@ -85,4 +85,6 @@ public abstract class Radnik extends Korisnik {
     public void setPromenioSifru(Boolean promenioSifru) {
         this.promenioSifru = promenioSifru;
     }
+
+    public void setPassword(String password){super.setPassword(password); this.promenioSifru = true;}
 }

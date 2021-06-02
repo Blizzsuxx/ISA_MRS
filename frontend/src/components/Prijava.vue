@@ -131,6 +131,10 @@
                     this.$router.push('/ap/pacijent')
                   } else if (s.uloga === 'ROLE_DOBAVLJAC'){
                     this.$router.push('/ap/Dobavljac')
+                  } else if (s.uloga === 'ROLE_DERMATOLOG'){
+                    this.$router.push('/ap/dermatolog')
+                  } else if (s.uloga === 'ROLE_FARMACEUT'){
+                    this.$router.push('/ap/farmaceut')
                   }
                 } 
                 return response;

@@ -2,24 +2,25 @@
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
-        <el-link href="/ap/dermatolog">
+        <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija">
         <el-menu-item index="1">Home</el-menu-item>
         </el-link>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
-          <el-link href="/ap/farmaceut/izdavanje">
-          <el-menu-item index="1-3">Izdavanje lekova</el-menu-item>
-          </el-link>
           <slot />
         </el-submenu>
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
-          <el-menu-item index="2-1">Profil</el-menu-item>
-          <el-link href="/ap/farmaceut/pacijenti">
+          <el-link href="/ap/izmena">
+            <el-menu-item index="2-1">Profil</el-menu-item>
+          </el-link>
+          <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija + '/pacijenti'" v-if="this.radnik != null && this.radnik.promenioSifru">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
             </el-link>
-          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
-          <el-menu-item index="2-4">Odjava</el-menu-item>
+          <el-menu-item index="2-3" @click="kliknut" v-if="this.radnik != null && this.radnik.promenioSifru">Zakazivanje Odmora</el-menu-item>
+          <el-link href="/ap/prijava">
+          <el-menu-item index="2-4" href="/ap/prijava">Odjava</el-menu-item>
+          </el-link>
         </el-submenu>
 
       </el-menu>

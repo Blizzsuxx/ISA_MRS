@@ -2,7 +2,7 @@
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
-        <el-link href="/ap/dermatolog">
+        <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija">
         <el-menu-item index="1">Home</el-menu-item>
         </el-link>
         <el-submenu index="1">
@@ -11,13 +11,16 @@
         </el-submenu>
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
-          <el-menu-item index="2-1">Profil</el-menu-item>
-          
-          <el-link href="/ap/dermatolog/pacijenti" v-if="this.radnik != null && this.radnik.promenioSifru">
+          <el-link href="/ap/izmena">
+            <el-menu-item index="2-1">Profil</el-menu-item>
+          </el-link>
+          <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija + '/pacijenti'" v-if="this.radnik != null && this.radnik.promenioSifru">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
             </el-link>
           <el-menu-item index="2-3" @click="kliknut" v-if="this.radnik != null && this.radnik.promenioSifru">Zakazivanje Odmora</el-menu-item>
-          <el-menu-item index="2-4">Odjava</el-menu-item>
+          <el-link href="/ap/prijava">
+          <el-menu-item index="2-4" href="/ap/prijava">Odjava</el-menu-item>
+          </el-link>
         </el-submenu>
 
       </el-menu>
@@ -102,10 +105,12 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
         APGodisnjiOdmor
     },
 
-    async mounted(){
+    async created(){
       //pozivanje ucitavanja podataka poseta
+      console.log("B");
       await this.$store.dispatch('APKorisnici/trenutniRadnik');
-      await this.$store.dispatch("APPosete/dobaviPoseteAktivne")
+      await this.$store.dispatch("APPosete/dobaviPoseteAktivne");
+      await this.$store.dispatch("APKorisnici/promeniRedirekciju", "dermatolog");
       this.tableData = this.$store.state.APPosete.svePosete;
       this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
       console.log(this.radnik.promenioSifru)
@@ -165,7 +170,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 
           this.getPacijent(row);
           console.log(row);
-          this.$router.push({ name: 'APPregled', params: {pacijentID: row.username, pregledID: row.id} });
+          this.$router.push({ name: 'APPregled', params: {pacijentID: row.pacijent.username, pregledID: row.id} });
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -199,6 +204,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
       return {
         tableData: this.$store.state.APPosete.svePosete,
         radnik: this.$store.state.APKorisnici.trenutniRadnik,
+        
       }
     }
   };

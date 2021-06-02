@@ -14,12 +14,24 @@ const state = {
     administratoriApoteke: [],
     farmaceuti: [],
     trenutniRadnik: null,
-    stanje: initialState
+    stanje: initialState,
+    trenutnaRedirekcija: "null"
 };
 
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
+
+    promeniRedirekciju(context, novaRedirekcija){
+        context.commit("promeniRedirekciju", novaRedirekcija);
+        return novaRedirekcija;
+    },
+
+    dobaviRedirekciju(context){
+        context;
+        return state.trenutnaRedirekcija;
+    },
+
     kreirajOdgovor(context, sadrzaj){
         sadrzaj.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
         return axios.post('http://localhost:8080/api/odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
@@ -247,6 +259,7 @@ const mutations = {
     postaviAdministratoreSistema:(state, administratoriSistema)=>(state.administratoriSistema = administratoriSistema),
     postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke),
     postaviFarmaceute:(state, farmaceuti)=>(state.farmaceuti = farmaceuti),
+    promeniRedirekciju:(state, novaRedirekcija)=>(state.trenutnaRedirekcija = novaRedirekcija),
     loginSuccess(state, user) {
         state.stanje.status.loggedIn = true;
         state.stanje.user = user;

@@ -2,17 +2,25 @@
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
+        <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija">
         <el-menu-item index="1">Home</el-menu-item>
+        </el-link>
         <el-submenu index="1">
           <template #title><i class="el-icon-menu"></i></template>
           <slot />
         </el-submenu>
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
-          <el-menu-item index="2-1">Profil</el-menu-item>
+          <el-link href="/ap/izmena">
+            <el-menu-item index="2-1">Profil</el-menu-item>
+          </el-link>
+          <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija + '/pacijenti'" v-if="this.radnik != null && this.radnik.promenioSifru">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
-          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
-          <el-menu-item index="2-4">Odjava</el-menu-item>
+            </el-link>
+          <el-menu-item index="2-3" @click="kliknut" v-if="this.radnik != null && this.radnik.promenioSifru">Zakazivanje Odmora</el-menu-item>
+          <el-link href="/ap/prijava">
+          <el-menu-item index="2-4" href="/ap/prijava">Odjava</el-menu-item>
+          </el-link>
         </el-submenu>
 
       </el-menu>
@@ -152,7 +160,13 @@ export default {
       //pozivanje ucitavanja podataka poseta
       await this.$store.dispatch("APPosete/dobaviPosete")
       this.tableData = this.$store.state.APPosete.svePosete;
-      
+      await this.$store.dispatch('APKorisnici/trenutniRadnik');
+      await this.$store.dispatch("APKorisnici/promeniRedirekciju", "dermatolog");
+      this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
+      console.log(this.radnik.promenioSifru)
+      if(!this.radnik.promenioSifru){
+        alert("Molimo vas da promenite sifru, kliknite na profil");
+      }   
     },
 
   data() {
@@ -160,6 +174,7 @@ export default {
     return {
       tableData: this.$store.state.APPosete.svePosete,
       search: '',
+      radnik : this.$store.state.APKorisnici.trenutniRadnik,
     }
   }
 };

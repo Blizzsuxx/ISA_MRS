@@ -8,12 +8,16 @@ import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +47,14 @@ public class PosetaService {
         return null;
     }
 
+    @Transactional
+    public void izvrsiPregled(Long id, String opis){
+        Poseta poseta = this.findId(id);
+        poseta.setOpis(opis);
+        poseta.setOtkazano(false);
+        this.posetaRepository.save(poseta);
+    }
+
 
     public Poseta findId(Long id){
 
@@ -66,32 +78,17 @@ public class PosetaService {
         this.posetaRepository.save(novaPoseta);
         System.out.println(podaci.get("korisnik"));
     }
+
+    @Transactional
     public List<PosetaDTO> dobaviPosete(){
-
-        Farmaceut f = new Farmaceut();
-        f.setFirstName("Pera");
-        f.setLastName("Peric");
-
-        Dermatolog d = new Dermatolog();
-        d.setFirstName("John");
-        d.setLastName("Titor");
-        LocalDateTime d1 = LocalDateTime.of(2021, 5, 11, 5, 45);
-        LocalDateTime d2 = LocalDateTime.of(2021, 7, 11, 6, 45);
-        Apoteka a = new Apoteka();
-        a.setIme("Poteka");
-        Adresa adresa = new Adresa();
-        adresa.setUlica("Faze 21");
-        adresa.setMesto("Pozarevac");
-        a.setAdresa(adresa);
-        Pacijent pac = new Pacijent();
-        pac.setFirstName("Dragan");
-        pac.setLastName("Arsic");
-
-
-        Poseta p1 = new Poseta((long)1, pac, f, d1, d2, a, new ArrayList<Erecept>());
-        Poseta p2 = new Poseta((long)2, pac, d, d1, d2, a, new ArrayList<Erecept>());
-        Poseta p3 = new Poseta((long)3, pac, d, d1, d2, a, new ArrayList<Erecept>());
-        return List.of(new PosetaDTO(p1), new PosetaDTO(p2), new PosetaDTO(p3));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Radnik k = (Radnik)auth.getPrincipal();
+        List<Poseta> posete = this.posetaRepository.findByRadnikProslo(k.getId());
+        ArrayList<PosetaDTO> dto = new ArrayList<>();
+        for(Poseta p : posete){
+            dto.add(new PosetaDTO(p));
+        }
+        return dto;
     }
 
 
@@ -410,16 +407,59 @@ public class PosetaService {
     @Transactional(readOnly=true)
     public List<PosetaDTO> getAktivnePosete(Radnik radnik) {
 
-        return dobaviPosete(); //hotfix
 
-        /*
+
         List<Poseta> posete = this.posetaRepository.findByRadnikAktivno(radnik.getId());
         ArrayList<PosetaDTO> dtoPosete = new ArrayList<>();
         for(Poseta a : posete){
             dtoPosete.add(new PosetaDTO(a));
+            System.out.println(a.getId());
         }
 
         return dtoPosete;
-        */
+
+    }
+
+    @Transactional
+    public Boolean proveriDostupnost(Map<String, Object> params, StanjeLijekaRepository stanjeLijekaRepository) {
+        Poseta poseta = this.findId(Long.parseLong(params.get("pregledID").toString()));
+
+        List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println(params.get("lijekovi"));
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        for(Map<String, Object> token : lekoviID){
+            Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
+            boolean lekPostojiUApoteci = false;
+            for(StanjeLijeka stanjeLijeka : poseta.getApoteka().getLijekovi()){
+                if(stanjeLijeka.getId().equals (Long.parseLong(lek.get("id").toString()))){
+                    lekPostojiUApoteci = true;
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    System.out.println(stanjeLijeka.getKolicina());
+                    System.out.println(lek.get("kolicina"));
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                    if(stanjeLijeka.getKolicina() < Long.parseLong(lek.get("kolicina").toString())){
+                        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+
+                        return true;
+                    }
+                    else{
+                        stanjeLijeka.setZatrazen(stanjeLijeka.getZatrazen()+1);
+                        stanjeLijeka.setZatrazenDatum(LocalDateTime.now());
+                        stanjeLijekaRepository.save(stanjeLijeka);
+                    }
+                    break;
+                }
+            }
+            if(!lekPostojiUApoteci){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

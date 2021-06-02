@@ -2,7 +2,7 @@
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
-        <el-link href="/ap/dermatolog">
+        <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija">
         <el-menu-item index="1">Home</el-menu-item>
         </el-link>
         <el-submenu index="1">
@@ -11,12 +11,16 @@
         </el-submenu>
         <el-submenu index="2">
           <template #title><i class="el-icon-setting"></i></template>
-          <el-menu-item index="2-1">Profil</el-menu-item>
-          <el-link href="/ap/dermatolog/pacijenti">
+          <el-link href="/ap/izmena">
+            <el-menu-item index="2-1">Profil</el-menu-item>
+          </el-link>
+          <el-link :href="'/ap/' + this.$store.state.APKorisnici.trenutnaRedirekcija + '/pacijenti'" v-if="this.radnik != null && this.radnik.promenioSifru">
           <el-menu-item index="2-2">Prethodni Klijenti</el-menu-item>
             </el-link>
-          <el-menu-item index="2-3" @click="kliknut">Zakazivanje Odmora</el-menu-item>
-          <el-menu-item index="2-4">Odjava</el-menu-item>
+          <el-menu-item index="2-3" @click="kliknut" v-if="this.radnik != null && this.radnik.promenioSifru">Zakazivanje Odmora</el-menu-item>
+          <el-link href="/ap/prijava">
+          <el-menu-item index="2-4" href="/ap/prijava">Odjava</el-menu-item>
+          </el-link>
         </el-submenu>
 
       </el-menu>
@@ -104,17 +108,21 @@
     async mounted(){
       //pozivanje ucitavanja podataka apoteka
       
-    await this.$store.dispatch('APKorisnici/trenutniRadnik');
+      
+      await this.$store.dispatch('APKorisnici/trenutniRadnik');
+      await this.$store.dispatch("APPosete/dobaviPoseteAktivne");
+      await this.$store.dispatch("APKorisnici/promeniRedirekciju", "dermatolog");
+      this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
       
       
-      this.form.ime=this.$store.state.APKorisnici.trenutniRadnik.firstName
-      this.form.prezime=this.$store.state.APKorisnici.trenutniRadnik.lastName
-      this.form.email=this.$store.state.APKorisnici.trenutniRadnik.email
+      this.form.ime=this.$store.state.APKorisnici.trenutniRadnik.ime
+      this.form.prezime=this.$store.state.APKorisnici.trenutniRadnik.prezime
+      this.form.email=this.$store.state.APKorisnici.trenutniRadnik.mejl
       this.form.sifra = this.$store.state.APKorisnici.trenutniRadnik.sifra
-      this.backup.email=this.$store.state.APKorisnici.trenutniRadnik.email
-      this.backup.ime=this.$store.state.APKorisnici.trenutniRadnik.firstName
-      this.backup.prezime=this.$store.state.APKorisnici.trenutniRadnik.lastName
-    this.backup.sifra = this.$store.state.APKorisnici.trenutniRadnik.sifra
+      this.backup.email=this.$store.state.APKorisnici.trenutniRadnik.mejl
+      this.backup.ime=this.$store.state.APKorisnici.trenutniRadnik.ime
+      this.backup.prezime=this.$store.state.APKorisnici.trenutniRadnik.prezime
+      this.backup.sifra = this.$store.state.APKorisnici.trenutniRadnik.sifra
     },
     
     methods: {
@@ -133,7 +141,9 @@
         this.backup.ime=this.form.ime
         this.backup.prezime=this.form.prezime
         this.backup.email=this.form.email  
-        this.backup.sifra = this.form.sifra}
+        this.backup.sifra = this.form.sifra
+        this.$router.push({ name: 'Prijava' })
+        }
         }
         //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
 
@@ -153,6 +163,7 @@
           email: '' ,
           prezime: '',
           sifra: '',
+          radnik : this.$store.state.APKorisnici.trenutniRadnik,
           
         },
         
@@ -161,7 +172,7 @@
           prezime: '',
           email: '' ,
           sifra: '',
-          
+          radnik : this.$store.state.APKorisnici.trenutniRadnik,
         }
       
       };

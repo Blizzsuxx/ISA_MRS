@@ -26,8 +26,8 @@ const actions = {
 
 
 
-    postaviErecept(context, podaci){
-        axios.post('http://localhost:8080/api/v1/erecepti/postaviErecept', podaci,{ headers: authHeader()}).then(response => {
+    postaviRezervaciju(context, podaci){
+        axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervaciju', podaci,{ headers: authHeader()}).then(response => {
     
                 alert("Pregled uspesno zavrsen");
                 return response;

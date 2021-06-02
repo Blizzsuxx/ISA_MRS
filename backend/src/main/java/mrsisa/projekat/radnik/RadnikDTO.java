@@ -4,17 +4,36 @@ public class RadnikDTO {
     private int id;
     private String ime, prezime, mejl;
 
+    public Boolean getPromenioSifru() {
+        return promenioSifru;
+    }
+
+    public void setPromenioSifru(Boolean promenioSifru) {
+        this.promenioSifru = promenioSifru;
+    }
+
+    private Boolean promenioSifru;
+
     public RadnikDTO(int id, String ime, String prezime, String mejl) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
         this.mejl = mejl;
+        this.promenioSifru = false;
+    }
+    public RadnikDTO(int id, String ime, String prezime, String mejl, Boolean promenioSifru) {
+        this.id = id;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.mejl = mejl;
+        this.promenioSifru = promenioSifru;
     }
     public RadnikDTO(Radnik r) {
         this.id = r.getId();
         this.ime = r.getFirstName();
         this.prezime = r.getLastName();
         this.mejl = r.getEmail();
+        this.promenioSifru = r.getPromenioSifru();
     }
 
     public int getId() {
