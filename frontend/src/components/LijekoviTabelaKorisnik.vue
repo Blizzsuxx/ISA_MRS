@@ -2,7 +2,7 @@
 <el-input placeholder="Search table" v-model="search"></el-input>
   <el-table
     :ref="referenca"
-    height="250"
+    height="500"
     :data="lijekovi.filter(data => !search || String(data.lijek.naziv).toLowerCase().includes(search.toLowerCase()) ||
     String(data.lijek.id).toLowerCase().includes(search.toLowerCase()) ||
     String(data.lijek.vrstaLijeka).toLowerCase().includes(search.toLowerCase()) ||

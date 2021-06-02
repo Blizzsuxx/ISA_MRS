@@ -54,7 +54,7 @@
   justify-content: center;  padding-bottom: 20px;">
     </div>
 <el-table
-    height="250"
+    height="500"
     :data="noviLijekovi"
     style="width: 100%"
   >

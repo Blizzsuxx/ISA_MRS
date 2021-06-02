@@ -7,11 +7,16 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.akcija.AkcijaDTO;
+import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -37,16 +42,18 @@ public class ApotekaService {
     private final PacijentRepository pacijentRepository;
     private final StanjeLijekaRepository stanjeLijekaRepository;
     private final RezervacijaRepository rezervacijaRepository;
+    private final PosetaRepository posetaRepository;
 
     @Autowired
     public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p,
-                          StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository){
+                          StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository){
         this.apotekaRepository = apotekaRepository;
         this.adresaRepository = adresaRepository;
         this.lekRepository=l;
         this.pacijentRepository=p;
         this.stanjeLijekaRepository=stanjeLijekaRepository;
         this.rezervacijaRepository=rezervacijaRepository;
+        this.posetaRepository =  posetaRepository;
     }
 
     public Apoteka save(Apoteka a){
@@ -253,5 +260,50 @@ public class ApotekaService {
         this.apotekaRepository.save(a);
 
         return true;
+    }
+    @Transactional
+    public IzvjestajDTO izvjestaj(Long id) {
+        IzvjestajDTO izvjestaj =  new IzvjestajDTO();
+        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
+        if(apoteka==null)
+            return izvjestaj;
+        double ocjena = 0;
+        for(Ocena ocena: apoteka.getOcene())
+            ocjena+=ocena.getOcena();
+        if(apoteka.getOcene().size()==0)
+            izvjestaj.setOcjenaApoteke(0.0);
+        else
+            izvjestaj.setOcjenaApoteke(ocjena/apoteka.getOcene().size());
+        for(Dermatolog dermatolog:apoteka.getDermatolozi()){
+            ocjena = 0;
+            for(Ocena ocena:dermatolog.getOcene())
+                ocjena+=ocena.getOcena();
+            if(dermatolog.getOcene().size()==0)
+                izvjestaj.getOcjeneDermatologa().put(dermatolog.getUsername(),0.0);
+            else
+                izvjestaj.getOcjeneDermatologa().put(dermatolog.getUsername(),ocjena/dermatolog.getOcene().size());
+        }
+        for(Farmaceut farmaceut:apoteka.getFarmaceuti()){
+            ocjena = 0;
+            for(Ocena ocena:farmaceut.getOcene())
+                ocjena+=ocena.getOcena();
+            if(farmaceut.getOcene().size()==0)
+                izvjestaj.getOcjeneDermatologa().put(farmaceut.getUsername(),0.0);
+            else
+                izvjestaj.getOcjeneDermatologa().put(farmaceut.getUsername(),ocjena/farmaceut.getOcene().size());}
+        int mjesec = 1;
+        for(int i=0;i<12;i++){
+            izvjestaj.getPreglediPoMjesecima().add(0);
+        }
+        for(Poseta poseta: this.posetaRepository.findAll()){
+            if(poseta.getOtkazano()==null)
+                continue;
+            if(poseta.getApoteka().getId().equals(apoteka.getId()) && poseta.getPocetak().getYear()==LocalDateTime.now().getYear() && !poseta.getOtkazano()){
+                izvjestaj.getPreglediPoMjesecima().set(poseta.getPocetak().getMonthValue() - 1, izvjestaj.getPreglediPoMjesecima().get(poseta.getPocetak().getMonthValue() - 1)+1);
+            }
+        }
+
+
+        return izvjestaj;
     }
 }

@@ -102,7 +102,9 @@ export default {
     
     async mounted(){
       //pozivanje ucitavanja podataka poseta
-      if(typeof this.id!=="number"){
+    
+      
+      if(typeof this.id!=="number" || isNaN(this.id)){
       await this.$store.dispatch("APlijekovi/dobaviSveDostupneLijekove")
       this.lijekovi = this.$store.state.APlijekovi.dostupniLekovi;
       }

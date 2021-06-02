@@ -66,12 +66,18 @@ import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
 import ProfilApotekeKorisnik from '../components/ProfilApotekeKorisnik'
 import PromjenaLozinke from "../components/PromjenaLozinke"
 import QRKod from '../components/QRKod'
+import Izvjestaji from "../components/Izvjestaji"
 
 const routes = [
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
     component: APLijekovi,
+  },
+  {
+    path: '/izvjestaji',
+    name: 'Izvjestaji',
+    component: Izvjestaji,
   },
   {
     path: '/poruceni',

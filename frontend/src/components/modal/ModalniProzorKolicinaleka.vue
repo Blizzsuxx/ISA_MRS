@@ -15,18 +15,7 @@
             <el-form-item label="Kolicina">
               <el-input-number v-model="num"  @change="handleChange" :min="1" :max="dostupno"></el-input-number>
             </el-form-item>
-            
-            <el-form-item>
-              <el-button type="primary" @click="posaljiLek()"
-                >Zakazi</el-button
-              >
-              
-            </el-form-item>
-          </el-form>
-        </div>
-        <div style="margin-top: 20px">
-    <label>Odaberite datum preuzimanja</label>
-   <el-form-item >
+            <el-form-item label="Preuzimanja">
               <el-date-picker
                 v-model="ocenjivac.value2"
                 type="date"
@@ -36,7 +25,15 @@
                >
               </el-date-picker>
             </el-form-item>
-    
+            <el-form-item>
+              <el-button type="primary" @click="posaljiLek()"
+                >Zakazi</el-button
+              >
+              
+            </el-form-item>
+          </el-form>
+        </div>
+        <div style="margin-top: 20px">
   </div>
       </div>
     </div>
@@ -111,7 +108,7 @@ export default {
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 30%;
+  width: 40%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;

@@ -1,7 +1,7 @@
 <template>
   <el-table
     :ref="referenca"
-    height="250"
+    height="700"
     :data="narudzbenice"
     style="width: 100%"
   >

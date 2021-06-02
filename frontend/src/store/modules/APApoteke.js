@@ -72,6 +72,14 @@ const actions = {
          
         })
     },
+    izvjestaj(){
+        return axios.get(`http://localhost:8080/api/v1/apoteka/izvjestaj`,{ headers: authHeader()})
+        .then(response => {
+            return response.data;
+         
+        })
+        
+    },
     // dobaviApotekuKorisnik(context, id){
     //     return axios.get(`http://localhost:8080/api/v1/apoteka/${id}/profil/korisnik`,{ headers: authHeader()})
     //     .then(response => {
