@@ -146,7 +146,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         console.log(this.korisnik)
         await this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik});
         
-        this.greska=this.$store.state.APlijekovi.greska;
+        this.greska= this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.poruka = "Pacijent je alergican!";
           alert("pacijent je alergican!")
@@ -160,7 +160,6 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         console.log("3")
         console.log("QWEQWEQWEQWEQWE: " + this.$route.params.pregledID)
         await this.$store.dispatch("APlijekovi/proveriDostupnost",{lijekovi: this.$refs.dijete.multipleSelection, pregledID: this.$route.params.pregledID});
-
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.izabraniLijekovi = [];

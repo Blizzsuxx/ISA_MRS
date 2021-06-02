@@ -1,8 +1,15 @@
 package mrsisa.projekat.rezervacija;
 
+import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.poseta.PosetaService;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @CrossOrigin
@@ -32,12 +39,8 @@ public class RezervacijaController {
 
     @PostMapping(value="/dobaviRezervacijeId")
     public List<RezervacijaDTO> dobaviRezervacijeId( @RequestBody Map<String, Object> podaci){
-        RezervacijaDTO a = new RezervacijaDTO("lek", "dobar", 11, 12.0, "poteka", "12-12-2022");
+        return this.rezervacijaService.dobaviRezervacijeId(podaci);
 
-        if(Integer.valueOf(podaci.get("id").toString()) == 2){
-            return null;
-        }
-      return List.of(a);
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
   <APDermatolog ref="table">
     <el-link href="/ap/farmaceut/izdavanje">
-    <el-menu-item index="1-3" v-if="this.radnik != null && this.radnik.promenioSifru">Izdavanje lekova</el-menu-item>
+    <el-menu-item index="1-1" >Izdavanje lekova</el-menu-item>
     </el-link>
 
     <template v-slot:header-slot>

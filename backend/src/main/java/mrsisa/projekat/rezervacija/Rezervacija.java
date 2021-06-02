@@ -19,7 +19,7 @@ public class Rezervacija {
     @ManyToOne(fetch = FetchType.LAZY)
     private Pacijent pacijent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Apoteka apoteka;
 
     @Column( nullable = false)

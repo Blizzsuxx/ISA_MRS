@@ -1,10 +1,14 @@
 package mrsisa.projekat.rezervacija;
 
-import mrsisa.projekat.erecept.Erecept;
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaService;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +20,12 @@ import java.util.Map;
 @Service
 public class RezervacijaService {
     private final RezervacijaRepository repository;
+    private final ApotekaRepository apotekaRepository;
 
     @Autowired
-    public RezervacijaService(RezervacijaRepository repository) {
+    public RezervacijaService(RezervacijaRepository repository, ApotekaRepository apotekaRepository) {
         this.repository = repository;
+        this.apotekaRepository = apotekaRepository;
     }
 
     @Transactional
@@ -30,7 +36,7 @@ public class RezervacijaService {
         rezervacija.setDatumRezervacije(LocalDateTime.now());
         rezervacija.setApoteka(poseta.getApoteka());
         rezervacija.setPacijent(poseta.getPacijent());
-        rezervacija.setIzdato(true);
+        rezervacija.setIzdato(false);
         posetaService.izvrsiPregled(pregledID, (String) podaci.get("zapisano"));
         rezervacija.setRezervisaniLijekovi( new ArrayList<>());
         List<Map<String, Object>> lijekovi = (List<Map<String, Object>>) podaci.get("lijekovi");
@@ -47,5 +53,30 @@ public class RezervacijaService {
         }
 
         repository.save(rezervacija);
+    }
+
+    @Transactional
+    public List<RezervacijaDTO> dobaviRezervacijeId(Map<String, Object> podaci) {
+
+
+        Long id = Long.parseLong(podaci.get("id").toString());
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Farmaceut k = (Farmaceut)auth.getPrincipal();
+        Apoteka apoteka = this.apotekaRepository.findOneById(k.getApoteka().getId());
+        for(Rezervacija r : apoteka.getRezervacije()){
+            if(r.getId() == id){
+                ArrayList<RezervacijaDTO> dto = new ArrayList<>();
+
+                for(StanjeLijeka token : r.getRezervisaniLijekovi()){
+                    RezervacijaDTO rez = new RezervacijaDTO(r, token);
+                    dto.add(rez);
+
+                }
+                return dto;
+            }
+        }
+        return null;
+
+
     }
 }
