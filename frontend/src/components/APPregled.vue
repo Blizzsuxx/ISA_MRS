@@ -190,7 +190,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
       zavrsiPregled(){
         this.$store.dispatch("ERecepti/postaviRezervaciju", {"pacijent" : this.korisnik, "zapisano" : this.textarea, "pregledID" : this.$route.params.pregledID, "lijekovi" : this.izabraniLijekovi});
-        this.$router.push({name: "AP" + this.$store.state.APKorisnici.trenutnaRedirekcija});
+        this.$router.push({name: "AP" + this.$store.state.APKorisnici.trenutnaRedirekcija.charAt(0).toUpperCase() + this.$store.state.APKorisnici.trenutnaRedirekcija.slice(1)});
       }
         
     },
