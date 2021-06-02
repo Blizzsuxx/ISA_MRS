@@ -64,7 +64,9 @@ import ZalbeIstorija from '../components/ZalbeIstorija'
 import PoruceniNepostojeci from '../components/PoruceniNepostojeci'
 import FormaZaOcenjivanje from '../components/FormaZaOcenjivanje'
 import ProfilApotekeKorisnik from '../components/ProfilApotekeKorisnik'
+import PromjenaLozinke from "../components/PromjenaLozinke"
 import QRKod from '../components/QRKod'
+import Izvjestaji from "../components/Izvjestaji"
 
 const routes = [
   {
@@ -73,9 +75,20 @@ const routes = [
     component: APLijekovi,
   },
   {
+    path: '/izvjestaji',
+    name: 'Izvjestaji',
+    component: Izvjestaji,
+  },
+  {
     path: '/poruceni',
     name: 'PoruceniNepostojeci',
     component: PoruceniNepostojeci,
+  },
+  {
+    path: '/adminApoteke/promjenaLozinke',
+    name: 'PromjenaLozinke',
+    component: PromjenaLozinke,
+    meta:{title: 'Promjena lozinke'}
   },
   {
     path: '/prikazNarudzbenica',
@@ -295,7 +308,7 @@ const routes = [
     component: Registracija,
   },
   {
-    path: '/ap/rezervisanjeLekova',
+    path: '/ap/rezervisanjeLekova/:id?',
     name: 'RezervisanjeLekova',
     component: RezervisanjeLekova,
   },

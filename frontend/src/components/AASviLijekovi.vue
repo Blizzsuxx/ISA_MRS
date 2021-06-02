@@ -65,7 +65,7 @@ export default {
                 type: 'success',
                 message: 'Uspješno izbrisan lijek iz apoteke'
               });
-              this.$store.dispatch("APlijekovi/dobaviLijekove")
+              this.$store.dispatch("APlijekovi/dobaviLijekoveAdmin")
               this.$refs.dijete.$refs.multipleTable.clearSelection();
             }
             else{

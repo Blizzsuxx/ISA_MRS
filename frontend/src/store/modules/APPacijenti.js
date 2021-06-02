@@ -5,6 +5,7 @@ const state = {
     kategorija : "",
     pretplata : [],
     trenutniPacijent: null,
+    dozvola: false,
 
 };
 
@@ -64,6 +65,13 @@ const actions = {
 
     pacijentZaPrelged(context, pacijent){
         context.commit('postaviPacijentaZaPregled', pacijent);
+    },
+    proveriPenale(context){
+        return axios.get('http://localhost:8080/api/v1/profil/provariPenale',{ headers: authHeader()}).then(response=>{
+            console.log(response.data)
+            context.commit('postaviDozvolu',response.data)
+            return response.data;
+        })
     }
 
 }
@@ -72,7 +80,8 @@ const mutations = {
     postaviPacijente:(state, pacijenti) => (state.sviPacijenti = pacijenti),
     postaviKategoriju:(state, kat) => (state.kategorija = kat),
     postaviApoteke:(state, apo) => (state.pretplata = apo),
-    postaviPacijentaZaPregled:(state, pacijentNov) => (state.trenutniPacijent = pacijentNov)
+    postaviPacijentaZaPregled:(state, pacijentNov) => (state.trenutniPacijent = pacijentNov),
+    postaviDozvolu:(state, doz) => (state.dozvola = doz)
 }
 
 export default{

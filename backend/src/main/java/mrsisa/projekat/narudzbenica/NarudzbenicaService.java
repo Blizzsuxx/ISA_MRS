@@ -10,6 +10,7 @@ import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ponuda.PonudaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,8 +85,15 @@ public class NarudzbenicaService {
         NarudzbenicaDTO temp;
         for (Narudzbenica narudzbenica : this.narudzbenicaRepository.findAll()) {
             if (narudzbenica.getApoteka().getId().equals(id)) {
+                if(narudzbenica.getRok().isBefore(LocalDateTime.now())){
+                    narudzbenica.setZavrsena(true);
+                    this.narudzbenicaRepository.save(narudzbenica);
+                }
                 temp = new NarudzbenicaDTO(narudzbenica);
                 temp.setBrojPonuda(narudzbenica.getPonude().size());
+                for(StanjeLijeka stanjeLijeka: narudzbenica.getLijekovi()){
+                    temp.dodajStanje(new StanjeLijekaDTO(stanjeLijeka));
+                }
                 narudzbenice.add(temp);
             }
         }
@@ -96,7 +104,7 @@ public class NarudzbenicaService {
     public NarudzbenicaDTO dobaviJednuNarudzbeniceAdmin(Long narudzbenica_id,AdministratorApoteke adminApoteke) {
         Narudzbenica narudzbenica = this.narudzbenicaRepository.findById(narudzbenica_id).orElse(null);
         if (narudzbenica != null) {
-            if(narudzbenica.getRok().isAfter(LocalDateTime.now())){
+            if(narudzbenica.getRok().isBefore(LocalDateTime.now())){
                 narudzbenica.setZavrsena(true);
                 this.narudzbenicaRepository.save(narudzbenica);
             }
@@ -107,6 +115,9 @@ public class NarudzbenicaService {
             }
             else{
                 narudzbenicaDTO.setPripada(false);
+            }
+            for(StanjeLijeka stanjeLijeka: narudzbenica.getLijekovi()){
+                narudzbenicaDTO.dodajStanje(new StanjeLijekaDTO(stanjeLijeka));
             }
             return narudzbenicaDTO;
         } else {

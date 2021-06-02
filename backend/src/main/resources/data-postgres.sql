@@ -14,15 +14,19 @@ values (0, 0, 30, 10, 31, 50, 20, 51, 1000, 2, 1, false);
 
 --ADRESE
 insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.83,45.26);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.85,45.26);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.83,45.20);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.77,45.30);
+insert into adresa (mesto,ptt,ulica,broj,gduzina,gsirina) values ('Novi Sad','21000','Bulevar despota Stefana','7a',19.79,45.26);
 
 
 
 --APOTEKE
 insert into apoteka (ime,adresa_id) values ('Prva apoteka',1);
-insert into apoteka (ime,adresa_id) values ('Druga apoteka',1);
-insert into apoteka (ime,adresa_id) values ('Dr Max',1);
-insert into apoteka (ime,adresa_id) values ('Jankovic',1);
-insert into apoteka (ime,adresa_id) values ('Treca apoteka',1);
+insert into apoteka (ime,adresa_id) values ('Druga apoteka',2);
+insert into apoteka (ime,adresa_id) values ('Dr Max',3);
+insert into apoteka (ime,adresa_id) values ('Jankovic',4);
+insert into apoteka (ime,adresa_id) values ('Treca apoteka',5);
 
 -- ADMINISTRATORI APOTEKA
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
@@ -158,10 +162,10 @@ values ('2021-06-10 00:00:00','2021-06-30 00:00:00',null,1,11);
 
 --NARUDZBENICE
 
-insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-06-30 00:00:00',true,1,false,1);
-insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-05-30 00:00:00',true,1,false,1);
-insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-04-30 00:00:00',true,1,false,1);
-insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-07-30 00:00:00',true,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-06-30 00:00:00',false,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-05-30 00:00:00',false,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-04-30 00:00:00',false,1,false,1);
+insert into narudzbenica (rok,zavrsena,apoteka_id,prihvacena,administrator_apoteke_administrator) values ('2021-07-30 00:00:00',false,1,false,1);
 
 
 --STANEJ LIJEKOVA APOTEKE
@@ -175,14 +179,14 @@ insert into stanje_lijeka (kolicina,lijek_id,apoteka_id,prodaja,cijena,datum_ist
 
 --STANJE LIJEKOVA NARUDZBENICE
 
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,2.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,2.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,3.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,3.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,4.00,false,1,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,4,4.00,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,3,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,4,false,1,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,4,4,false,1,'2021-06-30 00:00:00');
 
 
 
@@ -236,10 +240,10 @@ insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izda
 
 
 --STANJE LEKOVA ZA RECEPTE
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,2,1.00,false,1,'2021-06-30 00:00:00',30);
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,1,1.00,false,1,'2021-06-30 00:00:00',31);
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,2,1.00,false,1,'2021-06-30 00:00:00',33);
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,1,1.00,false,1,'2021-06-30 00:00:00',32);
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,2,false,1,'2021-06-30 00:00:00',30);
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,1,false,1,'2021-06-30 00:00:00',31);
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,2,false,1,'2021-06-30 00:00:00',33);
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene, e_recept_id) values (3,1,false,1,'2021-06-30 00:00:00',32);
 
 
 --spajanje lekova i erecepata
@@ -250,16 +254,16 @@ insert into erecept_prepisani_lijekovi(erecept_id,prepisani_lijekovi_id) values 
 
 
 --stanje lekova za rezervacije
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,2,1.00,true,100,'2021-06-30 00:00:00');
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene) values (3,1,1.00,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,2,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,1,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,2,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,1,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,2,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,1,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,2,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,1,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,2,true,100,'2021-06-30 00:00:00');
+insert into stanje_lijeka (kolicina,lijek_id,prodaja,cijena,datum_isteka_cijene) values (3,1,true,100,'2021-06-30 00:00:00');
 --DERMATOLOZI
 
 insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
@@ -308,18 +312,98 @@ values ('sifra12','napomena1', 'krema za ruke', 'krema',  'biofarm', 'sastav1', 
 
 
 --EKSN
-insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (1,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
-insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (2,'2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);
-insert into akcija (id, datum_od, datum_do, opis, procenat_popusta) values  (3,'2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija',10);
+insert into akcija (datum_od, datum_do, opis, procenat_popusta) values  ('2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
+insert into akcija (datum_od, datum_do, opis, procenat_popusta) values  ('2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);
+insert into akcija ( datum_od, datum_do, opis, procenat_popusta) values  ('2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija',10);
 
 
 --STANJE LEKA ZA AKCIJE
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,9,1.00,false,50,'2021-06-30 00:00:00',3,1);
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,10,1.00,false,50,'2021-06-30 00:00:00',3,2);
-insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,11,2.00,false,80,'2021-06-30 00:00:00',4,3);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,9,2,false,50,'2021-06-30 00:00:00',3,1);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,10,2,false,50,'2021-06-30 00:00:00',3,2);
+insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datum_isteka_cijene,apoteka_id,akcija_id) values (3,11,2,false,80,'2021-06-30 00:00:00',4,3);
 
 
 --PENALI
 insert into penali (dan, opis, traje_do, id_korisnika) values ('2021-05-30 00:00:00', 'Korisnik nije dosao po lek.','2021-06-20 00:00:00','9');
 
 insert into pacijenti_penali (pacijent_korisnik, penali_id) values (9,1);
+
+
+--SLOBODNE POSETE DERMATOLOZIMA
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (5,600,'2021-06-14 04:55','2021-06-14 04:40',1,5);
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (6,600,'2021-06-14 05:55','2021-06-14 05:40',1,5);
+insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (7,600,'2021-06-14 06:55','2021-06-14 06:40',1,5);
+
+--SLOBODAN TERMIN F
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (1,500,'2021-06-14 04:55','2021-06-14 04:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (2,500,'2021-06-14 05:55','2021-06-14 05:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (3,500,'2021-06-14 06:55','2021-06-14 06:40',1, 10);
+insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (4,500,'2021-06-14 07:55','2021-06-14 07:40',1, 10);
+
+
+
+
+
+
+
+--PACIJENTI DOPUNA
+
+insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
+potvrda_email, prijavljen) values
+    ('Ana', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Ana', 'Mitric', 'ana@gmail.com',
+    '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58', true, true);
+insert into pacijenti (korisnik, broj_poena, adresa_id) values (13, 20,1);
+insert into korisnik_uloga (korisnik_id, uloga_id) values (13, 6);
+
+
+insert into korisnici (username, password, first_name, last_name, email, birthday, role, enabled, last_password_reset_date,
+                       potvrda_email, prijavljen) values
+('Anabela', '$2a$04$Vbug2lwwJGrvUXTj6z7ff.97IzVBkrJ1XfApfGNl.Z695zqcnPYra', 'Anabela', 'Ropic', 'anabela@gmail.com',
+ '2017-10-01 21:58:58', 'ROLE_PACIJENT', true, '2017-10-01 21:58:58', true, true);
+insert into pacijenti (korisnik, broj_poena, adresa_id) values (14, 20,1);
+insert into korisnik_uloga (korisnik_id, uloga_id) values (14, 6);
+
+
+--OCJENE
+insert into ocena(ocena,pacijent_korisnik) values (5,9);
+insert into ocena(ocena,pacijent_korisnik) values (4,14);
+insert into ocena(ocena,pacijent_korisnik) values (5,13);
+
+insert into apoteka_ocene(apoteka_id,ocene_id) values (1,1);
+insert into apoteka_ocene(apoteka_id,ocene_id) values (1,2);
+insert into apoteka_ocene(apoteka_id,ocene_id) values (1,3);
+
+
+insert into ocena(ocena,pacijent_korisnik) values (5,9);
+insert into ocena(ocena,pacijent_korisnik) values (5,14);
+insert into ocena(ocena,pacijent_korisnik) values (5,13);
+
+insert into dermatolozi_ocene(dermatolog_radnik,ocene_id) values (5,4);
+insert into dermatolozi_ocene(dermatolog_radnik,ocene_id) values (5,5);
+insert into dermatolozi_ocene(dermatolog_radnik,ocene_id) values (5,6);
+
+insert into ocena(ocena,pacijent_korisnik) values (3,9);
+insert into ocena(ocena,pacijent_korisnik) values (4,14);
+insert into ocena(ocena,pacijent_korisnik) values (1,13);
+
+
+
+--POSJETE
+--2021
+--JANUAR
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+--FEBRUAR
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+

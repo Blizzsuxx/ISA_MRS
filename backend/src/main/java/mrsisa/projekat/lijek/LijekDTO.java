@@ -26,11 +26,14 @@ public class LijekDTO {
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
         this.ocijena=-1;
+        if(l.getOcene()==null){
+            this.ocijena=0;
+        }else{
         for(Ocena o : l.getOcene()){
             this.ocijena+=o.getOcena();
         }
         if(l.getOcene().size()!=0)
-            this.ocijena=this.ocijena/l.getOcene().size();
+            this.ocijena=this.ocijena/l.getOcene().size();}
 
         //this.ocijena = l.getOcijena();
         this.poeni = l.getPoeni();
@@ -58,6 +61,18 @@ public class LijekDTO {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
+    }
+
+    public LijekDTO(Lijek l, int i) {
+        this.id = l.getId();
+        this.naziv = l.getNaziv();
+        this.vrstaLijeka = l.getVrstaLijeka();
+        this.oblikLijeka = l.getOblikLijeka();
+        this.sastav = l.getSastav();
+        this.proizvodjac = l.getProizvodjac();
+        this.napomena = l.getNapomena();
+        this.ocijena=0;
+        this.poeni=l.getPoeni();
     }
 
     public long getId() {

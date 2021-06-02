@@ -18,4 +18,6 @@ public interface PosetaRepository extends JpaRepository<Poseta, Long> {
 
     @Query("SELECT n FROM Poseta n WHERE n.radnik.id = ?1 AND n.otkazano!=null ")
     public List<Poseta> findByRadnikProslo(Integer id);
+    @Query("SELECT n FROM Poseta n WHERE n.id =?1")
+    Poseta findOneById(long parseLong);
 }

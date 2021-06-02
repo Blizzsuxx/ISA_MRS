@@ -73,7 +73,10 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         console.log(today1)
         console.log(novdan-today1)
         if((novdan-today1)>-24*60*60*1000){
-          alert("Istekao je termin za otkazivanje posete.");
+          this.$message({
+                type: 'danger',
+                message: 'Istekao je termin za otkazivanje.'
+              });
         }else{
           if(confirm("da li zelite da otkazete posetu?")){
              this.$store.dispatch("APPosete/otkazi",index)

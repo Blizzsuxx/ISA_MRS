@@ -3,6 +3,8 @@ package mrsisa.projekat.stanjelijeka;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.istorijaPromjena.IstorijaPromjena;
+import mrsisa.projekat.istorijaPromjena.IstorijaPromjenaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaRepository;
@@ -21,13 +23,16 @@ import java.util.concurrent.atomic.AtomicReference;
 public class StanjeLijekaService {
     private final StanjeLijekaRepository stanjeLijekaRepository;
     private final RezervacijaRepository rezervacijeRepository;
+    private final IstorijaPromjenaRepository istorijaPromjenaRepository;
 
     @Autowired
-    public StanjeLijekaService(StanjeLijekaRepository stanjeLijekaRepository, RezervacijaRepository rezervacijaRepository){
+    public StanjeLijekaService(StanjeLijekaRepository stanjeLijekaRepository, RezervacijaRepository rezervacijaRepository,
+                               IstorijaPromjenaRepository istorijaPromjenaRepository){
         this.stanjeLijekaRepository = stanjeLijekaRepository;
         this.rezervacijeRepository = rezervacijaRepository;
+        this.istorijaPromjenaRepository =  istorijaPromjenaRepository;
     }
-
+    @Transactional
     public boolean promjeniCijenu(Long id,double cijena,String datum,Long apoteka_id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String[] dijelovi = datum.split("T");
@@ -36,6 +41,17 @@ public class StanjeLijekaService {
         LocalDateTime datum1 = LocalDateTime.parse(noviDatum,format);
         StanjeLijeka stanjeLijeka = stanjeLijekaRepository.findById(id).orElse(null);
         if(stanjeLijeka!=null){
+            for(IstorijaPromjena istorijaPromjena: istorijaPromjenaRepository.findAll()){
+                    if(istorijaPromjena.getDatumOd().equals(stanjeLijeka.getDatumIstekaCijene()) &&
+                        istorijaPromjena.getApoteka().getId().equals(stanjeLijeka.getApoteka().getId())
+                        && istorijaPromjena.getStanjeLijeka().getId().equals(stanjeLijeka.getId())){
+                        istorijaPromjena.setDatumDo(datum1);
+                    }
+            }
+            IstorijaPromjena istorijaPromjena =  new IstorijaPromjena(stanjeLijeka.getApoteka(),stanjeLijeka);
+            istorijaPromjena.setDatumOd(datum1);
+            System.out.println("Ovde je doslo i ovde je proslo");
+            this.istorijaPromjenaRepository.save(istorijaPromjena);
             if(stanjeLijeka.getApoteka().getId().equals(apoteka_id)){
             stanjeLijeka.setCijena(cijena);
             stanjeLijeka.setDatumIstekaCijene(datum1);

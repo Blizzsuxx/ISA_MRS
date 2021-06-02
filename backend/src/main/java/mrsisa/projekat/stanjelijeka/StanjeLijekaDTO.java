@@ -1,5 +1,6 @@
 package mrsisa.projekat.stanjelijeka;
 
+import mrsisa.projekat.akcija.AkcijaDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 
@@ -16,6 +17,7 @@ public class StanjeLijekaDTO {
     private String imeApoteke;
     private int zatrazen;
     private String zatrazenDatum;
+    private AkcijaDTO akcija;
 
 
     public StanjeLijekaDTO(){
@@ -35,7 +37,7 @@ public class StanjeLijekaDTO {
     public StanjeLijekaDTO(StanjeLijeka stanjeLijeka){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         this.id = stanjeLijeka.getId();
-        this.lijek = new LijekDTO(stanjeLijeka.getLijek());
+        this.lijek = new LijekDTO(stanjeLijeka.getLijek(),1);
         this.kolicina  =stanjeLijeka.getKolicina();
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();
@@ -115,5 +117,13 @@ public class StanjeLijekaDTO {
 
     public void setZatrazenDatum(String zatrazenDatum) {
         this.zatrazenDatum = zatrazenDatum;
+    }
+
+    public AkcijaDTO getAkcija() {
+        return akcija;
+    }
+
+    public void setAkcija(AkcijaDTO akcija) {
+        this.akcija = akcija;
     }
 }

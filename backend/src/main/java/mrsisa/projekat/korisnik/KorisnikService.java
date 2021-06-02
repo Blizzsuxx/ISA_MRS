@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +57,9 @@ public class KorisnikService implements UserDetailsService {
             radnik.setLastName(info.get("prezime").toString());
         }
         if(!(info.get("sifra") == null) && !info.get("sifra").toString().isEmpty()){
-            radnik.setPassword(info.get("sifra").toString());
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String sifra = info.get("sifra").toString();
+            radnik.setPassword(encoder.encode(sifra));
             radnik.setPromenioSifru(true);
 
         }

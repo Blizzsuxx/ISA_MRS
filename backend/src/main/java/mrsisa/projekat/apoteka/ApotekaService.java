@@ -5,20 +5,32 @@ import com.sun.net.httpserver.HttpServer;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
+import mrsisa.projekat.akcija.Akcija;
+import mrsisa.projekat.akcija.AkcijaDTO;
+import mrsisa.projekat.dermatolog.Dermatolog;
+import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.rezervacija.Rezervacija;
+import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +40,20 @@ public class ApotekaService {
     private final AdresaRepository adresaRepository;
     private final LijekRepository lekRepository;
     private final PacijentRepository pacijentRepository;
+    private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final RezervacijaRepository rezervacijaRepository;
+    private final PosetaRepository posetaRepository;
+
     @Autowired
-    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p){
+    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p,
+                          StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository){
         this.apotekaRepository = apotekaRepository;
         this.adresaRepository = adresaRepository;
         this.lekRepository=l;
         this.pacijentRepository=p;
+        this.stanjeLijekaRepository=stanjeLijekaRepository;
+        this.rezervacijaRepository=rezervacijaRepository;
+        this.posetaRepository =  posetaRepository;
     }
 
     public Apoteka save(Apoteka a){
@@ -49,9 +69,15 @@ public class ApotekaService {
         if(apoteka== null)
             return new ArrayList<StanjeLijekaDTO>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        StanjeLijekaDTO temp;
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
-            povratna_stanja.add(new StanjeLijekaDTO(sl));
+            temp =  new StanjeLijekaDTO(sl);
+            temp.setImeApoteke(sl.getApoteka().getIme());
+            if(sl.getAkcija()!=null){
+                temp.setAkcija(new AkcijaDTO(sl.getAkcija()));
+            }
+            povratna_stanja.add(temp);
         }
         return povratna_stanja;
     }
@@ -128,54 +154,70 @@ public class ApotekaService {
         adresaRepository.save(apoteka.getAdresa());
         apotekaRepository.save(apoteka);
     }
-
+    @Transactional
     public List<StanjeLijekaDTO> dobaviSveDostupneLijekove() {
         //ovo iz svih apoteka vraca sve lekove, tj dto
-        Lijek l1=new Lijek(
-                3L,
-                "Lekadol",
-                "Protiv boli",
-                "tableta",
-                "ljiek",
-                "Biofarm",
-                "Lijek"
-        );
-        Lijek l3=new Lijek(
-                4L,
-                "Paracetamol",
-                "Protiv bolova",
-                "tableta",
-                "ljiek",
-                "Biofarm",
-                "Lijek"
-        );
-        Lijek l4=new Lijek(
-                2L,
-                "Brufen",
-                "Protiv boli",
-                "tableta",
-                "ljiek",
-                "Biofarm",
-                "Lijek"
-        );
-        LijekDTO d1=new LijekDTO(l1); LijekDTO d2=new LijekDTO(l3); LijekDTO d3=new LijekDTO(l4);
-        StanjeLijekaDTO sd1=new StanjeLijekaDTO(1L, d1,4, true, 500, "21.4.2021.", "apoteka1");
-        StanjeLijekaDTO sd2=new StanjeLijekaDTO(2L, d2,3, true, 500, "21.4.2021.", "apoteka2");
-        StanjeLijekaDTO sd3=new StanjeLijekaDTO(3L, d3,1, true, 500, "21.4.2021.", "apoteka1");
-        List<StanjeLijekaDTO> stanja=new ArrayList<>();
-        stanja.add(sd1);stanja.add(sd2); stanja.add(sd3);
-
-        return stanja;
-    }
-
-    public void rezervisiLek(String lek) {
-        List<StanjeLijekaDTO> stanjaLekova=dobaviSveDostupneLijekove();
-        for(StanjeLijekaDTO s : stanjaLekova){
-            if(s.getId().toString().equals(lek)){
-                s.setKolicina(s.getKolicina()-1);
-                break;
+        List<StanjeLijekaDTO> zaSlanje=new ArrayList<>();
+        List<StanjeLijeka> stanja=this.stanjeLijekaRepository.findAll();
+        StanjeLijekaDTO temp;
+        for(StanjeLijeka s: stanja){
+            if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null ){
+                temp = new StanjeLijekaDTO(s);
+                temp.setImeApoteke(s.getApoteka().getIme());
+                zaSlanje.add(temp);
             }
         }
+
+        return zaSlanje;
+
+    }
+    @Transactional
+    public boolean rezervisiLek(String lek) {
+        //todo  provera poena, akcija, pretplata,
+        //Wed+Jun+16+2021+00%3A00%3A00+GMT+0200+%28Central+European+Summer+Time%29+1+undefined+3= ide id datum kolicina
+        HashMap<String, Integer> meseci=new HashMap<>();
+        meseci.put("Jun",6);meseci.put("Jul",7);meseci.put("Aug",8);meseci.put("Sep",9);meseci.put("Oct",10);
+        meseci.put("Nov",11);meseci.put("Dec",12);meseci.put("Jan",1);meseci.put("Feb",2);meseci.put("Mart",3); meseci.put("Apr",4);meseci.put("may",5);
+        //pazi salje se id stanja a ispisuje leka, to promeni ili ne?
+        String podeljenTekst[]=lek.split("\\+");
+        int mesec=meseci.get(podeljenTekst[1].trim()); //proveri da li i vreme treba da se zakaze
+        LocalDateTime dan=LocalDateTime.of(Integer.parseInt(podeljenTekst[3].trim()),mesec, Integer.parseInt(podeljenTekst[2].trim()),0,0,0);
+        String id=lek.split("\\+")[11];
+        String kolicina1=lek.split("\\+")[13];
+        Integer kolicina2=Integer.parseInt(kolicina1.split("=")[0].trim());
+        Long poslatId=Long.parseLong(id.trim());
+        List<StanjeLijeka> stanja=this.stanjeLijekaRepository.findAll();
+        for(StanjeLijeka s: stanja){
+            if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null
+                    && s.getId()==poslatId){
+                Pacijent p=this.pacijentRepository.findOneById(9); //todo 9
+                boolean alergija=proveriAlergije(p.getAlergije(), s.getLijek().getId());
+
+                if(alergija){
+
+                    return false;}
+
+                Apoteka a=this.apotekaRepository.findOneById(1); //todo id apoteke? proveri
+                ArrayList<StanjeLijeka> stanja2=new ArrayList<>();
+                Rezervacija rez=new Rezervacija(130L, p,a,stanja2, dan ); //promeni id
+                double cena=kolicina2*s.getCijena();
+                StanjeLijeka novo=new StanjeLijeka(s,kolicina2, rez,cena);
+                s.setKolicina(s.getKolicina()-kolicina2);
+                this.stanjeLijekaRepository.save(s);
+                p.getRezervacije().add(rez);
+                //this.pacijentRepository.save(p);
+               // this.stanjeLijekaRepository.save(novo);
+                //this.rezervacijaRepository.save(rez);
+                return true;
+            }
+        }return false;
+    }
+
+    private boolean proveriAlergije(List<Lijek> alergije, Long id) {
+        for(Lijek l: alergije){
+            if(l.getId()==id){return true;}
+        }
+        return false;
     }
 
     public void sacuvajApoteku(ApotekaDTO dummy) {
@@ -193,9 +235,14 @@ public class ApotekaService {
         if(apoteka== null)
             return new ArrayList<StanjeLijekaDTO>();
         List<StanjeLijekaDTO> povratna_stanja  =  new ArrayList<StanjeLijekaDTO>();
+        StanjeLijekaDTO temp;
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
-            povratna_stanja.add(new StanjeLijekaDTO(sl));
+            temp = new StanjeLijekaDTO(sl);
+            if(sl.getAkcija()!=null)
+            temp.setAkcija(new AkcijaDTO(sl.getAkcija()));
+            povratna_stanja.add(temp);
+
         }
         return povratna_stanja;
     }
@@ -213,5 +260,50 @@ public class ApotekaService {
         this.apotekaRepository.save(a);
 
         return true;
+    }
+    @Transactional
+    public IzvjestajDTO izvjestaj(Long id) {
+        IzvjestajDTO izvjestaj =  new IzvjestajDTO();
+        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
+        if(apoteka==null)
+            return izvjestaj;
+        double ocjena = 0;
+        for(Ocena ocena: apoteka.getOcene())
+            ocjena+=ocena.getOcena();
+        if(apoteka.getOcene().size()==0)
+            izvjestaj.setOcjenaApoteke(0.0);
+        else
+            izvjestaj.setOcjenaApoteke(ocjena/apoteka.getOcene().size());
+        for(Dermatolog dermatolog:apoteka.getDermatolozi()){
+            ocjena = 0;
+            for(Ocena ocena:dermatolog.getOcene())
+                ocjena+=ocena.getOcena();
+            if(dermatolog.getOcene().size()==0)
+                izvjestaj.getOcjeneDermatologa().put(dermatolog.getUsername(),0.0);
+            else
+                izvjestaj.getOcjeneDermatologa().put(dermatolog.getUsername(),ocjena/dermatolog.getOcene().size());
+        }
+        for(Farmaceut farmaceut:apoteka.getFarmaceuti()){
+            ocjena = 0;
+            for(Ocena ocena:farmaceut.getOcene())
+                ocjena+=ocena.getOcena();
+            if(farmaceut.getOcene().size()==0)
+                izvjestaj.getOcjeneDermatologa().put(farmaceut.getUsername(),0.0);
+            else
+                izvjestaj.getOcjeneDermatologa().put(farmaceut.getUsername(),ocjena/farmaceut.getOcene().size());}
+        int mjesec = 1;
+        for(int i=0;i<12;i++){
+            izvjestaj.getPreglediPoMjesecima().add(0);
+        }
+        for(Poseta poseta: this.posetaRepository.findAll()){
+            if(poseta.getOtkazano()==null)
+                continue;
+            if(poseta.getApoteka().getId().equals(apoteka.getId()) && poseta.getPocetak().getYear()==LocalDateTime.now().getYear() && !poseta.getOtkazano()){
+                izvjestaj.getPreglediPoMjesecima().set(poseta.getPocetak().getMonthValue() - 1, izvjestaj.getPreglediPoMjesecima().get(poseta.getPocetak().getMonthValue() - 1)+1);
+            }
+        }
+
+
+        return izvjestaj;
     }
 }

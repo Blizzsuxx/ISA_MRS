@@ -53,9 +53,6 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
-            return response
-            
-        
         })
         
         
@@ -64,9 +61,7 @@ const actions = {
         return axios.get('http://localhost:8080/api/v1/apoteka/lijekovi/admin',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
-            return response
-            
-        
+            console.log(response.data)
         })
     },
     dobaviLijekoveKorisnik(context,id){
@@ -95,18 +90,18 @@ const actions = {
         
         })    
     },
-    rezervisiLek (context, lek, apoteka, na) {//poslati datum i kolicinu
-        console.log(apoteka)
-        console.log(na)
-        let nov=lek+" "+apoteka;
-        return axios.post('http://localhost:8080/api/v1/apoteka/rezervisiLek',nov,{ headers: authHeader()})
+    rezervisiLek (context, lek) {//poslati datum i kolicinu
+        
+        return axios.post('http://localhost:8080/api/v1/apoteka/rezervisiLek',lek,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
             if(tf){
             
             console.log("rezervisali ste lek")
+            return true;
         }else{   
                 console.log("Nije dobro")
+                return false;
             }
         })  
     },

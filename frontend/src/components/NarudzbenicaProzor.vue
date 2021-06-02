@@ -68,7 +68,6 @@ export default {
   mounted() {
     this.$store.dispatch("Narudzbenice/dobaviNarudzbenicu",this.id).then(()=>{
         this.narudzbenica =  this.$store.state.Narudzbenice.narudzbenica;
-        console.log(this.narudzbenica)
         this.loaded = true;
         
     })

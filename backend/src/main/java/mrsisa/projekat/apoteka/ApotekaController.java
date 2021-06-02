@@ -45,7 +45,7 @@ public class ApotekaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/lijekovi/admin")
-    public List<StanjeLijekaDTO> dobaviLijekoveAdmin(@PathVariable Long id){
+    public List<StanjeLijekaDTO> dobaviLijekoveAdmin(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
         return apotekaService.dobaviStanjaLijekovaAdmin(adminApoteke.getApoteka().getId());
@@ -62,6 +62,13 @@ public class ApotekaController {
     public List<StanjeLijekaDTO> dobaviLijekoveNeautentifikovan(){
 
         return apotekaService.dobaviSveDostupneLijekove();
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/izvjestaj")
+    public IzvjestajDTO izvjestaj(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return apotekaService.izvjestaj(adminApoteke.getApoteka().getId());
     }
 
     @GetMapping("/dobaviLijekoveA/{id}")
@@ -92,8 +99,8 @@ public class ApotekaController {
         //TODO: rezervisanje
         //return apotekaService.dobaviSveDostupneLijekove();
         System.out.println(lek);
-        apotekaService.rezervisiLek(lek);
-        return true;
+
+        return  apotekaService.rezervisiLek(lek);
     }
 
     @PostMapping(value="/proveriAlergije")

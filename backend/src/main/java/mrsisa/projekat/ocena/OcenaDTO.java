@@ -90,16 +90,16 @@ public class OcenaDTO {
     public void setIdKorisnika(String idKorisnika) {
         this.idKorisnika = idKorisnika;
     }
-    public OcenaDTO(Ocena o, Object ocenjeno){
+    public OcenaDTO(Ocena o, Object ocenjeno,String predmet){
 
-        if(ocenjeno instanceof Dermatolog){
+        if(predmet.equals("d")){
         this.id="D"+((Dermatolog) ocenjeno).getId();
         this.naziv=((Dermatolog)ocenjeno).getFirstName()+" "+((Dermatolog)ocenjeno).getLastName();
         }
-        else if(ocenjeno instanceof Farmaceut){
+        else if(predmet.equals("f")){
             this.id="F"+((Farmaceut) ocenjeno).getId();
             this.naziv=((Farmaceut)ocenjeno).getFirstName()+" "+((Farmaceut)ocenjeno).getLastName();
-        } else if(ocenjeno instanceof Lijek){
+        } else if(predmet.equals("l")){
             this.id="L"+((Lijek) ocenjeno).getId();
             this.naziv=((Lijek)ocenjeno).getNaziv();
         }else {

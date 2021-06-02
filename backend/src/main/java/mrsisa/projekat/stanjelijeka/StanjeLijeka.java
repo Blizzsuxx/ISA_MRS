@@ -59,6 +59,16 @@ public class StanjeLijeka {
     @OneToOne(fetch=FetchType.LAZY)
     private Akcija akcija;
 
+    public StanjeLijeka(StanjeLijeka s, Integer kolicina2, Rezervacija rez, double cena) {
+        this.id = s.getId();
+        this.lijek = s.getLijek();
+        this.kolicina = kolicina2;
+        this.prodaja = false;
+        this.cijena = cena;
+        this.datumIstekaCijene= s.getDatumIstekaCijene();
+        this.apoteka = s.getApoteka();
+        this.rezervacija=rez;
+    }
 
 
     public Rezervacija getRezervacija() {

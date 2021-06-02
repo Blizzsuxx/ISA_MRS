@@ -82,7 +82,10 @@ export default {
         today1.setDate(today1.getDate()+1);
         
         if((novdan-today1)>-24*60*60*1000){
-          alert("Istekao vam je termin za odustajanje od rezervacije.");
+         this.$message({
+                type: 'danger',
+                message: 'Istekao je termin za odustajanje od rezervacije.'
+              });
         }else{
         this.$store.dispatch("RezervisaniLekovi/odustani",index, row)}
       },
