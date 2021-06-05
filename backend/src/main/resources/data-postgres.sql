@@ -195,6 +195,9 @@ insert into stanje_lijeka (kolicina,lijek_id,narudzbenica_id,prodaja,cijena,datu
 insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Prva',0,7,1);
 insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Druga',0,8,1);
 
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (100,'Dobra',0,7,2);
+insert into ponuda(cijena_ponude,naziv_ponude,status,dobavljac_radnik,narudzbenica_id) values (90,'Bolja',0,8,2);
+
 
 -- ZALBE
 

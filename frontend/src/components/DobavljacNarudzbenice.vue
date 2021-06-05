@@ -11,10 +11,6 @@
       prop="rok">
     </el-table-column>
     <el-table-column
-      label="Status"
-      prop="zavrsena">
-    </el-table-column>
-    <el-table-column
       label="Admin Apoteke"
       prop="korisnickoImeAdminaApoteke">
     </el-table-column>
@@ -194,6 +190,17 @@
           message: 'Podaci nisu validni.',
           type: 'error'
         });
+        },
+      formirajZavrsena(row){
+        if(row.prihvacena===0){
+          return "Ceka na odgovor"
+        }
+        if(row.prihvacena===1){
+          return "Nije prihvacena"
+        }
+        if(row.prihvacena===2)
+          return "Prihvacena"
+        return "Ceka na odgovor"
         },
       open3() {
         this.$message({
