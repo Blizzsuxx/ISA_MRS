@@ -210,11 +210,11 @@ insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'bbb', 1);
 
 --POSETA
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je');
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro');
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je',false);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro',false);
 
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je');
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro');
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je',false );
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro',false);
 
 --ALERGIJE
 insert into pacijenti_alergije(pacijent_korisnik, alergije_id) values (9,1);
@@ -279,11 +279,11 @@ insert into dermatolozi (radnik) values (12);
 
 --REZERVACIJE
 
-insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-06-28 00:00:00',false,1,9 );
-insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-06-28 00:00:00',false,1,9 );
-insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',false,1,9 );
-insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',true,1,9 );
-insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik) values ('2021-04-28 00:00:00',true,1,9 );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik, odustao) values ('2021-06-28 00:00:00',false,1,9,false );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik,odustao) values ('2021-06-28 00:00:00',false,1,9,false );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik,odustao) values ('2021-04-28 00:00:00',false,1,9,false );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik,odustao) values ('2021-04-28 00:00:00',true,1,9,false );
+insert into rezervacija (datum_rezervacije, izdato, apoteka_id, pacijent_korisnik,odustao) values ('2021-04-28 00:00:00',true,1,9,false );
 
 --povezivanje rezervacije i leka
 

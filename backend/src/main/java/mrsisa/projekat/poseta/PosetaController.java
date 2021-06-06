@@ -51,12 +51,12 @@ public class PosetaController {
     @GetMapping("/dobaviPosetePacijenta")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<PosetaDTO> dobaviPosetePacijenta(){
-        return posetaService.dobaviPosetePacijenta("zarko");
+        return posetaService.dobaviPosetePacijenta("9");
     }
     @GetMapping("/dobaviPosetePacijentaF")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<PosetaDTO> dobaviPosetePacijentaF(){
-        return posetaService.dobaviPosetePacijentaF("zarko");
+        return posetaService.dobaviPosetePacijentaF("9");
     }
 
     @GetMapping(path="/dobaviPosete")

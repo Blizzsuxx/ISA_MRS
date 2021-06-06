@@ -81,7 +81,7 @@ export default {
         let novdan=new Date(str1[2],str1[1]-1,str1[0])
         today1.setDate(today1.getDate()+1);
         
-        if((novdan-today1)>-24*60*60*1000){
+        if((novdan-today1)<-24*60*60*1000){
          this.$message({
                 type: 'danger',
                 message: 'Istekao je termin za odustajanje od rezervacije.'

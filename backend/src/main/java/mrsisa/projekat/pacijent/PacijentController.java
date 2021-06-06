@@ -173,9 +173,9 @@ public class PacijentController {
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/izbaciRezervacije")
 	public boolean izbRez( @RequestBody Map<String,Object> podaci){
-
+		System.out.println("carica milica");
 		System.out.println(podaci.get("a").getClass().getName());
 
-		return true;
+		return this.pacijentService.izbaciRezervaciju(podaci.get("a")+"");
 	}
 }

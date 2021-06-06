@@ -4,6 +4,8 @@ package mrsisa.projekat.slobodanTermin;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.DermatologRepository;
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnik.RadnikRepository;
@@ -25,13 +27,16 @@ public class SlobodanTerminService {
     final private DermatologRepository dermatologRepository;
     final private RadnikRepository radnikRepository;
     final private PosetaRepository posetaRepository;
+    final private PacijentRepository pacijentRepository;
     public SlobodanTerminService(SlobodanTerminRepository slobodanTerminRepository,ApotekaRepository apotekaRepository,
-                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep, PosetaRepository posetaRepository){
+                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep,
+                                 PosetaRepository posetaRepository, PacijentRepository pacijentRepository){
         this.slobodanTerminRepository = slobodanTerminRepository;
         this.apotekaRepository = apotekaRepository;
         this.dermatologRepository = dermatologRepository;
         this.radnikRepository=radnikRep;
         this.posetaRepository=posetaRepository;
+        this.pacijentRepository=pacijentRepository;
     }
 
     public List<SlobodanTerminDTO> dobaviSlobodneTermineDermatologa(Integer id) {
@@ -102,7 +107,7 @@ public class SlobodanTerminService {
 
         return termini;
     }
-
+    @Transactional
     public void zakazi(Object dto) {
         System.out.println(dto);
         System.out.println(dto);
@@ -115,7 +120,13 @@ public class SlobodanTerminService {
                 p.setRadnik(termin.getRadnik());//dovoljno da poseta ima pacijenta
                 p.setKraj(termin.getKrajTermina());
                 p.setPocetak(termin.getPocetakTermina());
-                p.setId(1L);
+                List<Poseta> sve=this.posetaRepository.findAll();
+                Long id2=sve.get(sve.size()-1).getId()+1L;
+                p.setId(id2);
+                Pacijent pac=this.pacijentRepository.findOneById(9);//todo 9
+                p.setPacijent(pac);
+                p.setOtkazano(false);
+                System.out.println(p.getOtkazano()+"lana ");
                 p.setApoteka(termin.getApoteka()); //ovde posle dode save
                 System.out.println("uspeh");
                 this.posetaRepository.save(p);

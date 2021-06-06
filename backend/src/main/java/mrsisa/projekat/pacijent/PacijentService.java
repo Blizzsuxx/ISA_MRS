@@ -118,11 +118,14 @@ public class PacijentService {
 
 		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
 		List<RezervacijaDTO> dto=new ArrayList<>();
+		System.out.println("+++++++++++++++++++++++++++++++++++++++");
 		for(Rezervacija r : sveRezervacije){
-			if(r.getDatumRezervacije().isAfter(LocalDateTime.now())){
+			if(r.getDatumRezervacije().isAfter(LocalDateTime.now()) && !r.isOdustao()){
 			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
-
-				dto.add(new RezervacijaDTO(r,s));}}
+				System.out.println(r.getId());
+				dto.add(new RezervacijaDTO(r,s));
+				System.out.println(dto.get(dto.size()-1).getId());
+			}}
 		}
 		return dto;
 
@@ -228,16 +231,26 @@ public class PacijentService {
 		 this.pacijentRepository.save(p);
 	}
 	//TODO, mozda prilikom svakog logovanja korisnika da se prodje kroz sve njegove rezervacije i da se proveri da li su istekle??
-	public void izbaciRezervaciju(RezervacijaDTO stanje) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
-		Pacijent p =new Pacijent();
-		for(Rezervacija r : p.getRezervacije()){
+	@Transactional  //saljem id rezervacije!!!! odustaje se od cele rezervacije
+	public boolean izbaciRezervaciju(String id) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
+		Rezervacija r=this.rezervacijaRepository.findById1(Long.parseLong(id.trim()));
+
 			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
-				if(s.getLijek().getNaziv().equals(stanje.getNazivLeka()) && s.getApoteka().getIme().equals(stanje.getNazivApoteke())){
-					p.getRezervacije().remove(s);break;
-				}
-			}
+					Apoteka apoteka=this.apotekaRepository.findOneById(r.getApoteka().getId());
+					for(StanjeLijeka stanjeApoteke: apoteka.getLijekovi()){
+						if(stanjeApoteke.getLijek().getId()==s.getLijek().getId()){
+							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina()+s.getKolicina()); //da li je potrebno sva stanja sacuvati u bazi, ili ako sacuvam apoteku sve se menja?
+						}
+					}
+					//p.getRezervacije().remove(s);break;
+
 		}
+			r.setOdustao(true); //ako je odustao onda je true
+		    this.rezervacijaRepository.save(r);
+			//izbrisati i u pacijentu rezervaciju
+			//da li da izbrisem skroz ili da dodam polje za odutanak ;p
 		//save(p);
+		return  true;
 	}
 
 	@Transactional

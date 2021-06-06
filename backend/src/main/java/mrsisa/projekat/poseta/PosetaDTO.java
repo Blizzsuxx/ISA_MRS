@@ -45,6 +45,18 @@ public class PosetaDTO {
         this.prepisaniLekovi=new ArrayList<>();
     }
 
+    public PosetaDTO(Long id, Radnik radnik, LocalDateTime pocetak, LocalDateTime kraj, Apoteka apoteka) {
+        this.id=id;
+        this.radnik=new RadnikDTO(radnik);
+        DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        this.pocetak = pocetak.format(df);
+        this.kraj=kraj.format(df);
+        this.opis=opis;
+        this.apoteka=new ApotekaDTO(apoteka);
+
+
+    }
+
     public List<LijekDTO> getPrepisaniLekovi() {
         return prepisaniLekovi;
     }
