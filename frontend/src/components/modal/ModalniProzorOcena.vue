@@ -13,7 +13,10 @@
             :model="lijek"
           >
             <el-form-item label="Ocena">
-              <el-input-number v-model="num"  @change="handleChange" :min="1" :max="5"></el-input-number>
+            <div class="block">
+              <span class="demonstration">Default</span>
+              <el-rate v-model="value1"  @change="handleChange"></el-rate>
+            </div>
             </el-form-item>
             
             <el-form-item>
@@ -45,6 +48,7 @@ export default {
   methods: {
       handleChange(value){
           this.ocenjivac.ocena=value
+         
       },
       async PromeniOcenu(){
           console.log("a")

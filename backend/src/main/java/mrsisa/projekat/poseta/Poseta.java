@@ -37,6 +37,9 @@ public class Poseta {
     @JsonIgnore
     private Radnik radnik;
 
+    @Column(nullable = true)
+    private double cena;
+
     @Column(name = "pocetak", nullable = false)
     private LocalDateTime pocetak;
 
@@ -57,6 +60,14 @@ public class Poseta {
 
     public Poseta() {
 
+    }
+
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
     }
 
     public String getOpis() {

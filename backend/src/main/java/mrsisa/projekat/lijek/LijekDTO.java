@@ -2,6 +2,8 @@ package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.ocena.Ocena;
 
+import java.util.List;
+
 public class LijekDTO {
     private long id;
     private String sifra;
@@ -25,7 +27,7 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
-        this.ocijena=-1;
+
         if(l.getOcene()==null){
             this.ocijena=0;
         }else{
@@ -71,8 +73,23 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
-        this.ocijena=0;
+        if(l.getOcene()!=null){
+        this.ocijena=izracunajOcenu(l.getOcene());}
+        else{
+            this.ocijena=0;
+        }
         this.poeni=l.getPoeni();
+    }
+    public int izracunajOcenu(List<Ocena> sveOceneApoteke){
+        double ocena=0;
+        for(Ocena o : sveOceneApoteke) {
+            if (o != null) {
+                ocena += o.getOcena();
+            }
+        }
+        if(sveOceneApoteke.size()!=0){
+        ocena=ocena/sveOceneApoteke.size();}
+        return (int)ocena;
     }
 
     public long getId() {

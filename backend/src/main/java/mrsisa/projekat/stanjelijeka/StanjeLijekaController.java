@@ -69,7 +69,12 @@ public class StanjeLijekaController {
         return stanjeLijekaService.dobaviStanjaLijekova(id);
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PutMapping("/setujPotraznju/{id}")
+    public void setujPotraznju(@PathVariable Long id){
 
+      this.stanjeLijekaService.dodajPotraznju(id);
+    }
 
 
 

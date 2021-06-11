@@ -49,11 +49,13 @@
       show-overflow-tooltip>
     </el-table-column>
    <el-table-column
+   sortable
       property="ocena"
       label="Ocena"
       show-overflow-tooltip>
     </el-table-column>
      <el-table-column
+     sortable
       property="cena"
       label="cena"
       show-overflow-tooltip>
@@ -90,6 +92,7 @@
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
+    sortable
       property="ocena"
       label="Ocena"
       show-overflow-tooltip>
@@ -135,7 +138,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue";
       
     },
     methods: {
-      async handleInfo() {
+      async handleInfo() {this.zaTabelu=[];
       let dan=new Date(this.valueD)
       console.log(this.value2)
       let vreme=(this.value1+"").split(" ");
@@ -182,7 +185,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue";
                 type: 'danger',
                 message: 'Rezervisali ste termin.'
               });
-            this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazali ste pregled kod rafmaceuta:" + row.ime, "address" : "rajtarovnatasa@gmail.com"})
+            this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazali ste pregled kod rafmaceuta:" + row.ime+" "+row.prezime, "address" : "rajtarovnatasa@gmail.com"})
       
             }else{
                this.$message({

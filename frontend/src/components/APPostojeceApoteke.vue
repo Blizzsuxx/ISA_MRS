@@ -32,15 +32,15 @@
           </router-link>
         </template>
       </el-table-column>
-      <el-table-column property="ime" label="Naziv" width="120">
+      <el-table-column  sortable property="ime" label="Naziv" width="120">
       </el-table-column>
-      <el-table-column property="mjesto" label="Mesto" show-overflow-tooltip>
+      <el-table-column  sortable property="mjesto" label="Mesto" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column property="ulica" label="Ulica" show-overflow-tooltip>
+      <el-table-column  sortable property="ulica" label="Ulica" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column property="broj" label="Broj" show-overflow-tooltip>
+      <el-table-column  sortable property="broj" label="Broj" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column property="ocena" label="Ocena" show-overflow-tooltip>
+      <el-table-column  sortable property="ocena" label="Ocena" show-overflow-tooltip>
       </el-table-column>
       <el-table-column
         property="udaljenost"

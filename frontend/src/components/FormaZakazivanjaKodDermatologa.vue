@@ -41,11 +41,13 @@
       >
     </el-table-column>
     <el-table-column
+    sortable
       property="cijenaTermina"
       label="Cena"
       >
     </el-table-column>
     <el-table-column
+    sortable
       property="ocenaRadnika"
       label="Ocena"
       >
@@ -99,7 +101,7 @@ export default {
       let id=row.id;
       this.$store.dispatch("APPosete/rezervisiPosetuD",id).then(response=>{
         if(response){
-      this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazali ste pregled kod dermatologa:" + row.radnik.ime+" iz apoteke: "+row.radnik.prezime, "address" : "rajtarovnatasa@gmail.com"})
+      this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazali ste pregled kod dermatologa:" + row.imeRadnika+" "+row.prezimeRadnika+" iz apoteke: "+row.apoteka.ime, "address" : "rajtarovnatasa@gmail.com"})
       
         }
      })
