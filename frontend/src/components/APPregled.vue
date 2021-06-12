@@ -132,6 +132,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
       },
 
+
         ocistiSelekciju(rows) {
         if (rows) {
           rows.forEach(row => {
@@ -142,10 +143,20 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
       },
       async dodeliLekove(){
+        function sleep(milliseconds) {
+          const date = Date.now();
+          let currentDate = null;
+          do {
+            currentDate = Date.now();
+          } while (currentDate - date < milliseconds);
+        }
         console.log("aa");
         console.log(this.korisnik)
-        await this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik});
-        
+        this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik}).
+        then(response => {
+
+          console.log(response);
+          sleep(1);
         this.greska= this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.poruka = "Pacijent je alergican!";
@@ -158,20 +169,23 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         console.log("1")
         console.log(this.$refs.dijete.multipleSelection);
         console.log("3")
-        console.log("QWEQWEQWEQWEQWE: " + this.$route.params.pregledID)
-        await this.$store.dispatch("APlijekovi/proveriDostupnost",{lijekovi: this.$refs.dijete.multipleSelection, pregledID: this.$route.params.pregledID});
+        this.$store.dispatch("APlijekovi/proveriDostupnost",{lijekovi: this.$refs.dijete.multipleSelection, pregledID: this.$route.params.pregledID}).
+        then(response => {
+          console.log(response);
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.izabraniLijekovi = [];
           this.$store.dispatch("Mail/posaljiMail", {"text" : "zatrazio lekove: " + "lekovi " + "u apoteci: " + "teka " + "koji nisu dostupni!", "address" : "mahajiraaji@gmail.com"});
           this.poruka = "Lek nije dostupan!";
+          alert("lek nije dostupan! ili ste narucili previse");
+          /*
           for(const [key, value] of Object.entries(this.$store.state.zamenaLekovi)){
             var rec = "lek: " + key.naziv + " nije dostupan\r\nZamenite sa:";
             for(var i = 0; i < value.length; i++){
               rec += "\r\n" + value[i].naziv;
             }
             alert(rec);
-          }
+          } */
 
           
           return;
@@ -179,9 +193,17 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
           this.greaska = false;
         }
           console.log("bb");
-          alert("uspesno ste dodelili lekove");
+          alert("uspesno ste porucili lekove")
           this.izabraniLijekovi = this.$refs.dijete.multipleSelection;
         this.$refs.dijete.$refs.multipleTable.clearSelection();
+        this.greska = false;
+
+        });
+        
+
+
+        })
+        
       },
     
         selektujRedove(val) {

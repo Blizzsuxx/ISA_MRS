@@ -106,32 +106,32 @@ const actions = {
         })  
     },
 
-    async proveriAlergije (context, data){
-        axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',data, {headers : authHeader()})
+    proveriAlergije (context, data){
+        return axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',data, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return Promise.resolve(1);
-
+            
+            console.log("OVO JE ODMAH NAKON " + state.greska);
         })
     },
 
 
-    async proveriDostupnost (context, params){
+    proveriDostupnost (context, params){
         console.log(params);
-        axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
+        return axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-
+            console.log("ODMAH NAKON DOSTUPNOSTI " + state.greska);
+            if(state.greska){
+                axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
+                .then(response => {
+                    context.commit('postaviZamenuLekove',response.data)
+                    
+            });
+            }
         });
 
-        if(state.greska){
-            axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
-            .then(response => {
-                context.commit('postaviZamenuLekove',response.data)
-
-        });
-        }
-        return Promise.resolve(1);
+        
     },
 
 

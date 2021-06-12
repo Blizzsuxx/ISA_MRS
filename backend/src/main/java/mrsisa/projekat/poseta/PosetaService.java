@@ -404,41 +404,36 @@ public class PosetaService {
         Poseta poseta = this.findId(Long.parseLong(params.get("pregledID").toString()));
 
         List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(params.get("lijekovi"));
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Boolean greska = false;
         for(Map<String, Object> token : lekoviID){
             Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
             boolean lekPostojiUApoteci = false;
             for(StanjeLijeka stanjeLijeka : poseta.getApoteka().getLijekovi()){
-                if(stanjeLijeka.getId().equals (Long.parseLong(lek.get("id").toString()))){
+                if(stanjeLijeka.getId().toString().equals((lek.get("id").toString()))){
                     lekPostojiUApoteci = true;
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     System.out.println(stanjeLijeka.getKolicina());
                     System.out.println(lek.get("kolicina"));
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     if(stanjeLijeka.getKolicina() < Long.parseLong(lek.get("kolicina").toString())){
                         System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-
-                        return true;
-                    }
-                    else{
                         stanjeLijeka.setZatrazen(stanjeLijeka.getZatrazen()+1);
                         stanjeLijeka.setZatrazenDatum(LocalDateTime.now());
                         stanjeLijekaRepository.save(stanjeLijeka);
+                        greska = true;
+                    }
+                    else{
+
                     }
                     break;
                 }
             }
             if(!lekPostojiUApoteci){
-                return true;
+                greska = true;
+
             }
         }
 
-        return false;
+        return greska;
     }
 }

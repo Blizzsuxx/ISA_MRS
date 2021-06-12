@@ -311,6 +311,12 @@ values ('sifra12','napomena1', 'krema za ruke', 'krema',  'biofarm', 'sastav1', 
 
 
 
+--ZAMENSKI LIJEKOVI
+insert into lijek_zamenski_lijekovi (lijek_id, zamenski_lijekovi_id) values (3,1);
+insert into lijek_zamenski_lijekovi (lijek_id, zamenski_lijekovi_id) values (2,2);
+insert into lijek_zamenski_lijekovi (lijek_id, zamenski_lijekovi_id) values (1,3);
+
+
 --EKSN
 insert into akcija (datum_od, datum_do, opis, procenat_popusta) values  ('2021-04-20 00:00:00','2021-06-20 00:00:00', 'super akcija kreme za ruke',10);
 insert into akcija (datum_od, datum_do, opis, procenat_popusta) values  ('2021-03-20 00:00:00','2021-04-20 00:00:00', 'super akcija kapi',10);

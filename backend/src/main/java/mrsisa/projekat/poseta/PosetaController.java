@@ -1,11 +1,11 @@
 package mrsisa.projekat.poseta;
 
 
-import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
-import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +28,14 @@ import java.util.Map;
 public class PosetaController {
     private final PosetaService posetaService;
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final ApotekaRepository apotekaRepository;
+    private final LijekRepository lijekRepository;
     @Autowired
-    public PosetaController(PosetaService apotekaService,StanjeLijekaRepository stanjeLijekaRepository){
+    public PosetaController(PosetaService apotekaService, StanjeLijekaRepository stanjeLijekaRepository, ApotekaRepository apotekaRepository, LijekRepository lijekRepository){
         this.posetaService = apotekaService;
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.apotekaRepository = apotekaRepository;
+        this.lijekRepository = lijekRepository;
     }
 
     @PostMapping("/zabeleziOdsustvo")
@@ -85,12 +88,15 @@ public class PosetaController {
         System.out.println("ZAMENA");
         System.out.println("ZAMENA");
         System.out.println("ZAMENA");
+        /*
+        Apoteka apoteka = this.apotekaRepository.findOneById(poseta.getApoteka().getId());
         for(Map<String, Object> token : lekoviID){
             Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
             System.out.println("ZAMENA");
             System.out.println(lek);
             System.out.println("ZAMENA");
-            for(StanjeLijeka stanjeLijeka : poseta.getApoteka().getLijekovi()){
+
+            for(StanjeLijeka stanjeLijeka : apoteka.getLijekovi()){
                 if(stanjeLijeka.getId().equals(lek.get("id"))){
                     if(stanjeLijeka.getKolicina() < (int)lek.get("kolicina")){
 
@@ -105,7 +111,7 @@ public class PosetaController {
                 }
             }
         }
-
+        */
         return lekoviZaPreporuku;
     }
 
