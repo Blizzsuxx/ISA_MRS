@@ -210,11 +210,13 @@ insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'bbb', 1);
 
 --POSETA
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je',false,1000);
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro',false,1000);
 
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je',false,1000 );
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro',false,1000);
+
+insert into poseta(pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je',false,1000);
+insert into poseta(pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro',false,1000);
+
+insert into poseta(pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je',false,1000 );
+insert into poseta(pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro',false,1000);
 
 --ALERGIJE
 insert into pacijenti_alergije(pacijent_korisnik, alergije_id) values (9,1);
@@ -222,10 +224,10 @@ insert into pacijenti_alergije(pacijent_korisnik, alergije_id) values (9,2);
 
 --erecepti i prepisani lekovi
 
-insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (30,'123',9,'2021-05-11 04:40',10, true) ;
-insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (31,'124',9,'2021-05-11 04:40',11,true ) ;
-insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (32,'125',9,'2021-05-11 04:40',12, false) ;
-insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (33,'126',9,'2021-05-11 04:40',13, true) ;
+insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (30,'123',9,'2021-05-11 04:40',1, true) ;
+insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (31,'124',9,'2021-05-11 04:40',2,true ) ;
+insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (32,'125',9,'2021-05-11 04:40',3, false) ;
+insert into erecept(id,sifra, pacijent_korisnik,datum_izdavanja, poseta_id, izdato)values (33,'126',9,'2021-05-11 04:40',4, true) ;
 
 
 --prepisani lekovi 6,7,8,9
@@ -416,3 +418,10 @@ insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radni
 insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
 ('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
 
+
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5,1000);
