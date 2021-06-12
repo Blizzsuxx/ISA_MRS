@@ -1,6 +1,7 @@
 package mrsisa.projekat.apoteka;
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 
@@ -20,6 +21,7 @@ public class ApotekaDTO {
     private double ukupnaCijena; // potrebno za Erecept
     private String rezultat; // potrebno za Erecept
     private boolean pretplacen;
+    private int ocena; //TODO u svakom delu gde fali ocena dodati
 
     public ApotekaDTO() {
 
@@ -181,5 +183,24 @@ public class ApotekaDTO {
 
     public void setPretplacen(boolean pretplacen) {
         this.pretplacen = pretplacen;
+    }
+
+    public int getOcena() {
+        return ocena;
+    }
+
+    public void setOcena(int ocena) {
+        this.ocena = ocena;
+    }
+    public int izracunajOcenu(List<Ocena> sveOceneApoteke){
+        double ocena=0;
+        for(Ocena o : sveOceneApoteke) {
+            if (o != null) {
+                ocena += o.getOcena();
+            }
+        }
+        if(sveOceneApoteke.size()!=0){
+            ocena=ocena/sveOceneApoteke.size();}
+        return (int)ocena;
     }
 }

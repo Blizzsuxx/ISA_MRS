@@ -113,4 +113,18 @@ public class StanjeLijekaService {
             this.stanjeLijekaRepository.save(stanjeLijeka);
         }
     }
+
+    public void dodajPotraznju(Long id) {
+        //todo pazi da li je uradjeno narucivanje
+        //tj koja je kolicina
+        StanjeLijeka stanjeLijeka =  this.stanjeLijekaRepository.findById(id).orElse(null);
+        System.out.println("jagoda");
+        if(stanjeLijeka!=null){
+            System.out.println("jagoda");
+        stanjeLijeka.setZatrazen(stanjeLijeka.getZatrazen()+1);
+        stanjeLijeka.setZatrazenDatum(LocalDateTime.now());
+        this.stanjeLijekaRepository.save(stanjeLijeka);
+        }
+    }
+
 }

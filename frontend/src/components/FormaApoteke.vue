@@ -141,7 +141,10 @@
         ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj,duzina:this.apoteka.duzina,sirina:this.apoteka.sirina};
         this.$store.dispatch('APApoteke/dodajApoteku', ap)
         .then(response => {
-            alert("Dodata apoteka");
+            this.$message({
+                type: 'success',
+                message: 'Dodata apoteka'
+              });
             this.$router.push('/ap/AdministratorSistema');
             return response;
         });

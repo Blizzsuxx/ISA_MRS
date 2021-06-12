@@ -6,19 +6,19 @@
         <h2>Istorija poseta farmaceut</h2>
         <div>
         <el-table :data="tableData">
-          <el-table-column prop="pocetak" label="Pocinje"
+          <el-table-column sortable prop="pocetak" label="Pocinje"
           :formatter="formirajDatum" >
           </el-table-column>
-          <el-table-column prop="kraj" label="Zavrsetak" 
+          <el-table-column sortable prop="kraj" label="Zavrsetak" 
           :formatter="formirajDatum">
           </el-table-column>
-          <el-table-column prop="radnik.firstName" label="Ime" >
+          <el-table-column sortable prop="radnik.firstName" label="Ime" >
           </el-table-column>
-      <el-table-column prop="radnik.lastName" label="Prezime" >
+      <el-table-column sortable prop="radnik.lastName" label="Prezime" >
           </el-table-column>
-          <el-table-column prop="apoteka.ime" label="Apoteka">
+          <el-table-column sortable prop="apoteka.ime" label="Apoteka">
           </el-table-column>
-        <el-table-column prop="cena" label="Cena">
+        <el-table-column sortable prop="cena" label="Cena">
           </el-table-column>
           <el-table-column
               align="right">

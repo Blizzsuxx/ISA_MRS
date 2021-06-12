@@ -88,11 +88,13 @@
         ></el-menu-item
       >
     </el-submenu>
-
     <el-menu-item index="7"
+      ><router-link to="/ap/oceni">Oceni</router-link></el-menu-item
+    >
+    <el-menu-item index="8"
       ><router-link to="/ap/profil">Profil</router-link></el-menu-item
     >
-    <el-submenu index="8">
+    <el-submenu index="9">
       <template #title>Dodatne Opcije</template>
       <el-menu-item index="8-1" @click="odjava">Odjava</el-menu-item>
     </el-submenu>

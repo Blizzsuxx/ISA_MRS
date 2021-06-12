@@ -192,6 +192,10 @@ const actions = {
             context.commit('postaviPoruceneNepostojece',response.data)
         })
     },
+    setujPotraznju(context,id){
+        axios.put(`http://localhost:8080/api/v1/stanjeLijeka/setujPotraznju/${id}`,{},{ headers: authHeader()})
+        console.log(context)
+    },
 
     
 

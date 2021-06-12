@@ -220,6 +220,12 @@
         })
     },
     methods: {
+        open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspjesno kreiran odgovor.',
+          type: 'success'
+        })},
         sadrzaj(index, row) {
             console.log(index);
             this.prviProzor = true;
@@ -250,6 +256,8 @@
             this.$store.dispatch('APKorisnici/kreirajOdgovor', this.odgovorPoslat)
             .then(response => {
                 console.log(response);
+                this.cetvrtiProzor = false;
+                this.open1();
             })
         }
     }

@@ -43,7 +43,7 @@ const actions = {
               }else{return true;}
           })
           
-          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index]},{ headers: authHeader()})
+          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index].id},{ headers: authHeader()})
         .then(response => {
             if(response){
             alert("Uspesno ste izbacili lek iz rezervacije");

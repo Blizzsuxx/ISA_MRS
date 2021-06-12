@@ -9,25 +9,30 @@
     style="width: 100%"
     @selection-change="handleSelectionChange">
     <el-table-column
+    sortable
       type="selection"
       width="55">
     </el-table-column>
     <el-table-column
+    sortable
       property="sifra"
       label="Sifra"
       width="120">
     </el-table-column>
     <el-table-column
+    sortable
       property="prepisaniLijekovi[0].apoteka.ime"
       label="Naziv aopteke"
       show-overflow-tooltip>
     </el-table-column>
      <el-table-column
+     sortable
       property="datumIzdavanja"
       label="datum"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
+    sortable
       label="Prikazi lekove">
       <template #default="scope">
         <el-button
@@ -51,21 +56,25 @@
       width="55">
     </el-table-column>
     <el-table-column
+    sortable
       property="lijek.naziv"
       label="Naziv"
       width="120">
     </el-table-column>
     <el-table-column
+    sortable
       property="lijek.vrsta"
       label="Vrsta"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
+    sortable
       property="cijena"
       label="Cena"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
+    sortable
       property="kolicina"
       label="Kolicina"
       show-overflow-tooltip>

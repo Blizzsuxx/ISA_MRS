@@ -7,6 +7,7 @@ import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.akcija.AkcijaDTO;
+import mrsisa.projekat.akcija.AkcijaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
@@ -15,6 +16,8 @@ import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.rezervacija.Rezervacija;
@@ -43,10 +46,12 @@ public class ApotekaService {
     private final StanjeLijekaRepository stanjeLijekaRepository;
     private final RezervacijaRepository rezervacijaRepository;
     private final PosetaRepository posetaRepository;
+    private final AkcijaRepository akcijaRepository;
+    private final PopustRepository popustRepository;
 
     @Autowired
-    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p,
-                          StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository){
+    public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p,AkcijaRepository akcijaRepository,
+                          PopustRepository popustRepository,StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository){
         this.apotekaRepository = apotekaRepository;
         this.adresaRepository = adresaRepository;
         this.lekRepository=l;
@@ -54,6 +59,8 @@ public class ApotekaService {
         this.stanjeLijekaRepository=stanjeLijekaRepository;
         this.rezervacijaRepository=rezervacijaRepository;
         this.posetaRepository =  posetaRepository;
+        this.akcijaRepository=akcijaRepository;
+        this.popustRepository=popustRepository;
     }
 
     public Apoteka save(Apoteka a){
@@ -72,12 +79,13 @@ public class ApotekaService {
         StanjeLijekaDTO temp;
         for (StanjeLijeka sl:apoteka.getLijekovi())
         {
+            if(!sl.getLijek().isSamoRecept()){
             temp =  new StanjeLijekaDTO(sl);
             temp.setImeApoteke(sl.getApoteka().getIme());
             if(sl.getAkcija()!=null){
                 temp.setAkcija(new AkcijaDTO(sl.getAkcija()));
             }
-            povratna_stanja.add(temp);
+            povratna_stanja.add(temp);}
         }
         return povratna_stanja;
     }
@@ -207,7 +215,24 @@ public class ApotekaService {
                 p.getRezervacije().add(rez);
                 //this.pacijentRepository.save(p);
                // this.stanjeLijekaRepository.save(novo);
-                //this.rezervacijaRepository.save(rez);
+                if(s.getAkcija()!=null){
+                    if((s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()) || s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()))
+                            &&(s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))){
+                        novo.setCijena(novo.getCijena()*(1-(s.getAkcija().getProcenatPopusta()/100)));
+                    }
+                }
+                Popust popust=this.popustRepository.findById(1);//todo proveri da li samo 1 postoji
+                if(p.getBrojPoena()<=popust.getDoRegular()){
+                novo.setCijena(novo.getCijena()*(1-(popust.getPopustRegular()/100)));}
+                else if(p.getBrojPoena()<=popust.getDoSilver() && p.getBrojPoena()>popust.getDoRegular()){
+                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustSilver()/100)));}
+                else {
+                novo.setCijena(novo.getCijena()*(1-(popust.getPopustGold()/100)));
+            }
+
+                System.out.println(rez.getDatumRezervacije());
+                System.out.println("rezervise se");
+                this.rezervacijaRepository.save(rez);
                 return true;
             }
         }return false;

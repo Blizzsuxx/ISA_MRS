@@ -31,6 +31,9 @@ public class Rezervacija {
     @Column(nullable = false)
     private boolean izdato;
 
+    @Column(nullable = false)
+    private boolean odustao;
+
     public Rezervacija(long id, Pacijent pacijent, Apoteka apoteka, ArrayList<StanjeLijeka> rezervisaniLijekovi, LocalDateTime datumRezervacije) {
         this.id = id;
         this.pacijent = pacijent;
@@ -89,5 +92,13 @@ public class Rezervacija {
 
     public void setIzdato(boolean izdato) {
         this.izdato = izdato;
+    }
+
+    public boolean isOdustao() {
+        return odustao;
+    }
+
+    public void setOdustao(boolean odustao) {
+        this.odustao = odustao;
     }
 }

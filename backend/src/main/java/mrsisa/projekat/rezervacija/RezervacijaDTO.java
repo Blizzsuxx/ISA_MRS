@@ -7,6 +7,7 @@ import java.time.DateTimeException;
 import java.time.format.DateTimeFormatter;
 
 public class RezervacijaDTO {
+    private Long id;
     private String nazivLeka;
     private String Vrstaleka;
     private int kolicina;
@@ -15,6 +16,14 @@ public class RezervacijaDTO {
     private String datumVazenja;
 
     public RezervacijaDTO(Rezervacija r) {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNazivLeka() {
@@ -65,13 +74,14 @@ public class RezervacijaDTO {
         this.datumVazenja = datumVazenja;
     }
 
-    public RezervacijaDTO(String nazivLeka, String vrstaleka, int kolicina, double cena, String nazivApoteke, String datumVazenja) {
+    public RezervacijaDTO(Long id,String nazivLeka, String vrstaleka, int kolicina, double cena, String nazivApoteke, String datumVazenja) {
         this.nazivLeka = nazivLeka;
         this.Vrstaleka = vrstaleka;
         this.kolicina = kolicina;
         this.cena = cena;
         this.nazivApoteke = nazivApoteke;
         this.datumVazenja = datumVazenja;
+        this.id=id;
     }
     public RezervacijaDTO(Rezervacija r, StanjeLijeka l){
         this.nazivLeka=l.getLijek().getNaziv();
@@ -81,5 +91,6 @@ public class RezervacijaDTO {
         this.nazivApoteke=r.getApoteka().getIme();
         DateTimeFormatter df=DateTimeFormatter.ofPattern("dd.MM.yyyy.");
         this.datumVazenja=r.getDatumRezervacije().format(df);
+        this.id=r.getId();
     }
 }

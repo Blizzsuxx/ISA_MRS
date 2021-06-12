@@ -11,4 +11,7 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Long> 
 
     @Query("select s from Rezervacija s where s.pacijent.id = ?1 ")
     List<Rezervacija> findAllByUserId(int i);
+
+    @Query("select s from Rezervacija s where s.id = ?1 ")
+    Rezervacija findById1(long parseLong);
 }

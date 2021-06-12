@@ -11,9 +11,9 @@
           <el-table-column prop="kraj" label="Zavrsetak" 
           :formatter="formirajDatum">
           </el-table-column>
-          <el-table-column prop="radnik.firstName" label="Ime" >
+          <el-table-column prop="radnik.ime" label="Ime" >
           </el-table-column>
-      <el-table-column prop="radnik.lastName" label="Prezime" >
+      <el-table-column prop="radnik.prezime" label="Prezime" >
           </el-table-column>
           <el-table-column prop="apoteka.ime" label="Apoteka">
           </el-table-column>
@@ -22,10 +22,7 @@
           <el-table-column
               align="right">
             <template #default="scope">
-              <el-button
-                  size="mini"
-                  type="info"
-                  @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
+             
               <el-button
                   size="mini"
                   type="danger"
@@ -58,9 +55,9 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
 
     methods: {
-      handleInfo(index, row) {
-      console.log(index, row);
-    }, handleOtkazi(index) {
+      handleOtkazi(index, row) {
+        console.log("nana")
+        console.log(row)
       let str1=this.$store.state.APPosete.zakazanePosetePacijenta[index].pocetak.split(" ")
       let sdan=str1[0].split("-")
       let svreme=str1[1].split(":")
@@ -72,7 +69,8 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         console.log(novdan)
         console.log(today1)
         console.log(novdan-today1)
-        if((novdan-today1)>-24*60*60*1000){
+        console.log(24*60*60*1000)
+        if((novdan-today1)<-24*60*60*1000){
           this.$message({
                 type: 'danger',
                 message: 'Istekao je termin za otkazivanje.'

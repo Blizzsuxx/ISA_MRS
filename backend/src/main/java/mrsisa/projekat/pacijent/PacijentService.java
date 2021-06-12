@@ -109,6 +109,12 @@ public class PacijentService {
 		p.getAdresa().setMesto(podaci.get(2));
 		p.getAdresa().setUlica(podaci.get(3));
 		p.getAdresa().setBroj(podaci.get(4));
+		//System.out.println(podaci.get(6));//2021-06-28T22:00:00.000Z
+		if(podaci.get(6)!=null){
+		if(!podaci.get(6).equals("")){
+		String deloviDatuma[]=podaci.get(6).split("T")[0].split("-");
+		LocalDateTime danRodjenja= LocalDateTime.of(Integer.parseInt(deloviDatuma[0]),Integer.parseInt(deloviDatuma[1]),Integer.parseInt(deloviDatuma[2]),0,0,0);
+		p.setBirthday(danRodjenja);}}
 		pacijentRepository.save(p);
 		return true;
 	}
@@ -118,11 +124,14 @@ public class PacijentService {
 
 		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
 		List<RezervacijaDTO> dto=new ArrayList<>();
+		System.out.println("+++++++++++++++++++++++++++++++++++++++");
 		for(Rezervacija r : sveRezervacije){
-			if(r.getDatumRezervacije().isAfter(LocalDateTime.now())){
+			if(r.getDatumRezervacije().isAfter(LocalDateTime.now()) && !r.isOdustao()){
 			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
-
-				dto.add(new RezervacijaDTO(r,s));}}
+				System.out.println(r.getId());
+				dto.add(new RezervacijaDTO(r,s));
+				System.out.println(dto.get(dto.size()-1).getId());
+			}}
 		}
 		return dto;
 
@@ -228,16 +237,26 @@ public class PacijentService {
 		 this.pacijentRepository.save(p);
 	}
 	//TODO, mozda prilikom svakog logovanja korisnika da se prodje kroz sve njegove rezervacije i da se proveri da li su istekle??
-	public void izbaciRezervaciju(RezervacijaDTO stanje) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
-		Pacijent p =new Pacijent();
-		for(Rezervacija r : p.getRezervacije()){
+	@Transactional  //saljem id rezervacije!!!! odustaje se od cele rezervacije
+	public boolean izbaciRezervaciju(String id) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
+		Rezervacija r=this.rezervacijaRepository.findById1(Long.parseLong(id.trim()));
+
 			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
-				if(s.getLijek().getNaziv().equals(stanje.getNazivLeka()) && s.getApoteka().getIme().equals(stanje.getNazivApoteke())){
-					p.getRezervacije().remove(s);break;
-				}
-			}
+					Apoteka apoteka=this.apotekaRepository.findOneById(r.getApoteka().getId());
+					for(StanjeLijeka stanjeApoteke: apoteka.getLijekovi()){
+						if(stanjeApoteke.getLijek().getId()==s.getLijek().getId()){
+							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina()+s.getKolicina()); //da li je potrebno sva stanja sacuvati u bazi, ili ako sacuvam apoteku sve se menja?
+						}
+					}
+					//p.getRezervacije().remove(s);break;
+
 		}
+			r.setOdustao(true); //ako je odustao onda je true
+		    this.rezervacijaRepository.save(r);
+			//izbrisati i u pacijentu rezervaciju
+			//da li da izbrisem skroz ili da dodam polje za odutanak ;p
 		//save(p);
+		return  true;
 	}
 
 	@Transactional
@@ -450,15 +469,20 @@ public class PacijentService {
 		o.setPacijent(pacijent);
 		if(id.startsWith("D")){
 			//setovati korisnika!! Todo
+
 			String novaP[]=podela[0].split("D");
 			Dermatolog d= this.dermatologRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
-			d.getOcene().add(o);//korisniku setovati ocenu
+			if(d.getOcene()==null){d.setOcene(new ArrayList<>());}
+			if(proveri(d.getOcene(),o.getOcena())){return;}
+			d.getOcene().add(o);//todo korisniku setovati ocenu
 			System.out.println(o.getOcena()+" jana");
 			this.dermatologRepository.save(d);
 			return;
 		}else if(id.startsWith("F")){
 			String novaP[]=podela[0].split("F");
 			Farmaceut d= this.farmaceutRepository.findByIdD(Integer.parseInt(novaP[1].trim()));
+			if(d.getOcene()==null){d.setOcene(new ArrayList<>());}
+			if(proveri(d.getOcene(),o.getOcena())){return;}
 			d.getOcene().add(o);//korisniku setovati ocenu i save
 			System.out.println(o.getOcena()+" jana");
 			this.farmaceutRepository.save(d);
@@ -466,6 +490,8 @@ public class PacijentService {
 		}else if(id.startsWith("A")){
 			String novaP[]=podela[0].split("A");
 			Apoteka d= this.apotekaRepository.findOneById(Integer.parseInt(novaP[1].trim()));
+			if(d.getOcene()==null){d.setOcene(new ArrayList<>());}
+			if(proveri(d.getOcene(),o.getOcena())){return;}
 			d.getOcene().add(o);//korisniku setovati ocenu i save
 			System.out.println(o.getOcena()+" jana");
 			this.apotekaRepository.save(d);
@@ -474,11 +500,22 @@ public class PacijentService {
 			String novaP[]=podela[0].split("L");
 			System.out.println(novaP[1].trim());
 			Lijek d= this.lekRepository.findOneById(Long.parseLong(novaP[1].trim()));
+			if(d.getOcene()==null){d.setOcene(new ArrayList<>());}
+			if(proveri(d.getOcene(),o.getOcena())){return;}
 			d.getOcene().add(o);//korisniku setovati ocenu i save
 			System.out.println(o.getOcena()+" jana");
 			this.lekRepository.save(d);
 			return;
 		}
+	}
+	private boolean proveri(List<Ocena> sve,int o){
+		if(sve==null){sve=new ArrayList<>();}
+		for(Ocena oc1 : sve){
+			if(oc1.getPacijent().getId()==9){
+				oc1.setOcena(o);
+				return true;}
+		}
+		return false;
 	}
 	@Transactional
 	public void dodajAlergije(List<Lijek> info) {

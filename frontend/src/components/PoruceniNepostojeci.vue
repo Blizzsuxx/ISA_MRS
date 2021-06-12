@@ -1,6 +1,7 @@
 <template>
+ <NavAdminApoteke />
   <el-table
-    height="250"
+    height="500"
     :data="$store.state.APlijekovi.poruceniNepostojeci"
     style="width: 100%"
   >
@@ -26,12 +27,15 @@
 
 
 <script>
+import NavAdminApoteke from "./NavAdminApoteke";
 export default {
   name: "PoruceniNepostojeci",
   data() {
     return {};
   },
- 
+  components:{
+    NavAdminApoteke,
+  },
   methods: {
       pregledano(id){
           this.$store.dispatch("APlijekovi/oznaciPregledano",id)

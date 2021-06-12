@@ -20,6 +20,10 @@ public class Lijek {
     @Column(name="sifra", nullable = false, unique = true)
     private String sifra;
 
+    @Column(name="samo_recept", nullable = false)
+    private boolean samoRecept;
+
+
     // za sada ovako
     @Column(name = "naziv", nullable = false)
     private String naziv;
@@ -44,6 +48,14 @@ public class Lijek {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
     private List<Lijek> zamenskiLijekovi;
+
+    public boolean isSamoRecept() {
+        return samoRecept;
+    }
+
+    public void setSamoRecept(boolean samoRecept) {
+        this.samoRecept = samoRecept;
+    }
 
     public List<Lijek> getZamenskiLijekovi() {
         return zamenskiLijekovi;

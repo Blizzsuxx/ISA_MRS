@@ -60,13 +60,13 @@ export default {
           this.ocenjivac.kolicina=value
       },
       async posaljiLek(){
-          console.log(this.ocenjivac.value2)
+          console.log(this.ocenjivac.value2) //todo provera datuma
          var podaci=this.ocenjivac.value2+" "+this.ocenjivac.id+" "+this.ocenjivac.apoteka+" "+this.ocenjivac.kolicina;
         console.log(podaci)
         this.$store.dispatch("APlijekovi/rezervisiLek",podaci).then(response=>{
 
-           if(response==true){
-             this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek  iz apoteke: ", "address" : "rajtarovnatasa@gmail.com"})
+           if(response==true){//todo potrebno je da mi se negde vrati
+             this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek  iz apoteke: "+this.ocenjivac.apoteka, "address" : "rajtarovnatasa@gmail.com"})
      
            }else{
            this.$message({

@@ -4,6 +4,10 @@ package mrsisa.projekat.slobodanTermin;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.DermatologRepository;
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
 import mrsisa.projekat.radnik.RadnikRepository;
@@ -25,13 +29,19 @@ public class SlobodanTerminService {
     final private DermatologRepository dermatologRepository;
     final private RadnikRepository radnikRepository;
     final private PosetaRepository posetaRepository;
+    final private PacijentRepository pacijentRepository;
+    final private PopustRepository popustRepository;
+
     public SlobodanTerminService(SlobodanTerminRepository slobodanTerminRepository,ApotekaRepository apotekaRepository,
-                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep, PosetaRepository posetaRepository){
+                                 DermatologRepository dermatologRepository, RadnikRepository radnikRep, PopustRepository popustRepository,
+                                 PosetaRepository posetaRepository, PacijentRepository pacijentRepository){
         this.slobodanTerminRepository = slobodanTerminRepository;
         this.apotekaRepository = apotekaRepository;
         this.dermatologRepository = dermatologRepository;
         this.radnikRepository=radnikRep;
         this.posetaRepository=posetaRepository;
+        this.pacijentRepository=pacijentRepository;
+        this.popustRepository=popustRepository;
     }
 
     public List<SlobodanTerminDTO> dobaviSlobodneTermineDermatologa(Integer id) {
@@ -102,22 +112,38 @@ public class SlobodanTerminService {
 
         return termini;
     }
-
+    @Transactional
     public void zakazi(Object dto) {
         System.out.println(dto);
         System.out.println(dto);
         String deo=dto+"";
         String idZagrada=deo.split("=")[1];
         String id=idZagrada.replace("}", "");
+
         for(SlobodanTermin termin: this.slobodanTerminRepository.findAll()){
             if(Integer.parseInt(id.trim())==termin.getId()){
                 Poseta p = new Poseta( );//proveri kako da generises id , proveri kako da dobijes pacijenta
                 p.setRadnik(termin.getRadnik());//dovoljno da poseta ima pacijenta
                 p.setKraj(termin.getKrajTermina());
                 p.setPocetak(termin.getPocetakTermina());
-                p.setId(1L);
+                List<Poseta> sve=this.posetaRepository.findAll();
+                Long id2=sve.get(sve.size()-1).getId()+1L;
+                p.setId(id2);
+                Pacijent pac=this.pacijentRepository.findOneById(9);//todo 9
+                p.setPacijent(pac);
+                p.setOtkazano(false);
+                System.out.println(p.getOtkazano()+"lana ");
                 p.setApoteka(termin.getApoteka()); //ovde posle dode save
                 System.out.println("uspeh");
+                p.setCena(termin.getCijenaTermina());
+                Popust popust=this.popustRepository.findById(1);//todo proveri da li samo 1 postoji
+                if(pac.getBrojPoena()<=popust.getDoRegular()){
+                    p.setCena(p.getCena()*(1-(popust.getPopustRegular()/100)));}
+                else if(pac.getBrojPoena()<=popust.getDoSilver() && pac.getBrojPoena()>popust.getDoRegular()){
+                    p.setCena(p.getCena()*(1-(popust.getPopustSilver()/100)));}
+                else {
+                    p.setCena(p.getCena()*(1-(popust.getPopustGold()/100)));
+                }
                 this.posetaRepository.save(p);
                 break;
             }
