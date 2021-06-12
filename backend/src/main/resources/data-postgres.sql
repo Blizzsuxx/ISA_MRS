@@ -415,4 +415,7 @@ insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radni
 ('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
 insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
 ('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5);
