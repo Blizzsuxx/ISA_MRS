@@ -21,7 +21,7 @@ public class ApotekaDTO {
     private double ukupnaCijena; // potrebno za Erecept
     private String rezultat; // potrebno za Erecept
     private boolean pretplacen;
-    private int ocena; //TODO u svakom delu gde fali ocena dodati
+    private int ocena;
 
     public ApotekaDTO() {
 
@@ -54,6 +54,17 @@ public class ApotekaDTO {
         this.broj = apoteka.getAdresa().getBroj();
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
+    }
+    public ApotekaDTO(Apoteka apoteka,double cena){
+        this.id = apoteka.getId();
+        this.ime = apoteka.getIme();
+        this.mjesto = apoteka.getAdresa().getMesto();
+        this.ptt = apoteka.getAdresa().getPtt();
+        this.ulica  = apoteka.getAdresa().getUlica();
+        this.broj = apoteka.getAdresa().getBroj();
+        this.duzina = apoteka.getAdresa().getgDuzina();
+        this.sirina = apoteka.getAdresa().getgSirina();
+        this.ukupnaCijena=cena;
     }
     public ApotekaDTO(Apoteka apoteka, int a){
         this.id = apoteka.getId();

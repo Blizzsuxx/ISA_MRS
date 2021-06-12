@@ -56,8 +56,8 @@
     </el-table-column>
      <el-table-column
      sortable
-      property="cena"
-      label="cena"
+      property="ukupnaCijena"
+      label="Cena"
       show-overflow-tooltip>
     </el-table-column>
     <el-table-column
@@ -138,7 +138,7 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue";
       
     },
     methods: {
-      async handleInfo() {this.zaTabelu=[];
+      async handleInfo() {this.zaTabelu=[]; this.postojeFarmaceuti=false; this.nema=false;
       let dan=new Date(this.valueD)
       console.log(this.value2)
       let vreme=(this.value1+"").split(" ");

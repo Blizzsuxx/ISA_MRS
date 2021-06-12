@@ -10,6 +10,7 @@ import mrsisa.projekat.akcija.AkcijaDTO;
 import mrsisa.projekat.akcija.AkcijaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
@@ -27,6 +28,8 @@ import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -118,10 +121,21 @@ public class ApotekaService {
         
         return dto;
     }
+
+
+    public Korisnik getTrenutnogKorisnika(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return k;
+    }
+
+
     @Transactional
-    public List<LijekDTO> dobaviLijekoveAlergija(Long id) { //TODO dobiti id osobe za oduzimanje lekova
+    public List<LijekDTO> dobaviLijekoveAlergija(Long id) {
         List<Lijek> sviLekovi= this.lekRepository.findAll();
-        Pacijent pacijent= this.pacijentRepository.findOneById(9);
+        Korisnik k=getTrenutnogKorisnika();
+        Pacijent pacijent= this.pacijentRepository.findOneById(k.getId());
+        //Pacijent pacijent= this.pacijentRepository.findOneByUsername(id);
         List<LijekDTO> bezAlergija =new ArrayList<>();int a=0;
         for(Lijek l : sviLekovi) {
          a=0;
@@ -198,16 +212,19 @@ public class ApotekaService {
         for(StanjeLijeka s: stanja){
             if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null
                     && s.getId()==poslatId){
-                Pacijent p=this.pacijentRepository.findOneById(9); //todo 9
+                Korisnik k=getTrenutnogKorisnika();
+                Pacijent p=this.pacijentRepository.findOneById(k.getId());
                 boolean alergija=proveriAlergije(p.getAlergije(), s.getLijek().getId());
 
                 if(alergija){
 
                     return false;}
 
-                Apoteka a=this.apotekaRepository.findOneById(1); //todo id apoteke? proveri
+                Apoteka a=s.getApoteka();
                 ArrayList<StanjeLijeka> stanja2=new ArrayList<>();
-                Rezervacija rez=new Rezervacija(130L, p,a,stanja2, dan ); //promeni id
+                List<Rezervacija> sveRez=this.rezervacijaRepository.findAll();
+                long novId=(long)(sveRez.size()+1);
+                Rezervacija rez=new Rezervacija(novId, p,a,stanja2, dan ); //promeni id
                 double cena=kolicina2*s.getCijena();
                 StanjeLijeka novo=new StanjeLijeka(s,kolicina2, rez,cena);
                 s.setKolicina(s.getKolicina()-kolicina2);

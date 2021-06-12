@@ -89,14 +89,13 @@ public class ApotekaController {
     @PreAuthorize("hasRole('PACIJENT')")
     @GetMapping(value="/dobaviSveDostupneLijekove")
     public List<StanjeLijekaDTO> dobaviDostupneLijekove(){
-        //TODO: cisto da ne zaboravim, ovo treba da vrati listu svih stnja lekova u svim apotekama, dozvoljeno je da se i lekovi i apoteke ponavljaju
         //bitno je da ima ime apoteke, kolicinu koja je dostupna, cenu....
         return apotekaService.dobaviSveDostupneLijekove();
     }
     @PreAuthorize("hasRole('PACIJENT')")
     @PostMapping(value="/rezervisiLek")
     public boolean rezervisiLek(@RequestBody String lek){
-        //TODO: rezervisanje
+
         //return apotekaService.dobaviSveDostupneLijekove();
         System.out.println(lek);
 

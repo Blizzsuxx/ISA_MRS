@@ -5,6 +5,8 @@ import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.lijek.Lijek;
 
+import java.util.List;
+
 public class OcenaDTO {
     private String id; //D+id ili L+id...
     private String naziv;
@@ -16,28 +18,28 @@ public class OcenaDTO {
     public OcenaDTO(Dermatolog d) {
         this.id="D"+d.getId();
         this.naziv=d.getFirstName()+" "+d.getLastName();
-        this.prosecnaOcena=0;
+        this.prosecnaOcena=izracunajOcenu(d.getOcene());
         this.ocenaKorisnika=0;
         this.staraOcenaKorisnika=0;
     }
     public OcenaDTO(Farmaceut d) {
         this.id="F"+d.getId();
         this.naziv=d.getFirstName()+" "+d.getLastName();
-        this.prosecnaOcena=0;
+        this.prosecnaOcena=izracunajOcenu(d.getOcene());
         this.ocenaKorisnika=0;
         this.staraOcenaKorisnika=0;
     }
     public OcenaDTO(Apoteka d) {
         this.id="A"+d.getId();
         this.naziv=d.getIme();
-        this.prosecnaOcena=0;
+        this.prosecnaOcena=izracunajOcenu(d.getOcene());
         this.ocenaKorisnika=0;
         this.staraOcenaKorisnika=0;
     }
     public OcenaDTO(Lijek d) {
         this.id="L"+d.getId();
         this.naziv=d.getNaziv();
-        this.prosecnaOcena=0;
+        this.prosecnaOcena=izracunajOcenu(d.getOcene());
         this.ocenaKorisnika=0;
         this.staraOcenaKorisnika=0;
     }
@@ -95,19 +97,25 @@ public class OcenaDTO {
         if(predmet.equals("d")){
         this.id="D"+((Dermatolog) ocenjeno).getId();
         this.naziv=((Dermatolog)ocenjeno).getFirstName()+" "+((Dermatolog)ocenjeno).getLastName();
+            this.prosecnaOcena=izracunajOcenu(((Dermatolog)ocenjeno).getOcene());
+
         }
         else if(predmet.equals("f")){
             this.id="F"+((Farmaceut) ocenjeno).getId();
             this.naziv=((Farmaceut)ocenjeno).getFirstName()+" "+((Farmaceut)ocenjeno).getLastName();
+            this.prosecnaOcena=izracunajOcenu(((Farmaceut)ocenjeno).getOcene());
         } else if(predmet.equals("l")){
             this.id="L"+((Lijek) ocenjeno).getId();
             this.naziv=((Lijek)ocenjeno).getNaziv();
+            this.prosecnaOcena=izracunajOcenu(((Lijek)ocenjeno).getOcene());
         }else {
             this.id="A"+((Apoteka) ocenjeno).getId();
             this.naziv=((Apoteka)ocenjeno).getIme();
+            this.prosecnaOcena=izracunajOcenu(((Apoteka)ocenjeno).getOcene());
         }
         this.idKorisnika=o.getPacijent().getId()+"";
-        this.ocenaKorisnika=0;//nova
+       //nova
+        this.ocenaKorisnika=0;
         this.staraOcenaKorisnika=o.getOcena();
 
 
@@ -124,5 +132,19 @@ public class OcenaDTO {
     }
 
     public OcenaDTO() {
+    }
+    public int izracunajOcenu(List<Ocena> sveOceneApoteke){
+        double ocena=0;
+        System.out.println("pregled ocena");
+        System.out.println(sveOceneApoteke.size());
+        for(Ocena o : sveOceneApoteke) {
+            System.out.println("ocena"+o.getOcena());
+            if (o != null) {
+                ocena += o.getOcena();
+            }
+        }
+        if(sveOceneApoteke.size()!=0){
+            ocena=ocena/sveOceneApoteke.size();}
+        return (int)ocena;
     }
 }

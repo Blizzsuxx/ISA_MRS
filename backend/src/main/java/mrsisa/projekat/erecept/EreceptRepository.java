@@ -10,4 +10,7 @@ import java.util.List;
 public interface EreceptRepository extends JpaRepository<Erecept, Integer> {
     @Query("select s from Erecept s where s.pacijent.id = ?1")
     List<Erecept> findAllByUserID(int i);
+
+    @Query("select s from Erecept s where s.pacijent.username = ?1")
+    List<Erecept> findAllByUsername(String username);
 }
