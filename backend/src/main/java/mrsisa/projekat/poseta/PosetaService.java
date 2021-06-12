@@ -206,9 +206,17 @@ public class PosetaService {
         ArrayList<PosetaDTO> dto=new ArrayList<>();dto.add(new PosetaDTO(poseta1));dto.add(new PosetaDTO(poseta2)); dto.add(new PosetaDTO(poseta3));
         return dto;*/
     }
+
+    public Korisnik getTrenutnogKorisnika(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return k;
+    }
+
     @Transactional
     public List<PosetaDTO> dobaviIstorijuD() {
-        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(9); //TODO 9
+        Korisnik k=getTrenutnogKorisnika();
+        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(k.getId());
         List<PosetaDTO> zaSlanje=new ArrayList<>();
         List<Dermatolog> farm=this.dermatologRepository.findAll();
         for(Poseta p : istorija){
@@ -228,8 +236,8 @@ public class PosetaService {
     }
     @Transactional
     public List<PosetaDTO> dobaviIstorijuF() {
-
-        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(9); //TODO 9
+        Korisnik k=getTrenutnogKorisnika();
+        List<Poseta> istorija=this.posetaRepository.findAllByPacijentId(k.getId());
 
         List<PosetaDTO> zaSlanje=new ArrayList<>();
         List<Farmaceut> farm=this.farmaceutRepository.findAll();
@@ -318,7 +326,7 @@ public class PosetaService {
 
         List<SlobodanTerminDTO> zaSlanje=new ArrayList<>();
         for(SlobodanTermin p : sviTermini){
-            //todo slobodan termin kad se yakaze izbaciti iz liste i sacuvati i ovde i kod farm
+
                 Dermatolog r=this.dermatologRepository.findByIdD(p.getRadnik().getId());
                 Apoteka a=this.apotekaRepository.findOneById(p.getApoteka().getId());
                 if(r!=null && a!=null){
@@ -339,10 +347,11 @@ public class PosetaService {
         p.setPocetak(termin.getPocetakTermina());
         List<Poseta> sve=this.posetaRepository.findAll();
         Long id2=sve.get(sve.size()-1).getId()+1L;
-        p.setId(id2); //TODO id
+        p.setId(id2);
         p.setOtkazano(false);
         p.setApoteka(termin.getApoteka());
-        Pacijent pacijent=this.pacijentRepository.findOneById(9);//todo 9
+        Korisnik k=getTrenutnogKorisnika();
+        Pacijent pacijent=this.pacijentRepository.findOneById(k.getId());
         p.setPacijent(pacijent);
         this.posetaRepository.save(p);
 

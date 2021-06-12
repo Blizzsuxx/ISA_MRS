@@ -13,6 +13,7 @@ import mrsisa.projekat.erecept.EreceptRepository;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ocena.Ocena;
@@ -33,6 +34,8 @@ import mrsisa.projekat.uloga.Uloga;
 import mrsisa.projekat.uloga.UlogaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
@@ -90,7 +93,7 @@ public class PacijentService {
 		return pacijentRepository.findAll();
 	}
     public Pacijent findOne(String id){return pacijentRepository.findOneByUsername(id);}
-	//TODO ovde dodje kod svih metoda jos string sa kljucem nekim
+
 
 	@Transactional
 	public PacijentDTO dobaviPacijenta(){
@@ -120,9 +123,10 @@ public class PacijentService {
 	}
 	@Transactional
 	public List<RezervacijaDTO> dobaviRezervacije() {
-		//TODO: dodaj id preko kog treba da se dobavi korisnik
 
-		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
+		Korisnik k=getTrenutnogKorisnika();
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUsername(k.getUsername());
+		//List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);
 		List<RezervacijaDTO> dto=new ArrayList<>();
 		System.out.println("+++++++++++++++++++++++++++++++++++++++");
 		for(Rezervacija r : sveRezervacije){
@@ -150,7 +154,9 @@ public class PacijentService {
 	}
 	@Transactional
     public List<EreceptDTO> dobaviERecepteIzdate() {
-		List<Erecept> sviRecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi 9
+		Korisnik k=getTrenutnogKorisnika();
+
+		List<Erecept> sviRecepti=this.ereceptRepository.findAllByUsername(k.getUsername());
 		List<EreceptDTO> trazeniRecepti=new ArrayList<>();
 		for(Erecept e : sviRecepti){
 			if(e.isIzdato()){
@@ -160,34 +166,7 @@ public class PacijentService {
 		}
 		return trazeniRecepti;
 
-		/*Pacijent p=new Pacijent();//dobaviPacijenta();
-		StanjeLijeka s1=new StanjeLijeka(p.getAlergije().get(0),1,false);
-		StanjeLijeka s2=new StanjeLijeka(p.getAlergije().get(1),2,false);
-		List<StanjeLijeka> sl=new ArrayList<>();
-		sl.add(s1);
-		sl.add(s2);
 
-		Erecept rec=new Erecept();
-		rec.setPacijent(p);
-		rec.setDatumIzdavanja(LocalDateTime.now());
-		rec.setSifra("1");
-		rec.setPrepisaniLijekovi(sl);
-
-		Erecept rec1=new Erecept();
-		rec1.setPacijent(p);
-		rec1.setDatumIzdavanja(LocalDateTime.now());
-		rec1.setSifra("1");
-		rec1.setPrepisaniLijekovi(sl);
-
-		List<Erecept> li=new ArrayList<>();
-		li.add(rec);
-		li.add(rec1);
-
-		List<EreceptDTO> dto=new ArrayList<>();
-		dto.add(new EreceptDTO(rec));
-		dto.add(new EreceptDTO(rec1));
-		return dto;
-		//return findOne("pera1").getIzdatiPrekoERecepta();*/
 
     }
 	@Transactional
@@ -227,48 +206,60 @@ public class PacijentService {
 	}
 	@Transactional
 	public void izbaciAlergije(List<Lijek> dummy) {
-
-		 Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9 nemoj molim te
+		Korisnik k=getTrenutnogKorisnika();
+		 Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+		if(p!=null){
 		 for(Lijek l : dummy){
 		 	for(Lijek a : p.getAlergije()){
 		 		if(a.getId().equals(l.getId())){p.getAlergije().remove(a); break;}
 			}
 		 }
-		 this.pacijentRepository.save(p);
+		 this.pacijentRepository.save(p);}
 	}
-	//TODO, mozda prilikom svakog logovanja korisnika da se prodje kroz sve njegove rezervacije i da se proveri da li su istekle??
-	@Transactional  //saljem id rezervacije!!!! odustaje se od cele rezervacije
-	public boolean izbaciRezervaciju(String id) { //potrebno je poslati id pacijenta jos, pronaci ga u bazi, i proveriti da li je dovoljno samo po nazivu
+	@Transactional
+	public boolean izbaciRezervaciju(String id) {
 		Rezervacija r=this.rezervacijaRepository.findById1(Long.parseLong(id.trim()));
-
-			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+		boolean postoji=false;
+		for(Rezervacija rez : p.getRezervacije()){
+			if(rez.getId()==Long.parseLong(id.trim())){
+				postoji=true;break;
+			}
+		}
+		if(postoji){
+		for(StanjeLijeka s : r.getRezervisaniLijekovi()){
 					Apoteka apoteka=this.apotekaRepository.findOneById(r.getApoteka().getId());
 					for(StanjeLijeka stanjeApoteke: apoteka.getLijekovi()){
 						if(stanjeApoteke.getLijek().getId()==s.getLijek().getId()){
-							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina()+s.getKolicina()); //da li je potrebno sva stanja sacuvati u bazi, ili ako sacuvam apoteku sve se menja?
+							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina()+s.getKolicina());
 						}
 					}
 					//p.getRezervacije().remove(s);break;
 
 		}
 			r.setOdustao(true); //ako je odustao onda je true
-		    this.rezervacijaRepository.save(r);
+		    this.rezervacijaRepository.save(r);}
 			//izbrisati i u pacijentu rezervaciju
-			//da li da izbrisem skroz ili da dodam polje za odutanak ;p
+
 		//save(p);
 		return  true;
 	}
 
 	@Transactional
 	public List<Penal> dobaviPenale() {
-		//Pacijent p=this.pacijentRepository.findOneById(9); //todo 9
-		List<Penal> penali=this.penalRepository.findAllByIdPacijent(9+"");
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+		//Pacijent p=this.pacijentRepository.findOneById(9);
+		List<Penal> penali=this.penalRepository.findAllByIdPacijent(p.getId()+"");
 		return penali;
 	}
 	@Transactional
     public String dobaviKategoriju() {
-		//TODO 9
-		Pacijent p=this.pacijentRepository.findOneById(9); //TODO 9
+
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+
 		Popust popust=this.popustRepository.findById(1); //postoji samo 1 //TODO proveri
 		String tekst="";
 		if(popust.getOdRegular()<=p.getBrojPoena() && popust.getDoRegular()>p.getBrojPoena())
@@ -290,7 +281,9 @@ public class PacijentService {
 
     @Transactional
     public List<ApotekaDTO> dobaviPretplatu() {
-		List<Apoteka> apoteke=this.pacijentRepository.findOneById(9).getPretplata(); //todo 9
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+		List<Apoteka> apoteke=this.pacijentRepository.findOneById(p.getId()).getPretplata();
 		List<ApotekaDTO> apo=new ArrayList<>();
 		for(Apoteka a : apoteke){
 			apo.add(new ApotekaDTO(a));
@@ -300,7 +293,9 @@ public class PacijentService {
 
     @Transactional
     public List<OcenaDTO> dobaviSvojeDermatologe() {
-		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pacijent1=this.pacijentRepository.findOneByUsername(k.getUsername());
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(pacijent1.getId());
 		HashMap<Integer, OcenaDTO> ocene=new HashMap<>();
 		List<OcenaDTO> dermatolozi=new ArrayList<>();
 
@@ -310,7 +305,7 @@ public class PacijentService {
 			if(d!=null) {
 				for (Ocena o : ((Dermatolog) d).getOcene()) {
 
-					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
+					if (o.getPacijent().getId() == pacijent1.getId()) {
 						ocene.put(p.getRadnik().getId(), new OcenaDTO(o, d,"d"));
 						//dermatolozi.add(new OcenaDTO(o, p.getRadnik()));
 						break;
@@ -334,7 +329,9 @@ public class PacijentService {
     }
     @Transactional
 	public List<OcenaDTO> dobaviSvojeFarmaceute() {
-		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pacijent1=this.pacijentRepository.findOneByUsername(k.getUsername());
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(pacijent1.getId());
 		List<OcenaDTO> farmaceuti=new ArrayList<>();
 		HashMap<Integer, OcenaDTO> ocene=new HashMap<>();
 		for(Poseta p : svePosete){
@@ -342,7 +339,7 @@ public class PacijentService {
 			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
 			if(f!=null) {
 				for (Ocena o : ((Farmaceut) f).getOcene()) {
-					if (o.getPacijent().getId() == 9) { //TODO ovde dobaviti id pacijenta, tj poslati kao param
+					if (o.getPacijent().getId() == pacijent1.getId()) {
 						ocene.put(f.getId(),new OcenaDTO(o, f,"f"));
 						// farmaceuti.add(new OcenaDTO(o, p.getRadnik()));
 						break;
@@ -365,7 +362,9 @@ public class PacijentService {
 	}
 	@Transactional
 	public List<OcenaDTO> dobaviSvojeApoteke() {
-		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(9);
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pacijent1=this.pacijentRepository.findOneByUsername(k.getUsername());
+		List<Poseta> svePosete= this.posetaRepository.findAllByPacijentId(pacijent1.getId());
 		HashMap<Long,OcenaDTO> apoteka=new HashMap<>();
 		for(Poseta p : svePosete){
 			if(p.getRadnik()!=null) {
@@ -374,7 +373,8 @@ public class PacijentService {
 				if (f != null) {
 					for (Ocena o : ((Farmaceut) f).getOcene()) {
 						if (o.getPacijent() != null) {
-							if (o.getPacijent().getId() == 9) {
+							if (o.getPacijent().getId() == pacijent1.getId()) {
+
 								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka(),"a"));
 								break;
 							}
@@ -390,7 +390,7 @@ public class PacijentService {
 				if (d != null) {
 					for (Ocena o : (d).getOcene()) {
 						if (o.getPacijent() != null) {
-							if (o.getPacijent().getId() == 9) {
+							if (o.getPacijent().getId() == pacijent1.getId()) {
 								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka(),"a"));
 								break;
 							}
@@ -404,7 +404,7 @@ public class PacijentService {
 			}
 		}
 
-		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi na 9
+		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(pacijent1.getId());
 		for(Erecept e : sviErecepti){
 			if(e.getPrepisaniLijekovi().get(0)!=null){
 				if(e.getPrepisaniLijekovi().get(0).getApoteka()!=null){
@@ -413,7 +413,7 @@ public class PacijentService {
 				}
 			}
 		}
-		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(pacijent1.getId());
 		for(Rezervacija r : sveRezervacije){
 			if(r.isIzdato() && r.getApoteka()!=null){
 				OcenaDTO dto=new OcenaDTO(r.getApoteka());
@@ -433,7 +433,9 @@ public class PacijentService {
 	public List<OcenaDTO> dobaviSvojeLekove(){
 		List<OcenaDTO> lekoviOcena=new ArrayList<>();
 		HashMap<Long, OcenaDTO> ocene=new HashMap<>();
-		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(9); //TODO pazi na 9
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pacijent1=this.pacijentRepository.findOneByUsername(k.getUsername());
+		List<Erecept> sviErecepti=this.ereceptRepository.findAllByUserID(pacijent1.getId());
 		for(Erecept e : sviErecepti){
 			for(StanjeLijeka s : e.getPrepisaniLijekovi()){
 				if(s.getLijek()!=null){
@@ -442,7 +444,7 @@ public class PacijentService {
 				}
 			}
 		}
-		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(9);//TODO 9
+		List<Rezervacija> sveRezervacije=this.rezervacijaRepository.findAllByUserId(pacijent1.getId());
 		for(Rezervacija r : sveRezervacije){
 			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
 				if(s.getLijek()!=null) {
@@ -519,7 +521,9 @@ public class PacijentService {
 	}
 	@Transactional
 	public void dodajAlergije(List<Lijek> info) {
-		Pacijent p=this.pacijentRepository.findOneById(9); //TODO promeni 9
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
+
 		List<Lijek> lekovi=lekRepository.findAll();
 		List<Lijek> alergije=new ArrayList<>();
 		for(Lijek l : lekovi){
@@ -538,7 +542,8 @@ public class PacijentService {
 
 	@Transactional
 	public boolean otkaziPretplatu(String id, Pacijent p) {
-		Pacijent pacijent = this.pacijentRepository.findByUsername(p.getUsername()); //TODO 9
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pacijent=this.pacijentRepository.findOneByUsername(k.getUsername());
 		for(Apoteka a: pacijent.getPretplata()){
 			if((a.getId()+"").equals(id)){
 				pacijent.getPretplata().remove(a);
@@ -595,9 +600,12 @@ public class PacijentService {
 		}
 		return false;
 	}
-
+	@Transactional
     public boolean proveriPenale() {
-		List<Penal> penali=this.penalRepository.findAllByIdPacijent(9+""); //todo 9
+		Korisnik k=getTrenutnogKorisnika();
+		Pacijent pac=this.pacijentRepository.findOneByUsername(k.getUsername());
+		System.out.println(k.getId());
+		List<Penal> penali=this.penalRepository.findAllByIdPacijent(k.getId()+"");
 		int broj=0;
 		for(Penal p :penali){
 			if(LocalDateTime.now().isBefore(p.getTrajeDo())){
@@ -607,4 +615,9 @@ public class PacijentService {
 		if(broj>=3){return false;}
 		return true;
     }
+	public Korisnik getTrenutnogKorisnika(){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Korisnik k = (Korisnik)auth.getPrincipal();
+		return k;
+	}
 }

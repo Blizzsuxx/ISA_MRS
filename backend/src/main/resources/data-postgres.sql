@@ -210,11 +210,11 @@ insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id) values ('2021-05-14 04:40', 'sulejman1', 'bbb', 1);
 
 --POSETA
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je',false);
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro',false);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (10,9,5,'2021-05-14 04:40','2021-05-14 04:55',1, 'Dobro je',false,1000);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (11,9,6,'2021-05-14 04:40','2021-05-14 04:55',1, 'Nije dobro',false,1000);
 
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je',false );
-insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro',false);
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (12,9,10,'2021-05-10 04:40','2021-05-10 04:55',1,'Dobro je',false,1000 );
+insert into poseta(id, pacijent_korisnik,radnik_korisnik,pocetak, kraj, apoteka_id, opis,otkazano,cena) values (13,9,10,'2021-05-11 04:40','2021-05-11 04:55',1,'Nije dobro',false,1000);
 
 --ALERGIJE
 insert into pacijenti_alergije(pacijent_korisnik, alergije_id) values (9,1);
@@ -400,22 +400,19 @@ insert into ocena(ocena,pacijent_korisnik) values (1,13);
 --POSJETE
 --2021
 --JANUAR
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-01-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
 --FEBRUAR
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5);
-insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik) values
-('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled nije zapocet',null,1,9,5);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+insert into poseta(pocetak,kraj,opis,otkazano,apoteka_id,pacijent_korisnik,radnik_korisnik,cena) values
+('2021-02-01 21:58:58','2021-10-01 21:58:58','pregled je uspjesan',false,1,9,5,1000);
+

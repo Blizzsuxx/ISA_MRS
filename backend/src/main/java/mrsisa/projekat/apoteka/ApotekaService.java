@@ -10,6 +10,7 @@ import mrsisa.projekat.akcija.AkcijaDTO;
 import mrsisa.projekat.akcija.AkcijaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
@@ -25,17 +26,18 @@ import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 public class ApotekaService {
@@ -118,10 +120,21 @@ public class ApotekaService {
         
         return dto;
     }
+
+
+    public Korisnik getTrenutnogKorisnika(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return k;
+    }
+
+
     @Transactional
-    public List<LijekDTO> dobaviLijekoveAlergija(Long id) { //TODO dobiti id osobe za oduzimanje lekova
+    public List<LijekDTO> dobaviLijekoveAlergija(Long id) {
         List<Lijek> sviLekovi= this.lekRepository.findAll();
-        Pacijent pacijent= this.pacijentRepository.findOneById(9);
+        Korisnik k=getTrenutnogKorisnika();
+        Pacijent pacijent= this.pacijentRepository.findOneById(k.getId());
+        //Pacijent pacijent= this.pacijentRepository.findOneByUsername(id);
         List<LijekDTO> bezAlergija =new ArrayList<>();int a=0;
         for(Lijek l : sviLekovi) {
          a=0;
@@ -198,16 +211,19 @@ public class ApotekaService {
         for(StanjeLijeka s: stanja){
             if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null
                     && s.getId()==poslatId){
-                Pacijent p=this.pacijentRepository.findOneById(9); //todo 9
+                Korisnik k=getTrenutnogKorisnika();
+                Pacijent p=this.pacijentRepository.findOneById(k.getId());
                 boolean alergija=proveriAlergije(p.getAlergije(), s.getLijek().getId());
 
                 if(alergija){
 
                     return false;}
 
-                Apoteka a=this.apotekaRepository.findOneById(1); //todo id apoteke? proveri
+                Apoteka a=s.getApoteka();
                 ArrayList<StanjeLijeka> stanja2=new ArrayList<>();
-                Rezervacija rez=new Rezervacija(130L, p,a,stanja2, dan ); //promeni id
+                List<Rezervacija> sveRez=this.rezervacijaRepository.findAll();
+                long novId=(long)(sveRez.size()+1);
+                Rezervacija rez=new Rezervacija(novId, p,a,stanja2, dan ); //promeni id
                 double cena=kolicina2*s.getCijena();
                 StanjeLijeka novo=new StanjeLijeka(s,kolicina2, rez,cena);
                 s.setKolicina(s.getKolicina()-kolicina2);
@@ -329,6 +345,89 @@ public class ApotekaService {
         }
 
 
+        int pocetna_godina = LocalDateTime.now().getYear() -10;
+        int suma;
+        for(;pocetna_godina<=LocalDateTime.now().getYear();pocetna_godina++){
+            suma =0;
+            for(Poseta poseta: this.posetaRepository.findAll()){
+                if(poseta.getOtkazano()==null)
+                    continue;
+                if(poseta.getApoteka().getId().equals(apoteka.getId()) && poseta.getPocetak().getYear()==pocetna_godina && !poseta.getOtkazano()){
+                   suma++;
+                }
+            }
+            izvjestaj.getPreglediGodine().put(String.valueOf(pocetna_godina),suma);
+        }
+
+        // izdati lijekovi
+
+
+
+        for(int i=0;i<12;i++){
+            izvjestaj.getLijekoviPoMjesecima().add(0);
+        }
+        for(Rezervacija rezervacija: apoteka.getRezervacije()){
+            if(!rezervacija.isIzdato())
+                continue;
+            if(rezervacija.getDatumRezervacije().getYear()==LocalDateTime.now().getYear() && !rezervacija.isOdustao()){
+                suma = 0;
+                for(StanjeLijeka stanjeLijeka : rezervacija.getRezervisaniLijekovi()){
+                    suma +=stanjeLijeka.getKolicina();
+                }
+                izvjestaj.getLijekoviPoMjesecima().set(rezervacija.getDatumRezervacije().getMonthValue() - 1, izvjestaj.getPreglediPoMjesecima().get(rezervacija.getDatumRezervacije().getMonthValue() - 1)+suma);
+            }
+        }
+
+
+
+
+        pocetna_godina = LocalDateTime.now().getYear() -10;
+        for(;pocetna_godina<=LocalDateTime.now().getYear();pocetna_godina++){
+            suma = 0;
+            for(Rezervacija rezervacija: apoteka.getRezervacije()){
+                if(!rezervacija.isIzdato())
+                    continue;
+                if(rezervacija.getDatumRezervacije().getYear()==pocetna_godina && !rezervacija.isOdustao()){
+                    for(StanjeLijeka stanjeLijeka : rezervacija.getRezervisaniLijekovi()) {
+                        suma += stanjeLijeka.getKolicina();
+                    }
+                }
+            }
+            izvjestaj.getLijekoviGodine().put(String.valueOf(pocetna_godina),suma);
+        }
         return izvjestaj;
+    }
+
+    @Transactional
+    public IzvjestajDTO izvjestajPeriod(Long id, String datumOd, String datumDo) {
+        IzvjestajDTO izvjestajDTO  = new IzvjestajDTO();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime datumOdParsiran =  LocalDateTime.parse(datumOd,dtf);
+        LocalDateTime datumDoParsiran = LocalDateTime.parse(datumDo,dtf);
+        Apoteka apoteka = this.apotekaRepository.findById(id).orElse(null);
+        int i= 0 ;
+        int suma;
+        while(!datumOdParsiran.plusDays(i).isAfter(datumDoParsiran)){
+            suma = 0;
+            for(Rezervacija rezervacija: apoteka.getRezervacije()){
+                if(!rezervacija.isIzdato())
+                    continue;
+                if(rezervacija.getDatumRezervacije().getYear()==datumDoParsiran.getYear() && !rezervacija.isOdustao()
+                    && rezervacija.isIzdato() && rezervacija.getDatumRezervacije().isAfter(datumOdParsiran.plusDays(i)) &&
+                        rezervacija.getDatumRezervacije().isBefore(datumDoParsiran)){
+                    for(StanjeLijeka stanjeLijeka : rezervacija.getRezervisaniLijekovi()) {
+                        suma += stanjeLijeka.getCijena();
+                    }
+                }
+            }
+            izvjestajDTO.getPrihodiPeriod().put(dtf2.format(datumOdParsiran.plusDays(i)),suma);
+            i++;
+        }
+        System.out.println("Sto ovo ne radi");
+        return izvjestajDTO;
+
+
+
     }
 }

@@ -98,7 +98,7 @@
       <template #title>Dodatne Opcije</template>
       <el-menu-item index="8-1" @click="odjava">Odjava</el-menu-item>
     </el-submenu>
-  </el-menu>
+  </el-menu>s
 </template>
 
 <script>
