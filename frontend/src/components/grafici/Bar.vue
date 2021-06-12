@@ -18,6 +18,7 @@ export default {
   },
   methods: {
     iscrtaj(podaci) {
+      
       this.labele.push("Apoteka");
       this.podaci.push(podaci.ocjenaApoteke.toFixed(2));
       this.boje.push("#3e95cd");

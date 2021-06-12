@@ -1,5 +1,6 @@
 import axios from 'axios'
 import authHeader from './AuthHeader'
+import moment from 'moment'
 const state = {    
     sveApoteke :[],
     apoteka : null,
@@ -80,6 +81,24 @@ const actions = {
         })
         
     },
+
+    izvjestajPeriod(context,data){
+        console.log(context)
+        
+        let datumOd = moment(data.datumOd).format('YYYY-MM-DD hh-mm').split(" ")[0]+"-23-59";
+        let datumDo = moment(data.datumDo).format('YYYY-MM-DD hh-mm').split(" ")[0]+"-23-59";
+        console.log(datumOd)
+        console.log(datumDo)
+        return axios.get(`http://localhost:8080/api/v1/apoteka/izvjestaj/${datumOd}/${datumDo}`,{ headers: authHeader()})
+        .then(response => {
+            console.log(response.data)
+            return response.data;
+         
+        })
+        
+        
+    },
+
     // dobaviApotekuKorisnik(context, id){
     //     return axios.get(`http://localhost:8080/api/v1/apoteka/${id}/profil/korisnik`,{ headers: authHeader()})
     //     .then(response => {

@@ -11,6 +11,16 @@
        <PreglediBar ref="pregledi" />
 
     </el-tab-pane>
+
+    <el-tab-pane label="Lijekovi" name="third">
+       <LijekoviBar ref="lijekovi" />
+
+    </el-tab-pane>
+
+    <el-tab-pane label="Prihodi" name="fourth">
+       <Period ref="prihodi" />
+
+    </el-tab-pane>
   </el-tabs>
 </template>  
  
@@ -18,7 +28,9 @@
 <script>
 import NavAdminApoteke from "./NavAdminApoteke"
 import Bar from "./grafici/Bar"
+import LijekoviBar from "./grafici/LijekoviBar"
 import PreglediBar from "./grafici/PreglediBar"
+import Period from "./grafici/Period"
 export default {
   name: 'Izvjestaji',
   data() {
@@ -30,12 +42,13 @@ export default {
     components:{
       NavAdminApoteke,
       Bar,
-      PreglediBar
+      PreglediBar,
+      LijekoviBar,
+      Period
      
     },
     mounted(){
       this.$store.dispatch("APApoteke/izvjestaj").then((podaci)=>{
-        console.log(podaci)
           this.podaci = podaci;
           this.formirajIzvjestaje();
       })
@@ -50,6 +63,7 @@ export default {
          formirajIzvjestaje(){
            this.$refs.ocjene.iscrtaj(this.podaci)
            this.$refs.pregledi.iscrtaj(this.podaci)
+           this.$refs.lijekovi.iscrtaj(this.podaci)
          }
     }
   }
