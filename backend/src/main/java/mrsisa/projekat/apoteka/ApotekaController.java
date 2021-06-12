@@ -71,6 +71,16 @@ public class ApotekaController {
         return apotekaService.izvjestaj(adminApoteke.getApoteka().getId());
     }
 
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/izvjestaj/{datumOd}/{datumDo}")
+    public IzvjestajDTO izvjestajPeriod(@PathVariable String datumOd, @PathVariable String datumDo){
+        System.out.println("Andrija je najjaci");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return apotekaService.izvjestajPeriod(adminApoteke.getApoteka().getId(),datumOd,datumDo);
+    }
+
     @GetMapping("/dobaviLijekoveA/{id}")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<LijekDTO> dobaviLijekoveA(@PathVariable Long id){

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <canvas ref="preglediMjeseci"  style="position: relative; height:40vh; width:80vw"></canvas>
-    <canvas ref="preglediMjeseciKvartali"  style="position: relative; height:40vh; width:80vw"></canvas>
-    <canvas ref="pregeldiGodine"  style="position: relative; height:40vh; width:80vw"></canvas>
+    <canvas ref="lijekoviMjeseci"  style="position: relative; height:40vh; width:80vw"></canvas>
+    <canvas ref="lijekoviMjeseciKvartali"  style="position: relative; height:40vh; width:80vw"></canvas>
+    <canvas ref="lijekoviGodine"  style="position: relative; height:40vh; width:80vw"></canvas>
   </div>
 </template>
 
@@ -10,7 +10,7 @@
 import Chart from "chart.js";
 
 export default {
-  name: "PlanetChart",
+  name: "LijekoviBar",
   data() {
     return {
       labele: new Array(),
@@ -24,8 +24,8 @@ export default {
   },
   methods: {
     iscrtaj(podaci) {
-      console.log(podaci)
-      this.pregledi = podaci.preglediPoMjesecima;
+      
+      this.pregledi = podaci.lijekoviPoMjesecima;
       let i = 0;
       let sum = 0;
       this.pregledi.forEach(item=>{
@@ -38,23 +38,23 @@ export default {
           }
       })
 
-      for (const dio in podaci.preglediGodine) {
+      for (const dio in podaci.lijekoviGodine) {
         this.godineLabele.push(dio);
-        this.godinePodaci.push(podaci.preglediGodine[dio].toFixed(2));
+        this.godinePodaci.push(podaci.lijekoviGodine[dio].toFixed(2));
         this.boje.push("#3cba9f");
         
       }
       this.inicijalizujBar();
     },
     inicijalizujBar() {
-      new Chart(this.$refs.preglediMjeseci, {
+      new Chart(this.$refs.lijekoviMjeseci, {
         type: "line",
         data: {
           labels: ["Januar", "Februar", "Mart", "April", "Maj", "Jun", "Jul", "Avgust", "Septembar", "Oktobar","Novembar","Decembar"],
           datasets: [
             {
               data:this.pregledi,
-              label: "Pregledi",
+              label: "Lijekovi",
               borderColor: "#3e95cd",
               fill: false,
             },
@@ -63,18 +63,18 @@ export default {
         options: {
           title: {
             display: true,
-            text: "Pregledi po mjesecima",
+            text: "Lijekovi po mjesecima",
           },
         },
       });
-      new Chart(this.$refs.preglediMjeseciKvartali, {
+      new Chart(this.$refs.lijekoviMjeseciKvartali, {
         type: "line",
         data: {
           labels: ["Prvi kvartal", "Drugi kvartal", "Treci kvartal", "Cetvrti kvartal"],
           datasets: [
             {
               data:this.kvartali,
-              label: "Pregledi",
+              label: "Lijekovi",
               borderColor: "#3e95cd",
               fill: false,
             },
@@ -83,18 +83,18 @@ export default {
         options: {
           title: {
             display: true,
-            text: "Pregledi po kvartalima",
+            text: "Lijekovi po kvartalima",
           },
         },
       });
-      new Chart(this.$refs.pregeldiGodine, {
+      new Chart(this.$refs.lijekoviGodine, {
         type: "bar",
         data: {
           labels:this.godineLabele,
           datasets: [
             {
               data:this.godinePodaci,
-              label: "Pregledi",
+              label: "Lijekovi",
               backgroundColor: this.boje,
               fill: false,
             },
@@ -103,7 +103,7 @@ export default {
         options: {
           title: {
             display: true,
-            text: "Pregledi po godinama",
+            text: "Lijekovi po godinama",
           },
         },
       });
