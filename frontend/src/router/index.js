@@ -248,7 +248,7 @@ const routes = [
     component: APPregled
   },
   {
-    path: '/ap/prijava',
+    path: '/',
     name: 'Prijava',
     component: Prijava
   },
