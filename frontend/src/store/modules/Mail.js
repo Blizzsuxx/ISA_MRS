@@ -4,7 +4,7 @@ import authHeader from './AuthHeader';
 
 const actions = {
     posaljiMail(context, podaci){
-        axios.post('http://localhost:8080/api/v1/mail/sendemail', podaci, {headers : authHeader()}).then(response => {
+        axios.post('mail/sendemail', podaci, {headers : authHeader()}).then(response => {
 
             alert("poslato obavestenje!");
             return response;
@@ -12,7 +12,7 @@ const actions = {
     },
 
     posaljiMailRegistracija(){
-        axios.post('http://localhost:8080/api/v1/mail/sendemailRegistration',{} ,{headers : authHeader()})
+        axios.post('mail/sendemailRegistration',{} ,{headers : authHeader()})
         .then(response => {
             alert("poslato obavestenje!");
             return response;

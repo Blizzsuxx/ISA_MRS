@@ -11,7 +11,7 @@ const getters = {
 
 const actions = {
     dobaviSvojeDermatologe (context) {
-        axios.get('http://localhost:8080/api/v1/profil/dobaviSvojeDermatologe',{ headers: authHeader()})
+        axios.get('profil/dobaviSvojeDermatologe',{ headers: authHeader()})
         .then(response => {
         let ocene =response.data
         console.log(ocene)
@@ -19,7 +19,7 @@ const actions = {
         })
   },
   dobaviSvojeFarmaceute (context) {
-    axios.get('http://localhost:8080/api/v1/profil/dobaviSvojeFarmaceute',{ headers: authHeader()})
+    axios.get('profil/dobaviSvojeFarmaceute',{ headers: authHeader()})
     .then(response => {
     let ocene =response.data
     console.log(ocene)
@@ -27,7 +27,7 @@ const actions = {
     })
 },
 dobaviSvojeApoteke (context) {
-    axios.get('http://localhost:8080/api/v1/profil/dobaviSvojeApoteke',{ headers: authHeader()})
+    axios.get('profil/dobaviSvojeApoteke',{ headers: authHeader()})
     .then(response => {
     let ocene =response.data
     console.log(ocene)
@@ -35,7 +35,7 @@ dobaviSvojeApoteke (context) {
     })
 },
 dobaviSvojeLekove (context) {
-    axios.get('http://localhost:8080/api/v1/profil/dobaviSvojeLekove',{ headers: authHeader()})
+    axios.get('profil/dobaviSvojeLekove',{ headers: authHeader()})
     .then(response => {
     let ocene =response.data
     console.log(ocene)
@@ -45,7 +45,7 @@ dobaviSvojeLekove (context) {
     posalji( context,idOcena){
        console.log(context)
         console.log(idOcena)
-        axios.put(`http://localhost:8080/api/v1/profil/posaljiOcenu/${idOcena}`,{},{ headers: authHeader()})
+        axios.put(`profil/posaljiOcenu/${idOcena}`,{},{ headers: authHeader()})
         .then(response => {
             console.log("baba")
             return response

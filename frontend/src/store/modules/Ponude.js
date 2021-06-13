@@ -13,34 +13,34 @@ const getters = {
 
 const actions = {
     kreirajPonudu(context, ponuda){
-        return axios.post('http://localhost:8080/api/v1/ponuda/kreirajPonudu', ponuda, {headers : authHeader()})
+        return axios.post('ponuda/kreirajPonudu', ponuda, {headers : authHeader()})
     },
     dobaviPonudeDobavljaca(){
-        return axios.get('http://localhost:8080/api/v1/ponuda/dobaviPonudeDobavljaca', { headers : authHeader()});
+        return axios.get('ponuda/dobaviPonudeDobavljaca', { headers : authHeader()});
     },
     dobaviNarudzbenicuPonude(context, id){
-        return axios.get(`http://localhost:8080/api/v1/ponuda/dobaviNarudzbenicuPonude/${id}`, { headers : authHeader()});
+        return axios.get(`ponuda/dobaviNarudzbenicuPonude/${id}`, { headers : authHeader()});
     },
     dobaviPonude (context,id) {
-        axios.get(`http://localhost:8080/api/v1/ponuda/narudzbenica/${id}/admin`, { headers: authHeader()})
+        axios.get(`ponuda/narudzbenica/${id}/admin`, { headers: authHeader()})
             .then(response => {
                 let ponude =response.data
                 context.commit('postaviPonude',ponude)
             })
     },
     prihvatiPonudu(context,params) {
-        return axios.put(`http://localhost:8080/api/v1/ponuda/narudzbenica/${params.nId}/prihvati/${params.id}`,params.lijekovi,{ headers: authHeader()})
+        return axios.put(`ponuda/narudzbenica/${params.nId}/prihvati/${params.id}`,params.lijekovi,{ headers: authHeader()})
             .then(() => {
             })
     },
     pripremiPonudu(context,params) {
-        return axios.get(`http://localhost:8080/api/v1/ponuda/narudzbenica/${params.nId}/pripremi/${params.id}`,{ headers: authHeader()})
+        return axios.get(`ponuda/narudzbenica/${params.nId}/pripremi/${params.id}`,{ headers: authHeader()})
             .then((response) => {
                 context.commit('postaviNoveLijekove',response.data)
             })
     },
     odbijPonudu(context,id) {
-        return axios.put(`http://localhost:8080/api/v1/ponuda/${id}/odbij`,{}, { headers: authHeader()})
+        return axios.put(`ponuda/${id}/odbij`,{}, { headers: authHeader()})
             .then(() => {
                 
             })

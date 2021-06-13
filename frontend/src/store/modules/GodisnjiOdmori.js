@@ -11,7 +11,7 @@ const getters = {
 
 const actions = {
     zakaziGodisnji (context, podaci) {
-        axios.post('http://localhost:8080/api/v1/GodisnjiOdmori/zakaziGodisnji', podaci, {headers : authHeader()}).then(response => {
+        axios.post('GodisnjiOdmori/zakaziGodisnji', podaci, {headers : authHeader()}).then(response => {
 
             alert("Zakazan godisnji");
             return response;
@@ -21,7 +21,7 @@ const actions = {
     },
 
     godisnjiOdmoriAdmin(context) {
-        axios.get('http://localhost:8080/api/v1/GodisnjiOdmori/admin', {headers : authHeader()}).then(response => {
+        axios.get('GodisnjiOdmori/admin', {headers : authHeader()}).then(response => {
             console.log(response.data)
             context.commit('postaviOdmore',response.data)
             return response;
@@ -29,13 +29,13 @@ const actions = {
     },
 
     odobriGodisnjiOdmor(contex,id){
-        return axios.put(`http://localhost:8080/api/v1/GodisnjiOdmori/admin/odobriZahtjev/${id}`,{}, {headers : authHeader()}).then(() => {
+        return axios.put(`GodisnjiOdmori/admin/odobriZahtjev/${id}`,{}, {headers : authHeader()}).then(() => {
             return contex;
         })
         
     },
     odbijGodisnjiOdmor(contex,id){
-        return axios.put(`http://localhost:8080/api/v1/GodisnjiOdmori/admin/odbijZahtjev/${id}`,{}, {headers : authHeader()}).then(() => {
+        return axios.put(`GodisnjiOdmori/admin/odbijZahtjev/${id}`,{}, {headers : authHeader()}).then(() => {
             return contex;
         })
 
@@ -44,7 +44,7 @@ const actions = {
 
 
     potvrdiOdmor(context, podaci) {
-        axios.post('http://localhost:8080/api/v1/godisnjiOdmor/potvrdiGodisnji', podaci, {headers : authHeader()}).then(response => {
+        axios.post('godisnjiOdmor/potvrdiGodisnji', podaci, {headers : authHeader()}).then(response => {
 
             alert("promena izvrsena");
             return response;

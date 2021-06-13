@@ -13,7 +13,7 @@ const getters = {
 
 const actions = {
     dobaviRecepte (context) {
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviERecepte',{ headers: authHeader()})
+        return axios.get('profil/dobaviERecepte',{ headers: authHeader()})
         .then(response => {
             
             let rSvi =response.data
@@ -27,7 +27,7 @@ const actions = {
 
 
     postaviRezervaciju(context, podaci){
-        axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervaciju', podaci,{ headers: authHeader()}).then(response => {
+        axios.post('rezervacije/postaviRezervaciju', podaci,{ headers: authHeader()}).then(response => {
     
                 alert("Pregled uspesno zavrsen");
                 return response;
@@ -39,7 +39,7 @@ const actions = {
 
 
     dobaviPreuzeteRecepte (context) {
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviIzdateERecepte',{ headers: authHeader()})
+        return axios.get('profil/dobaviIzdateERecepte',{ headers: authHeader()})
         .then(response => {
             
             let rSvi =response.data
