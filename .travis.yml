@@ -30,7 +30,7 @@ matrix:
       - "node"
       cache: npm
       script: 
-        - cd frontend/src
+        - cd frontend
       deploy:
         provider: heroku
         api_key: $HEROKU_API_KEY
