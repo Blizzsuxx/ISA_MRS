@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
     dobaviPosete (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosete',{ headers: authHeader()})
+        return axios.get('posete/dobaviPosete',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
                 
@@ -25,7 +25,7 @@ const actions = {
 
     },
     dobaviPosetePacijenta (context) {
-         return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijenta',{ headers: authHeader()})
+         return axios.get('posete/dobaviPosetePacijenta',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
                 console.log(poseteSve);
@@ -35,7 +35,7 @@ const actions = {
 
     },
     dobaviIstorijuD (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuD',{ headers: authHeader()})
+        return axios.get('posete/dobaviIstorijuD',{ headers: authHeader()})
            .then(response => {
                let poseteSve =response.data
                console.log(poseteSve);
@@ -45,7 +45,7 @@ const actions = {
 
    },
    dobaviIstorijuF (context) {
-    return axios.get('http://localhost:8080/api/v1/posete/dobaviIstorijuF',{ headers: authHeader()})
+    return axios.get('posete/dobaviIstorijuF',{ headers: authHeader()})
        .then(response => {
            let poseteSve =response.data
            console.log(poseteSve);
@@ -55,7 +55,7 @@ const actions = {
 
 },
     dobaviPoseteFPacijenta (context) {
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviPosetePacijentaF',{ headers: authHeader()})
+        return axios.get('posete/dobaviPosetePacijentaF',{ headers: authHeader()})
            .then(response => {
                let poseteSve =response.data
                console.log(poseteSve);
@@ -72,7 +72,7 @@ const actions = {
         }else{return true;}
     })
 
-    axios.post('http://localhost:8080/api/v1/posete/otkazi', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
+    axios.post('posete/otkazi', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
 
         if(response){
             alert("Uspesno ste otkazali pregled");
@@ -92,7 +92,7 @@ const actions = {
         }else{return true;}
     })
 
-    axios.post('http://localhost:8080/api/v1/posete/otkaziF', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
+    axios.post('posete/otkaziF', {"a":state.zakazanePosetePacijenta[index]}, {headers : authHeader()}).then(response => {
 
         if(response){
             alert("Uspesno ste otkazali pregled.");
@@ -105,7 +105,7 @@ const actions = {
     })
    },
     zakaziPosetu(context, podaci){
-        axios.post('http://localhost:8080/api/v1/posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
+        axios.post('posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
 
             alert("Zakazan pregled");
             return response;
@@ -114,14 +114,14 @@ const actions = {
 
     zabeleziOdsustvo(context, podaci){
         
-        axios.post('http://localhost:8080/api/v1/posete/zabeleziOdsustvo', podaci, {headers : authHeader()}).then(response => {
+        axios.post('posete/zabeleziOdsustvo', podaci, {headers : authHeader()}).then(response => {
 
             return response;
         })
     },
 
     dobaviPoseteAktivne(context){
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviPoseteAktivne',{ headers: authHeader()})
+        return axios.get('posete/dobaviPoseteAktivne',{ headers: authHeader()})
             .then(response => {
                 let poseteSve =response.data
                 
@@ -131,14 +131,14 @@ const actions = {
     
     dobaviSlobodnePoseteDermatologa(context){
 
-        return axios.get('http://localhost:8080/api/v1/posete/dobaviSlobodnePoseteDermatologa',{ headers: authHeader()})
+        return axios.get('posete/dobaviSlobodnePoseteDermatologa',{ headers: authHeader()})
            .then(response => {
                let poseteSve =response.data
                context.commit('postaviSlobodnePoseteD',poseteSve)
            })
     },
     rezervisiPosetuD(context, id){
-        axios.post('http://localhost:8080/api/v1/posete/rezervisiPosetuD',id, {headers : authHeader()}).then(response => {
+        axios.post('posete/rezervisiPosetuD',id, {headers : authHeader()}).then(response => {
             if(response.data=="Uspesno ste zakazali posetu kod dermatologa Sime."){
             alert(response.data);
             return true;}else{return false;}

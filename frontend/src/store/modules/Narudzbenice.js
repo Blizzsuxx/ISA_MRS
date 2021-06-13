@@ -13,11 +13,11 @@ const getters = {
 
 const actions = {
     dobaviSveNarudzbenice(){
-        return axios.get('http://localhost:8080/api/v1/narudzbenice/dobaviSveNarudzbenice', {headers: authHeader()});
+        return axios.get('narudzbenice/dobaviSveNarudzbenice', {headers: authHeader()});
     },
     
     dobaviNarudzbenice (context) {
-        axios.get('http://localhost:8080/api/v1/narudzbenice/admin', { headers: authHeader()})
+        axios.get('narudzbenice/admin', { headers: authHeader()})
             .then(response => {
                 let narudzbenice =response.data
                 context.commit('postaviNarudzbenice',narudzbenice)
@@ -25,7 +25,7 @@ const actions = {
     },
 
     dobaviNarudzbenicu (context,id) {
-        return axios.get(`http://localhost:8080/api/v1/narudzbenice/${id}/admin`, { headers: authHeader()})
+        return axios.get(`narudzbenice/${id}/admin`, { headers: authHeader()})
             .then(response => {
                 let narudzbenice =response.data
                 console.log(narudzbenice)
@@ -33,7 +33,7 @@ const actions = {
             })
     },
     izbrisiNarudzbenicu(context,id){
-        return axios.delete(`http://localhost:8080/api/v1/narudzbenice/${id}/admin`, { headers: authHeader()})
+        return axios.delete(`narudzbenice/${id}/admin`, { headers: authHeader()})
             .then(() => {
                 
             })
