@@ -7,15 +7,20 @@
         @promjenjena-selekcija="promjenaDermatologa"
         v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
     /></el-col>
-    </el-row>
-    <el-row :gutter="20">
-      <el-col :span="24">
-    <el-popconfirm title="Da li ste sigurni da zelite da otpustitite dermatologa?" @confirm="potvrdjeno" confirmButtonText='OK'
-  cancelButtonText='Odustani'>
-      <template #reference>
-        <el-button type="danger" plain>Delete</el-button>
-      </template>
-    </el-popconfirm>
+  </el-row>
+  <el-row :gutter="20">
+    <el-col :span="24">
+      <el-popconfirm
+        title="Da li ste sigurni da želite da otpustitite dermatologa? Ako dermatolog ima zakazane preglede svi će biti
+        otkazani i moguće je nezadovoljstvo kod pacijenata."
+        @confirm="potvrdjeno"
+        confirmButtonText="Potvrdi"
+        cancelButtonText="Odustani"
+      >
+        <template #reference>
+          <el-button type="danger" plain>Otpuštanje dermatologa</el-button>
+        </template>
+      </el-popconfirm>
     </el-col>
   </el-row>
 </template>
@@ -50,21 +55,25 @@ export default {
   props: { options: String },
   data() {
     return {
-      dermatolog : null
-    }
+      dermatolog: null,
+    };
   },
   methods: {
-    promjenaDermatologa (val) {
-     
-      this.dermatolog = val
-      
+    promjenaDermatologa(val) {
+      this.dermatolog = val;
     },
-    potvrdjeno(){
-     
-       this.$store.dispatch("Dermatolozi/otpustiDermatologa",this.dermatolog.id).then(()=>{
-           this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
-       })
-    }
+    potvrdjeno() {
+      this.$store
+        .dispatch("Dermatolozi/otpustiDermatologa", this.dermatolog.id)
+        .then(() => {
+          this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
+          this.$message({
+            showClose: true,
+            message: "Uspjesno ste otpustili dermatologa.",
+            type: "success",
+          });
+        });
+    },
   },
   components: {
     NavAdminApoteke,

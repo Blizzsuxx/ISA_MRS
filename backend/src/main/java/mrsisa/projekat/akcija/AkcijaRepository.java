@@ -2,6 +2,8 @@ package mrsisa.projekat.akcija;
 
 import mrsisa.projekat.adresa.Adresa;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface AckijaRepository extends JpaRepository<Akcija, Long> {
+@Repository
+public interface AkcijaRepository extends JpaRepository<Akcija, Long> {
 }

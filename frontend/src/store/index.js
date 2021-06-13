@@ -14,6 +14,12 @@ import Farmaceuti from './modules/Farmaceuti';
 import GodisnjiOdmori from './modules/GodisnjiOdmori'
 import Mail from './modules/Mail'
 import APenali from './modules/APenali'
+import APAkcije from './modules/APAkcije'
+import LoyaltyPrograma from './modules/LoyaltyPrograma'
+import Narudzbenice from './modules/Narudzbenice'
+import Ponude from './modules/Ponude'
+import Ocene from './modules/Ocene'
+import QRKod from './modules/QRKod'
 
 export default createStore({
     state () {
@@ -38,5 +44,11 @@ export default createStore({
         Farmaceuti,
         GodisnjiOdmori,
         Mail,
+        APAkcije,
+        LoyaltyPrograma,
+        Narudzbenice,
+        Ponude,
+        Ocene,
+        QRKod
       }
   })

@@ -3,7 +3,9 @@ import authHeader from './AuthHeader'
 
 const state = {    
     korisnik: null,
-   loading: true
+   loading: true,
+   radnik: null,
+
 };
 
 const getters = {//pazi ovo je nebitno
@@ -13,7 +15,7 @@ const getters = {//pazi ovo je nebitno
 const actions = {
      dobaviProfil (context) {
       
-       return axios.get('http://localhost:8080/api/v1/profil/dobaviPacijenta',{ headers: authHeader()})
+       return axios.get('profil/dobaviPacijenta',{ headers: authHeader()})
         .then(response => {
            
             context.commit('postaviProfil',response.data)
@@ -28,10 +30,10 @@ const actions = {
         arr.push(input.mesto)
         arr.push(input.ulica)
         arr.push(input.broj)
-
+        arr.push(input.email)
         arr.push(input.date1)
         
-        axios.put('http://localhost:8080/api/v1/profil/izmeni',arr,{ headers: authHeader()})
+        axios.put('profil/izmeni',arr,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
             if(tf){
@@ -46,10 +48,30 @@ const actions = {
         })  
         
     },
+
+
+    izmeniPodatkeRadnik (context,input) {
+        
+        console.log(input);
+        var info = {"ime" : input.ime, "prezime" : input.prezime, "email" : input.email, "sifra" : input.sifra};
+
+        axios.post('korisnici/izmeni', info, {headers : authHeader()})
+        .then(response => {
+            context.commit('postaviProfilRadnik',input)
+            console.log("da")
+        
+            return response
+        })  
+        
+    },
+
+
+
 }
 
 const mutations = {
     postaviProfil:(state, korisnik1) => (state.korisnik = korisnik1),
+    postaviProfilRadnik:(state, radnik1) => (state.radnik = radnik1),
     postaviLoading:(state, loading) => (state.loading = loading),
 }
 

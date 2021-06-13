@@ -45,12 +45,7 @@
     </el-col>
   </el-form-item>
   
-  <el-form-item label="Pol">
-    <el-radio-group v-model="form.resource">
-      <el-radio label="Musko"></el-radio>
-      <el-radio label="Zensko"></el-radio>
-    </el-radio-group>
-  </el-form-item>
+  
   <el-form-item>
     <el-button  @click="onSubmit">Sacuvaj</el-button>
     <el-button  @click="vrati()">Nemoj sacuvati</el-button>
@@ -114,6 +109,7 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
          if(this.onemoguci){confirm("Trenutno niste odabrali omogucavanje promena. Kliknite na dugme omoguci promene radi menjanja informacija.");}
         else{this.form.email=this.backup.email
         if(confirm("Unesene promene ce se zapamtiti sem mejla.")){
+          console.log(this.form.resource);
         this.$store.dispatch("IzmenaLicnihInfoKorisnik/izmeniPodatke",this.form)
         this.backup.ime=this.form.ime
         this.backup.prezime=this.form.prezime
@@ -124,7 +120,7 @@ import LekoviBezAlergija from './LekoviBezAlergija.vue';
         this.backup.resource = this.form.resource
         this.backup.email=this.form.email  }
         }
-        //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
+       
 
       },
        vrati() {

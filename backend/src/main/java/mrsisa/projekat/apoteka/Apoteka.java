@@ -2,9 +2,13 @@ package mrsisa.projekat.apoteka;
 
 
 import mrsisa.projekat.adresa.Adresa;
+import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dermatolog.Dermatolog;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.narudzbenica.Narudzbenica;
+import mrsisa.projekat.ocena.Ocena;
+import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
@@ -13,10 +17,13 @@ import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import javax.persistence.*;
 import java.util.List;
 
+
+
 @Entity
 public class Apoteka {
 
-
+    @Version
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,12 +44,21 @@ public class Apoteka {
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Rezervacija> rezervacije;
 
+    @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<GodisnjiOdmor> godisnjiOdmori;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ocena> ocene;
+
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable
     private List<Dermatolog> dermatolozi;
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Farmaceut> farmaceuti;
+
+    //@OneToMany(mappedBy = "akcija", fetch = FetchType.LAZY)
+    //private List<Akcija> akcija;
 
     public List<Narudzbenica> getNarudzbenice() {
         return narudzbenice;
@@ -55,6 +71,10 @@ public class Apoteka {
 
     @OneToMany(mappedBy = "apoteka", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Narudzbenica> narudzbenice;
+
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable
+    private List<Pacijent> pretplaceniPacijenti;
 
     public Adresa getAdresa() {
 		return adresa;
@@ -155,5 +175,46 @@ public class Apoteka {
 
     public void setFarmaceuti(List<Farmaceut> farmaceuti) {
         this.farmaceuti = farmaceuti;
+    }
+
+    public List<GodisnjiOdmor> getGodisnjiOdmori() {
+        return godisnjiOdmori;
+    }
+
+    public void setGodisnjiOdmori(List<GodisnjiOdmor> godisnjiOdmori) {
+        this.godisnjiOdmori = godisnjiOdmori;
+    }
+
+    /*public List<Akcija> getAkcija() {
+        return akcija;
+    }
+
+    public void setAkcija(List<Akcija> akcija) {
+        this.akcija = akcija;
+    }*/
+
+    public List<Ocena> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
+    }
+
+    public List<Pacijent> getPretplaceniPacijenti() {
+        return pretplaceniPacijenti;
+    }
+
+    public void setPretplaceniPacijenti(List<Pacijent> pretplaceniPacijenti) {
+        this.pretplaceniPacijenti = pretplaceniPacijenti;
+    }
+
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

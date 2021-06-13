@@ -5,6 +5,7 @@ import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,9 +22,13 @@ public class DobavljacController {
         this.dobavljacService = dobavljacService;
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajDobavljaca")
     public void sacuvajDobavljaca(@RequestBody KorisnikDTO dummy) {
+        dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
         Dobavljac d = new Dobavljac(dummy);
         this.dobavljacService.save(d);
     }

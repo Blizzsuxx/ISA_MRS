@@ -1,7 +1,7 @@
 <template>
   <APDermatolog ref="table">
     <el-link href="/ap/farmaceut/izdavanje">
-    <el-menu-item index="1-3">Izdavanje lekova</el-menu-item>
+    <el-menu-item index="1-1" >Izdavanje lekova</el-menu-item>
     </el-link>
 
     <template v-slot:header-slot>
@@ -24,6 +24,8 @@
   components: { APDermatolog },
     name: 'APFarmaceut',
     methods: {
+
+
       promena(value){
           //APDermatolog.storageData.filter( (item) => {return item.pharmacy === value} );
           if(this.$refs.table.tableData.length == 0){
@@ -33,11 +35,20 @@
       }
     },
     data() {
-
+      console.log("C");
       return {
-        tableData: null,
-        
+        tableData: this.$store.state.APPosete.svePosete,
+        radnik: this.$store.state.APKorisnici.trenutniRadnik,
+        redirectString: "farmaceut",
+        value : null
       }
     }
+    ,
+
+    async mounted(){
+      console.log("A");
+      await this.$store.dispatch("APKorisnici/promeniRedirekciju", "farmaceut");
+      console.log(this.$store.state.APKorisnici.trenutnaRedirekcija);
+    },
   };
 </script>

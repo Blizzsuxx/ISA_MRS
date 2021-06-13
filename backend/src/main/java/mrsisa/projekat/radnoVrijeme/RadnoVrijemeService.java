@@ -16,12 +16,18 @@ public class RadnoVrijemeService {
     @Transactional
     public RadnoVrijemeDTO dobaviRadnoVrijeme(Integer id) {
         for (RadnoVrijeme radnoVrijeme : this.radnoVrijemeRepository.findAll())
+        {   if(radnoVrijeme.getDermatolog()!=null){
+                if(radnoVrijeme.getDermatolog().getId().equals(id)){
+                    return new RadnoVrijemeDTO(radnoVrijeme);
+            }}
+        }
+
+        for (RadnoVrijeme radnoVrijeme : this.radnoVrijemeRepository.findAll())
         {
-            System.out.println(radnoVrijeme.getDermatolog().getId());
-            System.out.println(id);
-            if(radnoVrijeme.getDermatolog().getId().equals(id)){
-                return new RadnoVrijemeDTO(radnoVrijeme);
-            }
+            if(radnoVrijeme.getFarmaceuet()!=null){
+                if(radnoVrijeme.getFarmaceuet().getId().equals(id)){
+                    return new RadnoVrijemeDTO(radnoVrijeme);
+                }}
         }
         return null;
     }

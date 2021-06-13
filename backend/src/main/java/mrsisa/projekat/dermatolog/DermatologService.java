@@ -3,12 +3,24 @@ package mrsisa.projekat.dermatolog;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
+import mrsisa.projekat.godisnjiodmor.GodisnjiOdmorRepository;
+import mrsisa.projekat.poseta.Poseta;
+import mrsisa.projekat.poseta.PosetaRepository;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeDTO;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijemeRepository;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,10 +28,20 @@ import java.util.List;
 public class DermatologService {
     private final DermatologRepository dermatologRepository;
     private final ApotekaRepository apotekeRepository;
+    private final PosetaRepository posetaRepository;
+    private final SlobodanTerminRepository slobodanTerminRepository;
+    private final GodisnjiOdmorRepository godisnjiOdmorRepository;
+    private final RadnoVrijemeRepository radnoVrijemeRepository;
     @Autowired
-    public DermatologService(DermatologRepository dermatologRepository,ApotekaRepository apotekaRepository){
+    public DermatologService(DermatologRepository dermatologRepository, ApotekaRepository apotekaRepository, PosetaRepository posetaRepository,
+                             SlobodanTerminRepository slobodanTerminRepository, GodisnjiOdmorRepository godisnjiOdmorRepository,
+                             RadnoVrijemeRepository radnoVrijemeRepository){
         this.dermatologRepository = dermatologRepository;
         this.apotekeRepository = apotekaRepository;
+        this.posetaRepository = posetaRepository;
+        this.slobodanTerminRepository = slobodanTerminRepository;
+        this.godisnjiOdmorRepository =  godisnjiOdmorRepository;
+        this.radnoVrijemeRepository = radnoVrijemeRepository;
     }
     @Transactional
     public List<DermatologDTO> dobaviDermatologe(){
@@ -46,25 +68,85 @@ public class DermatologService {
     public List<DermatologDTO> dobaviDermatologeAdmin(Long id) {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> dermatolozi =  new ArrayList<>();
-        boolean working =  false;
-
+        DermatologDTO temp;
+        List<String> apoteke;
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
-            dermatolozi.add(new DermatologDTO(dermatolog));
+            apoteke = new ArrayList<>();
+            temp =  new DermatologDTO(dermatolog);
+            for(Apoteka apoteka1 : dermatolog.getApoteke()){
+                apoteke.add(apoteka1.getIme());
+            }
+            temp.setApoteke(apoteke);
+            dermatolozi.add(temp);
         }
         return dermatolozi;
     }
     @Transactional
     public void otpustiDermatologa(Integer id,Long id_apoteke) {
+        //izbrisati i povez
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
-        List<DermatologDTO> dermatolozi =  new ArrayList<>();
-        boolean working =  false;
+        for (Poseta poseta: this.posetaRepository.findAll()){
+            if(poseta.getApoteka().getId().equals(id_apoteke) && poseta.getRadnik().getId().equals(id)
+                ){
+                poseta.setOtkazano(true);
+                posetaRepository.save(poseta);
+            }
+        }
+        for (SlobodanTermin slobodanTermin : this.slobodanTerminRepository.findAll()){
+            if(slobodanTermin.getApoteka().getId().equals(id_apoteke) && slobodanTermin.getRadnik().getId().equals(id)){
+                this.slobodanTerminRepository.delete(slobodanTermin);
+            }
+        }
 
+        for (GodisnjiOdmor godisnjiOdmor : this.godisnjiOdmorRepository.findAll()){
+            if(godisnjiOdmor.getApoteka().getId().equals(id_apoteke) && godisnjiOdmor.getRadnik().getId().equals(id)){
+                this.godisnjiOdmorRepository.delete(godisnjiOdmor);
+            }
+        }
+        for(RadnoVrijeme radnoVrijeme: this.radnoVrijemeRepository.findAll()){
+            if(radnoVrijeme.getApoteka().getId().equals(id_apoteke) && radnoVrijeme.getDermatolog().getId().equals(id)){
+                this.radnoVrijemeRepository.delete(radnoVrijeme);
+            }
+        }
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
             if(dermatolog.getId().equals(id)){
                 apoteka.getDermatolozi().remove(dermatolog);
                 apotekeRepository.save(apoteka);
                 return;
             }
+        }
+    }
+
+    @Transactional
+    public List<DermatologDTO> dobaviNezaposleneDermatologeAdmin(Long id) {
+        Apoteka apoteka =  this.apotekeRepository.findById(id).orElse(null);
+        List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        List<Dermatolog> zaposleni = apoteka.getDermatolozi();
+        DermatologDTO temp;
+        List<String> apoteke;
+        for(Dermatolog dermatolog: this.dermatologRepository.findAll()){
+            if(!zaposleni.contains(dermatolog)){
+                apoteke = new ArrayList<>();
+                temp =  new DermatologDTO(dermatolog);
+                for(Apoteka apoteka1 : dermatolog.getApoteke()){
+                    apoteke.add(apoteka1.getIme());
+                }
+                temp.setApoteke(apoteke);
+                dermatolozi.add(temp);
+            }
+        }
+        return dermatolozi;
+    }
+    @Transactional
+    public void zaposliDermatologa(RadnoVrijemeDTO radnoVrijemeDTO, Long id_apoteke) {
+        Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Dermatolog dermatolog =  this.dermatologRepository.findById(radnoVrijemeDTO.getRadnik()).orElse(null);
+        if (dermatolog!=null){
+            RadnoVrijeme radnoVrijeme =  new RadnoVrijeme(apoteka,dermatolog,null, LocalDateTime.parse(radnoVrijemeDTO.getPocetakRadnogVremena(),dtf),LocalDateTime.parse(radnoVrijemeDTO.getKrajRadnogVremena(),dtf));
+            this.radnoVrijemeRepository.save(radnoVrijeme);
+            apoteka.getDermatolozi().add(dermatolog);
+            this.apotekeRepository.save(apoteka);
         }
     }
 }

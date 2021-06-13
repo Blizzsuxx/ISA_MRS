@@ -3,18 +3,20 @@ package mrsisa.projekat.erecept;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Proxy(lazy = false)
 public class Erecept {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "sifra", nullable = false, unique = true)
+    @Column(name = "sifra") // NA OVO SE VRATITI
     private String sifra;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -28,6 +30,17 @@ public class Erecept {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Poseta poseta;
+
+    @Column(name="izdato",nullable = false)
+    private boolean izdato;
+
+    public boolean isIzdato() {
+        return izdato;
+    }
+
+    public void setIzdato(boolean izdato) {
+        this.izdato = izdato;
+    }
 
     public long getId() {
         return id;

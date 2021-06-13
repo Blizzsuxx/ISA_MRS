@@ -103,7 +103,6 @@
               
             </el-form>
             <div id="unos-link" class="text-right" v-if="indikator">
-              <a href="/ap/korisnici">Korisnici!</a>
             </div>
             <div id="unos-link" class="text-right" v-else>
               <a href="/ap/prijava">Prijava!</a>
@@ -118,7 +117,7 @@
 <script>
 import moment from 'moment'
   export default {
-    name: 'FormaApoteke',
+    name: 'FormaKorisnika',
     data() {
         var validatePass = (rule, value, callback) => {
             if (value === '') {
@@ -157,8 +156,8 @@ import moment from 'moment'
               uloga: 'ROLE_ADMIN_SISTEMA',
               label: 'ROLE_ADMIN_SISTEMA'
             }, {
-              uloga: 'ROLE_ADMIN_APOTEKA',
-              label: 'ROLE_ADMIN_APOTEKA',
+              uloga: 'ROLE_ADMIN_APOTEKE',
+              label: 'ROLE_ADMIN_APOTEKE',
             }, {
               uloga: 'ROLE_DERMATOLOG',
               label: 'ROLE_DERMATOLOG'
@@ -200,9 +199,11 @@ import moment from 'moment'
             { type: 'email', message: 'Unesite validnu adresu!', trigger: ['blur', 'change'] }
           ]
         }
-      };
-      
+      }; 
     },
+
+    props: ['izmjeniIndikator'],
+
     mounted () {
       if (localStorage.getItem('user') === null){
         this.indikator = false;
@@ -212,22 +213,43 @@ import moment from 'moment'
       }
     },
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Dodat ' + this.korisnik.uloga,
+          type: 'success'
+        });
+      },
+
       onSubmit(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var k = {korisnickoIme: this.korisnik.korisnickoIme, sifra: this.korisnik.sifra, 
             ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm'),
             email: this.korisnik.email, uloga: this.korisnik.uloga};
-        
-            this.$store.dispatch('APKorisnici/dodajKorisnika', k);
-            if (this.indikator){
-              this.$router.push('/ap/AdministratorSistema');
-            } else {
-              this.$router.push('/ap/prijava');
-            }
-          } else {
-            console.log('error submit!!');
-            return false;
+
+            this.$store.dispatch('APKorisnici/dodajKorisnika', k)
+            .then(response => {
+              if (response){
+                this.open1();
+              }
+              if (this.indikator){
+                var nesto;
+                if (this.korisnik.uloga === 'ROLE_ADMIN_SISTEMA'){
+                  nesto = "AS";
+                } else if (this.korisnik.uloga === 'ROLE_ADMIN_APOTEKE'){
+                  nesto = "AP";
+                } else if (this.korisnik.uloga === 'ROLE_DERMATOLOG'){
+                  nesto = "Dermatolozi";
+                } else if (this.korisnik.uloga === 'ROLE_DOBAVLJAC'){
+                  nesto = "Dobavljaci";
+                }
+                this.izmjeniIndikator(1, nesto);
+              } else {
+                this.$router.push('/ap/prijava');
+              }
+
+            });
           }
         });
         

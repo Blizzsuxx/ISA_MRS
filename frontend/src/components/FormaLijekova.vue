@@ -46,6 +46,11 @@
           <div id="unos-box" class="col-md-12">
             <el-form ref="lijek" :model="lijek" :rules="rules" label-width="140px">
               <h3 class="text-center text-info">{{naslovForme}}</h3>
+              <el-form-item label="Sifra:" prop="sifra">
+                <div class="grupa">
+                <el-input v-model="lijek.sifra"></el-input>
+                </div>
+              </el-form-item>
               <el-form-item label="Naziv:" prop="naziv">
                 <div class="grupa">
                 <el-input v-model="lijek.naziv"></el-input>
@@ -76,15 +81,17 @@
                 <el-input v-model="lijek.napomena"></el-input>
                 </div>
               </el-form-item>
+              <el-form-item label="Poeni:" prop="poeni">
+                <div class="grupa">
+                <el-input  v-model.number="lijek.poeni"></el-input>
+                </div>
+              </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="onSubmit">Formiraj</el-button>
                 <el-button @click="resetForm('lijek')">Obriši</el-button>
               </el-form-item>
               
             </el-form>
-            <div id="unos-link" class="text-right">
-              <a href="/ap/AdministratorSistema">Lijekovi!</a>
-            </div>
           </div>
         </div>
       </div>
@@ -96,18 +103,39 @@
   export default {
     name: 'FormaLijekova',
     data() {
+      var provjeriPoene = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('Unesite broj poena!'));
+        }
+        setTimeout(() => {
+          if (!Number.isInteger(value)) {
+            callback(new Error('Unesite broj nenegativan!'));
+          } else {
+            if (value < 0) {
+              callback(new Error('Broj mora biti nenegativan!'));
+            } else {
+              callback();
+            }
+          }
+        }, 1000);
+      };
       return {
         naslov: 'Unos Lijeka',
         naslovForme: 'Unos Lijeka',
         lijek: {
+          sifra: '',
           naziv: '',
           vrstaLijeka: '',
           oblikLijeka: '',
           sastav: '',
           proizvodjac: '',
           napomena: '',
+          poeni: ''
         },
          rules: {
+           sifra: [
+             { required: true, message: 'Unesite sifru!', trigger: 'blur' },
+           ],
           naziv: [
             { required: true, message: 'Unesite naziv!', trigger: 'blur' },
           ],
@@ -125,20 +153,32 @@
           ],
           napomena: [
             { required: true, message: 'Unesite napomenu!', trigger: 'blur' }
+          ],
+          poeni: [
+            { validator: provjeriPoene, trigger: 'blur' }
           ]
         }
       };
       
     },
+    props: ['izmjeniIndikator'],
+
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Dodat lijek',
+          type: 'success'
+        });
+      },
       onSubmit() {
-        var l = {naziv: this.lijek.naziv, vrstaLijeka: this.lijek.vrstaLijeka, 
+        var l = {naziv: this.lijek.naziv, sifra: this.lijek.sifra, vrstaLijeka: this.lijek.vrstaLijeka, 
         oblikLijeka: this.lijek.oblikLijeka, sastav: this.lijek.sastav, proizvodjac: this.lijek.proizvodjac,
-        napomena: this.lijek.napomena };
+        napomena: this.lijek.napomena, poeni: this.lijek.poeni };
         this.$store.dispatch('APlijekovi/dodajLijek', l)
         .then(response => {
-            alert("Dodat lijek");
-            this.$router.push('/ap/AdministratorSistema');
+            this.open1();
+            this.izmjeniIndikator(2, 'nesto');
           return response;
         });
         

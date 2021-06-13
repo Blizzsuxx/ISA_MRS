@@ -2,6 +2,8 @@ package mrsisa.projekat.stanjelijeka;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.lijek.Lijek;
@@ -32,6 +34,15 @@ public class StanjeLijeka {
 
     @Column(name = "datumIstekaCijene", nullable = true)
     private LocalDateTime datumIstekaCijene;
+
+
+    @Column(name = "zatrazen", nullable = true, columnDefinition = "integer default 0")
+    private int zatrazen;
+
+    @Column(name = "zatrazenDatum", nullable = true)
+    private LocalDateTime zatrazenDatum;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     private Apoteka apoteka;
@@ -43,6 +54,22 @@ public class StanjeLijeka {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Narudzbenica narudzbenica;
+
+
+    @OneToOne(fetch=FetchType.LAZY)
+    private Akcija akcija;
+
+    public StanjeLijeka(StanjeLijeka s, Integer kolicina2, Rezervacija rez, double cena) {
+        this.id = s.getId();
+        this.lijek = s.getLijek();
+        this.kolicina = kolicina2;
+        this.prodaja = false;
+        this.cijena = cena;
+        this.datumIstekaCijene= s.getDatumIstekaCijene();
+        this.apoteka = s.getApoteka();
+        this.rezervacija=rez;
+    }
+
 
     public Rezervacija getRezervacija() {
         return rezervacija;
@@ -130,6 +157,13 @@ public class StanjeLijeka {
         this.prodaja = prodaja;
     }
 
+    public StanjeLijeka(Lijek lijek, int kolicina, boolean prodaja,LocalDateTime datumIstekaCijene) {
+        this.lijek = lijek;
+        this.kolicina = kolicina;
+        this.prodaja = prodaja;
+        this.datumIstekaCijene = datumIstekaCijene;
+    }
+
     public StanjeLijeka(Long id, Lijek lijek, int kolicina, boolean prodaja,double cijena,LocalDateTime vrijemeIsteka) {
         this.id = id;
         this.lijek = lijek;
@@ -160,5 +194,27 @@ public class StanjeLijeka {
         this.eRecept = eRecept;
     }
 
+    public Akcija getAkcija() {
+        return akcija;
+    }
 
+    public void setAkcija(Akcija akcija) {
+        this.akcija = akcija;
+    }
+
+    public int getZatrazen() {
+        return zatrazen;
+    }
+
+    public void setZatrazen(int zatrazen) {
+        this.zatrazen = zatrazen;
+    }
+
+    public LocalDateTime getZatrazenDatum() {
+        return zatrazenDatum;
+    }
+
+    public void setZatrazenDatum(LocalDateTime zatrazenDatum) {
+        this.zatrazenDatum = zatrazenDatum;
+    }
 }

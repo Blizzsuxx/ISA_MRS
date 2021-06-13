@@ -95,25 +95,54 @@
       };
     },
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Nevalidni kredecijali!',
+          type: 'error'
+        });
+      },
+
       onSubmit(formName) {
-        console.log(formName)
+        console.log(formName);
         var s = {username: this.korisnik.korisnickoIme, password: this.korisnik.sifra }
+        console.log(s)
         this.$store.dispatch('APKorisnici/validateLogin', s).then(
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
-                
-                if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
-                  this.$router.push('/ap/AdministratorSistema')
-                } else if (s.uloga === 'ROLE_ADMIN_APOTEKE'){
-                   this.$router.push('/profilApoteke')
-                } else if (s.uloga === 'ROLE_PACIJENT'){
-                  this.$router.push('/ap/pacijent')
+                if (!s){
+                  this.open1();
+                  this.resetForm(formName);
+                }  else {
+                  if (s.uloga === 'ROLE_ADMIN_SISTEMA'){
+                    this.$router.push('/ap/AdministratorSistema')
+                  } else if (s.uloga === 'ROLE_ADMIN_APOTEKE' || 
+                  s.uloga === "ROLE_ADMIN_APOTEKA"){
+                    this.$store.dispatch("APKorisnici/potvrdaLozinke").then(response=>{
+                      if(!response){
+                        this.$router.push('/adminApoteke/potvrda')
+                      }
+                      else{
+                         this.$router.push('/profilApoteke')
+                      }
+                    })
+                   
+                  } else if (s.uloga === 'ROLE_PACIJENT'){
+                    this.$router.push('/ap/pacijent')
+                  } else if (s.uloga === 'ROLE_DOBAVLJAC'){
+                    this.$router.push('/ap/Dobavljac')
+                  } else if (s.uloga === 'ROLE_DERMATOLOG'){
+                    this.$router.push('/ap/dermatolog')
+                  } else if (s.uloga === 'ROLE_FARMACEUT'){
+                    this.$router.push('/ap/farmaceut')
+                  }
                 } 
                 return response;
             },
             error => {
               if (error.response.status == 401){
-                alert('Nevalidni kredencijali!');
+                this.open1();
+                this.resetForm(formName);
               } else {
                 this.message =
                 (error.response && error.response.data) ||

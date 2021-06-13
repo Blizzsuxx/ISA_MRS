@@ -2,8 +2,11 @@ package mrsisa.projekat.lijek;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
+import mrsisa.projekat.dobavljac.Dobavljac;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -29,16 +32,12 @@ public class LijekController {
     @PreAuthorize("hasAnyRole('ADMIN_APOTEKA','ADMIN_SISTEMA')")
     @GetMapping("/DTOlijekovi")
     public List<LijekDTO> dobaviSveDTOLijekove() {
-        List<Lijek> lijekovi = this.lijekService.findAll();
-        List<LijekDTO> lijekoviDTO = new ArrayList<>();
 
-        for (Lijek l : lijekovi)
-            lijekoviDTO.add(new LijekDTO(l));
+        return this.lijekService.dobaviSveDTOLijekove();
 
-        return lijekoviDTO;
     }
 
-    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','DOBAVLJAC')")
     @GetMapping(produces = "application/json", value = "/dobaviDTOLijek/{naziv}")
     public LijekDTO getLijekDTO(@PathVariable String naziv){
         Lijek l = this.lijekService.findByNaziv(naziv);
@@ -58,10 +57,11 @@ public class LijekController {
 
         l.setNapomena(dummy.getNapomena());
         l.setOblikLijeka(dummy.getOblikLijeka());
-        l.setOcijena(dummy.getOcijena());
+       // l.setOcijena(dummy.getOcijena()); TODO ocene su liste
         l.setProizvodjac(dummy.getProizvodjac());
         l.setSastav(dummy.getSastav());
         l.setVrstaLijeka(dummy.getVrstaLijeka());
+        l.setPoeni(dummy.getPoeni());
 
         this.lijekService.save(l);
         return true;
@@ -87,4 +87,11 @@ public class LijekController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @GetMapping(value="/dobaviStanjeLijekovaDobavljaca")
+    public List<LijekDTO> dobaviStanjeLijekovaDobavljaca(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Dobavljac d = (Dobavljac) auth.getPrincipal();
+        return this.lijekService.dobaviLijekoveDobavljaca(d);
+    }
 }

@@ -9,9 +9,9 @@
           <el-table-column prop="kraj" label="Zavrsetak"
           :formatter="formirajDatum" >
           </el-table-column>
-          <el-table-column prop="radnik.firstName" label="Ime " >
+          <el-table-column prop="radnik.ime" label="Ime " >
           </el-table-column>
-      <el-table-column prop="radnik.lastName" label="Prezime" >
+      <el-table-column prop="radnik.prezime" label="Prezime" >
           </el-table-column>
           <el-table-column prop="apoteka.ime" label="Apoteka">
           </el-table-column>
@@ -20,10 +20,7 @@
           <el-table-column
               align="right">
             <template #default="scope">
-              <el-button
-                  size="mini"
-                  type="info"
-                  @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
+              
               <el-button
                   size="mini"
                   type="danger"
@@ -56,22 +53,25 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
 
     methods: {
-      handleInfo(index, row) {
-      console.log(index, row);
-    }, handleOtkazi(index) {
+     handleOtkazi(index) {
       let str1=this.$store.state.APPosete.zakazanePosetePacijenta[index].pocetak.split(" ")
-      let sdan=str1[0].split("-")
+      let sdan=str1[0].split("-") //godina mesec dan
       let svreme=str1[1].split(":")
         let today1= new Date();
         let novdan=new Date(sdan[0],sdan[1]-1,sdan[2]);
+        console.log(novdan)
         novdan.setHours(svreme[0])
         novdan.setMinutes(svreme[1])
         today1.setDate(today1.getDate()+1);
         console.log(novdan)
         console.log(today1)
         console.log(novdan-today1)
-        if((novdan-today1)>-24*60*60*1000){
-          alert("Istekao je termin za otkazivanje posete.");
+        console.log(24*60*60*1000)
+        if((novdan-today1)<-24*60*60*1000){
+         this.$message({
+                type: 'danger',
+                message: 'Istekao je termin za otkazivanje.'
+              });
         }else{
            if(confirm("da li zelite da otkazete posetu?")){
              this.$store.dispatch("APPosete/otkaziF",index)}

@@ -2,9 +2,11 @@ package mrsisa.projekat.dermatolog;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.godisnjiodmor.GodisnjiOdmor;
 import mrsisa.projekat.korisnik.KorisnikDTO;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
@@ -21,14 +23,19 @@ public class Dermatolog extends Radnik{
 
 
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<RadnoVrijeme> radnaVremena;
 
     @OneToMany(mappedBy = "dermatolog", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<SlobodanTermin> slobodniTermini;
 
     @ManyToMany(mappedBy = "dermatolozi")
+    @JsonIgnore
     private List<Apoteka> apoteke;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Ocena> ocene;
 
     public Dermatolog() {
     }
@@ -56,13 +63,6 @@ public class Dermatolog extends Radnik{
         this.radnaVremena = radnaVremena;
     }
 
-    public List<SlobodanTermin> getSlobodniTermini() {
-        return slobodniTermini;
-    }
-
-    public void setSlobodniTermini(List<SlobodanTermin> slobodniTermini) {
-        this.slobodniTermini = slobodniTermini;
-    }
 
     public Dermatolog(KorisnikDTO dummy) {
         super(dummy);
@@ -73,5 +73,19 @@ public class Dermatolog extends Radnik{
         return null;
     }
 
+    public List<Apoteka> getApoteke() {
+        return apoteke;
+    }
 
+    public void setApoteke(List<Apoteka> apoteke) {
+        this.apoteke = apoteke;
+    }
+
+    public List<Ocena> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
+    }
 }

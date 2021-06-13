@@ -1,5 +1,5 @@
 <template>
-  <NavAdminApoteke/>
+  <NavAdminApoteke />
   <el-alert
     v-if="uspjesno"
     @close="uspjesno = false"
@@ -18,97 +18,112 @@
     {{ poruka }}
   </el-alert>
 
-  <el-row :gutter="20" >
+  <el-row :gutter="20">
     <el-col :span="12">
       <el-row>
         <DermatoloziTabela
-        @promjenjena-selekcija="promjenaDermatologa"
-        v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
-    />
-        </el-row>
+          @promjenjena-selekcija="promjenaDermatologa"
+          v-bind:dermatolozi="$store.state.Dermatolozi.sviDermatolozi"
+        />
+      </el-row>
       <el-row>
         <div id="app">
-      <el-card class="box-card" v-if="ucitavanjeSlobodniTermini">
-        <template #header>
-          <div class="card-header">
-            <span
-              ><h3 v-if="ucitavanjeRadnoVrijeme">
-                Radno vrijeme:
-                {{
-                  $store.state.Dermatolozi.radnoVrijeme.pocetakRadnogVremena
-                }}-{{ $store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena }}
-              </h3></span
+          <el-card class="box-card" v-if="ucitavanjeSlobodniTermini">
+            <template #header>
+              <div class="card-header">
+                <span
+                  ><h3 v-if="ucitavanjeRadnoVrijeme">
+                    Radno vrijeme:
+                    {{
+                      $store.state.Dermatolozi.radnoVrijeme
+                        .pocetakRadnogVremena
+                    }}-{{
+                      $store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena
+                    }}
+                  </h3></span
+                >
+              </div>
+            </template>
+            <div
+              v-for="slobodanTermin1 in $store.state.Dermatolozi.slobodniTermini"
+              :key="slobodanTermin1.id"
+              class="text item"
             >
-          </div>
-        </template>
-        <div
-          v-for="slobodanTermin in $store.state.Dermatolozi.slobodniTermini"
-          :key="slobodanTermin.id"
-          class="text item"
-        >
-          <p>
-            Vrijeme termina:{{ slobodanTermin.pocetakTermina }}-{{
-              slobodanTermin.krajTermina
-            }}
-          </p>
-          <p>Cijena termina:{{ slobodanTermin.cijenaTermina }}</p>
-          <hr />
+              <p>
+                Vrijeme termina:{{ slobodanTermin1.pocetakTermina }}-{{
+                  slobodanTermin1.krajTermina
+                }}
+              </p>
+              <p>Cijena termina:{{ slobodanTermin1.cijenaTermina }}</p>
+              <hr />
+            </div>
+          </el-card>
         </div>
-      </el-card>
-      </div>
-        </el-row>
-      </el-col>
+      </el-row>
+    </el-col>
     <el-col :span="12">
-       <div id="app1">
-      <el-card class="box-card" v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme">
-        <template #header>
-          <div class="card-header">
-            <span>Dodaj novi termin</span>
-          </div>
-        </template>
-        <el-form
-          label-position="top"
-          label-width="100px"
-          :model="formLabelAlign"
+      <div id="app1">
+        <el-card
+          class="box-card"
+          v-if="ucitavanjeSlobodniTermini && ucitavanjeRadnoVrijeme"
         >
-          <el-form-item label="Cijena">
-            <el-input-number
-              v-model="slobodanTermin.cijenaTermina"
-              @change="handleChange"
-              :min="0"
-              :max="20000"
-            ></el-input-number>
-          </el-form-item>
-          <el-form-item label="Pocetka termina">
-            <el-time-select
-              v-model="slobodanTermin.pocetakTermina"
-              :start="rvOd"
-              step="00:30"
-              :end="rvDo"
-              placeholder="Pocetak termina"
-            >
-            </el-time-select>
-          </el-form-item>
-          <el-form-item label="Kraj termina">
-            <el-time-select
-              v-model="slobodanTermin.krajTermina"
-              :start="rvOd"
-              step="00:30"
-              :end="rvDo"
-              placeholder="Kraj termina"
-            >
-            </el-time-select>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="kreirajTermin"
-              >Kreiraj termin</el-button
-            >
-          </el-form-item>
-        </el-form>
-      </el-card>
-    </div>
-      </el-col>  
+          <template #header>
+            <div class="card-header">
+              <span>Dodaj novi termin</span>
+            </div>
+          </template>
+          <el-form
+            label-position="top"
+            label-width="100px"
+            :model="formLabelAlign"
+          >
+            <el-form-item label="Cijena">
+              <el-input-number
+                v-model="slobodanTermin.cijenaTermina"
+                @change="handleChange"
+                :min="0"
+                :max="20000"
+              ></el-input-number>
+            </el-form-item>
+            <el-form-item label="Pocetka termina">
+              <el-time-select
+                v-model="slobodanTermin.pocetakTerminaTemp"
+                :start="rvOd"
+                step="00:30"
+                :end="rvDo"
+                placeholder="Pocetak termina"
+              >
+              </el-time-select>
+            </el-form-item>
+            <el-form-item label="Kraj termina">
+              <el-time-select
+                v-model="slobodanTermin.krajTerminaTemp"
+                :start="rvOd"
+                step="00:30"
+                :end="rvDo"
+                placeholder="Kraj termina"
+              >
+              </el-time-select>
+            </el-form-item>
 
+            <el-form-item label="Datum termina">
+              <el-date-picker
+                v-model="slobodanTermin.datum"
+                type="date"
+                placeholder="Izaberi datum"
+              >
+              </el-date-picker>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button type="primary" @click="kreirajTermin"
+                >Kreiraj termin</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </el-card>
+      </div>
+    </el-col>
   </el-row>
 </template>
 
@@ -133,7 +148,6 @@ card-header {
 
 .box-card {
   width: 600px;
- 
 }
 .poravnanje {
   align-content: center;
@@ -141,21 +155,19 @@ card-header {
   text-align: center;
 }
 #app {
-        position: relative;
-        
-        
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 #app1 {
-        position: relative;
-        
-        
-        display:flex;
-        justify-content: center;
-        align-items: center;
-    }
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
 
 
@@ -171,9 +183,12 @@ export default {
       ucitavanjeSlobodniTermini: false,
       selektovaniDermatolog: 0,
       slobodanTermin: {
+        pocetakTerminaTemp: "",
+        krajTerminaTemp: "",
         pocetakTermina: "",
         krajTermina: "",
         cijenaTermina: 0,
+        datum: '',
         id: 0,
       },
       rvOd: "",
@@ -191,8 +206,8 @@ export default {
         .dispatch("Dermatolozi/dobaviRadnoVrijeme", val.id)
         .then(() => {
           this.ucitavanjeRadnoVrijeme = true;
-          this.rvOd = this.$store.state.Dermatolozi.radnoVrijeme.pocetakRadnogVremena
-          this.rvDo = this.$store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena
+          this.rvOd = this.$store.state.Dermatolozi.radnoVrijeme.pocetakRadnogVremena;
+          this.rvDo = this.$store.state.Dermatolozi.radnoVrijeme.krajRadnogVremena;
         })
         .catch((error) => console.log(error));
 
@@ -205,8 +220,8 @@ export default {
     },
     kreirajTermin() {
       if (
-        this.slobodanTermin.pocetakTermina === "" ||
-        this.slobodanTermin.krajTermina === ""
+        this.slobodanTermin.pocetakTerminaTemp === "" ||
+        this.slobodanTermin.krajTerminaTemp === ""
       ) {
         this.greska = true;
         this.poruka = "Vrijeme mora biti specificirano";
@@ -217,8 +232,10 @@ export default {
         this.poruka = "Cijena mora biti veca od nule";
         return;
       }
-      let pocetakTermina = moment(this.slobodanTermin.pocetakTermina, "hh:mm");
-      let krajTermina = moment(this.slobodanTermin.krajTermina, "hh:mm");
+      let pocetakTermina = moment(moment(this.slobodanTermin.datum).format("YYYY-MM-DD")+" "+this.slobodanTermin.pocetakTerminaTemp,"YYYY-MM-DD HH:mm")
+      let krajTermina = moment(moment(this.slobodanTermin.datum).format("YYYY-MM-DD")+" "+this.slobodanTermin.krajTerminaTemp,"YYYY-MM-DD HH:mm");
+      this.slobodanTermin.pocetakTermina =  pocetakTermina.format("YYYY-MM-DD HH:mm")
+      this.slobodanTermin.krajTermina  =  krajTermina.format("YYYY-MM-DD HH:mm")
       if (pocetakTermina.isAfter(krajTermina)) {
         this.greska = true;
         this.poruka = "Kraj pregleda ne moze biti prije pocetka";
@@ -227,16 +244,16 @@ export default {
       let preklapanje = false;
       this.$store.state.Dermatolozi.slobodniTermini.forEach((elem) => {
         if (
-          (pocetakTermina.isSameOrAfter(moment(elem.pocetakTermina, "hh:mm")) &&
-            pocetakTermina.isBefore(moment(elem.krajTermina, "hh:mm"))) ||
-          (krajTermina.isAfter(moment(elem.pocetakTermina, "hh:mm")) &&
-            krajTermina.isSameOrBefore(moment(elem.krajTermina, "hh:mm"))) ||
+          (pocetakTermina.isSameOrAfter(moment(elem.pocetakTermina, "DD-MM-YYYY HH:mm")) &&
+            pocetakTermina.isBefore(moment(elem.krajTermina, "DD-MM-YYYY HH:mm"))) ||
+          (krajTermina.isAfter(moment(elem.pocetakTermina, "DD-MM-YYYY HH:mm")) &&
+            krajTermina.isSameOrBefore(moment(elem.krajTermina, "DD-MM-YYYY HH:mm"))) ||
           (pocetakTermina.isSameOrBefore(
-            moment(elem.pocetakTermina, "hh:mm")
+            moment(elem.pocetakTermina, "DD-MM-YYYY HH:mm")
           ) &&
-            pocetakTermina.isSameOrBefore(moment(elem.krajTermina, "hh:mm")) &&
-            krajTermina.isAfter(moment(elem.pocetakTermina, "hh:mm")) &&
-            krajTermina.isSameOrAfter(moment(elem.krajTermina, "hh:mm")))
+            pocetakTermina.isSameOrBefore(moment(elem.krajTermina, "DD-MM-YYYY HH:mm")) &&
+            krajTermina.isAfter(moment(elem.pocetakTermina, "DD-MM-YYYY HH:mm")) &&
+            krajTermina.isSameOrAfter(moment(elem.krajTermina, "DD-MM-YYYY HH:mm")))
         ) {
           this.greska = true;
           this.poruka =

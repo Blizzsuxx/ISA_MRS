@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.pacijent.Pacijent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -49,6 +50,12 @@ public abstract class  Korisnik implements UserDetails {
 
     @Column(name="lastPasswordResetDate")
     private Timestamp lastPasswordResetDate;
+
+    @Column(name="potvrda_email")
+    private boolean potvrdaEmail;
+
+    @Column(name="prijavljen")
+    private boolean prijavljen;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "korisnik_uloga",
@@ -240,4 +247,20 @@ public abstract class  Korisnik implements UserDetails {
     }
 
     public abstract Apoteka orElse(Object o);
+
+    public boolean isPotvrdaEmail() {
+        return potvrdaEmail;
+    }
+
+    public void setPotvrdaEmail(boolean potvrdaEmail) {
+        this.potvrdaEmail = potvrdaEmail;
+    }
+
+    public boolean isPrijavljen() {
+        return prijavljen;
+    }
+
+    public void setPrijavljen(boolean prijavljen) {
+        this.prijavljen = prijavljen;
+    }
 }

@@ -13,16 +13,76 @@ const state = {
     administratoriSistema: [],
     administratoriApoteke: [],
     farmaceuti: [],
-    stanje: initialState
+    trenutniRadnik: null,
+    stanje: initialState,
+    trenutnaRedirekcija: "null"
 };
 
-const API_URL = 'http://localhost:8080/api/v1/';
-
 const actions = {
-    login(kredecijali) {
-        return axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
+
+    promeniRedirekciju(context, novaRedirekcija){
+        context.commit("promeniRedirekciju", novaRedirekcija);
+        return novaRedirekcija;
+    },
+
+    dobaviRedirekciju(context){
+        context;
+        return state.trenutnaRedirekcija;
+    },
+
+    kreirajOdgovor(context, sadrzaj){
+        sadrzaj.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
+        return axios.post('odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
+    },
+    dobaviSveZalbe(){
+        return axios.get('zalbe/dobaviSveZalbe',{headers: authHeader()});
+    },
+    dobaviOdgovore(context, id){
+        return axios.get(`odgovori/dobaviOdgovoreZalbe/${id}`, {headers: authHeader()});
+    },
+    dobaviZalbe(){
+        return axios.get('zalbe/dobaviZalbe', {headers: authHeader()});
+    },
+    kreirajZalbu(context, zalba){
+        zalba.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
+        return axios.post('zalbe/sacuvajZalbu', zalba, { headers: authHeader()})
+    },
+    dobaviTrenutnogKorisnika(){
+        return axios.get('korisnici/dobaviTrenutnogKorisnika', { headers: authHeader()})
         .then(response => {
-            if (response.data.accessToken){
+            return response.data;
+        })
+    },
+    azurirajNalog(context, korisnik){
+        return axios.put('korisnici/azurirajNalog', 
+        {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
+        email: korisnik.email, uloga: korisnik.uloga, sifra: korisnik.sifra,
+        rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
+    },
+    promjenaLozinke(context, lozinka){
+        return axios.get(`korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
+        .then(response => {
+            return response.data;
+        })
+    },
+
+    provjeraLozinke(context, lozinka){
+        return axios.get(`korisnici/provjeraLozinke/${lozinka}`, { headers: authHeader()})
+        .then(response => {
+            return response.data;
+        })
+    },
+    potvrdaLozinke(){
+        return axios.get('korisnici/potvrdaPrijave', { headers: authHeader()})
+        .then(response => {
+            console.log(response.data);
+            return response.data;
+        })
+    },
+    login(kredecijali) {
+        return axios.post('korisnici/login', kredecijali)
+        .then(response => {
+            if (response.data.accessToken && response.data.uloga !== "NEMA"){
                 localStorage.setItem('user', JSON.stringify(response.data));
             }
             return response.data;
@@ -47,7 +107,7 @@ const actions = {
     },
     
     register(user) {
-        return axios.post(API_URL + 'signup', {
+        return axios.post('signup', {
           username: user.username,
           email: user.email,
           password: user.password
@@ -55,11 +115,11 @@ const actions = {
     },
 
     dobaviKorisnika(context, korIme){
-        return axios.get(`http://localhost:8080/api/korisnici/dobaviKorisnika/${korIme}`, { headers: authHeader()});
+        return axios.get(`korisnici/dobaviKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dobaviAdministratoreApoteka (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
+        return axios.get('administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
         .then(response => {
             console.log(response.data);
             context.commit('postaviAdministratoreApoteke', response.data);
@@ -72,14 +132,14 @@ const actions = {
     },
 
     dobaviFarmaceute (context){
-        return axios.get('http://localhost:8080/api/v1/farmaceut/dobaviFarmaceute')
+        return axios.get('farmaceut/dobaviFarmaceute')
         .then(response => {
             context.commit('postaviAdministratoreApoteke', response.data);
         })
     },
 
     dobaviDermatologe (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe', { headers: authHeader()})
+        return axios.get('dermatolog/dobaviDermatologe', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDermatologe', response.data);
         })
@@ -90,8 +150,19 @@ const actions = {
         })
     },
 
+
+    trenutniRadnik(context){
+
+
+
+        return axios.get('korisnici/trenutniRadnik', { headers: authHeader()})
+        .then(response => {
+            context.commit('postaviTrenutnogRadnika', response.data);
+        })
+    },
+
     dobaviDermatologeAdminSistema (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/sviDermatolozi', { headers: authHeader()})
+        return axios.get('dermatolog/sviDermatolozi', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDermatologe', response.data);
         })
@@ -103,7 +174,7 @@ const actions = {
     },
 
     dobaviDobavljace (context){
-        return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci', { headers: authHeader()})
+        return axios.get('dobavljac/sviDobavljaci', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDobavljace', response.data);
         })
@@ -115,7 +186,7 @@ const actions = {
     },
 
     dobaviAdministratoreSistema (context){
-        return axios.get('http://localhost:8080/api/v1/administratorSistema/sviAdministratoriSistema', { headers: authHeader()})
+        return axios.get('administratorSistema/sviAdministratoriSistema', { headers: authHeader()})
         .then(response => {
             context.commit('postaviAdministratoreSistema', response.data);
         })
@@ -127,59 +198,60 @@ const actions = {
     },
 
     azurirajKorisnika(context, korisnik){
-        return axios.put('http://localhost:8080/api/korisnici/azurirajKorisnika', 
+        return axios.put('korisnici/azurirajKorisnika', 
         {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
         email: korisnik.email, uloga: korisnik.uloga, 
         rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
     },
 
     obrisiKorisnika(context, korIme){
-        return axios.delete(`http://localhost:8080/api/korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
+        return axios.delete(`korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dodajKorisnika (context, korisnik){
-        alert(korisnik.uloga);
         if (korisnik.uloga === "ROLE_DERMATOLOG"){
-            axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
+            return axios.post("dermatolog/sacuvajDermatologa", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Dermatolog");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_DOBAVLJAC"){
-            axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik, 
+            return axios.post("dobavljac/sacuvajDobavljaca", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Dobavljac");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_FARMACEUT"){
-            axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik, 
+            return axios.post("dobavljac/sacuvajFarmaceuta", korisnik, 
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Farmaceut");
-                return response;
+                console.log(response);
+                return true;
             })
         }
         else if (korisnik.uloga === "ROLE_ADMIN_SISTEMA"){
-            axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik,
+            return axios.post("administratorSistema/sacuvajAdministratoraSistema", korisnik,
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Administrator Sistema");
-                return response;
+                console.log(response);
+                return true;
             })
-        } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"){
-            axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
+        } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"
+        || korisnik.uloga === "ROLE_ADMIN_APOTEKE"){
+            return axios.post("administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
             { headers: authHeader()})
             .then(response => {
-                alert("Dodat Administrator Apoteke");
-                return response;
+                console.log(response);
+                return true;
             })
         } else if (korisnik.uloga === "ROLE_PACIJENT"){
-            axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, { headers: authHeader()})
+            return axios.post("profil/registracija", korisnik, 
+            { headers: authHeader()})
             .then(response => {
-                alert("Dodat Pacijent");
-                return response;
+                console.log(response);
+                return true;
             })
         }
         
@@ -192,6 +264,7 @@ const mutations = {
     postaviAdministratoreSistema:(state, administratoriSistema)=>(state.administratoriSistema = administratoriSistema),
     postaviAdministratoreApoteke:(state, administratoriApoteke)=>(state.administratoriApoteke = administratoriApoteke),
     postaviFarmaceute:(state, farmaceuti)=>(state.farmaceuti = farmaceuti),
+    promeniRedirekciju:(state, novaRedirekcija)=>(state.trenutnaRedirekcija = novaRedirekcija),
     loginSuccess(state, user) {
         state.stanje.status.loggedIn = true;
         state.stanje.user = user;
@@ -209,7 +282,8 @@ const mutations = {
     },
     registerFailure(state) {
         state.stanje.status.loggedIn = false;
-    }
+    },
+    postaviTrenutnogRadnika:(state, radnik)=>(state.trenutniRadnik = radnik)
 }
 
 export default{
@@ -217,7 +291,6 @@ export default{
     user,
     initialState,
     state,  
-    API_URL,  
     actions,
     mutations
 };

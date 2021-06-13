@@ -1,13 +1,17 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.tipPenala.Penal;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,9 +21,14 @@ import java.util.List;
 
 @Entity
 @Table(name = "pacijenti")
+@Proxy(lazy = false)
 @PrimaryKeyJoinColumn(name = "korisnik")
 public class Pacijent extends Korisnik {
+	@Column(name="broj_poena")
+	private int brojPoena;
+
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@JsonIgnore
 	private List<Erecept> eRecepti;
 
 	@OneToMany(mappedBy = "pacijent", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -33,9 +42,18 @@ public class Pacijent extends Korisnik {
 
 	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Lijek> alergije;
-
-    @OneToMany(fetch =FetchType.LAZY)
+	@JsonIgnore
+    @OneToMany(fetch =FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Penal> penali;
+
+	@Column(name="kategorija")
+	private String kategorija;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Ocena> ocene;
+
+    @ManyToMany(mappedBy = "pretplaceniPacijenti")
+	private List<Apoteka> pretplata;
 
 	public List<Rezervacija> getRezervacije() {
 		return rezervacije;
@@ -111,4 +129,35 @@ public class Pacijent extends Korisnik {
 		this.eRecepti = eRecepti;
 	}
 
+	public int getBrojPoena() {
+		return brojPoena;
+	}
+
+	public void setBrojPoena(int brojPoena) {
+		this.brojPoena = brojPoena;
+	}
+
+	public String getKategorija() {
+		return kategorija;
+	}
+
+	public void setKategorija(String kategorija) {
+		this.kategorija = kategorija;
+	}
+
+	public List<Ocena> getOcene() {
+		return ocene;
+	}
+
+	public void setOcene(List<Ocena> ocene) {
+		this.ocene = ocene;
+	}
+
+	public List<Apoteka> getPretplata() {
+		return pretplata;
+	}
+
+	public void setPretplata(List<Apoteka> pretplata) {
+		this.pretplata = pretplata;
+	}
 }

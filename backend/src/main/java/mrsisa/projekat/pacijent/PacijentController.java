@@ -1,17 +1,22 @@
 package mrsisa.projekat.pacijent;
 
+import mrsisa.projekat.KategorijaKorisnika.Kategorija;
+import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.bezbjednost.ResourceConflictException;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.tipPenala.Penal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,10 +39,36 @@ public class PacijentController {
 
 	@GetMapping(path="/dobaviPacijenta")
 	@PreAuthorize("hasRole('PACIJENT')")
-	public Pacijent dobaviPacijenta(){
+	public PacijentDTO dobaviPacijenta(){
 		//System.out.println(pacijentService.dobaviPacijenta().getFirstName());
 		return pacijentService.dobaviPacijenta();
 	}
+
+	@GetMapping(path="/dobaviKategoriju")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public String dobaviKategoriju(){//umesto max poena vratiti moje trenutne poene
+		return pacijentService.dobaviKategoriju();
+	}
+
+	@GetMapping(path="/pretplata")
+	//@PreAuthorize("hasRole('PACIJENT')")
+	public List<ApotekaDTO> pretplata(){//umesto max poena vratiti moje trenutne poene
+
+		return pacijentService.dobaviPretplatu();
+	}
+	@PutMapping(path="/otkaziPretplatu")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public boolean otkaziPretplatu(@RequestBody String id){//umesto max poena vratiti moje trenutne poene
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Pacijent p = (Pacijent)auth.getPrincipal();
+		return  pacijentService.otkaziPretplatu(id, p);
+	}
+
+	@PostMapping(value="/proveriAlergije")
+	public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
+		return this.pacijentService.proveriAlergije(params);
+	}
+
 
 	@PutMapping("/izmeni")
 	@PreAuthorize("hasRole('PACIJENT')")
@@ -69,18 +100,59 @@ public class PacijentController {
 		return pacijentService.dobaviERecepte();
 	}
 
-	@GetMapping(path="/promeniAlergije")
-	@PreAuthorize("hasRole('PACIJENT')")
-	public boolean promeniAlergije(@RequestBody List<Lijek> info){
-		if(info==null){
-			return false;
-		}else{return true;}
-	}
+
 
 	@GetMapping(path="/dobaviPenale")
 	@PreAuthorize("hasRole('PACIJENT')")
 	public List<Penal> dobaviPenale(){
 		return pacijentService.dobaviPenale();
+	}
+
+	@GetMapping(path="/provariPenale")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public boolean proveriPenale(){
+		return pacijentService.proveriPenale();
+	}
+
+	@GetMapping(path="/dobaviSvojeDermatologe")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeDermatologe(){
+		return pacijentService.dobaviSvojeDermatologe();
+	}
+
+	@GetMapping(path="/dobaviSvojeFarmaceute")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeFarmaceute(){
+		return pacijentService.dobaviSvojeFarmaceute();
+	}
+	@GetMapping(path="/dobaviSvojeApoteke")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeApooteke(){
+		return pacijentService.dobaviSvojeApoteke();
+	}
+
+	@GetMapping(path="/dobaviSvojeLekove")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<OcenaDTO> dobaviSvojeLekove(){
+		return pacijentService.dobaviSvojeLekove();
+	}
+
+	@PutMapping(path="/posaljiOcenu/{id}")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public void posaljiOcenu(@PathVariable String id){
+		pacijentService.posaljiOcenu(id);
+	}
+
+	@PostMapping(consumes = "application/json", path="/promeniAlergije")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public boolean promeniAlergije(@RequestBody List<Lijek> info){
+		System.out.println(info);
+		System.out.println(info.get(0)+"jasna");
+		if(info==null){
+			return false;
+		}else{
+			pacijentService.dodajAlergije(info);
+			return true;}
 	}
 
 	@PostMapping(consumes = "application/json", path = "/izbaciAlergije")
@@ -101,9 +173,9 @@ public class PacijentController {
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/izbaciRezervacije")
 	public boolean izbRez( @RequestBody Map<String,Object> podaci){
-
+		System.out.println("carica milica");
 		System.out.println(podaci.get("a").getClass().getName());
 
-		return true;
+		return this.pacijentService.izbaciRezervaciju(podaci.get("a")+"");
 	}
 }

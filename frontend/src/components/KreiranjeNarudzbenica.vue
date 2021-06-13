@@ -69,7 +69,7 @@ export default {
       NavAdminApoteke
     },
     mounted(){
-      //pozivanje ucitavanja podataka lijekova
+      
       this.$store.dispatch("APlijekovi/dobaviDTOLijekove").then(response=>{
           
           return response;
@@ -122,6 +122,7 @@ export default {
         if(this.$store.state.APlijekovi.lijekoviZaPorucivanje.length===0){
           this.greska=true;
           this.poruka = `Mora biti bar jedan lijek selektovan za naručivanje`;
+          return;
         }
         this.$store.dispatch("APlijekovi/zavrsiNarucivanje",this.datumRok)
         this.dialogVisible=true

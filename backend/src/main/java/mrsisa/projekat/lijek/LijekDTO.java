@@ -1,7 +1,12 @@
 package mrsisa.projekat.lijek;
 
+import mrsisa.projekat.ocena.Ocena;
+
+import java.util.List;
+
 public class LijekDTO {
     private long id;
+    private String sifra;
     private String naziv;
     private String vrstaLijeka;
     private String oblikLijeka;
@@ -10,6 +15,7 @@ public class LijekDTO {
     private String napomena;
     private double ocijena;
     private int kolicina;
+    private int poeni;
 
     public LijekDTO() {}
 
@@ -21,7 +27,18 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
-        this.ocijena = l.getOcijena();
+
+        if(l.getOcene()==null){
+            this.ocijena=0;
+        }else{
+        for(Ocena o : l.getOcene()){
+            this.ocijena+=o.getOcena();
+        }
+        if(l.getOcene().size()!=0)
+            this.ocijena=this.ocijena/l.getOcene().size();}
+
+        //this.ocijena = l.getOcijena();
+        this.poeni = l.getPoeni();
     }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
@@ -46,6 +63,33 @@ public class LijekDTO {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
+    }
+
+    public LijekDTO(Lijek l, int i) {
+        this.id = l.getId();
+        this.naziv = l.getNaziv();
+        this.vrstaLijeka = l.getVrstaLijeka();
+        this.oblikLijeka = l.getOblikLijeka();
+        this.sastav = l.getSastav();
+        this.proizvodjac = l.getProizvodjac();
+        this.napomena = l.getNapomena();
+        if(l.getOcene()!=null){
+        this.ocijena=izracunajOcenu(l.getOcene());}
+        else{
+            this.ocijena=0;
+        }
+        this.poeni=l.getPoeni();
+    }
+    public int izracunajOcenu(List<Ocena> sveOceneApoteke){
+        double ocena=0;
+        for(Ocena o : sveOceneApoteke) {
+            if (o != null) {
+                ocena += o.getOcena();
+            }
+        }
+        if(sveOceneApoteke.size()!=0){
+        ocena=ocena/sveOceneApoteke.size();}
+        return (int)ocena;
     }
 
     public long getId() {
@@ -120,5 +164,21 @@ public class LijekDTO {
 
     public void setProizvodjac(String proizvodjac) {
         this.proizvodjac = proizvodjac;
+    }
+
+    public int getPoeni() {
+        return poeni;
+    }
+
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
+    }
+
+    public String getSifra() {
+        return sifra;
+    }
+
+    public void setSifra(String sifra) {
+        this.sifra = sifra;
     }
 }

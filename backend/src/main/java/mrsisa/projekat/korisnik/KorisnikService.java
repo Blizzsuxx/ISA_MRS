@@ -1,10 +1,18 @@
 package mrsisa.projekat.korisnik;
 
+import mrsisa.projekat.radnik.Radnik;
+import mrsisa.projekat.radnik.RadnikDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Map;
 
 @Service
 public class KorisnikService implements UserDetailsService {
@@ -32,5 +40,30 @@ public class KorisnikService implements UserDetailsService {
 
     public void remove(String korisnickoIme) {
         korisnikRepository.deleteByUsername(korisnickoIme);
+    }
+
+    public Korisnik findByEmailIdIgnoreCase(String email) {
+        return korisnikRepository.findByEmailIgnoreCase(email);
+    }
+    
+    @Transactional
+    public void izmeni(Map<String, Object> info, RadnikDTO radnikDTO) {
+
+        Radnik radnik = (Radnik) this.korisnikRepository.findById(radnikDTO.getId()).orElse(null);
+        if(!(info.get("ime") == null) && !info.get("ime").toString().isEmpty()){
+            radnik.setFirstName(info.get("ime").toString());
+        }
+        if(!(info.get("prezime") == null) && !info.get("prezime").toString().isEmpty()){
+            radnik.setLastName(info.get("prezime").toString());
+        }
+        if(!(info.get("sifra") == null) && !info.get("sifra").toString().isEmpty()){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String sifra = info.get("sifra").toString();
+            radnik.setPassword(encoder.encode(sifra));
+            radnik.setPromenioSifru(true);
+
+        }
+
+        this.korisnikRepository.save(radnik);
     }
 }

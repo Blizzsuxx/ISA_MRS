@@ -1,7 +1,9 @@
 package mrsisa.projekat.lijek;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import mrsisa.projekat.akcija.Akcija;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -15,8 +17,15 @@ public class Lijek {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name="sifra", nullable = false, unique = true)
+    private String sifra;
+
+    @Column(name="samo_recept", nullable = false)
+    private boolean samoRecept;
+
+
     // za sada ovako
-    @Column(name = "naziv", nullable = false, unique = true)
+    @Column(name = "naziv", nullable = false)
     private String naziv;
     @Column(name = "vrstaLijeka", nullable = false)
     private String vrstaLijeka;
@@ -29,13 +38,32 @@ public class Lijek {
     //private RezimIzdavanja rezimIzdavanja;
     @Column(name = "napomena", nullable = false)
     private String napomena;
-    @Column(name = "ocijena", nullable = false)
-    private double ocijena;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Ocena> ocene;
+    @Column(name = "poeni", nullable = false)
+    private int poeni;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Lijek> zamenskiLijekovi;
 
+    public boolean isSamoRecept() {
+        return samoRecept;
+    }
 
+    public void setSamoRecept(boolean samoRecept) {
+        this.samoRecept = samoRecept;
+    }
+
+    public List<Lijek> getZamenskiLijekovi() {
+        return zamenskiLijekovi;
+    }
+
+    public void setZamenskiLijekovi(List<Lijek> zamenskiLijekovi) {
+        this.zamenskiLijekovi = zamenskiLijekovi;
+    }
 
     public Long getId() {
         return id;
@@ -93,12 +121,12 @@ public class Lijek {
         this.napomena = napomena;
     }
 
-    public double getOcijena() {
-        return ocijena;
+    public List<Ocena> getOcene() {
+        return ocene;
     }
 
-    public void setOcijena(double ocijena) {
-        this.ocijena = ocijena;
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
     }
 
     public Dobavljac getDobavljac() {
@@ -107,6 +135,22 @@ public class Lijek {
 
     public void setDobavljac(Dobavljac dobavljac) {
         this.dobavljac = dobavljac;
+    }
+
+    public int getPoeni() {
+        return poeni;
+    }
+
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
+    }
+
+    public String getSifra() {
+        return sifra;
+    }
+
+    public void setSifra(String sifra) {
+        this.sifra = sifra;
     }
 
     public Lijek() {
@@ -139,16 +183,34 @@ public class Lijek {
         this.sastav = sastav;
         this.proizvodjac = proizvodjac;
         this.napomena = napomena;
-        this.ocijena = ocijena;
+        //this.ocijena = ocijena;
         this.dobavljac = dobavljac;
     }
 
     public Lijek(LijekDTO dummy){
+        this.sifra = dummy.getSifra();
         this.naziv = dummy.getNaziv();
         this.vrstaLijeka = dummy.getVrstaLijeka();
         this.oblikLijeka = dummy.getOblikLijeka();
         this.sastav = dummy.getSastav();
         this.proizvodjac = dummy.getProizvodjac();
         this.napomena = dummy.getNapomena();
+        this.poeni = dummy.getPoeni();
+    }
+
+
+    public Lijek(Long id, String sifra, String naziv, String vrstaLijeka, String oblikLijeka, String sastav, String proizvodjac, String napomena, List<Ocena> ocene, int poeni, Dobavljac dobavljac, List<Lijek> zamenskiLijekovi) {
+        this.id = id;
+        this.sifra = sifra;
+        this.naziv = naziv;
+        this.vrstaLijeka = vrstaLijeka;
+        this.oblikLijeka = oblikLijeka;
+        this.sastav = sastav;
+        this.proizvodjac = proizvodjac;
+        this.napomena = napomena;
+        this.ocene = ocene;
+        this.poeni = poeni;
+        this.dobavljac = dobavljac;
+        this.zamenskiLijekovi = zamenskiLijekovi;
     }
 }

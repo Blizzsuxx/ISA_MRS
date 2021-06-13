@@ -2,7 +2,7 @@
 <el-input placeholder="Search table" v-model="search"></el-input>
   <el-table
     :ref="referenca"
-    height="250"
+    height="500"
     :data="lijekovi.filter(data => !search || String(data.lijek.naziv).toLowerCase().includes(search.toLowerCase()) ||
     String(data.lijek.id).toLowerCase().includes(search.toLowerCase()) ||
     String(data.lijek.vrstaLijeka).toLowerCase().includes(search.toLowerCase()) ||
@@ -57,6 +57,10 @@
       property="cijena"
       label="Cijena"
      >
+      <template #default="scope">
+          <p v-if="scope.row.akcija===null">{{scope.row.cijena}}</p>
+          <p v-else><strike>{{scope.row.cijena}}</strike>     <span class="akcija">{{izracunajCijenu(scope.row)}}</span></p>
+        </template>
     </el-table-column>
 
     <el-table-column
@@ -68,10 +72,14 @@
 
 
     <el-table-column
-      property="lijek.prodaja"
-      label="Prodaja"
+      label="Akcija"
       :formatter="formatirajProizvodnju"
      >
+     <template #default="scope">
+       <router-link :to="{name:'DodavanjeAkcije',params:{id:scope.row.id}}">
+        Dodaj akciju
+      </router-link>
+      </template>
     </el-table-column>
     
   </el-table>
@@ -80,7 +88,11 @@
     
   </div>
 </template>
-
+<style scoped>
+  .akcija{
+    color:red;
+  }
+</style>
 <script>
 export default {
   name: 'LijekoviTabela',
@@ -104,6 +116,9 @@ export default {
       else{
         return "Magacin"
       }
+      },
+      izracunajCijenu(row){
+          return (row.cijena*(1-row.akcija.procenatPopusta/100)).toFixed(1)
       },
       formirajDatum(row){
         try{

@@ -22,23 +22,32 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-//@Configuration
+@Configuration
 public class PosetaConfig {
 
-    //@Bean
-    //@Transactional
+    @Bean
+    @Transactional
     CommandLineRunner commandLineRunnerPoseta(PosetaRepository repozitorijum, ApotekaRepository apotekaRepository,
                                               RadnikRepository radnikRepository, PacijentRepository pacijenti, EreceptRepository erecepti){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return args ->{
-            Poseta p = new Poseta();
+            /*Poseta p = new Poseta();
             p.setPocetak(LocalDateTime.now());
             p.setKraj(LocalDateTime.now().plusMinutes(30));
             p.setApoteka(apotekaRepository.findOneById(1));
             p.setErecepti(erecepti.findAll());
-            p.setPacijent(pacijenti.findOneByUsername("Pera"));
-            p.setRadnik(radnikRepository.getOne(0));
+            p.setPacijent(pacijenti.findOneByUsername("zarko"));
+            p.setRadnik(radnikRepository.getOne(5));
             repozitorijum.save(p);
+
+            Poseta p2 = new Poseta();
+            p2.setPocetak(LocalDateTime.of(2021, 5, 11, 5, 45));
+            p2.setKraj(LocalDateTime.of(2021, 7, 11, 6, 45));
+            p2.setApoteka(apotekaRepository.findOneById(1));
+            p2.setErecepti(erecepti.findAll());
+            p2.setPacijent(pacijenti.findOneByUsername("zarko"));
+            p2.setRadnik(radnikRepository.getOne(5));
+            repozitorijum.save(p2);*/
 
         };
     }

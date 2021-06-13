@@ -10,6 +10,8 @@ import java.util.Map;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
+import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,6 +43,44 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/lijekovi/admin")
+    public List<StanjeLijekaDTO> dobaviLijekoveAdmin(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return apotekaService.dobaviStanjaLijekovaAdmin(adminApoteke.getApoteka().getId());
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping("{id}/lijekovi/profil")
+    public List<StanjeLijekaDTO> dobaviLijekoveProfil(@PathVariable Long id){
+
+        return apotekaService.dobaviStanjaLijekova(id);
+    }
+
+    @GetMapping("/dobaviLijekoveN")
+    public List<StanjeLijekaDTO> dobaviLijekoveNeautentifikovan(){
+
+        return apotekaService.dobaviSveDostupneLijekove();
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/izvjestaj")
+    public IzvjestajDTO izvjestaj(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return apotekaService.izvjestaj(adminApoteke.getApoteka().getId());
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @GetMapping("/izvjestaj/{datumOd}/{datumDo}")
+    public IzvjestajDTO izvjestajPeriod(@PathVariable String datumOd, @PathVariable String datumDo){
+        System.out.println("Andrija je najjaci");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
+        return apotekaService.izvjestajPeriod(adminApoteke.getApoteka().getId(),datumOd,datumDo);
+    }
+
     @GetMapping("/dobaviLijekoveA/{id}")
     @PreAuthorize("hasRole('PACIJENT')")
     public List<LijekDTO> dobaviLijekoveA(@PathVariable Long id){
@@ -56,6 +96,22 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(Long.valueOf(1));
     }
 
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value="/dobaviSveDostupneLijekove")
+    public List<StanjeLijekaDTO> dobaviDostupneLijekove(){
+        //bitno je da ima ime apoteke, kolicinu koja je dostupna, cenu....
+        return apotekaService.dobaviSveDostupneLijekove();
+    }
+    @PreAuthorize("hasRole('PACIJENT')")
+    @PostMapping(value="/rezervisiLek")
+    public boolean rezervisiLek(@RequestBody String lek){
+
+        //return apotekaService.dobaviSveDostupneLijekove();
+        System.out.println(lek);
+
+        return  apotekaService.rezervisiLek(lek);
+    }
+
     @PostMapping(value="/proveriAlergije")
     public Boolean proveriAlergije(@RequestBody Map<String, Object> params){
 
@@ -68,10 +124,16 @@ public class ApotekaController {
     }
 
     @GetMapping(path="/dobaviApoteke")
-    public List<Apoteka> dobaviApoteke(){
-    	
-
+    public List<ApotekaDTO> dobaviApoteke(){
     	return apotekaService.dobaviApoteke();
+    }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value="/dobaviApotekePacijenta")
+    public List<ApotekaDTO> dobaviApotekePacijenta(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pacijent pacijent = (Pacijent)auth.getPrincipal();
+        return apotekaService.dobaviApotekePacijenta(pacijent);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
@@ -98,7 +160,7 @@ public class ApotekaController {
     }
 
 
-    @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
+    @PreAuthorize("hasAnyRole('PACIJENT','ROLE_ADMIN_APOTEKA')")
     @GetMapping(path="/{id}")
     public ApotekaDTO dobaviApoteku(@PathVariable Long id){
 
@@ -112,7 +174,18 @@ public class ApotekaController {
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajApoteku")
     public void sacuvajApoteku(@RequestBody ApotekaDTO dummy) {
-        Apoteka a = new Apoteka(dummy);
-        apotekaService.save(a);
+        //Apoteka a = new Apoteka(dummy);
+        apotekaService.sacuvajApoteku(dummy);
+
     }
+
+    @PreAuthorize("hasRole('PACIJENT')")
+    @GetMapping(value = "/pretplataApoteke/{idApoteke}")
+    public boolean pretplatiSeNaAApoteku(@PathVariable long idApoteke){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Pacijent p = (Pacijent)auth.getPrincipal();
+        return apotekaService.pretplatiSeNaAApoteku(p, idApoteke);
+    }
+
+
 }

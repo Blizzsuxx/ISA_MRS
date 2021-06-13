@@ -1,9 +1,11 @@
 package mrsisa.projekat.farmaceut;
 
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.radnik.Radnik;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "farmaceuti")
@@ -15,7 +17,8 @@ public class Farmaceut extends Radnik {
 
     public Farmaceut() {}
 
-
+    @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Ocena> ocene;
 
     @Override
     public Apoteka orElse(Object o) {
@@ -29,5 +32,13 @@ public class Farmaceut extends Radnik {
 
     public void setApoteka(Apoteka apoteka) {
         this.apoteka = apoteka;
+    }
+
+    public List<Ocena> getOcene() {
+        return ocene;
+    }
+
+    public void setOcene(List<Ocena> ocene) {
+        this.ocene = ocene;
     }
 }

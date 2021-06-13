@@ -1,22 +1,15 @@
 <template>
-<el-alert
-    v-if="greska"
-    @close="greska=false"
-    title="Greska pri prebacivanju"
-    type="error" center>{{poruka}}
-  </el-alert>
   <h3>Pregled svih lijekova</h3> 
   
   <LijekoviTabela @promjenjena-selekcija="selektujRedove" ref='dijete' v-bind:lijekovi="$store.state.APlijekovi.sviLijekovi" referenca="multipleTable" />
   <div style="margin-top: 20px">
     <el-button type="primary" @click="ocistiSelekciju()" plain>Očisti selekciju</el-button>
-    <el-button type="primary" @click="promjeniStanje()" plain>Promjeni stanje</el-button>
-    <el-popconfirm
+    <el-popconfirm 
   title="Da li ste sigurni da želite izbrisati lijek?" @confirm="izbrisiLijek()" confirmButtonText='Ok'
   cancelButtonText='Odustani'
 >
 <template #reference>
-    <el-button type="primary"  plain>Izbrisi lijek</el-button>
+    <el-button type="danger"   plain>Izbrisi lijek</el-button>
    </template>
   </el-popconfirm>
     
@@ -56,40 +49,42 @@ export default {
           this.$refs.dijete.$refs.multipleTable.clearSelection();
         }
       },
-      promjeniStanje(){
-        this.$store.dispatch("APlijekovi/promjeniStanje",this.$refs.dijete.multipleSelection)
-        if(this.$store.state.APlijekovi.zabranjeni.length!=0){
-        this.greska=true;
-        this.poruka = `Lijekovi sa identifikatorima: ${this.$store.state.APlijekovi.zabranjeni.join(',')} ne mogu biti prebaceni u magacin jer
-         se nalaze u nekoj od rezervacija pacijenata`;
-        }
-        else{
-          this.greaska = false;
-          
-        }
-        this.$refs.dijete.$refs.multipleTable.clearSelection();
-      },
       izbrisiLijek(){
-        var greska = false;
-        this.$refs.dijete.multipleSelection.forEach(element => {
-          if(element.prodaja){
-            greska = true;
+          
+          if(this.$refs.dijete.multipleSelection.length!=1){
+             this.$message({
+                type: 'danger',
+                message: 'Treba da bude selektovan isključivo jedan lijek za brisanje'
+              });
+              return;
           }
-        });
-        if(greska){
-          this.greska=true;
-          this.poruka = `Samo lijekovi koji se nalaze u prodaji mogu biti izbrisani`;
-          return;
-        }
-        else{
-          this.$store.dispatch("APlijekovi/izbrisiLijekove",this.$refs.dijete.multipleSelection)
-        }
+          this.$store.dispatch("APlijekovi/izbrisiLijekove",this.$refs.dijete.multipleSelection[0]).then(response=>{
+            console.log(typeof response.data)
+            if(response.data===0){
+              this.$message({
+                type: 'success',
+                message: 'Uspješno izbrisan lijek iz apoteke'
+              });
+              this.$store.dispatch("APlijekovi/dobaviLijekoveAdmin")
+              this.$refs.dijete.$refs.multipleTable.clearSelection();
+            }
+            else{
+              this.$message({
+                type: 'info',
+                message: 'Lijek koji ste željeli obrisati se nalazi u nekoj od rezervacija.'
+              });
+            }
+          })
+        
       },
       otvoriProzor(){
 
         if(this.$refs.dijete.multipleSelection.length!=1 ){
-          this.greska=true;
-          this.poruka = `Samo jedan lijek treba biti selektovan pri mijenjanju cijene`;
+          this.$message({
+                type: 'info',
+                message :`Samo jedan lijek treba biti selektovan pri mijenjanju cijene`
+              });
+          
         }
         else{
 

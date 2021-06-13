@@ -1,15 +1,26 @@
 <template>
-<el-main>
-<NavMeniZaPacijenta/>
-  <APPostojeceApoteke/>
+  <el-main>
+    <APPostojeceApoteke />
   </el-main>
 </template>
 
 <script>
-import APPostojeceApoteke from "./APPostojeceApoteke"
-import NavMeniZaPacijenta from "./NavMeniZaPacijenta"
- export default {
+import APPostojeceApoteke from "./APPostojeceApoteke";
+
+
+export default {
+  components: { APPostojeceApoteke },
+  name: "IzmenaLicnihInfoKorisnika",
+  data() {
+    return {
+      map: null,
+    };
+  },
+  async mounted() {
     
-  components: { APPostojeceApoteke, NavMeniZaPacijenta},
-    name: 'IzmenaLicnihInfoKorisnika'};
+   
+   
+    
+  },
+};
 </script>
