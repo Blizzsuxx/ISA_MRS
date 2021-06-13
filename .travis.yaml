@@ -21,7 +21,7 @@ matrix:
  
       script:
         - ./mvnw clean install -DskipTests=false -B
-        - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=milospp_mrs-isa
+        #- ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=milospp_mrs-isa
         # - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=mrs-isa -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
  
       dist: trusty
@@ -30,7 +30,7 @@ matrix:
         provider: heroku
         api_key: $HEROKU_API_KEY
         on:
-          branch: develop
+          branch: main
         app: apoteka-tim-13
  
     - language: node_js
@@ -43,5 +43,5 @@ matrix:
         provider: heroku
         api_key: $HEROKU_API_KEY
         on:
-          branch: develop
+          branch: main
         app: apoteka-tim-13-fe
