@@ -18,8 +18,6 @@ const state = {
     trenutnaRedirekcija: "null"
 };
 
-const API_URL = 'http://localhost:8080/api/v1/';
-
 const actions = {
 
     promeniRedirekciju(context, novaRedirekcija){
@@ -34,55 +32,55 @@ const actions = {
 
     kreirajOdgovor(context, sadrzaj){
         sadrzaj.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
-        return axios.post('http://localhost:8080/api/odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
+        return axios.post('odgovori/kreirajOdgovor', sadrzaj, {headers: authHeader()})
     },
     dobaviSveZalbe(){
-        return axios.get('http://localhost:8080/api/zalbe/dobaviSveZalbe',{headers: authHeader()});
+        return axios.get('zalbe/dobaviSveZalbe',{headers: authHeader()});
     },
     dobaviOdgovore(context, id){
-        return axios.get(`http://localhost:8080/api/odgovori/dobaviOdgovoreZalbe/${id}`, {headers: authHeader()});
+        return axios.get(`odgovori/dobaviOdgovoreZalbe/${id}`, {headers: authHeader()});
     },
     dobaviZalbe(){
-        return axios.get('http://localhost:8080/api/zalbe/dobaviZalbe', {headers: authHeader()});
+        return axios.get('zalbe/dobaviZalbe', {headers: authHeader()});
     },
     kreirajZalbu(context, zalba){
         zalba.datumVrijeme = moment(String(Date())).format('YYYY-MM-DD hh:mm');
-        return axios.post('http://localhost:8080/api/zalbe/sacuvajZalbu', zalba, { headers: authHeader()})
+        return axios.post('zalbe/sacuvajZalbu', zalba, { headers: authHeader()})
     },
     dobaviTrenutnogKorisnika(){
-        return axios.get('http://localhost:8080/api/korisnici/dobaviTrenutnogKorisnika', { headers: authHeader()})
+        return axios.get('korisnici/dobaviTrenutnogKorisnika', { headers: authHeader()})
         .then(response => {
             return response.data;
         })
     },
     azurirajNalog(context, korisnik){
-        return axios.put('http://localhost:8080/api/korisnici/azurirajNalog', 
+        return axios.put('korisnici/azurirajNalog', 
         {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
         email: korisnik.email, uloga: korisnik.uloga, sifra: korisnik.sifra,
         rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
     },
     promjenaLozinke(context, lozinka){
-        return axios.get(`http://localhost:8080/api/korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
+        return axios.get(`korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
         .then(response => {
             return response.data;
         })
     },
 
     provjeraLozinke(context, lozinka){
-        return axios.get(`http://localhost:8080/api/korisnici/provjeraLozinke/${lozinka}`, { headers: authHeader()})
+        return axios.get(`korisnici/provjeraLozinke/${lozinka}`, { headers: authHeader()})
         .then(response => {
             return response.data;
         })
     },
     potvrdaLozinke(){
-        return axios.get('http://localhost:8080/api/korisnici/potvrdaPrijave', { headers: authHeader()})
+        return axios.get('korisnici/potvrdaPrijave', { headers: authHeader()})
         .then(response => {
             console.log(response.data);
             return response.data;
         })
     },
     login(kredecijali) {
-        return axios.post('http://localhost:8080/api/korisnici/login', kredecijali)
+        return axios.post('korisnici/login', kredecijali)
         .then(response => {
             if (response.data.accessToken && response.data.uloga !== "NEMA"){
                 localStorage.setItem('user', JSON.stringify(response.data));
@@ -109,7 +107,7 @@ const actions = {
     },
     
     register(user) {
-        return axios.post(API_URL + 'signup', {
+        return axios.post('signup', {
           username: user.username,
           email: user.email,
           password: user.password
@@ -117,11 +115,11 @@ const actions = {
     },
 
     dobaviKorisnika(context, korIme){
-        return axios.get(`http://localhost:8080/api/korisnici/dobaviKorisnika/${korIme}`, { headers: authHeader()});
+        return axios.get(`korisnici/dobaviKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dobaviAdministratoreApoteka (context){
-        return axios.get('http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
+        return axios.get('administratorApoteke/sviAdministratoriApoteke', { headers: authHeader()})
         .then(response => {
             console.log(response.data);
             context.commit('postaviAdministratoreApoteke', response.data);
@@ -134,14 +132,14 @@ const actions = {
     },
 
     dobaviFarmaceute (context){
-        return axios.get('http://localhost:8080/api/v1/farmaceut/dobaviFarmaceute')
+        return axios.get('farmaceut/dobaviFarmaceute')
         .then(response => {
             context.commit('postaviAdministratoreApoteke', response.data);
         })
     },
 
     dobaviDermatologe (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe', { headers: authHeader()})
+        return axios.get('dermatolog/dobaviDermatologe', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDermatologe', response.data);
         })
@@ -157,14 +155,14 @@ const actions = {
 
 
 
-        return axios.get('http://localhost:8080/api/korisnici/trenutniRadnik', { headers: authHeader()})
+        return axios.get('korisnici/trenutniRadnik', { headers: authHeader()})
         .then(response => {
             context.commit('postaviTrenutnogRadnika', response.data);
         })
     },
 
     dobaviDermatologeAdminSistema (context){
-        return axios.get('http://localhost:8080/api/v1/dermatolog/sviDermatolozi', { headers: authHeader()})
+        return axios.get('dermatolog/sviDermatolozi', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDermatologe', response.data);
         })
@@ -176,7 +174,7 @@ const actions = {
     },
 
     dobaviDobavljace (context){
-        return axios.get('http://localhost:8080/api/v1/dobavljac/sviDobavljaci', { headers: authHeader()})
+        return axios.get('dobavljac/sviDobavljaci', { headers: authHeader()})
         .then(response => {
             context.commit('postaviDobavljace', response.data);
         })
@@ -188,7 +186,7 @@ const actions = {
     },
 
     dobaviAdministratoreSistema (context){
-        return axios.get('http://localhost:8080/api/v1/administratorSistema/sviAdministratoriSistema', { headers: authHeader()})
+        return axios.get('administratorSistema/sviAdministratoriSistema', { headers: authHeader()})
         .then(response => {
             context.commit('postaviAdministratoreSistema', response.data);
         })
@@ -200,33 +198,33 @@ const actions = {
     },
 
     azurirajKorisnika(context, korisnik){
-        return axios.put('http://localhost:8080/api/korisnici/azurirajKorisnika', 
+        return axios.put('korisnici/azurirajKorisnika', 
         {korisnickoIme:korisnik.korisnickoIme, ime: korisnik.ime, prezime: korisnik.prezime,
         email: korisnik.email, uloga: korisnik.uloga, 
         rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
     },
 
     obrisiKorisnika(context, korIme){
-        return axios.delete(`http://localhost:8080/api/korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
+        return axios.delete(`korisnici/obrisiKorisnika/${korIme}`, { headers: authHeader()});
     },
 
     dodajKorisnika (context, korisnik){
         if (korisnik.uloga === "ROLE_DERMATOLOG"){
-            return axios.post("http://localhost:8080/api/v1/dermatolog/sacuvajDermatologa", korisnik, 
+            return axios.post("dermatolog/sacuvajDermatologa", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_DOBAVLJAC"){
-            return axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajDobavljaca", korisnik, 
+            return axios.post("dobavljac/sacuvajDobavljaca", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_FARMACEUT"){
-            return axios.post("http://localhost:8080/api/v1/dobavljac/sacuvajFarmaceuta", korisnik, 
+            return axios.post("dobavljac/sacuvajFarmaceuta", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
@@ -234,7 +232,7 @@ const actions = {
             })
         }
         else if (korisnik.uloga === "ROLE_ADMIN_SISTEMA"){
-            return axios.post("http://localhost:8080/api/v1/administratorSistema/sacuvajAdministratoraSistema", korisnik,
+            return axios.post("administratorSistema/sacuvajAdministratoraSistema", korisnik,
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
@@ -242,14 +240,14 @@ const actions = {
             })
         } else if (korisnik.uloga === "ROLE_ADMIN_APOTEKA"
         || korisnik.uloga === "ROLE_ADMIN_APOTEKE"){
-            return axios.post("http://localhost:8080/api/v1/administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
+            return axios.post("administratorApoteke/sacuvajAdministratoraApoteke", korisnik,
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_PACIJENT"){
-            return axios.post("http://localhost:8080/api/v1/profil/registracija", korisnik, 
+            return axios.post("profil/registracija", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);
@@ -293,7 +291,6 @@ export default{
     user,
     initialState,
     state,  
-    API_URL,  
     actions,
     mutations
 };

@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="api/zalbe")
+@RequestMapping(path="api/v1/zalbe")
 public class ZalbaController {
     private final ZalbaService zalbaService;
 

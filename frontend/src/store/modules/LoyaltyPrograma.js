@@ -5,13 +5,13 @@ import authHeader from './AuthHeader'
 const actions = {
     sacuvajPopust(context, popust) {
         console.log(popust);
-        return axios.post('http://localhost:8080/api/popust/sacuvajPopust', popust, { headers: authHeader()})
+        return axios.post('popust/sacuvajPopust', popust, { headers: authHeader()})
         .then(response => {
             return response.data;
         })
     },
     dobaviPopust() {
-        return axios.get('http://localhost:8080/api/popust/dobaviPopust', { headers: authHeader()})
+        return axios.get('popust/dobaviPopust', { headers: authHeader()})
         .then(response => {
             return response.data;
         })

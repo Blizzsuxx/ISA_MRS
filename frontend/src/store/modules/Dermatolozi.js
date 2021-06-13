@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
     dobaviDermatologe (context) {
-        axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe', { headers: authHeader()})
+        axios.get('dermatolog/dobaviDermatologe', { headers: authHeader()})
             .then(response => {
                 let dermatolozi =response.data
                 context.commit('postaviDermatologe',dermatolozi)
@@ -23,7 +23,7 @@ const actions = {
 
     },
     dobaviDermatologeKorisnik (context,id) {
-        axios.get(`http://localhost:8080/api/v1/dermatolog/korisnik/${id}`, { headers: authHeader()})
+        axios.get(`dermatolog/korisnik/${id}`, { headers: authHeader()})
             .then(response => {
                 let dermatolozi =response.data
                 context.commit('postaviDermatologe',dermatolozi)
@@ -32,7 +32,7 @@ const actions = {
 
     },
     dobaviDermatologeAdmin (context) {
-        axios.get('http://localhost:8080/api/v1/dermatolog/admin', { headers: authHeader()})
+        axios.get('dermatolog/admin', { headers: authHeader()})
             .then(response => {
                 let dermatolozi =response.data
                 context.commit('postaviDermatologe',dermatolozi)
@@ -41,14 +41,14 @@ const actions = {
 
     },
     dobaviNezaposleneDermatologe (context) {
-        axios.get('http://localhost:8080/api/v1/dermatolog/admin/nezaposleni', { headers: authHeader()})
+        axios.get('dermatolog/admin/nezaposleni', { headers: authHeader()})
             .then(response => {
                 let dermatolozi =response.data
                 context.commit('postaviDermatologe',dermatolozi)
             })
     },
     otpustiDermatologa(context,id){
-        return axios.put(`http://localhost:8080/api/v1/dermatolog/otpustiDermatologa/${id}`, {},{ headers: authHeader()})
+        return axios.put(`dermatolog/otpustiDermatologa/${id}`, {},{ headers: authHeader()})
             .then(() => {
                 
                 return context;
@@ -60,13 +60,13 @@ const actions = {
         radnoVrijeme.pocetakRadnogVremena = moment(String(radnoVrijeme.pocetakRadnogVremena)).format('DD-MM-YYYY HH:mm')
         radnoVrijeme.krajRadnogVremena = moment(String(radnoVrijeme.krajRadnogVremena)).format('DD-MM-YYYY HH:mm')
         console.log(radnoVrijeme)
-        return axios.post(`http://localhost:8080/api/v1/dermatolog/zaposliDermatologa`, radnoVrijeme,{ headers: authHeader()})
+        return axios.post(`dermatolog/zaposliDermatologa`, radnoVrijeme,{ headers: authHeader()})
             .then(() => {   
                 return context;  
             })
     },
     dobaviRadnoVrijeme( context,id){
-        return axios.get( `http://localhost:8080/api/v1/radnoVrijeme/${id}`,{ headers: authHeader()})
+        return axios.get( `radnoVrijeme/${id}`,{ headers: authHeader()})
             .then(response => {
                 let radnoVrijeme =response.data
                 
@@ -76,7 +76,7 @@ const actions = {
             .catch(error=>console.log(error))
     },
     dobaviSlobodneTermine( context,id){
-        return axios.get( `http://localhost:8080/api/v1/slobodanTermin/dermatolog/${id}`,{ headers: authHeader()})
+        return axios.get( `slobodanTermin/dermatolog/${id}`,{ headers: authHeader()})
             .then(response => {
                 let slobodniTermini =response.data
                 context.commit('postaviSlobodneTermine',slobodniTermini)
@@ -87,7 +87,7 @@ const actions = {
 
     
     kreirajSlobodanTermin(context,objekat){
-        return axios.post( `http://localhost:8080/api/v1/slobodanTermin/`,objekat,{ headers: authHeader()}).then(()=>{
+        return axios.post( `slobodanTermin/`,objekat,{ headers: authHeader()}).then(()=>{
             context.commit('dodajSlobodanTermin',objekat)
             return 1
         }).catch(()=>(-1))
