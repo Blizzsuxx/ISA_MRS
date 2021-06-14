@@ -30,6 +30,6 @@ matrix:
         api_key: $HEROKU_API_KEY
         on:
           branch: main
-        app: apoteka-tim-13
+        app: ap-tim-13
  
     
