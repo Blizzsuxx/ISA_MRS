@@ -12,7 +12,11 @@ const getters = {
 };
 
 const actions = {
+    azurirajPonudu(context, ponuda){
+        return axios.post('http://localhost:8080/api/v1/ponuda/azurirajPonudu', ponuda, {headers : authHeader()});
+    },
     kreirajPonudu(context, ponuda){
+        
         return axios.post('http://localhost:8080/api/v1/ponuda/kreirajPonudu', ponuda, {headers : authHeader()})
     },
     dobaviPonudeDobavljaca(){

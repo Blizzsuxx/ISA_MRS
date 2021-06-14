@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,10 +38,20 @@ public class OdgovorController {
 
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(value="/kreirajOdgovor")
-    public void kreirajOdgovor(@RequestBody OdgovorDTO odgovor){
+    public boolean kreirajOdgovor(@RequestBody OdgovorDTO odgovor) throws IOException, MessagingException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();
         odgovor.setKorisnickoIme(k.getUsername());
-        this.odgovorService.sacuvaj(odgovor);
+        return this.odgovorService.sacuvaj(odgovor);
     }
+
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    @GetMapping(value="/dobaviZalbeAdministratora")
+    public List<ZalbaDTO> vratiZalbeAdministratora(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Korisnik k = (Korisnik)auth.getPrincipal();
+        return this.odgovorService.vratiZalbeAdministratora(k.getUsername());
+    }
+
+
 }

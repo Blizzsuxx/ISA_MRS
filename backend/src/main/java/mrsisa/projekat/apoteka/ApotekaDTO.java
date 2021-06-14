@@ -22,6 +22,9 @@ public class ApotekaDTO {
     private String rezultat; // potrebno za Erecept
     private boolean pretplacen;
     private int ocena;
+    private String korisnickoImeAdmina;
+    private int prosecnaOcena;
+    private String sifraErecepta; // potrebno za Erecept
 
     public ApotekaDTO() {
 
@@ -32,7 +35,7 @@ public class ApotekaDTO {
         this.id = id;
     }
 
-    public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat){
+    public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat, int prosecnaOcena, String sifraErecepta){
         this.id = apoteka.getId();
         this.ime = apoteka.getIme();
         this.mjesto = apoteka.getAdresa().getMesto();
@@ -44,6 +47,8 @@ public class ApotekaDTO {
         for (StanjeLijeka sl : apoteka.getLijekovi())
             this.stanja.add(new StanjeLijekaDTO(sl));
         this.rezultat = rezultat;
+        this.prosecnaOcena = prosecnaOcena;
+        this.sifraErecepta = sifraErecepta;
     }
     public ApotekaDTO(Apoteka apoteka){
         this.id = apoteka.getId();
@@ -213,5 +218,29 @@ public class ApotekaDTO {
         if(sveOceneApoteke.size()!=0){
             ocena=ocena/sveOceneApoteke.size();}
         return (int)ocena;
+    }
+
+    public String getKorisnickoImeAdmina() {
+        return korisnickoImeAdmina;
+    }
+
+    public void setKorisnickoImeAdmina(String korisnickoImeAdmina) {
+        this.korisnickoImeAdmina = korisnickoImeAdmina;
+    }
+
+    public int getProsecnaOcena() {
+        return prosecnaOcena;
+    }
+
+    public void setProsecnaOcena(int prosecnaOcena) {
+        this.prosecnaOcena = prosecnaOcena;
+    }
+
+    public String getSifraErecepta() {
+        return sifraErecepta;
+    }
+
+    public void setSifraErecepta(String sifraErecepta) {
+        this.sifraErecepta = sifraErecepta;
     }
 }

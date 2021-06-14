@@ -21,7 +21,18 @@ const state = {
 const API_URL = 'http://localhost:8080/api/v1/';
 
 const actions = {
-
+    dobaviZalbeAdministratora(){
+        return axios.get("http://localhost:8080/api/odgovori/dobaviZalbeAdministratora", {headers: authHeader()});
+    },
+    dobaviInfoZalbe(context, tempZalbe){
+        return axios.post('http://localhost:8080/api/zalbe/dobaviInfoZalbe', tempZalbe, { headers: authHeader()});
+    },
+    dobaviKandidateZaZalbu(context, tipZalbe){
+        return axios.get(`http://localhost:8080/api/v1/profil/dobaviKandidateZaZalbu/${tipZalbe}`, { headers: authHeader()});
+    },
+    dobaviKorImenaAdministratora(){
+        return axios.get(`http://localhost:8080/api/v1/administratorApoteke/sviAdministratoriApotekeKorIme`, { headers: authHeader()});
+    },
     promeniRedirekciju(context, novaRedirekcija){
         context.commit("promeniRedirekciju", novaRedirekcija);
         return novaRedirekcija;
@@ -62,7 +73,7 @@ const actions = {
         rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
     },
     promjenaLozinke(context, lozinka){
-        return axios.get(`http://localhost:8080/api/korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
+        return axios.post("http://localhost:8080/api/korisnici/promjenaLozinke", lozinka, { headers: authHeader()})
         .then(response => {
             return response.data;
         })

@@ -20,16 +20,24 @@
     :data="apoteke.filter(data => !search)"
     style="width: 100%">
     <el-table-column
+      sortable
       label="Ime"
       prop="ime">
     </el-table-column>
     <el-table-column
+      sortable
       label="Mjesto"
       prop="mjesto">
     </el-table-column>
      <el-table-column
+      sortable
       label="Ukupna Cijena"
       prop="ukupnaCijena">
+    </el-table-column>
+    <el-table-column
+      sortable
+      label="Prosjecna Ocijena"
+      prop="prosecnaOcena">
     </el-table-column>
     <el-table-column
       align="right">
@@ -60,7 +68,7 @@
   justify-content: center;  padding-bottom: 20px;">
     </div>
     <el-table
-    :data="sadrzajApoteke.stanja.filter(data => !searchOdgovori)"
+    :data="sadrzajApoteke.stanja"
     style="width: 100%">
     <el-table-column
       label="Lijek"
@@ -119,16 +127,29 @@ export default {
           type: 'success'
         })}
         ,
-
+        open2() {
+        this.$message({
+          showClose: true,
+          message: 'Nije validan qrkod.',
+          type: 'error'
+        })}
+        ,
         handleRemove(file, fileList) {
             console.log(file, fileList)
         },
         handlePreview(file) {
-            console.log(file.name);
+           
             this.$store.dispatch('QRKod/posaljiKod', file.name)
             .then(response => {
-                this.apoteke = response.data;
-                console.log(this.apoteke);
+                
+                if (response.data === ''){
+                    
+                    this.open2();
+                } else {
+                  this.apoteke = response.data;
+              
+                }
+              
             });
         },
         handleExceed(files) {
@@ -152,6 +173,8 @@ export default {
             .then(response=>{
                 if (response.data){
                     this.open1();
+                } else {
+                  this.open2();
                 }
             });
         }

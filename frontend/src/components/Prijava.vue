@@ -102,14 +102,20 @@
           type: 'error'
         });
       },
+      open2() {
+        this.$message({
+          showClose: true,
+          message: 'Profil nije potvrđen preko email-a.!',
+          type: 'error'
+        });
+      },
 
       onSubmit(formName) {
-        console.log(formName);
         var s = {username: this.korisnik.korisnickoIme, password: this.korisnik.sifra }
-        console.log(s)
         this.$store.dispatch('APKorisnici/validateLogin', s).then(
             response => {
                 var s = JSON.parse(localStorage.getItem('user'));
+                console.log(s);
                 if (!s){
                   this.open1();
                   this.resetForm(formName);
