@@ -23,7 +23,7 @@ matrix:
         api_key: $HEROKU_API_KEY
         on:
           branch: main
-        app: apoteka-tim-13
+        app: ap-tim-13
  
     - language: node_js
       node_js:
@@ -36,4 +36,4 @@ matrix:
         api_key: $HEROKU_API_KEY
         on:
           branch: main
-        app: apoteka-tim-13-fe
+        app: ap-tim-13-fe
