@@ -8,8 +8,7 @@ matrix:
       node_js:
       - "node"
       cache: npm
-      script: 
-        - cd frontend/src
+      script:
         - cd frontend
       deploy:
         provider: heroku
