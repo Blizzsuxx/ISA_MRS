@@ -25,15 +25,4 @@ matrix:
           branch: main
         app: ap-tim-13
  
-    - language: node_js
-      node_js:
-      - "node"
-      cache: npm
-      script: 
-        - cd frontend
-      deploy:
-        provider: heroku
-        api_key: $HEROKU_API_KEY
-        on:
-          branch: main
-        app: ap-tim-13-fe
+    
