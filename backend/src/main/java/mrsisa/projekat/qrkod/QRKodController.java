@@ -7,6 +7,7 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.pacijent.Pacijent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,7 +45,6 @@ public class QRKodController {
     public List<ApotekaDTO> dobaviApotekeErecepta(@RequestBody String tekst){
         String kod = tekst.substring(0, tekst.length()-1);
         String putanjaKoda = System.getProperty("user.dir") + "\\src\\main\\resources\\qrkod\\" + kod;
-        System.out.println(putanjaKoda);
 
         String rezultat = "";
         try {
@@ -52,11 +52,18 @@ public class QRKodController {
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)));
             Result result = new MultiFormatReader().decode(bitmap);
-            System.out.println(result.getText());
             rezultat = result.getText();
-        } catch(Exception e) {
 
+            String[] tokeni = rezultat.split("\\|");
+            if (tokeni.length != 3) // da provjerimo je li dovoljno tokena izparsirano
+                return null;
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            Pacijent p = (Pacijent) auth.getPrincipal();
+           // if (!p.getUsername().equals(tokeni[1]))  // ako ga koristi pacijent koji ne bi trebao
+             //   return null;
+            return this.qrKodService.vratiApotekeNaOsnovuKoda(tokeni);
+        } catch(Exception e) {
+            return null;
         }
-        return this.qrKodService.vratiApotekeNaOsnovuKoda(rezultat);
     }
 }

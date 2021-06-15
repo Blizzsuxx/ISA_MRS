@@ -19,6 +19,8 @@ import java.util.List;
 @Entity
 @Table(name="stanje_lijeka")
 public class StanjeLijeka {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,6 +37,17 @@ public class StanjeLijeka {
     @Column(name = "datumIstekaCijene", nullable = true)
     private LocalDateTime datumIstekaCijene;
 
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     @Column(name = "zatrazen", nullable = true, columnDefinition = "integer default 0")
     private int zatrazen;
@@ -217,4 +230,6 @@ public class StanjeLijeka {
     public void setZatrazenDatum(LocalDateTime zatrazenDatum) {
         this.zatrazenDatum = zatrazenDatum;
     }
+
+
 }

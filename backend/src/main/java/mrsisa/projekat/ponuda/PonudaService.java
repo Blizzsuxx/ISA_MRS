@@ -14,13 +14,16 @@ import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import mrsisa.projekat.util.MailSender;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +48,9 @@ public class PonudaService {
         Ponuda p = new Ponuda(ponudaDTO);
         Narudzbenica n = this.narudzbenicaRepository.findById(ponudaDTO.getIdNarudzbenice()).orElseThrow();
         if (LocalDateTime.now().isAfter(n.getRok()))
+            return false;
+
+        if(LocalDate.parse(p.getRokPonude(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).isAfter(n.getRok().toLocalDate()))
             return false;
 
         for (Ponuda ponudice : this.ponudaRepository.findAllByDobavljac(d)){
@@ -92,6 +98,14 @@ public class PonudaService {
             }
         }
         return ponude;
+    }
+
+    @Transactional
+    public void azurirajPonudu(PonudaDTO ponudaDTO){
+        Ponuda p = this.ponudaRepository.findById(ponudaDTO.getId()).orElseThrow();
+        p.setNazivPonude(ponudaDTO.getNazivPonude());
+        p.setCijenaPonude(ponudaDTO.getCijenaPonude());
+        this.ponudaRepository.save(p);
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaDTO;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class AkcijaDTO {
@@ -64,7 +65,7 @@ public class AkcijaDTO {
         this.opis = a.getOpis();
         this.stanjeLijeka = new StanjeLijekaDTO(s);
         this.Id = a.getId();
-        this.datumVazenja = LocalDate.now().format(dtf);
+        this.datumVazenja = LocalDateTime.now().format(dtf);
     }
 
     public AkcijaDTO(Akcija akcija){

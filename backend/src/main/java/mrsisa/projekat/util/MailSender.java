@@ -53,6 +53,7 @@ public class MailSender {
         return true;
     }
 
+    @PostMapping(value = "/slanjeMejla")
     public static void sendmail(String text, String sendT0) throws AddressException, MessagingException, IOException {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");

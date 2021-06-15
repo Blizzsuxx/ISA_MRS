@@ -32,21 +32,16 @@ public class AkcijaService {
 
         Apoteka apoteka=this.apotekaRepository.findOneById(Long.parseLong(id.trim()));
         List<AkcijaDTO> lista=new ArrayList<>();
-        for(StanjeLijeka s : apoteka.getLijekovi()){
-            System.out.println("------*************--");
-            if(s.getAkcija()!=null){
-                System.out.println("-----------------------------------------");
-                System.out.println(s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()));
-
-                if((s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()) || s.getAkcija().getDatumOd().isBefore(LocalDateTime.now())) &&
+        for(StanjeLijeka s : apoteka.getLijekovi()) {
+            if (s.getAkcija() != null) {
+                if ((s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()) || s.getAkcija().getDatumOd().isBefore(LocalDateTime.now())) &&
                         (s.getAkcija().getDatumDo().isEqual(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))
-                ){
-                    lista.add(new AkcijaDTO(s.getAkcija(),s));
+                ) {
+                    lista.add(new AkcijaDTO(s.getAkcija(), s));
 
                 }
             }
         }
-        System.out.println("velicina:"+lista.size() );
         return lista;
     }
 

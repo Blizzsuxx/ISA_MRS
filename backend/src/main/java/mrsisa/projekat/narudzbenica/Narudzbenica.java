@@ -16,6 +16,11 @@ public class Narudzbenica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
@@ -106,5 +111,13 @@ public class Narudzbenica {
 
     public void setAdministratorApoteke(AdministratorApoteke administratorApoteke) {
         this.administratorApoteke = administratorApoteke;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

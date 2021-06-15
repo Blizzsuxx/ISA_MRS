@@ -3,7 +3,7 @@ import moment from 'moment'
 import authHeader from './AuthHeader'
 
 const state = {    
-    
+    idRez: "",
     sviLijekovi : [],
     zabranjeni : [],
     dtoLijekovi: [],
@@ -19,6 +19,9 @@ const state = {
 
 
 const actions = {
+    dobaviSveLijekove(){
+        return axios.get('lijekovi/DTOlijekovi',{ headers: authHeader()});
+    },
     dobaviLijekoveDobavljaca(){
         return axios.get('lijekovi/dobaviStanjeLijekovaDobavljaca', { headers: authHeader() });
     },
@@ -50,8 +53,9 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        return axios.get('apoteka/dobaviLijekove/1',{ headers: authHeader()})
+        return axios.get('apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
+            console.log(response.data)
             context.commit('postaviSveLijekove',response.data)
         })
         
@@ -95,43 +99,47 @@ const actions = {
         return axios.post('apoteka/rezervisiLek',lek,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
-            if(tf){
-            
-            console.log("rezervisali ste lek")
+            if(tf.startsWith("true")){
+            //this.idRez=tf.split(" ")[1]
+            context.commit('postaviIdRez',tf.split(" ")[1])
+            console.log("Rezervisali ste lek")
             return true;
         }else{   
-                console.log("Nije dobro")
+                console.log("Niste rezervisali lek, ili ste alergicni ili ga nema vise an stanju")
                 return false;
             }
         })  
     },
 
-    async proveriAlergije (context, data){
-        axios.post('profil/proveriAlergije',data, {headers : authHeader()})
+    proveriAlergije (context, data){
+        return axios.post('profil/proveriAlergije',data, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return Promise.resolve(1);
-
+            
+            console.log("OVO JE ODMAH NAKON " + state.greska);
         })
     },
 
 
     async proveriDostupnost (context, params){
         console.log(params);
-        axios.post('posete/proveriDostupnost',params, {headers : authHeader()})
+        await axios.post('posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
+            console.log("ODMAH NAKON DOSTUPNOSTI " + state.greska);
+            if(response.data){
+                console.log("ODMAH NAKON DOSTUPNOSTI2222222222222 " + response.data);
+                return axios.post('posete/traziZamenu',params, {headers : authHeader()})
+                .then(response2 => {
+                console.log("ODMAH NAKON DOSTUPNOSTI3333333 " + response.data);
 
+                    context.commit('postaviZamenuLekove',response2.data)
+                    
+            });
+            }
         });
 
-        if(state.greska){
-            axios.post('posete/traziZamenu',params, {headers : authHeader()})
-            .then(response => {
-                context.commit('postaviZamenuLekove',response.data)
-
-        });
-        }
-        return Promise.resolve(1);
+        
     },
 
 
@@ -237,6 +245,8 @@ const mutations = {
     dobaviLijekoveApoteke:(state, lijekovi)=>(state.apotekaLijekovi = lijekovi),
     postaviPoruceneNepostojece:(state,poruceniNepostojeci)=>(state.poruceniNepostojeci = poruceniNepostojeci),
     postaviGresku:(state, er)=>(state.greska = er),
+    postaviIdRez:(state, er)=>(state.idRez = er),
+
 }
 
 export default{

@@ -57,6 +57,10 @@
       prop="pacijent">
     </el-table-column>
     <el-table-column
+      label="Tip Žalbe"
+      prop="tipZalbe">
+    </el-table-column>
+    <el-table-column
       label="Datum i Vrijeme"
       prop="datumVrijeme">
     </el-table-column>
@@ -74,7 +78,10 @@
           @click="sadrzaj(scope.$index, scope.row)">Sadrzaj</el-button>
         <el-button
           size="mini"
-          @click="odgovori(scope.$index, scope.row)">Odgovori</el-button>
+          @click="odgovori(scope.$index, scope.row)">Odgovor</el-button>
+        <el-button
+          size="mini"
+          @click="info(scope.$index, scope.row)">Info</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -158,7 +165,51 @@
       </span>
     </template>
     </el-dialog>
+    </el-dialog>
 
+    
+    <el-dialog
+    title="Info o Apoteci"
+    v-model="cetvrtiProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+        <h4>Sadržaj</h4>
+        <p>{{informacija.ime}}</p>
+        <p>{{informacija.mjesto}}</p>
+        <p>{{informacija.ulica}}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="cetvrtiProzor = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
+
+    <el-dialog
+    title="Info o Korisniku"
+    v-model="petiProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+        <h4>Sadržaj</h4>
+        <p>{{informacija.ime}} {{informacija.prezime}}</p>
+        <p>{{informacija.email}}</p>
+        <p>{{informacija.brojTelefona}}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="petiProzor = false">Izadji</el-button>
+      </span>
+    </template>
     </el-dialog>
 </template>
 
@@ -173,10 +224,13 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
         prviProzor: false,
         drugiProzor: false,
         treciProzor: false,
+        cetvrtiProzor: false, // za apoteku
+        petiProzor: false, // za korisnika
         zalba: {},
         odgovoriZalbe: [],
         searchOdgovori: '',
         odgovor: {},
+        informacija: {}
       };
     },
     components : {
@@ -190,7 +244,6 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
     },
     methods: {
         sadrzaj(index, row) {
-            console.log(index);
             this.prviProzor = true;
             this.zalba = row;
         },
@@ -205,10 +258,20 @@ import NavMeniZaPacijenta from "./NavMeniZaPacijenta.vue"
 
         },
         sadrzajOdgovora(index, row){
-            console.log(index);
-            console.log(row);
             this.treciProzor = true;
             this.odgovor = row;
+        },
+        info(index, row){
+          this.zalba = row;
+          this.$store.dispatch('APKorisnici/dobaviInfoZalbe', 
+          {identifikator: this.zalba.idObjekta, tipZalbe: this.zalba.tipZalbe})
+          .then(response => {
+            this.informacija = response.data;
+            if (this.zalba.tipZalbe === 'Apoteka')
+              this.cetvrtiProzor = true;
+            else
+              this.petiProzor = true;
+          })
         }
     }
   }

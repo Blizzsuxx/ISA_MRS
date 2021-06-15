@@ -7,6 +7,7 @@ import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Erecept {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "sifra") // NA OVO SE VRATITI
+    @Column(name = "sifra", unique = true) // NA OVO SE VRATITI
     private String sifra;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -58,7 +59,9 @@ public class Erecept {
         this.poseta = poseta;
     }
 
-    public Erecept() {}
+    public Erecept() {
+        this.prepisaniLijekovi = new ArrayList<>();
+    }
 
     public Erecept(String sifra, Pacijent pacijent, LocalDateTime datumIzdavanja, List<StanjeLijeka> prepisaniLijekovi, Poseta poseta) {
         this.sifra = sifra;

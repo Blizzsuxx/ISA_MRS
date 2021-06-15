@@ -1,13 +1,14 @@
 package mrsisa.projekat.poseta;
 
 
-import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
-import mrsisa.projekat.pacijent.Pacijent;
+import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminService;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,10 +29,15 @@ import java.util.Map;
 public class PosetaController {
     private final PosetaService posetaService;
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final ApotekaRepository apotekaRepository;
+    private final LijekRepository lijekRepository;
+
     @Autowired
-    public PosetaController(PosetaService apotekaService,StanjeLijekaRepository stanjeLijekaRepository){
+    public PosetaController(PosetaService apotekaService, StanjeLijekaRepository stanjeLijekaRepository, ApotekaRepository apotekaRepository, LijekRepository lijekRepository){
         this.posetaService = apotekaService;
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.apotekaRepository = apotekaRepository;
+        this.lijekRepository = lijekRepository;
     }
 
     @PostMapping("/zabeleziOdsustvo")
@@ -76,37 +81,9 @@ public class PosetaController {
     }
 
     @PostMapping(value = "/traziZamenu")
-    public Map<LijekDTO, List<LijekDTO>> traziZamenu(@RequestBody Map<String, Object> params){
-        Poseta poseta = this.posetaService.findId(Long.parseLong(params.get("pregledID").toString()));
-        Map<LijekDTO, List<LijekDTO>> lekoviZaPreporuku = new HashMap<>();
-        List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        for(Map<String, Object> token : lekoviID){
-            Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
-            System.out.println("ZAMENA");
-            System.out.println(lek);
-            System.out.println("ZAMENA");
-            for(StanjeLijeka stanjeLijeka : poseta.getApoteka().getLijekovi()){
-                if(stanjeLijeka.getId().equals(lek.get("id"))){
-                    if(stanjeLijeka.getKolicina() < (int)lek.get("kolicina")){
+    public Map<String, List<LijekDTO>> traziZamenu(@RequestBody Map<String, Object> params){
+        return this.posetaService.traziZamenu(params);
 
-                    }
-                    else{
-                        List<Lijek> lekList = stanjeLijeka.getLijek().getZamenskiLijekovi();
-                        ArrayList<LijekDTO> dtoList = new ArrayList<>();
-                        for(Lijek l : lekList){dtoList.add(new LijekDTO(l));}
-                        lekoviZaPreporuku.put(new LijekDTO(stanjeLijeka.getLijek()), dtoList);
-                    }
-                    break;
-                }
-            }
-        }
-
-        return lekoviZaPreporuku;
     }
 
     @PostMapping(value="/proveriDostupnost")
@@ -126,9 +103,9 @@ public class PosetaController {
     }
 
     @PostMapping(value="/zakaziPosetu")
-    public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+    public Boolean zakaziPosetu( @RequestBody Map<String, Object> podaci){
 
-        this.posetaService.kreirajPosetu(podaci);
+        return this.posetaService.kreirajPosetu(podaci);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/otkazi")
@@ -166,6 +143,11 @@ public class PosetaController {
     public String rezervisiPosetuD( @RequestBody String id){
 
         return this.posetaService.zakaziPosetuD(id);
+    }
+
+    @PostMapping(path = "/nabaviSlobodneTermine")
+    public List<SlobodanTerminDTO> nabaviSlobodneTermine(@RequestBody Map<String, Object> data){
+        return posetaService.slobodniTermini(data);
     }
 
 }

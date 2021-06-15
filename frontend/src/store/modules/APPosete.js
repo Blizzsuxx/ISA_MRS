@@ -105,10 +105,11 @@ const actions = {
     })
    },
     zakaziPosetu(context, podaci){
-        axios.post('posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
+        return axios.post('posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
 
-            alert("Zakazan pregled");
-            return response;
+            
+            console.log("AAA " + response.data);
+            return response.data;
         })
     },
 
@@ -140,10 +141,23 @@ const actions = {
     rezervisiPosetuD(context, id){
         axios.post('posete/rezervisiPosetuD',id, {headers : authHeader()}).then(response => {
             if(response.data=="Uspesno ste zakazali posetu kod dermatologa Sime."){
+
             alert(response.data);
             return true;}else{return false;}
         })
+    },
+
+
+    nabaviSlobodneTermine(context, data){
+        return axios.post('posete/nabaviSlobodneTermine',data, {headers : authHeader()}).then(response => {
+            console.log("QQQQQQQ")
+
+            let poseteSve =response.data
+            context.commit('postaviSlobodnePoseteD',poseteSve)
+        })
     }
+
+
 }
 
 const mutations = {

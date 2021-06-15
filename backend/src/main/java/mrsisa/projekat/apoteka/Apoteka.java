@@ -23,7 +23,9 @@ import java.util.List;
 public class Apoteka {
 
     @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

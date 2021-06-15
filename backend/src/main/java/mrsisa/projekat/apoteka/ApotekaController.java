@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.administratorApoteke.AdministratorApotekeRepository;
+import mrsisa.projekat.administratorApoteke.AdministratorApotekeService;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.pacijent.Pacijent;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path="api/v1/apoteka")
 public class ApotekaController {
     private final ApotekaService apotekaService;
+
     @Autowired
     public ApotekaController(ApotekaService apotekaService){
         this.apotekaService = apotekaService;
@@ -41,6 +44,11 @@ public class ApotekaController {
     public List<StanjeLijekaDTO> dobaviLijekove(@PathVariable Long id){
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return apotekaService.dobaviStanjaLijekova(id);
+    }
+
+    @GetMapping("/dobaviLijekove")
+    public List<LijekDTO> dobaviSveLijekove(){
+        return apotekaService.dobaviSvaStanjaLijekova();
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
@@ -63,6 +71,7 @@ public class ApotekaController {
 
         return apotekaService.dobaviSveDostupneLijekove();
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/izvjestaj")
     public IzvjestajDTO izvjestaj(){
@@ -104,7 +113,7 @@ public class ApotekaController {
     }
     @PreAuthorize("hasRole('PACIJENT')")
     @PostMapping(value="/rezervisiLek")
-    public boolean rezervisiLek(@RequestBody String lek){
+    public String rezervisiLek(@RequestBody String lek){
 
         //return apotekaService.dobaviSveDostupneLijekove();
         System.out.println(lek);

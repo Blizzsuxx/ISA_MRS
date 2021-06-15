@@ -13,6 +13,17 @@ public class Ocena {
     private Pacijent pacijent;
     @Column(name = "ocena", nullable = false)
     private int ocena;
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public Pacijent getPacijent() {
         return pacijent;

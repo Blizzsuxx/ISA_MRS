@@ -18,10 +18,10 @@
   }
   #unos .container #unos-row #unos-column #unos-box {
     margin: auto;
-    width: 50%;
+    width: 55%;
     margin-top: 10px;
-    max-width: 750px;
-    height: 650px;
+    max-width: 800px;
+    height: 1050px;
     border: 1px solid #9C9C9C;
     background-color: #EAEAEA;
     font-weight: bold;
@@ -46,17 +46,17 @@
           <div id="unos-box" class="col-md-12">
             <el-form ref="korisnik" :model="korisnik" :rules="rules" label-width="140px">
               <h3 class="text-center text-info">{{naslovForme}}</h3>
-              <el-form-item label="Korisnicko ime:" prop="korisnickoIme">
+              <el-form-item label="Korisničko ime:" prop="korisnickoIme">
                 <div class="grupa">
                 <el-input v-model="korisnik.korisnickoIme"></el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="Sifra" prop="sifra">
+              <el-form-item label="Šifra" prop="sifra">
                 <div class="grupa">
                 <el-input type="password" v-model="korisnik.sifra"></el-input>
                 </div>
               </el-form-item>
-              <el-form-item label="Potvrda Sifre:" prop="potvrdaSifre">
+              <el-form-item label="Potvrda Šifre:" prop="potvrdaSifre">
                 <div class="grupa">
                 <el-input type="password" v-model="korisnik.potvrdaSifre"></el-input>
                 </div>
@@ -94,6 +94,36 @@
                 </div>
                 <div v-else>
                     <el-input model-value="ROLE_PACIJENT" v-model="korisnik.uloga" readonly></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Broj Telefona:" prop="brojTelefona">
+                <div class="grupa">
+                <el-input v-model="korisnik.brojTelefona" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Ulica:" prop="ulica">
+                <div class="grupa">
+                <el-input v-model="korisnik.ulica" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Broj ulice:" prop="broj">
+                <div class="grupa">
+                <el-input v-model="korisnik.broj" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Mesto:" prop="mesto">
+                <div class="grupa">
+                <el-input v-model="korisnik.mesto" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Ptt:" prop="ptt">
+                <div class="grupa">
+                <el-input v-model="korisnik.ptt" autocomplete="off"></el-input>
+                </div>
+              </el-form-item>
+              <el-form-item label="Drzava:" prop="drzava">
+                <div class="grupa">
+                <el-input v-model="korisnik.drzava" autocomplete="off"></el-input>
                 </div>
               </el-form-item>
               <el-form-item>
@@ -197,7 +227,25 @@ import moment from 'moment'
           email: [
             { required: true, message: 'Unesite email adresu!', trigger: 'blur' },
             { type: 'email', message: 'Unesite validnu adresu!', trigger: ['blur', 'change'] }
-          ]
+          ],
+          ulica: [
+            { required: true, message: 'Unesite ulicu!', trigger: 'blur' }
+          ],
+          broj: [
+            { required: true, message: 'Unesite broj!', trigger: 'blur' }
+          ],
+          mesto: [
+            { required: true, message: 'Unesite mesto!', trigger: 'blur' }
+          ],
+          ptt: [
+            { required: true, message: 'Unesite ptt!', trigger: 'blur' }
+          ],
+          drzava: [
+            { required: true, message: 'Unesite drzavu!', trigger: 'blur' }
+          ],
+          brojTelefona: [
+            { required: true, message: 'Unesite broj telefona!', trigger: 'blur' }
+          ],
         }
       }; 
     },
@@ -216,7 +264,7 @@ import moment from 'moment'
       open1() {
         this.$message({
           showClose: true,
-          message: 'Dodat ' + this.korisnik.uloga,
+          message: 'Uspješno je dodat novi korisnik, potvrda poslata na email.',
           type: 'success'
         });
       },
@@ -226,14 +274,16 @@ import moment from 'moment'
           if (valid) {
             var k = {korisnickoIme: this.korisnik.korisnickoIme, sifra: this.korisnik.sifra, 
             ime: this.korisnik.ime, prezime: this.korisnik.prezime, rodjendan:moment(String(this.korisnik.rodjendan)).format('YYYY-MM-DD hh:mm'),
-            email: this.korisnik.email, uloga: this.korisnik.uloga};
+            email: this.korisnik.email, uloga: this.korisnik.uloga, 
+            ulica: this.korisnik.ulica, broj: this.korisnik.broj, mesto: this.korisnik.mesto, 
+            ptt: this.korisnik.ptt, drzava: this.korisnik.drzava, brojTelefona: this.korisnik.brojTelefona};
 
             this.$store.dispatch('APKorisnici/dodajKorisnika', k)
             .then(response => {
               if (response){
                 this.open1();
               }
-              if (this.indikator){
+              if (this.korisnik.uloga !== 'ROLE_PACIJENT') {
                 var nesto;
                 if (this.korisnik.uloga === 'ROLE_ADMIN_SISTEMA'){
                   nesto = "AS";
@@ -245,9 +295,11 @@ import moment from 'moment'
                   nesto = "Dobavljaci";
                 }
                 this.izmjeniIndikator(1, nesto);
-              } else {
+
+              } else { // znaci ako je pacijent u pitanju
                 this.$router.push('/ap/prijava');
               }
+             
 
             });
           }

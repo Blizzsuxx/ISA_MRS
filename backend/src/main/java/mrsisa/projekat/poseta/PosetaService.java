@@ -11,26 +11,33 @@ import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.lijek.Lijek;
+import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.pacijent.PacijentService;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustService;
+import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import mrsisa.projekat.tipPenala.Penal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.transaction.annotation.Propagation;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PosetaService {
@@ -40,10 +47,13 @@ public class PosetaService {
     private final ApotekaRepository apotekaRepository;
     private final PacijentRepository pacijentRepository;
     private final SlobodanTerminRepository slobodanTerminRepository;
+    private final PacijentService pacijentService;
+    private final PopustService popustService;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm,
-                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR)
+                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR, PacijentService pacijentService, PopustService popustRepository)
     {
         this.posetaRepository = posRepository;
         this.farmaceutRepository=farm;
@@ -51,6 +61,8 @@ public class PosetaService {
         this.apotekaRepository=apotekaRepository;
         this.pacijentRepository=pacijentR;
         this.slobodanTerminRepository=slobodanR;
+        this.pacijentService = pacijentService;
+        this.popustService = popustRepository;
     }
 
     public List<PosetaDTO> dobaviPosete(Long id) {
@@ -65,6 +77,14 @@ public class PosetaService {
         Poseta poseta = this.findId(id);
         poseta.setOpis(opis);
         poseta.setOtkazano(false);
+        Popust popust = this.popustService.findById(1);
+        Pacijent pacijent = poseta.getPacijent();
+        if(poseta.getRadnik() instanceof Farmaceut){
+            pacijent.setBrojPoena(pacijent.getBrojPoena() + popust.getBrojPoenaSavetovanja());
+        } else {
+            pacijent.setBrojPoena(pacijent.getBrojPoena() + popust.getBrojPoenaPregleda());
+
+        }
         this.posetaRepository.save(poseta);
     }
 
@@ -75,21 +95,72 @@ public class PosetaService {
     }
 
     @Transactional
-    public void kreirajPosetu(Map<String, Object> podaci){
+    public Boolean kreirajPosetu(Map<String, Object> podaci){
         Long pregledID = Long.parseLong( podaci.get("pregledID").toString());
         Poseta poseta = this.findId(pregledID);
         Pacijent pacijent = poseta.getPacijent();
         Apoteka apoteka = poseta.getApoteka();
         Radnik radnik = poseta.getRadnik();
-        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
+        ArrayList<String> dateTime = null;
+        LocalDateTime pocetak = null;
+        LocalDateTime kraj = null;
+        if(podaci.get("datetime").toString().isEmpty()){
+            System.out.println(podaci.get("slobodan termin"));
+            SlobodanTermin sl = this.slobodanTerminRepository.findOneById(Long.parseLong(podaci.get("slobodan termin").toString()));
+            pocetak = (sl.getPocetakTermina());
+            kraj = (sl.getKrajTermina());
+
+        } else {
+            dateTime = (ArrayList<String>) podaci.get("datetime");
+            pocetak = LocalDateTime.parse(dateTime.get(0).substring(0,23));
+            kraj = LocalDateTime.parse(dateTime.get(1).substring(0,23));
+        }
+
+
+        List<Poseta> posete = this.posetaRepository.findByRadnikAktivno(radnik.getId());
+        for(Poseta p : posete){
+            if(pocetak.isBefore(p.getPocetak()) && !kraj.isBefore(p.getPocetak())){
+                return true;
+            }
+            if(pocetak.isAfter(p.getPocetak()) && pocetak.isBefore(p.getKraj())){
+                return true;
+            }
+            if(pocetak.isEqual(p.getPocetak())){
+                return true;
+            }
+        }
+        List<RadnoVrijeme> rvreme = apoteka.getRadnaVremena();
+        for(RadnoVrijeme rv : rvreme){
+            Radnik rad = rv.getDermatolog();
+            if(rad == null) rad = rv.getFarmaceuet();
+            if(rad.getId().equals(radnik.getId())){
+                if(rv.getPocetakRadnogVremena().isBefore(pocetak) && rv.getKrajRadnogVremena().isAfter(kraj)){
+                    break;
+                } else {
+                    return true;
+                }
+            }
+        }
+
         Poseta novaPoseta = new Poseta();
         novaPoseta.setPacijent(pacijent);
         novaPoseta.setApoteka(apoteka);
         novaPoseta.setRadnik(radnik);
+        novaPoseta.setOtkazano(null);
+
         novaPoseta.setPocetak(LocalDateTime.parse(dateTime.get(0).substring(0,23)));
         novaPoseta.setKraj(LocalDateTime.parse(dateTime.get(1).substring(0,23)));
+        radnik.getPosete().add(novaPoseta);
         this.posetaRepository.save(novaPoseta);
         System.out.println(podaci.get("korisnik"));
+
+        if(podaci.get("datetime").toString().isEmpty()){
+            System.out.println(podaci.get("slobodan termin"));
+            SlobodanTermin sl = this.slobodanTerminRepository.findOneById(Long.parseLong(podaci.get("slobodan termin").toString()));
+            this.slobodanTerminRepository.delete(sl);
+
+        }
+        return  false;
     }
 
     @Transactional
@@ -209,8 +280,13 @@ public class PosetaService {
 
     public Korisnik getTrenutnogKorisnika(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Korisnik k = (Korisnik)auth.getPrincipal();
-        return k;
+        try {
+            Korisnik k = (Korisnik)auth.getPrincipal();
+            return k;
+        }catch(ClassCastException e){
+            return this.pacijentRepository.findOneById(9);
+        }
+
     }
 
     @Transactional
@@ -338,6 +414,7 @@ public class PosetaService {
 
     }
 
+    @Transactional(propagation =Propagation.REQUIRES_NEW) //todo  isto kao slobodanTerminService fja zakazi
     public String zakaziPosetuD(String id) {
         String broj=id.split("=")[0];
         SlobodanTermin termin=this.slobodanTerminRepository.findOneById(Long.parseLong(broj.trim()));
@@ -346,29 +423,53 @@ public class PosetaService {
         p.setKraj(termin.getKrajTermina());
         p.setPocetak(termin.getPocetakTermina());
         List<Poseta> sve=this.posetaRepository.findAll();
-        Long id2=sve.get(sve.size()-1).getId()+1L;
-        p.setId(id2);
+
         p.setOtkazano(false);
         p.setApoteka(termin.getApoteka());
         Korisnik k=getTrenutnogKorisnika();
         Pacijent pacijent=this.pacijentRepository.findOneById(k.getId());
         p.setPacijent(pacijent);
-        this.posetaRepository.save(p);
-
-        return "Uspesno ste zakazali posetu kod dermatologa Sime.";
+        //this.posetaRepository.save(p); //todo mozda pacijentu setovati i cuvati?
+        sacuvajPosetu(p);
+        deleteTermin(termin.getId());
+        return "Uspesno ste zakazali posetu kod dermatologa";
     }
+
+    private Long pronadjiKljuc(List<Poseta> sve) {
+        Long kljuc=1L;
+        for(Poseta posete : sve){
+            if(posete.getId()>kljuc){
+                kljuc=posete.getId();
+            }
+        }
+        kljuc++;
+        System.out.println("Kljuc je: "+kljuc);
+        return kljuc;
+    }
+
+
+    @Transactional //(readOnly=false) todo //ovde je cuvanje posete, e sad, treba onemoguciti da se ovo desi 2 pputa
+    public void sacuvajPosetu(Poseta poseta){//kada se upisuje ide pessimistic //pazi na slobodan termin da se yakljuca nekako
+        logger.info("> create");
+        Poseta sacuvana=posetaRepository.save(poseta);
+        logger.info("< create");
+
+    }
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)//
+    public void deleteTermin(long id) {
+        System.out.println("doslo delete");
+        logger.info("> delete");
+        slobodanTerminRepository.deleteById(id);
+        logger.info("< delete");
+    }
+
     @Transactional
     public boolean izbaciPosetuF(String id) {
 
         for(Poseta poseta : this.posetaRepository.findAll()){
             if(poseta.getId()==Integer.parseInt(id.trim())){
-                List<SlobodanTermin> termini=new ArrayList<>();
-                Long id1;
-                if(termini.size()==0){
-                    id1=1L;
-                }else{
-                 id1=termini.get(termini.size()-1).getId()+1;}
-                SlobodanTermin sl=new SlobodanTermin(poseta, id1);//proveriti generisanje id
+                List<SlobodanTermin> termini=this.slobodanTerminRepository.findAll();
+                SlobodanTermin sl=new SlobodanTermin(poseta);//proveriti generisanje id
                 sl.setApoteka(poseta.getApoteka());
                 this.slobodanTerminRepository.save(sl);
                 this.posetaRepository.delete(poseta);
@@ -381,11 +482,36 @@ public class PosetaService {
         return true;
     }
 
-    
+
+    private Long izracunajKljuc(List<SlobodanTermin> termini) {
+        Long kljuc=1L;
+        for(SlobodanTermin posete : termini){
+            if(posete.getId()>kljuc){
+                kljuc=posete.getId();
+            }
+        }
+        kljuc++;
+        System.out.println("Kljuc je: "+kljuc);
+        return kljuc;
+
+    }
+
+
     @Transactional
     public void zabeleziOdsustvo(Long id) {
         Poseta poseta = this.posetaRepository.findById(id).orElse(null);
+
+
+
+
+        if(poseta.getRadnik() instanceof Farmaceut) {
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 2);
+        } else{
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 3);
+
+        }
         poseta.setOtkazano(true);
+
     }
 
     @Transactional(readOnly=true)
@@ -409,41 +535,112 @@ public class PosetaService {
         Poseta poseta = this.findId(Long.parseLong(params.get("pregledID").toString()));
 
         List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println(params.get("lijekovi"));
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        Boolean greska = false;
         for(Map<String, Object> token : lekoviID){
-            Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
+            Map<String, Object> lek =  token;
             boolean lekPostojiUApoteci = false;
             for(StanjeLijeka stanjeLijeka : poseta.getApoteka().getLijekovi()){
-                if(stanjeLijeka.getId().equals (Long.parseLong(lek.get("id").toString()))){
+                if(stanjeLijeka.getId().toString().equals((lek.get("id").toString()))){
                     lekPostojiUApoteci = true;
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     System.out.println(stanjeLijeka.getKolicina());
                     System.out.println(lek.get("kolicina"));
                     System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                    System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                     if(stanjeLijeka.getKolicina() < Long.parseLong(lek.get("kolicina").toString())){
                         System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-
-                        return true;
-                    }
-                    else{
                         stanjeLijeka.setZatrazen(stanjeLijeka.getZatrazen()+1);
                         stanjeLijeka.setZatrazenDatum(LocalDateTime.now());
                         stanjeLijekaRepository.save(stanjeLijeka);
+                        greska = true;
+                    }
+                    else{
+
                     }
                     break;
                 }
             }
             if(!lekPostojiUApoteci){
-                return true;
+                greska = true;
+
             }
         }
 
-        return false;
+        return greska;
+    }
+
+
+    @Transactional
+    public Map<String, List<LijekDTO>> traziZamenu(Map<String, Object> params) {
+
+        Poseta poseta = findId(Long.parseLong(params.get("pregledID").toString()));
+        Map<String, List<LijekDTO>> lekoviZaPreporuku = new HashMap<>();
+        List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
+        System.out.println("ZAMENA");
+        System.out.println("ZAMENA");
+        System.out.println("ZAMENA");
+        System.out.println("ZAMENA");
+        System.out.println("ZAMENA");
+
+        Apoteka apoteka = this.apotekaRepository.findOneById(poseta.getApoteka().getId());
+        for(Map<String, Object> token : lekoviID){
+            Map<String, Object> lek =  token;
+            System.out.println("ZAMENA");
+            System.out.println(lek);
+            System.out.println("ZAMENA");
+
+            for(StanjeLijeka stanjeLijeka : apoteka.getLijekovi()){
+                if(stanjeLijeka.getId().toString().equals(lek.get("id").toString())){
+                    if(stanjeLijeka.getKolicina() < (int)lek.get("kolicina")){
+                        List<Lijek> lekList = stanjeLijeka.getLijek().getZamenskiLijekovi();
+                        ArrayList<LijekDTO> dtoList = new ArrayList<>();
+                        for(Lijek l : lekList){dtoList.add(new LijekDTO(l));}
+                        lekoviZaPreporuku.put(stanjeLijeka.getLijek().getSifra(), dtoList);
+                    }
+                    else{
+
+                    }
+                    break;
+                }
+            }
+        }
+        System.out.println("AAAAAAA");
+        System.out.println("AAAAAAA");
+
+        for( List<LijekDTO> a : lekoviZaPreporuku.values()){
+            System.out.println(a);
+            for(LijekDTO b : a){
+                System.out.println(b.getNaziv());
+            }
+        }
+        System.out.println("AAAAAAA");
+        System.out.println("AAAAAAA");
+
+        return lekoviZaPreporuku;
+
+
+
+    }
+
+    @Transactional
+    public List<SlobodanTerminDTO> slobodniTermini(Map<String, Object> data) {
+        Long id = Long.parseLong(data.get("posetaId").toString());
+        Poseta poseta = this.posetaRepository.findOneById(id);
+
+        Long apotekaId = poseta.getApoteka().getId();
+        Long radnikId = Long.valueOf(poseta.getRadnik().getId());
+        List<SlobodanTermin> sviTermini=this.slobodanTerminRepository.findAll();
+
+        List<SlobodanTerminDTO> zaSlanje=new ArrayList<>();
+        for(SlobodanTermin p : sviTermini){
+
+            Dermatolog r=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+            Apoteka a=this.apotekaRepository.findOneById(p.getApoteka().getId());
+
+            if(r!=null && a!=null && apotekaId.toString().equals(a.getId().toString()) && radnikId.toString().equals(r.getId().toString())){
+
+                zaSlanje.add(new SlobodanTerminDTO(p,r,a));}
+
+        }
+        return zaSlanje;
     }
 }

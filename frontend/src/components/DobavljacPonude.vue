@@ -23,6 +23,14 @@
       label="Cijena Ponude">
     </el-table-column>
     <el-table-column
+      prop="rokPonude"
+      label="Rok Ponude">
+    </el-table-column>
+    <el-table-column
+      prop="rokNarudzbenice"
+      label="Rok Narudzbenice">
+    </el-table-column>
+    <el-table-column
       align="right">
       <template #header>
         <el-input
@@ -31,6 +39,11 @@
           placeholder="Type to search"/>
       </template>
       <template #default="scope">
+       
+        <el-button v-if='scope.row.statusEdita===true'
+          size="mini"
+          @click="izmena(scope.$index, scope.row)">Izmena</el-button>
+        
         <el-button
           size="mini"
           @click="narudzbenicaInfo(scope.$index, scope.row)">Narudzbenica</el-button>
@@ -140,7 +153,29 @@
 
   </el-dialog>
     </el-dialog>
-
+  
+  <el-dialog
+  title="Ponuda Info"
+    v-model="drugiProzor"
+    width="60%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+      <p><strong>Naziv Ponude</strong></p>
+      <el-input :model-value='ponuda.nazivPonude' v-model="ponuda.nazivPonude"></el-input>
+      <p><strong>Cijena Ponude</strong></p>
+      <el-input  :model-value='ponuda.cijenaPonude' v-model.number="ponuda.cijenaPonude"></el-input>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="drugiProzor = false">Izadji</el-button>
+        <el-button type="primary" @click="handleEdit">Potvrdi</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -151,9 +186,11 @@
         search: '',
         narudzbenica: {},
         prviProzor: false,
+        drugiProzor: false,
         searchOdgovori: '',
         centerDialogVisible: false,
-        lijek: {}
+        lijek: {},
+        ponuda: {}
       }
     },
     mounted() {
@@ -163,6 +200,20 @@
         });
     },
     methods: {
+      open1() {
+        this.$message({
+          showClose: true,
+          message: 'Uspješno izmjenjena ponuda.',
+          type: 'success'
+        });
+      },
+      open2() {
+        this.$message({
+          showClose: true,
+          message: 'Neuspjesno izmjenjena ponuda.',
+          type: 'error'
+        });
+      },
       narudzbenicaInfo(index, row){
           this.$store.dispatch("Ponude/dobaviNarudzbenicuPonude", row.id)
           .then(response => {
@@ -174,6 +225,24 @@
       lijekInfo(index, row){
         this.lijek = row.lijek;
         this.centerDialogVisible = true;
+      },
+      izmena(index, row){
+        this.ponuda.id = row.id;
+        this.ponuda.nazivPonude = row.nazivPonude;
+        this.ponuda.cijenaPonude = row.cijenaPonude;
+        this.drugiProzor = true;
+        console.log(index, row);
+      },
+      handleEdit(){
+        if (this.ponuda.nazivPonude === '' || this.ponuda.cijenaPonude <= 0){
+          this.open2();
+        } else {
+          this.$store.dispatch("Ponude/azurirajPonudu", this.ponuda)
+          .then(response => {
+            this.ponude = response.data;
+            this.drugiProzor = false;
+           });
+        }
       }
     },
   }

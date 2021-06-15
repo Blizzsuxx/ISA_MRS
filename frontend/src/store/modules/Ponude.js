@@ -12,6 +12,9 @@ const getters = {
 };
 
 const actions = {
+    azurirajPonudu(context, ponuda){
+        return axios.post('ponuda/azurirajPonudu', ponuda, {headers : authHeader()});
+    },
     kreirajPonudu(context, ponuda){
         return axios.post('ponuda/kreirajPonudu', ponuda, {headers : authHeader()})
     },

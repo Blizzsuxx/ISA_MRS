@@ -103,15 +103,21 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         await this.$store.dispatch("APlijekovi/dobaviLijekove");
         await this.$store.dispatch("APKorisnici/dobaviDermatologe");
         await this.$store.dispatch("APKorisnici/promeniRedirekciju", "dermatolog");
+        
         for(var i = 0; i < this.$store.state.APlijekovi.sviLijekovi.length; i++){
-          this.$store.state.APlijekovi.sviLijekovi[i].lijek.kolicina = 1;
+          this.$store.state.APlijekovi.sviLijekovi[i].kolicina = 1;
         }
         this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
+        this.$refs.prozor.radnik = this.radnik;
+        this.$refs.prozor.pregledID = this.pregledID;
+        this.$refs.prozor.korisnik = this.korisnik;
       if(!this.radnik.promenioSifru){
-        alert("Molimo vas da promenite sifru, kliknite na profil");
+        this.$message({
+            type: 'warning',
+            message: 'Molimo vas da promenite sifru, kliknite na profil'
+          });
       }      
         
-        console.log("");
     },
     setup() {
         return {
@@ -124,13 +130,16 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
     methods: {
 
       otvoriProzor(){
-
+        console.log("QWQWQWQWQWWQWQWQWWQ")
         this.$refs.prozor.modalOpen = true;
+        console.log("QWQWQWQWQWWQWQWQWWQ")
         this.$refs.prozor.radnik = this.radnik;
         this.$refs.prozor.pregledID = this.pregledID;
+        console.log("PRENET JE ID: " + this.pregledID);
         this.$refs.prozor.korisnik = this.korisnik;
 
       },
+
 
         ocistiSelekciju(rows) {
         if (rows) {
@@ -142,14 +151,35 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
       },
       async dodeliLekove(){
+        function sleep(milliseconds) {
+          const date = Date.now();
+          let currentDate = null;
+          do {
+            currentDate = Date.now();
+          } while (currentDate - date < milliseconds);
+        }
         console.log("aa");
         console.log(this.korisnik)
-        await this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik});
-        
+        if(this.$refs.dijete.multipleSelection.length == 0){
+          this.$message({
+            type: 'warning',
+            message: 'Niste nista izabrali'
+          });
+          return
+        }
+        this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik}).
+        then(response => {
+
+          console.log(response);
+          sleep(1);
         this.greska= this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.poruka = "Pacijent je alergican!";
-          alert("pacijent je alergican!")
+          this.$message({
+            type: 'warning',
+            message: 'Pacijent je alergican'
+          });
+
           this.izabraniLijekovi = [];
           return;
         } else {
@@ -158,20 +188,34 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         console.log("1")
         console.log(this.$refs.dijete.multipleSelection);
         console.log("3")
-        console.log("QWEQWEQWEQWEQWE: " + this.$route.params.pregledID)
-        await this.$store.dispatch("APlijekovi/proveriDostupnost",{lijekovi: this.$refs.dijete.multipleSelection, pregledID: this.$route.params.pregledID});
+        this.$store.dispatch("APlijekovi/proveriDostupnost",{lijekovi: this.$refs.dijete.multipleSelection, pregledID: this.$route.params.pregledID}).
+        then(response => {
+          console.log(response);
         this.greska=this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.izabraniLijekovi = [];
           this.$store.dispatch("Mail/posaljiMail", {"text" : "zatrazio lekove: " + "lekovi " + "u apoteci: " + "teka " + "koji nisu dostupni!", "address" : "mahajiraaji@gmail.com"});
-          this.poruka = "Lek nije dostupan!";
-          for(const [key, value] of Object.entries(this.$store.state.zamenaLekovi)){
-            var rec = "lek: " + key.naziv + " nije dostupan\r\nZamenite sa:";
+          
+          this.$message({
+            type: 'warning',
+            message: 'Lek nije dostupan i/ili ste porucili previse'
+          });
+          console.log(this.$store.state.APlijekovi.zamenaLekovi);
+          console.log("AAAAAAAAAAAAAAA")
+           for(const [key, value] of Object.entries(this.$store.state.APlijekovi.zamenaLekovi)){
+             console.log(key);
+             console.log("Kljuc")
+            var rec = "lek: " + key + " nije dostupan\r\nZamenite sa:";
             for(var i = 0; i < value.length; i++){
-              rec += "\r\n" + value[i].naziv;
+              rec += "\r\n" + value[i].sifra;
             }
-            alert(rec);
-          }
+
+            this.$message({
+            type: 'info',
+            message: rec
+          });
+          } 
+
 
           
           return;
@@ -179,13 +223,31 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
           this.greaska = false;
         }
           console.log("bb");
-          alert("uspesno ste dodelili lekove");
+          this.$message({
+            type: 'success',
+            message: 'Uspesno ste dodelili lekove'
+          });
           this.izabraniLijekovi = this.$refs.dijete.multipleSelection;
         this.$refs.dijete.$refs.multipleTable.clearSelection();
+        this.greska = false;
+
+        });
+        
+
+
+        })
+        
       },
+
+
+
+      
+
     
         selektujRedove(val) {
+          if(val){
         this.$refs.dijete.multipleSelection = val;
+          }
       },
 
       zavrsiPregled(){
@@ -199,7 +261,9 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
           console.log("PACIJENT ID: " +this.$route.params.pacijentID );
           console.log("PREGLED ID: " +this.$route.params.pregledID );
-          
+          if(isNaN(this.$route.params.pregledID)){
+            this.$router.go(-1);
+          }
           
 
       return {

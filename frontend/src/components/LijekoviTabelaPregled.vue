@@ -3,11 +3,11 @@
   <el-table
     :ref="referenca"
     height="250"
-    :data="lijekovi.filter(data => !search || String(data.lijek.naziv).toLowerCase().includes(search.toLowerCase()) ||
-    String(data.lijek.id).toLowerCase().includes(search.toLowerCase()) ||
-    String(data.lijek.vrstaLijeka).toLowerCase().includes(search.toLowerCase()) ||
-    String(data.lijek.oblikLijeka).toLowerCase().includes(search.toLowerCase()) ||
-    String(data.lijek.sastav).toLowerCase().includes(search.toLowerCase())
+    :data="lijekovi.filter(data => !search || String(data.naziv).toLowerCase().includes(search.toLowerCase()) ||
+    String(data.sifra).toLowerCase().includes(search.toLowerCase()) ||
+    String(data.vrstaLijeka).toLowerCase().includes(search.toLowerCase()) ||
+    String(data.oblikLijeka).toLowerCase().includes(search.toLowerCase()) ||
+    String(data.sastav).toLowerCase().includes(search.toLowerCase())
     )"
     style="width: 100%"
     @selection-change="handleSelectionChange">
@@ -17,46 +17,42 @@
     </el-table-column>
     
     <el-table-column
-      property="lijek.id"
+      property="sifra"
       label="Sifra"
      >
     </el-table-column>
     <el-table-column
-      property="lijek.naziv"
+      property="naziv"
       label="Naziv"
       >
     </el-table-column>
     <el-table-column
-      property="lijek.vrstaLijeka"
+      property="vrstaLijeka"
       label="Vrsta lijeka"
       >
     </el-table-column>
     <el-table-column
-      property="lijek.oblikLijeka"
+      property="oblikLijeka"
       label="Oblik lijeka"
       >
     </el-table-column>
     <el-table-column
-      property="lijek.sastav"
+      property="sastav"
       label="Sastav"
       >
     </el-table-column>
     
 
     <el-table-column
-      property="lijek.proizvodjac"
+      property="proizvodjac"
       label="Proizvodjac"
      >
     </el-table-column>
-    <el-table-column
-      property="cijena"
-      label="Cijena"
-     >
-    </el-table-column>
+    
 
     <el-table-column
-      property="datumIstekaCijene"
-      label="Datum isteka cijene"
+      property="napomena"
+      label="Napomena"
      
      >
     </el-table-column>
@@ -68,7 +64,7 @@
       prop="kolicina"
      >
        <template v-slot="scope">
-            <el-input-number v-model="scope.row.lijek.kolicina" :min="1" :max="99" size="small" controls-position="right" />
+            <el-input-number v-model="scope.row.kolicina" :min="1" :max="99" size="small" controls-position="right" />
         </template>
     </el-table-column>
     

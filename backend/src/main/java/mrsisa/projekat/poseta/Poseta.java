@@ -58,6 +58,18 @@ public class Poseta {
     @ManyToOne(fetch = FetchType.LAZY)
     private Apoteka apoteka;
 
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public Poseta() {
 
     }
@@ -134,6 +146,7 @@ public class Poseta {
 
     public Apoteka getApoteka() {
         return apoteka;
+
     }
 
     public void setApoteka(Apoteka apoteka) {

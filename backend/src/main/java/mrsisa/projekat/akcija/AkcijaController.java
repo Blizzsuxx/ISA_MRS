@@ -3,6 +3,8 @@ package mrsisa.projekat.akcija;
 
 import mrsisa.projekat.lijek.LijekService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +30,10 @@ public class AkcijaController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PostMapping(value = "/")
-    public void kreirajAkciju( @RequestBody Map<String, Object> podaci ){
+    public ResponseEntity kreirajAkciju( @RequestBody Map<String, Object> podaci ){
         this.akcijaService.kreirajAkciju(podaci);
+
+        return new ResponseEntity<>(null, HttpStatus.CREATED);
     }
 
 
