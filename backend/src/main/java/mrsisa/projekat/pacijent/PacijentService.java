@@ -581,6 +581,7 @@ public class PacijentService {
 
 	@Transactional
     public Boolean proveriAlergije(Map<String, Object> params) {
+		System.out.println(params.get("korisnik"));
 		List<Map<String,Object>> lekovi = (List<Map<String,Object>>) params.get("lijekovi");
 		String id = (String) params.get("korisnik");
 		Pacijent p = findOne(id);

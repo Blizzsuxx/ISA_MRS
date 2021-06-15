@@ -58,12 +58,12 @@
             <el-button type="primary" @click="zavrsiPregled()">Zavrsi pregled</el-button>
         </template>
         </el-popconfirm>
-        <el-button @click="otvoriProzor" plain type="primary">
+        <el-button @click="otvoriProzor" v-bind:shortcuts="precice" plain type="primary">
             Zakazi Pregled
         </el-button>
         </div>
 
-        <ModalniProzorZakazivanja  ref="prozor" />
+        <ModalniProzorZakazivanja  ref="prozor" v-bind:radnik="radnik" v-bind:pregledID="pregledID" v-bind:korisnik="korisnik"/>
 
         <el-input
             type="textarea"
@@ -103,12 +103,19 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         await this.$store.dispatch("APlijekovi/dobaviLijekove");
         await this.$store.dispatch("APKorisnici/dobaviDermatologe");
         await this.$store.dispatch("APKorisnici/promeniRedirekciju", "dermatolog");
+        
         for(var i = 0; i < this.$store.state.APlijekovi.sviLijekovi.length; i++){
-          this.$store.state.APlijekovi.sviLijekovi[i].lijek.kolicina = 1;
+          this.$store.state.APlijekovi.sviLijekovi[i].kolicina = 1;
         }
         this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
+        this.$refs.prozor.radnik = this.radnik;
+        this.$refs.prozor.pregledID = this.pregledID;
+        this.$refs.prozor.korisnik = this.korisnik;
       if(!this.radnik.promenioSifru){
-        alert("Molimo vas da promenite sifru, kliknite na profil");
+        this.$message({
+            type: 'warning',
+            message: 'Molimo vas da promenite sifru, kliknite na profil'
+          });
       }      
         
         console.log("");
@@ -152,6 +159,13 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
         console.log("aa");
         console.log(this.korisnik)
+        if(this.$refs.dijete.multipleSelection.length == 0){
+          this.$message({
+            type: 'warning',
+            message: 'Niste nista izabrali'
+          });
+          return
+        }
         this.$store.dispatch("APlijekovi/proveriAlergije",{lijekovi :this.$refs.dijete.multipleSelection, korisnik :this.korisnik}).
         then(response => {
 
@@ -160,7 +174,10 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         this.greska= this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.poruka = "Pacijent je alergican!";
-          alert("pacijent je alergican!")
+          this.$message({
+            type: 'warning',
+            message: 'Pacijent je alergican'
+          });
           this.izabraniLijekovi = [];
           return;
         } else {
@@ -176,16 +193,25 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         if(this.greska){
           this.izabraniLijekovi = [];
           this.$store.dispatch("Mail/posaljiMail", {"text" : "zatrazio lekove: " + "lekovi " + "u apoteci: " + "teka " + "koji nisu dostupni!", "address" : "mahajiraaji@gmail.com"});
-          this.poruka = "Lek nije dostupan!";
-          alert("lek nije dostupan! ili ste narucili previse");
-          /*
-          for(const [key, value] of Object.entries(this.$store.state.zamenaLekovi)){
-            var rec = "lek: " + key.naziv + " nije dostupan\r\nZamenite sa:";
+          
+          this.$message({
+            type: 'warning',
+            message: 'Lek nije dostupan i/ili ste porucili previse'
+          });
+          console.log(this.$store.state.APlijekovi.zamenaLekovi);
+          console.log("AAAAAAAAAAAAAAA")
+           for(const [key, value] of Object.entries(this.$store.state.APlijekovi.zamenaLekovi)){
+             console.log(key);
+             console.log("Kljuc")
+            var rec = "lek: " + key + " nije dostupan\r\nZamenite sa:";
             for(var i = 0; i < value.length; i++){
-              rec += "\r\n" + value[i].naziv;
+              rec += "\r\n" + value[i].sifra;
             }
-            alert(rec);
-          } */
+            this.$message({
+            type: 'zamena',
+            message: rec
+          });
+          } 
 
           
           return;
@@ -193,7 +219,10 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
           this.greaska = false;
         }
           console.log("bb");
-          alert("uspesno ste porucili lekove")
+          this.$message({
+            type: 'success',
+            message: 'Uspesno ste dodelili lekove'
+          });
           this.izabraniLijekovi = this.$refs.dijete.multipleSelection;
         this.$refs.dijete.$refs.multipleTable.clearSelection();
         this.greska = false;
@@ -205,9 +234,16 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         })
         
       },
+
+
+
+      
+
     
         selektujRedove(val) {
+          if(val){
         this.$refs.dijete.multipleSelection = val;
+          }
       },
 
       zavrsiPregled(){
@@ -221,7 +257,9 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
 
           console.log("PACIJENT ID: " +this.$route.params.pacijentID );
           console.log("PREGLED ID: " +this.$route.params.pregledID );
-          
+          if(isNaN(this.$route.params.pregledID)){
+            this.$router.go(-1);
+          }
           
 
       return {

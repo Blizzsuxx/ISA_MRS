@@ -29,7 +29,7 @@ const actions = {
     postaviRezervaciju(context, podaci){
         axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervaciju', podaci,{ headers: authHeader()}).then(response => {
     
-                alert("Pregled uspesno zavrsen");
+               
                 return response;
             })
       },

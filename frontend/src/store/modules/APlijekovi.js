@@ -50,7 +50,7 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1',{ headers: authHeader()})
+        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
         })
@@ -116,16 +116,19 @@ const actions = {
     },
 
 
-    proveriDostupnost (context, params){
+    async proveriDostupnost (context, params){
         console.log(params);
-        return axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
+        await axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
             console.log("ODMAH NAKON DOSTUPNOSTI " + state.greska);
-            if(state.greska){
-                axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
-                .then(response => {
-                    context.commit('postaviZamenuLekove',response.data)
+            if(response.data){
+                console.log("ODMAH NAKON DOSTUPNOSTI2222222222222 " + response.data);
+                return axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
+                .then(response2 => {
+                console.log("ODMAH NAKON DOSTUPNOSTI3333333 " + response.data);
+
+                    context.commit('postaviZamenuLekove',response2.data)
                     
             });
             }

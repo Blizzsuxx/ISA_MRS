@@ -79,40 +79,9 @@ public class PosetaController {
     }
 
     @PostMapping(value = "/traziZamenu")
-    public Map<LijekDTO, List<LijekDTO>> traziZamenu(@RequestBody Map<String, Object> params){
-        Poseta poseta = this.posetaService.findId(Long.parseLong(params.get("pregledID").toString()));
-        Map<LijekDTO, List<LijekDTO>> lekoviZaPreporuku = new HashMap<>();
-        List<Map<String, Object>> lekoviID = (List<Map<String, Object>>) params.get("lijekovi");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        System.out.println("ZAMENA");
-        /*
-        Apoteka apoteka = this.apotekaRepository.findOneById(poseta.getApoteka().getId());
-        for(Map<String, Object> token : lekoviID){
-            Map<String, Object> lek = (Map<String, Object>) token.get("lijek");
-            System.out.println("ZAMENA");
-            System.out.println(lek);
-            System.out.println("ZAMENA");
+    public Map<String, List<LijekDTO>> traziZamenu(@RequestBody Map<String, Object> params){
+        return this.posetaService.traziZamenu(params);
 
-            for(StanjeLijeka stanjeLijeka : apoteka.getLijekovi()){
-                if(stanjeLijeka.getId().equals(lek.get("id"))){
-                    if(stanjeLijeka.getKolicina() < (int)lek.get("kolicina")){
-
-                    }
-                    else{
-                        List<Lijek> lekList = stanjeLijeka.getLijek().getZamenskiLijekovi();
-                        ArrayList<LijekDTO> dtoList = new ArrayList<>();
-                        for(Lijek l : lekList){dtoList.add(new LijekDTO(l));}
-                        lekoviZaPreporuku.put(new LijekDTO(stanjeLijeka.getLijek()), dtoList);
-                    }
-                    break;
-                }
-            }
-        }
-        */
-        return lekoviZaPreporuku;
     }
 
     @PostMapping(value="/proveriDostupnost")

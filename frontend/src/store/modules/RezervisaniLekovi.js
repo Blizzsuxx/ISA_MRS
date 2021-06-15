@@ -83,6 +83,19 @@ const actions = {
             console.log("BBBBBBBBBBBBBBBBB");
             return response.data;
         })
+    },
+
+    IzdajLek(context, data){
+
+
+        axios.post('http://localhost:8080/api/v1/rezervacije/IzdajLek', data, {headers : authHeader()}).then(response => {
+            
+            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(response.data);
+            console.log("BBBBBBBBBBBBBBBBB");
+            return response.data;
+        })
+
     }
 
     
