@@ -63,6 +63,19 @@ public abstract class  Korisnik implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "uloga_id", referencedColumnName = "id"))
     private List<Uloga> uloge;
 
+    @Column(name = "ulica", nullable = false)
+    private String ulica;
+    @Column(name = "broj", nullable = false)
+    private String broj;
+    @Column(name = "mesto", nullable = false)
+    private String mesto;
+    @Column(name = "ptt", nullable = false)
+    private String ptt;
+    @Column(name = "drzava", nullable = false)
+    private String drzava;
+    @Column(name = "broj_telefona", nullable = false)
+    private String brojTelefona;
+
     public Korisnik() {}
 
     public Korisnik(String username, String password, String firstName, String lastName, String email, LocalDateTime birthday) {
@@ -133,6 +146,12 @@ public abstract class  Korisnik implements UserDetails {
         this.enabled = true;
         this.setPassword(dummy.getSifra());
         this.uloge = new ArrayList<>();
+        this.ulica = dummy.getUlica();
+        this.broj = dummy.getBroj();
+        this.mesto = dummy.getMesto();
+        this.ptt = dummy.getPtt();
+        this.drzava = dummy.getDrzava();
+        this.brojTelefona = dummy.getBrojTelefona();
     }
 
     @JsonIgnore
@@ -262,5 +281,53 @@ public abstract class  Korisnik implements UserDetails {
 
     public void setPrijavljen(boolean prijavljen) {
         this.prijavljen = prijavljen;
+    }
+
+    public String getUlica() {
+        return ulica;
+    }
+
+    public void setUlica(String ulica) {
+        this.ulica = ulica;
+    }
+
+    public String getBroj() {
+        return broj;
+    }
+
+    public void setBroj(String broj) {
+        this.broj = broj;
+    }
+
+    public String getMesto() {
+        return mesto;
+    }
+
+    public void setMesto(String mesto) {
+        this.mesto = mesto;
+    }
+
+    public String getPtt() {
+        return ptt;
+    }
+
+    public void setPtt(String ptt) {
+        this.ptt = ptt;
+    }
+
+    public String getDrzava() {
+        return drzava;
+    }
+
+    public void setDrzava(String drzava) {
+        this.drzava = drzava;
+    }
+
+    public String getBrojTelefona() {
+        return brojTelefona;
+    }
+
+    public void setBrojTelefona(String brojTelefona) {
+        this.brojTelefona = brojTelefona;
     }
 }

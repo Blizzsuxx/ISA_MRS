@@ -84,6 +84,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // DA DOZVOLIMO REGISTRACIJU
                 .antMatchers("/api/v1/profil/registracija").permitAll()
                 .antMatchers("/api/v1/mail/sendemailRegistration").permitAll()
+                .antMatchers("/api/v1/mail/slanjeMejla").permitAll()
+                .antMatchers("/api/v1/korisnici/potvrdaPrijave").permitAll()
                 .antMatchers("/api/v1/korisnici/potvrda-registracije").permitAll()
 
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici

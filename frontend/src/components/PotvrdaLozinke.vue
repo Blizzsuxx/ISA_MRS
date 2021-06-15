@@ -40,6 +40,9 @@
 <template>
 <div id="unos">
 <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+  <el-form-item label="Stara Lozinka" prop="oldPass">
+    <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
+  </el-form-item>
   <el-form-item label="Lozinka" prop="pass">
     <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
   </el-form-item>
@@ -78,6 +81,7 @@
       };
       return {
         ruleForm: {
+          oldPass: '',
           pass: '',
           checkPass: ''
         },
@@ -87,6 +91,9 @@
           ],
           checkPass: [
             { validator: validatePass2, trigger: 'blur' }
+          ],
+          oldPass: [
+            { required: true, message: 'Unesite staru lozinku!', trigger: 'blur' }
           ],
         }
       };
@@ -98,7 +105,8 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
             if (valid){
-               this.$store.dispatch('APKorisnici/promjenaLozinke', this.ruleForm.pass)
+               this.$store.dispatch('APKorisnici/promjenaLozinke', {staraLozinka: this.ruleForm.oldPass, 
+               novaLozinka: this.ruleForm.pass})
                 .then(response=>{
                     this.izmjeniPotvrdu(response);
                     return response;

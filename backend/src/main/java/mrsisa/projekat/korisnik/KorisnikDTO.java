@@ -2,6 +2,7 @@ package mrsisa.projekat.korisnik;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 
+import javax.persistence.Column;
 import java.time.format.DateTimeFormatter;
 
 public class KorisnikDTO {
@@ -12,6 +13,12 @@ public class KorisnikDTO {
     private String rodjendan;
     private String email;
     private String uloga;
+    private String ulica;
+    private String broj;
+    private String mesto;
+    private String ptt;
+    private String drzava;
+    private String brojTelefona;
 
     public KorisnikDTO() {}
 
@@ -42,6 +49,29 @@ public class KorisnikDTO {
         this.rodjendan = k.getBirthday().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.email = k.getEmail();
         this.uloga =  k.getRole();
+        this.broj = k.getBroj();
+        this.mesto = k.getMesto();
+        this.ptt = k.getPtt();
+        this.drzava = k.getDrzava();
+        this.brojTelefona = k.getBrojTelefona();
+    }
+
+    public KorisnikDTO(String korisnickoIme, String sifra, String ime, String prezime, String rodjendan,
+                       String email, String uloga, String ulica, String broj, String mesto, String ptt,
+                       String drzava, String brojTelefona) {
+        this.korisnickoIme = korisnickoIme;
+        this.sifra = sifra;
+        this.ime = ime;
+        this.prezime = prezime;
+        this.rodjendan = rodjendan;
+        this.email = email;
+        this.uloga = uloga;
+        this.ulica = ulica;
+        this.broj = broj;
+        this.mesto = mesto;
+        this.ptt = ptt;
+        this.drzava = drzava;
+        this.brojTelefona = brojTelefona;
     }
 
     public String getKorisnickoIme() {
@@ -98,5 +128,53 @@ public class KorisnikDTO {
 
     public void setUloga(String uloga) {
         this.uloga = uloga;
+    }
+
+    public String getUlica() {
+        return ulica;
+    }
+
+    public void setUlica(String ulica) {
+        this.ulica = ulica;
+    }
+
+    public String getBroj() {
+        return broj;
+    }
+
+    public void setBroj(String broj) {
+        this.broj = broj;
+    }
+
+    public String getMesto() {
+        return mesto;
+    }
+
+    public void setMesto(String mesto) {
+        this.mesto = mesto;
+    }
+
+    public String getPtt() {
+        return ptt;
+    }
+
+    public void setPtt(String ptt) {
+        this.ptt = ptt;
+    }
+
+    public String getDrzava() {
+        return drzava;
+    }
+
+    public void setDrzava(String drzava) {
+        this.drzava = drzava;
+    }
+
+    public String getBrojTelefona() {
+        return brojTelefona;
+    }
+
+    public void setBrojTelefona(String brojTelefona) {
+        this.brojTelefona = brojTelefona;
     }
 }

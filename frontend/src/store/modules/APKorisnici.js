@@ -19,7 +19,18 @@ const state = {
 };
 
 const actions = {
-
+    dobaviZalbeAdministratora(){
+        return axios.get("odgovori/dobaviZalbeAdministratora", {headers: authHeader()});
+    },
+    dobaviInfoZalbe(context, tempZalbe){
+        return axios.post('zalbe/dobaviInfoZalbe', tempZalbe, { headers: authHeader()});
+    },
+    dobaviKandidateZaZalbu(context, tipZalbe){
+        return axios.get(`profil/dobaviKandidateZaZalbu/${tipZalbe}`, { headers: authHeader()});
+    },
+    dobaviKorImenaAdministratora(){
+        return axios.get(`administratorApoteke/sviAdministratoriApotekeKorIme`, { headers: authHeader()});
+    },
     promeniRedirekciju(context, novaRedirekcija){
         context.commit("promeniRedirekciju", novaRedirekcija);
         return novaRedirekcija;
@@ -60,7 +71,7 @@ const actions = {
         rodjendan:moment(String(korisnik.rodjendan)).format('YYYY-MM-DD hh:mm')}, { headers: authHeader()});
     },
     promjenaLozinke(context, lozinka){
-        return axios.get(`korisnici/promjenaLozinke/${lozinka}`, { headers: authHeader()})
+        return axios.post("/korisnici/promjenaLozinke", lozinka, { headers: authHeader()})
         .then(response => {
             return response.data;
         })

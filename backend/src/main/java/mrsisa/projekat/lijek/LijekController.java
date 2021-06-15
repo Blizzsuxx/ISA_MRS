@@ -70,8 +70,7 @@ public class LijekController {
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajLijek")
     public void sacuvajLijek(@RequestBody LijekDTO dummy) {
-        Lijek l = new Lijek(dummy);
-        lijekService.save(l);
+        this.lijekService.sacuvajLijek(dummy);
     }
 
     @Transactional

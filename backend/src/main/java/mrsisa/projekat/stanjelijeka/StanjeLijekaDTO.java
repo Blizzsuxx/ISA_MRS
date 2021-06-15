@@ -45,6 +45,8 @@ public class StanjeLijekaDTO {
         this.zatrazen = stanjeLijeka.getZatrazen();
         if (stanjeLijeka.getZatrazenDatum() != null)
         this.zatrazenDatum =  stanjeLijeka.getZatrazenDatum().format(format);
+        if (stanjeLijeka.getApoteka() != null)
+        this.imeApoteke = stanjeLijeka.getApoteka().getIme();
     }
 
     public String getImeApoteke() {

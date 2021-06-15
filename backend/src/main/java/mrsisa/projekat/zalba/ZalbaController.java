@@ -1,6 +1,7 @@
 package mrsisa.projekat.zalba;
 
 import mrsisa.projekat.korisnik.Korisnik;
+import mrsisa.projekat.pacijent.TempDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -44,5 +45,16 @@ public class ZalbaController {
         return this.zalbaService.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'PACIJENT')")
+    @PostMapping(path = "/dobaviInfoZalbe")
+    public Object vratiInfoZalbe(@RequestBody TempDTO tempDTO){
+        Object temp = null;
+        if (tempDTO.getTipZalbe().equals("Apoteka")){
+            temp = this.zalbaService.vratiInfoApoteka(tempDTO);
+        } else { // onda je vezana za korisnika
+            temp = this.zalbaService.vratiInfoKorisnika(tempDTO);
+        }
+        return temp;
+    }
 
 }
