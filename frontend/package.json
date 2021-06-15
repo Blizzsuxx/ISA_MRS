@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "start": "vue-cli-service serve",
+    "start": "node server.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -12,8 +12,10 @@
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
+    "cors": "^2.8.5",
     "dayspan-vuetify": "^0.4.0",
     "element-plus": "^1.0.2-beta.35",
+    "express": "^4.17.1",
     "moment": "^2.29.1",
     "ol": "^6.5.0",
     "vue": "^3.0.0",

@@ -382,7 +382,9 @@ const router = createRouter({
 })
 const DEFAULT_TITLE = 'Apoteka'
 router.beforeEach((to, from, next)=>{
+
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika', '/ap/pocetnaStrana'];
+
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
   document.title = to.meta.title || DEFAULT_TITLE
