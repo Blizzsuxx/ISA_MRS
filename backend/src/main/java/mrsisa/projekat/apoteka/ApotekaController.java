@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.administratorApoteke.AdministratorApotekeRepository;
+import mrsisa.projekat.administratorApoteke.AdministratorApotekeService;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.pacijent.Pacijent;
@@ -31,6 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(path="api/v1/apoteka")
 public class ApotekaController {
     private final ApotekaService apotekaService;
+
     @Autowired
     public ApotekaController(ApotekaService apotekaService){
         this.apotekaService = apotekaService;

@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="api/korisnici")
+    @RequestMapping(path="api/v1/korisnici")
 @CrossOrigin
 public class KorisnikController {
 
@@ -62,7 +62,7 @@ public class KorisnikController {
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
-
+        System.out.println("andrija");
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
         // AuthenticationException
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
@@ -144,14 +144,16 @@ public class KorisnikController {
         }
     }
 
-    @GetMapping(value = "/promjenaLozinke/{lozinka}")
+    @PostMapping(value = "/promjenaLozinke")
     @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
-    public boolean promjeniLozinku(@PathVariable String lozinka){
+    public boolean promjeniLozinku(@RequestBody LozinkaDTO lozinkaDTO){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();
-        if (passwordEncoder.matches(lozinka,k.getPassword()))
+        if (!passwordEncoder.matches(lozinkaDTO.getStaraLozinka(), k.getPassword()))
+            return false; // stara sifra mora biti ispravna
+        if (passwordEncoder.matches(lozinkaDTO.getNovaLozinka(), k.getPassword())) // nova i stara ne smiju biti iste
             return false;
-        k.setPassword(passwordEncoder.encode(lozinka));
+        k.setPassword(passwordEncoder.encode(lozinkaDTO.getNovaLozinka()));
         k.setPrijavljen(true);
         this.korisnikService.save(k);
         return true;
@@ -168,7 +170,6 @@ public class KorisnikController {
     }
 
     @GetMapping(value="/potvrdaPrijave")
-    @PreAuthorize("hasAnyRole('ADMIN_SISTEMA', 'DOBAVLJAC','ROLE_ADMIN_APOTEKA')")
     public boolean potvrdaPrijave(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Korisnik k = (Korisnik)auth.getPrincipal();

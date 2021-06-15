@@ -23,6 +23,13 @@ public class LijekService {
         return this.lijekRepository.save(l);
     }
 
+    @Transactional
+    public void sacuvajLijek(LijekDTO dto){
+        Lijek l = new Lijek(dto);
+        for (LijekDTO tempic: dto.getZamenskiLekovi())
+            l.getZamenskiLijekovi().add(this.lijekRepository.findOneById(tempic.getId()));
+        this.lijekRepository.save(l);
+    }
     public Lijek findByNaziv(String naziv){
         return this.lijekRepository.findByNaziv(naziv);
     }
@@ -47,6 +54,7 @@ public class LijekService {
         }
         return lijekoviDto;
     }
+
     public List<Lijek> dobaviSveLijekove(){
         return List.of(new Lijek(
                 1L,

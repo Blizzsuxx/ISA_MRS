@@ -10,7 +10,7 @@ const state = {
 
 const actions = {
     dobaviFarmaceute (context) {
-        axios.get('http://localhost:8080/api/v1/dermatolog/dobaviDermatologe')
+        axios.get('dermatolog/dobaviDermatologe')
             .then(response => {
                 let farmaceuti =response.data
                 context.commit('postaviFarmaceute',farmaceuti)
@@ -19,7 +19,7 @@ const actions = {
 
     },
     dobaviFarmaceuteAdmin (context) {
-        axios.get('http://localhost:8080/api/v1/farmaceut/admin', { headers: authHeader()})
+        axios.get('farmaceut/admin', { headers: authHeader()})
             .then(response => {
                 let farmaceuti =response.data
                 console.log(farmaceuti)
@@ -29,7 +29,7 @@ const actions = {
 
     },
     dobaviNezaposleneFarmaceuteAdmin (context) {
-        axios.get('http://localhost:8080/api/v1/farmaceut/admin/nezaposleni', { headers: authHeader()})
+        axios.get('farmaceut/admin/nezaposleni', { headers: authHeader()})
             .then(response => {
                 let farmaceuti =response.data
                 console.log(farmaceuti)
@@ -39,13 +39,13 @@ const actions = {
 
     },
     otpustiFarmaceuta(context,id){
-        return axios.put(`http://localhost:8080/api/v1/farmaceut/otpustiFarmaceuta/${id}`,{},{ headers: authHeader()})
+        return axios.put(`farmaceut/otpustiFarmaceuta/${id}`,{},{ headers: authHeader()})
             .then(() => {
                 return context;
             })
     },
     zaposliFarmaceuta(context,id){
-        return axios.put(`http://localhost:8080/api/v1/farmaceut/zaposliFarmaceuta/${id}`,{},{ headers: authHeader()})
+        return axios.put(`farmaceut/zaposliFarmaceuta/${id}`,{},{ headers: authHeader()})
             .then(() => {
                 return context;
             })

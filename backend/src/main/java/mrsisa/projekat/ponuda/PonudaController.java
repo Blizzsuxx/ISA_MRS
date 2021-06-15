@@ -72,4 +72,13 @@ public class PonudaController {
         Dobavljac d = (Dobavljac) auth.getPrincipal();
         return this.ponudaService.kreirajPonudu(ponudaDTO, d);
     }
+
+    @PreAuthorize("hasRole('ROLE_DOBAVLJAC')")
+    @PostMapping(path="/azurirajPonudu")
+    public List<PonudaDTO> azurirajPonudu(@RequestBody PonudaDTO ponudaDTO){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Dobavljac d = (Dobavljac) auth.getPrincipal();
+        this.ponudaService.azurirajPonudu(ponudaDTO);
+        return this.ponudaService.dobaviSvePonudeDostavljaca(d);
+    }
 }

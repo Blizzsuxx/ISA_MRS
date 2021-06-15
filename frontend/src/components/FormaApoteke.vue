@@ -73,15 +73,23 @@
                 <el-input v-model="apoteka.ptt"></el-input>
                 </div>
               </el-form-item>
+              <el-form-item label="Administator:" prop="korisnickoImeAdmina">
+                <div class="grupa">
+                  <el-select v-model="apoteka.korisnickoImeAdmina" filterable placeholder="Select">
+                    <el-option
+                      v-for="item in administratori"
+                      :key="item"
+                      :label="item"
+                      :value="item">
+                    </el-option>
+                  </el-select>
+                </div>
+              </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="onSubmit">Formiraj</el-button>
+                <el-button type="primary" @click="onSubmit('apoteka')">Formiraj</el-button>
                 <el-button @click="resetForm('apoteka')">Obriši</el-button>
               </el-form-item>
-              
             </el-form>
-            <div id="unos-link" class="text-right">
-              <a href="/ap/AdministratorSistema">Apoteke!</a>
-            </div>
           </div>
         </div>
       </div>
@@ -106,6 +114,7 @@
       return {
         naslov: 'Unos Podataka',
         naslovForme: 'Unos Apoteke',
+        administratori: [],
         apoteka: {
           naziv: '',
           mjesto: '',
@@ -113,7 +122,8 @@
           broj: '',
           ptt: '',
           sirina: '',
-          duzina: ''
+          duzina: '',
+          korisnickoImeAdmina: ''
         },
          rules: {
           naziv: [
@@ -130,15 +140,20 @@
           ],
           ptt: [
             { required: true, message: 'Unesite ptt!', trigger: 'blur' }
+          ],
+          korisnickoImeAdmina: [
+            { required: true, message: 'Izaberite administratora!', trigger: 'blur' }
           ]
         }
       };
       
     },
     methods: {
-      onSubmit() {
+      onSubmit(formName) {
         var ap = {ime: this.apoteka.naziv, mjesto: this.apoteka.mjesto, 
-        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj,duzina:this.apoteka.duzina,sirina:this.apoteka.sirina};
+        ptt: this.apoteka.ptt, ulica: this.apoteka.ulica, broj: this.apoteka.broj,
+        duzina:this.apoteka.duzina,sirina:this.apoteka.sirina, 
+        korisnickoImeAdmina: this.apoteka.korisnickoImeAdmina};
         this.$store.dispatch('APApoteke/dodajApoteku', ap)
         .then(response => {
             this.$message({
@@ -146,6 +161,7 @@
                 message: 'Dodata apoteka'
               });
             this.$router.push('/ap/AdministratorSistema');
+            this.resetForm(formName);
             return response;
         });
         
@@ -155,6 +171,11 @@
       }
     },
     mounted(){
+        this.$store.dispatch('APKorisnici/dobaviKorImenaAdministratora')
+        .then(response => {
+          console.log(response.data);
+          this.administratori = response.data;
+        });
 
         let map =  new Map({
             target: 'map',

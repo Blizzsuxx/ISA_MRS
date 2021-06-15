@@ -2,9 +2,12 @@ package mrsisa.projekat.dermatolog;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.administratorSistema.AdministratorSistema;
+import mrsisa.projekat.korisnik.ConfirmationToken;
+import mrsisa.projekat.korisnik.ConfirmationTokenRepository;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijemeDTO;
+import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -12,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,12 +25,19 @@ import java.util.List;
 @RequestMapping(path="api/v1/dermatolog")
 public class DermatologController {
     private final DermatologService dermatologService;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DermatologController(DermatologService dermatologService){
+    private MailSender mailSender;
+
+    @Autowired
+    public DermatologController(DermatologService dermatologService,
+                                ConfirmationTokenRepository confirmationTokenRepository){
         this.dermatologService = dermatologService;
+        this.confirmationTokenRepository = confirmationTokenRepository;
     }
 
 
@@ -82,10 +94,16 @@ public class DermatologController {
     }
 
     @PostMapping(consumes = "application/json", path = "/sacuvajDermatologa")
-    public void sacuvajDermatologa(@RequestBody KorisnikDTO dummy) {
+    public void sacuvajDermatologa(@RequestBody KorisnikDTO dummy) throws IOException, MessagingException {
         dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
         Dermatolog d = new Dermatolog(dummy);
         this.dermatologService.save(d);
+
+        ConfirmationToken confirmationToken = new ConfirmationToken(d);
+        confirmationTokenRepository.save(confirmationToken);
+        MailSender.sendmail("Da bi ste potvrdili prijavu, klknite da predloženi link : " +
+                        "http://localhost:8080/api/korisnici/potvrda-registracije?token="+confirmationToken.getConfirmationToken(),
+                "dunjica.isa@gmail.com");
     }
 
     @GetMapping(path = "/sviDermatolozi")

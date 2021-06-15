@@ -621,4 +621,35 @@ public class PacijentService {
 		Korisnik k = (Korisnik)auth.getPrincipal();
 		return k;
 	}
+
+	@Transactional
+	public List<TempDTO> dobaviKandidateZaZalbu(String tipZalbe){
+		List<TempDTO> tempDTO = new ArrayList<>();
+		List<OcenaDTO> ocene;
+		if (tipZalbe.equals("Dermatolog")){
+			ocene = this.dobaviSvojeDermatologe();
+			for (OcenaDTO ocena: ocene){
+				Dermatolog d = this.dermatologRepository.
+						findById(Integer.parseInt(ocena.getId().substring(1))).orElseThrow();
+				tempDTO.add(new TempDTO(d.getId().toString(), d.getUsername()));
+			}
+
+		} else if (tipZalbe.equals("Farmaceut")) {
+			ocene = this.dobaviSvojeFarmaceute();
+			for (OcenaDTO ocena: ocene){
+				Farmaceut f = this.farmaceutRepository.
+						findById(Integer.parseInt(ocena.getId().substring(1))).orElseThrow();
+				tempDTO.add(new TempDTO(f.getId().toString(), f.getUsername()));
+			}
+		} else { // APOTEKA
+			ocene = this.dobaviSvojeApoteke();
+			for (OcenaDTO ocena: ocene){
+				Apoteka a = this.apotekaRepository.findOneById(Long.parseLong(ocena.getId().substring(1)));
+				tempDTO.add(new TempDTO(a.getId().toString(), a.getIme()));
+			}
+
+		}
+
+		return tempDTO;
+	}
 }

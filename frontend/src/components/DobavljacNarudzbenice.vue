@@ -138,6 +138,8 @@
     <el-input v-model="ponuda.nazivPonude"></el-input>
     <p><strong>Cijena Ponude</strong></p>
     <el-input  v-model.number="ponuda.cijenaPonude"></el-input>
+    <p><strong>Rok Ponude</strong></p>
+    <el-date-picker type="date" placeholder="Rok Ponude" v-model="ponuda.rokPonude" style="width: 100%;"></el-date-picker>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="drugiProzor = false">Izadji</el-button>
@@ -149,6 +151,7 @@
 </template>
 
 <script>
+import moment from 'moment'
   export default {
     data() {
       return {
@@ -163,6 +166,7 @@
             status: 0,
             cijenaPonude: 0,
             idNarudzbenice: 0,
+            rokPonude: ''
         },
         lijek: {},
         centerDialogVisible: false
@@ -219,11 +223,12 @@
         this.drugiProzor = true;
       },
       kreirajPonudu(){
-        if (this.ponuda.nazivPonuda === '' || this.ponuda.cijenaPonude <= 0){
+        if (this.ponuda.nazivPonuda === '' || this.ponuda.cijenaPonude <= 0 || this.ponuda.rokPonude === ''){
             this.open2();
         } else {
             this.drugiProzor = false;
             this.ponuda.idNarudzbenice = this.narudzbenica.id;
+            this.ponuda.rokPonude = moment(String(this.ponuda.rokPonude)).format('YYYY-MM-DD');
             this.$store.dispatch("Ponude/kreirajPonudu", this.ponuda)
             .then(response => {
                 if (response.data){
