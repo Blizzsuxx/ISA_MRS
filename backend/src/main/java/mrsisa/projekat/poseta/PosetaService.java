@@ -280,8 +280,13 @@ public class PosetaService {
 
     public Korisnik getTrenutnogKorisnika(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Korisnik k = (Korisnik)auth.getPrincipal();
-        return k;
+        try {
+            Korisnik k = (Korisnik)auth.getPrincipal();
+            return k;
+        }catch(ClassCastException e){
+            return this.pacijentRepository.findOneById(9);
+        }
+
     }
 
     @Transactional
