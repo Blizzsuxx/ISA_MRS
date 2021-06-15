@@ -38,7 +38,7 @@ const actions = {
         
             console.log(state.rezervisani[index])
           let rezSve=state.rezervisani.filter(function(el){
-              if(state.rezervisani[index].nazivLeka==el.nazivLeka && state.rezervisani[index].nazivApoteke==el.nazivApoteke && state.rezervisani[index].datumVazenja==el.datumVazenja){
+              if(state.rezervisani[index].id==el.id ){
                   return false;
               }else{return true;}
           })

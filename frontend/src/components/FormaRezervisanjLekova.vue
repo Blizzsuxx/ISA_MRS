@@ -204,10 +204,11 @@ export default {
         this.$store.dispatch("APlijekovi/rezervisiLek",podaci).then(response=>{
 
            if(response==true){//todo potrebno je da mi se negde vrati
-             this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek  iz apoteke: "+this.ocenjivac.apoteka, "address" : "rajtarovnatasa@gmail.com"})
+           let idNov=  this.$store.state.APlijekovi.idRez;  //this.$store.dispatch("APlijekovi/IdRez")
+             this.$store.dispatch("Mail/posaljiMail", {"text": "Rezervisali ste lek  iz apoteke: "+this.ocenjivac.apoteka+" id leka je"+idNov, "address" : "rajtarovnatasa@gmail.com"})
               var i=0;
               for(i=0;i<this.lijekovi.length;i++){
-                 console.log("bbbbbbbbbbbbb")
+                // console.log("bbbbbbbbbbbbb")
                 if(this.lijekovi[i].id===this.ocenjivac.id){
                  
                   this.lijekovi[i].kolicina=this.lijekovi[i].kolicina-this.ocenjivac.kolicina;

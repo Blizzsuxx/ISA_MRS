@@ -3,7 +3,7 @@ import moment from 'moment'
 import authHeader from './AuthHeader'
 
 const state = {    
-    
+    idRez: "",
     sviLijekovi : [],
     zabranjeni : [],
     dtoLijekovi: [],
@@ -98,12 +98,13 @@ const actions = {
         return axios.post('apoteka/rezervisiLek',lek,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
-            if(tf){
-            
-            console.log("rezervisali ste lek")
+            if(tf.startsWith("true")){
+            //this.idRez=tf.split(" ")[1]
+            context.commit('postaviIdRez',tf.split(" ")[1])
+            console.log("Rezervisali ste lek")
             return true;
         }else{   
-                console.log("Nije dobro")
+                console.log("Niste rezervisali lek, ili ste alergicni ili ga nema vise an stanju")
                 return false;
             }
         })  
@@ -243,6 +244,8 @@ const mutations = {
     dobaviLijekoveApoteke:(state, lijekovi)=>(state.apotekaLijekovi = lijekovi),
     postaviPoruceneNepostojece:(state,poruceniNepostojeci)=>(state.poruceniNepostojeci = poruceniNepostojeci),
     postaviGresku:(state, er)=>(state.greska = er),
+    postaviIdRez:(state, er)=>(state.idRez = er),
+
 }
 
 export default{

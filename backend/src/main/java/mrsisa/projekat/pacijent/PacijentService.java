@@ -39,16 +39,21 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import mrsisa.projekat.adresa.Adresa;
+import org.springframework.transaction.annotation.Propagation;
 
-import javax.transaction.Transactional;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@Transactional(readOnly=true)
 public class PacijentService {
 	private final PacijentRepository pacijentRepository;
 	private final UlogaRepository ulogaRepository;
@@ -103,6 +108,7 @@ public class PacijentService {
 		return dto;
 
 	}
+
 
 	public boolean promeni(List<String> podaci) { //pazi, uvek salji sve, i to istim redom
 		//[Zarko, Kida pasa, Novi Sad, Jevrejska, 2a, zarkoKisa@gmail.com, datum] fali datum rodjenja i pol TODO i ako se promeni ulica mora i geo sirina ANDRIJA
@@ -216,31 +222,46 @@ public class PacijentService {
 		 }
 		 this.pacijentRepository.save(p);}
 	}
-	@Transactional
+
+	@Transactional//(propagation = Propagation.REQUIRES_NEW)
 	public boolean izbaciRezervaciju(String id) {
 		Rezervacija r=this.rezervacijaRepository.findById1(Long.parseLong(id.trim()));
 		Korisnik k=getTrenutnogKorisnika();
 		Pacijent p=this.pacijentRepository.findOneByUsername(k.getUsername());
 		boolean postoji=false;
+		Apoteka apoteka=this.apotekaRepository.findById(r.getApoteka().getId()).orElseThrow();
+		if (apoteka == null)
+			System.out.println("APPOTEKA JE nkkk");
 		for(Rezervacija rez : p.getRezervacije()){
 			if(rez.getId()==Long.parseLong(id.trim())){
 				postoji=true;break;
 			}
 		}
 		if(postoji){
-		for(StanjeLijeka s : r.getRezervisaniLijekovi()){
-					Apoteka apoteka=this.apotekaRepository.findOneById(r.getApoteka().getId());
-					for(StanjeLijeka stanjeApoteke: apoteka.getLijekovi()){
-						if(stanjeApoteke.getLijek().getId()==s.getLijek().getId()){
-							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina()+s.getKolicina());
+			//Apoteka apoteka=this.apotekaRepository.findById(1L).orElseThrow();
+			for(StanjeLijeka s : r.getRezervisaniLijekovi()){
+				System.out.println(r.getApoteka().getId());
+				System.out.println(r.getApoteka().getId());
+				System.out.println(( r.getApoteka().getId()).getClass());
+
+
+				System.out.println("ffffffffffffffffffff");
+
+				if(apoteka!=null) {
+					for (StanjeLijeka stanjeApoteke : apoteka.getLijekovi()) {
+						if (stanjeApoteke.getLijek().getId() == s.getLijek().getId()) {
+							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina() + s.getKolicina());
+							break;
 						}
 					}
 					//p.getRezervacije().remove(s);break;
+				}
+			}
 
-		}
 			r.setOdustao(true); //ako je odustao onda je true
-		    this.rezervacijaRepository.save(r);}
-			//izbrisati i u pacijentu rezervaciju
+			//this.rezervacijaRepository.save(r);
+			}
+		//izbrisati i u pacijentu rezervaciju
 
 		//save(p);
 		return  true;
@@ -460,14 +481,15 @@ public class PacijentService {
 		return lekoviOcena;
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRES_NEW) //dali moyda treba i kod pacijenta version TODO
 	public void posaljiOcenu(String id) {
 		//System.out.println(id);
 		//System.out.println("bela vila");
 		String podela[]=id.split("a");
 		Ocena o=new Ocena();
 		o.setOcena(Integer.parseInt(podela[1].trim()));
-		Pacijent pacijent=this.pacijentRepository.findOneById(9);
+		Korisnik korisnikT=getTrenutnogKorisnika();
+		Pacijent pacijent=this.pacijentRepository.findOneById(korisnikT.getId());
 		o.setPacijent(pacijent);
 		if(id.startsWith("D")){
 			//setovati korisnika!! Todo
@@ -513,7 +535,7 @@ public class PacijentService {
 	private boolean proveri(List<Ocena> sve,int o){
 		if(sve==null){sve=new ArrayList<>();}
 		for(Ocena oc1 : sve){
-			if(oc1.getPacijent().getId()==9){
+			if(oc1.getPacijent().getId()==getTrenutnogKorisnika().getId()){
 				oc1.setOcena(o);
 				return true;}
 		}
@@ -618,8 +640,15 @@ public class PacijentService {
     }
 	public Korisnik getTrenutnogKorisnika(){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(auth!=null){
 		Korisnik k = (Korisnik)auth.getPrincipal();
-		return k;
+		return k;}
+		else{
+			Pacijent pacijent1=new Pacijent();
+			pacijent1.setId(1);
+			pacijent1.setUsername("n");
+			return pacijent1;
+		}
 	}
 
 	@Transactional

@@ -20,6 +20,9 @@ public class SlobodanTermin {
     private LocalDateTime pocetakTermina;
     private LocalDateTime krajTermina;
     private double cijenaTermina;
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
 
     @ManyToOne( fetch = FetchType.LAZY)
     private Radnik radnik;
@@ -34,6 +37,13 @@ public class SlobodanTermin {
         this.krajTermina=poseta.getKraj();
         //this.cijenaTermina=poseta.getCena(); TODO razmisliti o dodavanju apoteke u ovu klasu
     }
+    public SlobodanTermin(Poseta poseta) {
+
+        this.radnik= poseta.getRadnik();
+        this.pocetakTermina=poseta.getPocetak();
+        this.krajTermina=poseta.getKraj();
+        //this.cijenaTermina=poseta.getCena(); TODO razmisliti o dodavanju apoteke u ovu klasu
+    }
 
     public SlobodanTermin() {
     }
@@ -43,6 +53,13 @@ public class SlobodanTermin {
     }
 
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 
     public Long getId() {
         return id;
