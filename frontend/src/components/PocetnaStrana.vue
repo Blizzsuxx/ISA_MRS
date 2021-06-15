@@ -1,15 +1,15 @@
 <template>
 <el-main>
     <navMeniPocetni/>
-<APPostojeceApoteke/>
+<ApotekeSve/>
   </el-main>
 </template>
 
 <script>
-import APPostojeceApoteke from "./APPostojeceApoteke"
+import ApotekeSve from "./ApotekeSve"
 import NavMeniPocetni from "./NavMeniPocetni"
  export default {
     
-  components: { APPostojeceApoteke, NavMeniPocetni},
+  components: { ApotekeSve, NavMeniPocetni},
     name: 'IzmenaLicnihInfoKorisnika'};
 </script>

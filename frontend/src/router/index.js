@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
+import ApotekeSve from '../components/ApotekeSve'
 import APLijekovi from '../components/APLijekovi'
 import APPostojeceApoteke from '../components/APPostojeceApoteke'
 import IzmenaLicnihInfoKorisnik from '../components/IzmenaLicnihInfoKorisnik'
@@ -69,6 +69,11 @@ import QRKod from '../components/QRKod'
 import Izvjestaji from "../components/Izvjestaji"
 
 const routes = [
+  {
+    path: '/ap/apotekeSve',
+    name: 'ApotekeSve',
+    component: ApotekeSve,
+  },
   {
     path: '/ap/lijekovi',
     name: 'APLijekovi',
@@ -377,7 +382,9 @@ const router = createRouter({
 })
 const DEFAULT_TITLE = 'Apoteka'
 router.beforeEach((to, from, next)=>{
+
   const publicPages = ['/ap/prijava', '/ap/FormaKorisnika', '/ap/pocetnaStrana'];
+
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
   document.title = to.meta.title || DEFAULT_TITLE
