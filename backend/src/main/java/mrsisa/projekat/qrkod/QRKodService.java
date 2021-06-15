@@ -59,10 +59,10 @@ public class QRKodService {
                 for (StanjeLijeka sl : a.getLijekovi()) {
                     if (sl.getLijek().getId() == Long.parseLong(par[0])) {
                         sl.setKolicina(sl.getKolicina() - Integer.parseInt(par[1]));
-                        sl.seteRecept(e);
+                       // sl.seteRecept(e);
                         StanjeLijeka sl2 = new StanjeLijeka();
                         sl2.setLijek(sl.getLijek());
-                        sl2.setKolicina(sl.getKolicina() - Integer.parseInt(par[1]));
+                        sl2.setKolicina(Integer.parseInt(par[1]));
                         e.getPrepisaniLijekovi().add(sl2);
                         this.stanjeLijekaRepository.save(sl);
                         this.stanjeLijekaRepository.save(sl2);
@@ -70,6 +70,8 @@ public class QRKodService {
                     }
                 }
             }
+
+            //this.apotekaRepository.save(a);
 
             MailSender.sendmail("Pacijent " + p.getUsername() + " je izdao lijekove preko eRecepta."
                     , "dunjica.isa@gmail.com");
