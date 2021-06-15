@@ -129,6 +129,8 @@ public class NarudzbenicaService {
     @Transactional
     public void orbisiNarudzbenicu(Long id) {
         Narudzbenica narudzbenica = this.narudzbenicaRepository.findById(id).orElse(null);
+        if(narudzbenica==null)
+            return ;
         if (narudzbenica.getPonude()==null || narudzbenica.getPonude().size() == 0) {
             this.narudzbenicaRepository.delete(narudzbenica);
         }

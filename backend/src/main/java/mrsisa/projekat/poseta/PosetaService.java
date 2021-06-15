@@ -182,6 +182,7 @@ public class PosetaService {
         Dermatolog isDerm=null;
         for(Poseta p : svePosete){
             isDerm=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+            if(p.getOtkazano()==null){p.setOtkazano(false);}
             if(!p.getOtkazano() && p.getPocetak().isAfter(LocalDateTime.now()) && isDerm!=null ){
                 dto.add(new PosetaDTO(p.getId(), p.getRadnik(), p.getPocetak(), p.getKraj(),  p.getApoteka()));
             }
@@ -232,7 +233,7 @@ public class PosetaService {
         Farmaceut isFarm=null;
         for(Poseta p : svePosete){
             isFarm=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
-
+            if(p.getOtkazano()==null){p.setOtkazano(false);}
             if(!p.getOtkazano() && p.getPocetak().isAfter(LocalDateTime.now()) && isFarm!=null ){
                 dto.add(new PosetaDTO(p.getId(), p.getRadnik(), p.getPocetak(), p.getKraj(),  p.getApoteka()));
             }
@@ -298,7 +299,7 @@ public class PosetaService {
         for(Poseta p : istorija){
             if(p.getKraj().isBefore(LocalDateTime.now())){
                 for(Dermatolog f :farm){
-                    if(f.getId()==p.getRadnik().getId()){
+                    if(f.getId().equals(p.getRadnik().getId())){
 
                         if(p.getPacijent()!=null){
 
@@ -320,7 +321,7 @@ public class PosetaService {
         for(Poseta p : istorija){
             if(p.getKraj().isBefore(LocalDateTime.now())){
                 for(Farmaceut f :farm){
-                    if(f.getId()==p.getRadnik().getId()){
+                    if(f.getId().equals(p.getRadnik().getId())){
                         if(p.getPacijent()!=null){
                             System.out.println("---------------------------------------------------------");
                             System.out.println(p.getErecepti().size());
@@ -500,10 +501,8 @@ public class PosetaService {
     @Transactional
     public void zabeleziOdsustvo(Long id) {
         Poseta poseta = this.posetaRepository.findById(id).orElse(null);
-
-
-
-
+        if(poseta!=null)
+            return ;
         if(poseta.getRadnik() instanceof Farmaceut) {
             this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 2);
         } else{

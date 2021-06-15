@@ -114,7 +114,7 @@ public class EreceptDTO {
 
         this.datumIzdavanja = er.getDatumIzdavanja().format(formater);
         this.prepisaniLijekovi = er.getPrepisaniLijekovi();
-        this.poseta = poseta;
+
     }
     public EreceptDTO(){}
     public EreceptDTO(Erecept erecept, int a){

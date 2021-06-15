@@ -85,7 +85,7 @@ public class RezervacijaService {
         Farmaceut k = (Farmaceut)auth.getPrincipal();
         Apoteka apoteka = this.apotekaRepository.findOneById(k.getApoteka().getId());
         for(Rezervacija r : apoteka.getRezervacije()){
-            if(r.getId() == id && ChronoUnit.HOURS.between(LocalDateTime.now(), r.getDatumRezervacije()) >= 24 && !r.isIzdato()){
+            if(r.getId().equals(id) && ChronoUnit.HOURS.between(LocalDateTime.now(), r.getDatumRezervacije()) >= 24 && !r.isIzdato()){
                 ArrayList<RezervacijaDTO> dto = new ArrayList<>();
 
                 for(StanjeLijeka token : r.getRezervisaniLijekovi()){

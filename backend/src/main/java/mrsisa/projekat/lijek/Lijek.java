@@ -49,7 +49,7 @@ public class Lijek {
     private Dobavljac dobavljac;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Lijek> zamenskiLijekovi;
 
     public boolean isSamoRecept() {
@@ -72,9 +72,7 @@ public class Lijek {
         return id;
     }
 
-    public void setSifra(Long sifra) {
-        this.id = id;
-    }
+
 
     public String getNaziv() {
         return naziv;
@@ -230,7 +228,6 @@ public class Lijek {
         this.dobavljac = dobavljac;
         this.zamenskiLijekovi = zamenskiLijekovi;
     }
-
 
 
 }
