@@ -72,9 +72,7 @@ public class Lijek {
         return id;
     }
 
-    public void setSifra(Long sifra) {
-        this.id = id;
-    }
+
 
     public String getNaziv() {
         return naziv;

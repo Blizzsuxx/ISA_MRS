@@ -9,7 +9,6 @@ import mrsisa.projekat.uloga.Uloga;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity

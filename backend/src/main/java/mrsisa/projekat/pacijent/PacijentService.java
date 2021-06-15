@@ -1,11 +1,8 @@
 package mrsisa.projekat.pacijent;
-
-import mrsisa.projekat.KategorijaKorisnika.Kategorija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dermatolog.Dermatolog;
-import mrsisa.projekat.dermatolog.DermatologDTO;
 import mrsisa.projekat.dermatolog.DermatologRepository;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
@@ -13,30 +10,24 @@ import mrsisa.projekat.erecept.EreceptRepository;
 import mrsisa.projekat.farmaceut.Farmaceut;
 import mrsisa.projekat.farmaceut.FarmaceutRepository;
 import mrsisa.projekat.korisnik.Korisnik;
-import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.ocena.OcenaDTO;
-import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.popust.Popust;
 import mrsisa.projekat.popust.PopustRepository;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaRepository;
-import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.rezervacija.Rezervacija;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.rezervacija.RezervacijaRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.tipPenala.Penal;
 import mrsisa.projekat.tipPenala.PenalRepository;
-import mrsisa.projekat.uloga.Uloga;
 import mrsisa.projekat.uloga.UlogaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -45,8 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import mrsisa.projekat.adresa.Adresa;
-import org.springframework.transaction.annotation.Propagation;
+
 
 
 import java.time.LocalDateTime;
@@ -249,7 +239,7 @@ public class PacijentService {
 
 				if(apoteka!=null) {
 					for (StanjeLijeka stanjeApoteke : apoteka.getLijekovi()) {
-						if (stanjeApoteke.getLijek().getId() == s.getLijek().getId()) {
+						if (stanjeApoteke.getLijek().getId().equals(s.getLijek().getId())) {
 							stanjeApoteke.setKolicina(stanjeApoteke.getKolicina() + s.getKolicina());
 							break;
 						}
@@ -326,7 +316,7 @@ public class PacijentService {
 			if(d!=null) {
 				for (Ocena o : ((Dermatolog) d).getOcene()) {
 
-					if (o.getPacijent().getId() == pacijent1.getId()) {
+					if (o.getPacijent().getId().equals(pacijent1.getId())) {
 						ocene.put(p.getRadnik().getId(), new OcenaDTO(o, d,"d"));
 						//dermatolozi.add(new OcenaDTO(o, p.getRadnik()));
 						break;
@@ -360,7 +350,7 @@ public class PacijentService {
 			Farmaceut f=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
 			if(f!=null) {
 				for (Ocena o : ((Farmaceut) f).getOcene()) {
-					if (o.getPacijent().getId() == pacijent1.getId()) {
+					if (o.getPacijent().getId().equals(pacijent1.getId())) {
 						ocene.put(f.getId(),new OcenaDTO(o, f,"f"));
 						// farmaceuti.add(new OcenaDTO(o, p.getRadnik()));
 						break;
@@ -411,7 +401,7 @@ public class PacijentService {
 				if (d != null) {
 					for (Ocena o : (d).getOcene()) {
 						if (o.getPacijent() != null) {
-							if (o.getPacijent().getId() == pacijent1.getId()) {
+							if (o.getPacijent().getId().equals(pacijent1.getId())) {
 								apoteka.put(p.getApoteka().getId(), new OcenaDTO(o, p.getApoteka(),"a"));
 								break;
 							}
@@ -535,7 +525,7 @@ public class PacijentService {
 	private boolean proveri(List<Ocena> sve,int o){
 		if(sve==null){sve=new ArrayList<>();}
 		for(Ocena oc1 : sve){
-			if(oc1.getPacijent().getId()==getTrenutnogKorisnika().getId()){
+			if(oc1.getPacijent().getId().equals(getTrenutnogKorisnika().getId())){
 				oc1.setOcena(o);
 				return true;}
 		}
@@ -550,7 +540,7 @@ public class PacijentService {
 		List<Lijek> alergije=new ArrayList<>();
 		for(Lijek l : lekovi){
 			for(Lijek i :info) {
-				if (l.getId() == i.getId()) {
+				if (l.getId().equals(i.getId())) {
 					alergije.add(l);
 					break;
 				}
