@@ -7,7 +7,10 @@ import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaService;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.config.FixedRateTask;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -35,6 +38,7 @@ public class RezervacijaService {
 
     @Transactional
     public Boolean postaviRezervaciju(Map<String, Object> podaci, PosetaService posetaService) {
+
         Long pregledID = Long.parseLong(podaci.get("pregledID").toString());
 
         Poseta poseta = posetaService.findId(pregledID);
@@ -96,6 +100,7 @@ public class RezervacijaService {
 
 
     }
+
 
     @Transactional
     public void IzdajLek(Map<String, Object> podaci) {

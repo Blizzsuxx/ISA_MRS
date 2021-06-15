@@ -14,6 +14,7 @@ import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
+import mrsisa.projekat.pacijent.PacijentService;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.radnik.Radnik;
@@ -40,10 +41,11 @@ public class PosetaService {
     private final ApotekaRepository apotekaRepository;
     private final PacijentRepository pacijentRepository;
     private final SlobodanTerminRepository slobodanTerminRepository;
+    private final PacijentService pacijentService;
 
     @Autowired
     public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm,
-                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR)
+                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR, PacijentService pacijentService)
     {
         this.posetaRepository = posRepository;
         this.farmaceutRepository=farm;
@@ -51,6 +53,7 @@ public class PosetaService {
         this.apotekaRepository=apotekaRepository;
         this.pacijentRepository=pacijentR;
         this.slobodanTerminRepository=slobodanR;
+        this.pacijentService = pacijentService;
     }
 
     public List<PosetaDTO> dobaviPosete(Long id) {
@@ -419,12 +422,17 @@ public class PosetaService {
     @Transactional
     public void zabeleziOdsustvo(Long id) {
         Poseta poseta = this.posetaRepository.findById(id).orElse(null);
-        poseta.setOtkazano(true);
-
-        Penal penal = new Penal();
 
 
-        ///  TODO PENAL
+
+
+        if(poseta.getRadnik() instanceof Farmaceut) {
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 2);
+        } else{
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 3);
+
+        }
+
     }
 
     @Transactional(readOnly=true)
