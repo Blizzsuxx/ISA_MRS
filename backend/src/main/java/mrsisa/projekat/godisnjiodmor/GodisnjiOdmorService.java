@@ -38,7 +38,7 @@ public class GodisnjiOdmorService {
         return godisnjiOdmori;
     }
 
-    public void odobriZahtjev(Long id) {
+    public boolean odobriZahtjev(Long id) {
         GodisnjiOdmor godisnjiOdmor =  this.godisnjiOdmorRepository.findById(id).orElse(null);
         if(godisnjiOdmor!=null) {
             godisnjiOdmor.setOdobren(true);
@@ -50,10 +50,12 @@ public class GodisnjiOdmorService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return true;
         }
+        return false;
     }
 
-    public void odbijZahtjev(Long id) {
+    public boolean odbijZahtjev(Long id) {
         GodisnjiOdmor godisnjiOdmor =  this.godisnjiOdmorRepository.findById(id).orElse(null);
         if(godisnjiOdmor!=null){
             godisnjiOdmor.setOdobren(false);
@@ -65,8 +67,9 @@ public class GodisnjiOdmorService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            return true;
         }
 
-
+return false;
     }
 }

@@ -20,8 +20,9 @@
   <el-menu-item index="4"><router-link to="/ap/lijekovi">Lijekovi apoteke</router-link></el-menu-item>
   <el-menu-item index="5"><router-link to="/poruceni">Hitni lijekovi</router-link></el-menu-item>
   <el-menu-item index="6"><router-link to="/izvjestaji">Izvjestaji</router-link></el-menu-item>
-  <el-menu-item index="7"><router-link to="/adminApoteke/promjenaLozinke">Resetovanje lozinke</router-link></el-menu-item>
-  <el-menu-item index="8" @click="odjava">Odjava</el-menu-item>
+  <el-menu-item index="7"><router-link to="/azuriranjeApoteke">Azuriraj informacije apoteke</router-link></el-menu-item>
+  <el-menu-item index="8"><router-link to="/adminApoteke/promjenaLozinke">Resetovanje lozinke</router-link></el-menu-item>
+  <el-menu-item index="9" @click="odjava">Odjava</el-menu-item>
 </el-menu>
 </template>
 

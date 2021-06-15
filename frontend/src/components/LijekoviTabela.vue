@@ -118,7 +118,9 @@ export default {
       }
       },
       izracunajCijenu(row){
+        console.log(row)
           return (row.cijena*(1-row.akcija.procenatPopusta/100)).toFixed(1)
+          
       },
       formirajDatum(row){
         try{

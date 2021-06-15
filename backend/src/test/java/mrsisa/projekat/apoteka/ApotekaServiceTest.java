@@ -1,8 +1,10 @@
-package mrsisa.projekat.akcija;
+package mrsisa.projekat.apoteka;
 
 
 import mrsisa.projekat.administratorApoteke.AdministratorApotekeRepository;
 import mrsisa.projekat.adresa.AdresaRepository;
+import mrsisa.projekat.akcija.Akcija;
+import mrsisa.projekat.akcija.AkcijaRepository;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.apoteka.ApotekaService;
@@ -50,7 +52,7 @@ public class ApotekaServiceTest {
     @Mock
     private  PosetaRepository posetaRepository;
     @Mock
-    private  AkcijaRepository akcijaRepository;
+    private AkcijaRepository akcijaRepository;
     @Mock
     private  PopustRepository popustRepository;
     @Mock

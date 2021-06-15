@@ -1,9 +1,13 @@
-package mrsisa.projekat.zalba;
+package mrsisa.projekat.godisnjiOdmor;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +27,11 @@ import org.springframework.web.context.WebApplicationContext;
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WithMockUser(username="sulejman1", roles= {"ADMIN_SISTEMA"})
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OdgovorControllerTest {
-    private static final String URL_PREFIX = "/api/v1/odgovori";
+public class GodisnjiOdmorIntegracioniTest {
+    private static final String URL_PREFIX = "/api/v1/GodisnjiOdmori";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -48,35 +48,49 @@ public class OdgovorControllerTest {
     public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testPrihvatiGodisnji() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                "dunja", "123"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        this.mockMvc.perform(put(URL_PREFIX + "/admin/odobriZahtjev/1").contentType(contentType))
+                .andExpect(status().isOk())
+                ;
+    }
 
     @Test
     @Transactional
     @Rollback(true)
-    public void testKreirajOdgovor() throws Exception {
+    public void testOdbijGodisnji() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                "sulejman1", "123"));
+                "dunja", "123"));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        OdgovorDTO odgovorDTO = new OdgovorDTO();
-        odgovorDTO.setId(3);
-        odgovorDTO.setKorisnickoIme("sulejman1");
-        odgovorDTO.setText("nestoo");
-        odgovorDTO.setDatumVrijeme("2021-07-13");
-        String json = mapper.writeValueAsString(odgovorDTO);
-
-        this.mockMvc.perform(post(URL_PREFIX + "/kreirajOdgovor").contentType(contentType).content(json))
+        this.mockMvc.perform(put(URL_PREFIX + "/admin/odbijZahtjev/1").contentType(contentType))
                 .andExpect(status().isOk())
-                .andExpect(content().string("true"));
-
-        OdgovorDTO odgovorDTO2 = new OdgovorDTO();
-        odgovorDTO.setId(10);
-        String json2 = mapper.writeValueAsString(odgovorDTO);
-
-        this.mockMvc.perform(post(URL_PREFIX + "/kreirajOdgovor").contentType(contentType).content(json2))
-                .andExpect(status().isOk())
-                .andExpect(content().string("false"));
+        ;
     }
+
+    @Test
+    @Transactional
+    @Rollback(true)
+    public void testOdbijGodisnji1() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                "dunja", "123"));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        this.mockMvc.perform(put(URL_PREFIX + "/admin/odbijZahtjev/4").contentType(contentType))
+                .andExpect(status().isNotFound())
+        ;
+    }
+
 }
