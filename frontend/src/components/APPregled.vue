@@ -58,12 +58,12 @@
             <el-button type="primary" @click="zavrsiPregled()">Zavrsi pregled</el-button>
         </template>
         </el-popconfirm>
-        <el-button @click="otvoriProzor" v-bind:shortcuts="precice" plain type="primary">
+        <el-button @click="otvoriProzor" plain type="primary">
             Zakazi Pregled
         </el-button>
         </div>
 
-        <ModalniProzorZakazivanja  ref="prozor" v-bind:radnik="radnik" v-bind:pregledID="pregledID" v-bind:korisnik="korisnik"/>
+        <ModalniProzorZakazivanja  ref="prozor" />
 
         <el-input
             type="textarea"
@@ -131,10 +131,12 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
     methods: {
 
       otvoriProzor(){
-
+        console.log("QWQWQWQWQWWQWQWQWWQ")
         this.$refs.prozor.modalOpen = true;
+        console.log("QWQWQWQWQWWQWQWQWWQ")
         this.$refs.prozor.radnik = this.radnik;
         this.$refs.prozor.pregledID = this.pregledID;
+        console.log("PRENET JE ID: " + this.pregledID);
         this.$refs.prozor.korisnik = this.korisnik;
 
       },
@@ -208,7 +210,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
               rec += "\r\n" + value[i].sifra;
             }
             this.$message({
-            type: 'zamena',
+            type: 'info',
             message: rec
           });
           } 

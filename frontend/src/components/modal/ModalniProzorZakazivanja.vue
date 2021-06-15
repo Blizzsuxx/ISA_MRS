@@ -10,7 +10,7 @@
           <el-form
             :label-position="labelPosition"
             label-width="100px"
-            :model="pregled"
+            
           >
             <el-form-item label="Pregled">
               <el-date-picker
@@ -28,12 +28,25 @@
                 >Zakazi</el-button
               >
               
+
+
+  <el-select v-model="value" placeholder="Select">
+    <el-option
+      v-for="item in options"
+      :key="item.id"
+      :label="item.pocetakTermina"
+      :value="item.id"
+      :disabled="item.disabled">
+    </el-option>
+  </el-select>
             </el-form-item>
           </el-form>
+          
         </div>
         <!-- <div class="modal-footer">
       <h3>Modal Footer</h3>
     </div> -->
+    
       </div>
     </div>
   </teleport>
@@ -47,10 +60,12 @@ export default {
       modalOpen: false,
       value2: '',
       korisnik : null,
-      pregledID : null,
+      pregledID : this.$route.params.pregledID,
+      options : this.$store.state.APPosete.slobodnePoseteD,
+      value : '',
       radnik : {pregledi : ["aaa"]},
         shortcuts: [{
-          text: 'Prvi slobodan termin',
+          text: 'Sad odmah',
           value: (() => {
             const end = new Date();
             const start = new Date();
@@ -75,10 +90,11 @@ export default {
             }
             start.setTime(freeTime.getTime());
             end.setTime(start.getTime() + 3600 * 500);
+            console.log("AAAAAAAAAAAAAA")
             return [start, end]
           })()
         }, {
-          text: 'prvi slobodan sledece nedelje',
+          text: 'Za nedelju dana',
           value: (() => {
             const end = new Date();
             const start = new Date();
@@ -105,7 +121,7 @@ export default {
             return [start, end]
           })()
         }, {
-          text: 'prvi slobodan sledeceg meseca',
+          text: 'sledeceg meseca',
           value: (() => {
             const end = new Date();
             const start = new Date();
@@ -135,16 +151,22 @@ export default {
       
     };
   },
+   async  mounted() {
+     console.log(this.pregledID)
+    await this.$store.dispatch("APPosete/nabaviSlobodneTermine", {"posetaId" : this.pregledID});
+    console.log("a")
+    this.options = this.$store.state.APPosete.slobodnePoseteD;
+    console.log(this.options)
+    console.log("BBBBBBBBBBBBBBBB")
+  },
   methods: {
       promjeniCijenu(){
           console.log("andrija je najajci")
-          this.$store.dispatch("APPosete/zakaziPosetu",{'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik, "pregledID" : this.pregledID})
+          this.$store.dispatch("APPosete/zakaziPosetu",{'slobodan termin':this.value, 'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik, "pregledID" : this.pregledID})
           this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazan vam je pregled za " + this.value2, "address" : "mahajiraaji@gmail.com"})
       }
   },
-  mount() {
-    
-  },
+ 
 };
 </script>
 

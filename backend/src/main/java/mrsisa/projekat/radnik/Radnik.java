@@ -15,7 +15,6 @@ import java.util.List;
 @Table(name = "radnici")
 @PrimaryKeyJoinColumn(name = "korisnik")
 public abstract class Radnik extends Korisnik {
-    @Version
     private Long version;
 
     @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

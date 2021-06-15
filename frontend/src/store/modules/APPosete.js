@@ -143,7 +143,19 @@ const actions = {
             alert(response.data);
             return true;}else{return false;}
         })
+    },
+
+
+    nabaviSlobodneTermine(context, data){
+        return axios.post('posete/nabaviSlobodneTermine',data, {headers : authHeader()}).then(response => {
+            console.log("QQQQQQQ")
+
+            let poseteSve =response.data
+            context.commit('postaviSlobodnePoseteD',poseteSve)
+        })
     }
+
+
 }
 
 const mutations = {
