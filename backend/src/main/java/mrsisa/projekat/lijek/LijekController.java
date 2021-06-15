@@ -32,9 +32,17 @@ public class LijekController {
     @PreAuthorize("hasAnyRole('ADMIN_APOTEKA','ADMIN_SISTEMA')")
     @GetMapping("/DTOlijekovi")
     public List<LijekDTO> dobaviSveDTOLijekove() {
-
         return this.lijekService.dobaviSveDTOLijekove();
+    }
 
+    @GetMapping("/dobaviBasSveLijekove")
+    public List<LijekDTO> dobaviBasSveLijekove() {
+        return this.lijekService.dobaviSveDTOLijekove();
+    }
+
+    @GetMapping("/dobaviSveLijekoveApotekeDTO/{id}")
+    public List<LijekApotekaDTO> dobaviSveLijekoveApotekeDTO(@PathVariable long id){
+        return this.lijekService.dobaviSveApotekaLijekDTO(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','DOBAVLJAC')")
