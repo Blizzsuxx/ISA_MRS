@@ -15,7 +15,7 @@ const getters = {
 
 const actions = {
     dobaviPacijente (context) {
-        axios.get('http://localhost:8080/api/v1/apoteka/dobaviPacijente')
+        axios.get('apoteka/dobaviPacijente')
             .then(response => {
                 let pacijentiSvi =response.data
                 context.commit('postaviPacijente',pacijentiSvi)
@@ -24,14 +24,14 @@ const actions = {
 
     },
     dobaviKategorijuPacijenta(context){
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviKategoriju',{ headers: authHeader()}).then(response=>{
+        return axios.get('profil/dobaviKategoriju',{ headers: authHeader()}).then(response=>{
             let kategorija=response.data
             console.log(kategorija)
             context.commit('postaviKategoriju',kategorija)
         })
     },
     dobaviPretplaceneApoteke(context){
-        return axios.get('http://localhost:8080/api/v1/profil/pretplata',{ headers: authHeader()}).then(response=>{
+        return axios.get('profil/pretplata',{ headers: authHeader()}).then(response=>{
             let apoteke=response.data
             console.log(apoteke)
             context.commit('postaviApoteke',apoteke)
@@ -39,7 +39,7 @@ const actions = {
     },
     otkaziPretplatu(context,id){
        
-        return axios.put('http://localhost:8080/api/v1/profil/otkaziPretplatu',id,{ headers: authHeader()}).then(response=>{
+        return axios.put('profil/otkaziPretplatu',id,{ headers: authHeader()}).then(response=>{
             let da=response.data
             if(da){
             let preostaleApoteke = state.pretplata.filter(function(el){
@@ -67,7 +67,7 @@ const actions = {
         context.commit('postaviPacijentaZaPregled', pacijent);
     },
     proveriPenale(context){
-        return axios.get('http://localhost:8080/api/v1/profil/provariPenale',{ headers: authHeader()}).then(response=>{
+        return axios.get('profil/provariPenale',{ headers: authHeader()}).then(response=>{
             console.log(response.data)
             context.commit('postaviDozvolu',response.data)
             return response.data;

@@ -7,7 +7,7 @@ import java.util.Collections;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="api/popust")
+@RequestMapping(path="api/v1/popust")
 public class PopustController {
     private final PopustService popustService;
 

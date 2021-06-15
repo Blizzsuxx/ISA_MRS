@@ -24,7 +24,7 @@ import java.util.Map;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="api/qrkod")
+@RequestMapping(path="api/v1/qrkod")
 public class QRKodController {
     private final QRKodService qrKodService;
     @Autowired

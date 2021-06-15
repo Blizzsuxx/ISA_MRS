@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path="api/odgovori")
+@RequestMapping(path="api/v1/odgovori")
 public class OdgovorController {
 
     private final OdgovorService odgovorService;

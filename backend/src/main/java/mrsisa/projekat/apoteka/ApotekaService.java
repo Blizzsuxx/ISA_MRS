@@ -173,9 +173,7 @@ public class ApotekaService {
     public void azurirajApotekuAdmin(AdministratorApoteke adminApoteke, ApotekaDTO apotekaDTO) {
         Apoteka apoteka =  adminApoteke.getApoteka();
         apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);
-        System.out.println(apoteka.getIme());
         apoteka.setIme(apotekaDTO.getIme());
-        System.out.println(apoteka.getIme());
         apoteka.postaviAdresuIzDTO(apotekaDTO);
         adresaRepository.save(apoteka.getAdresa());
         apotekaRepository.save(apoteka);

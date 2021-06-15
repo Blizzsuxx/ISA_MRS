@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="api/korisnici")
+    @RequestMapping(path="api/v1/korisnici")
 @CrossOrigin
 public class KorisnikController {
 
@@ -62,7 +62,7 @@ public class KorisnikController {
     @PostMapping("/login")
     public ResponseEntity<UserTokenState> createAuthenticationToken(
             @RequestBody JwtAuthenticationRequest authenticationRequest, HttpServletResponse response) {
-
+        System.out.println("andrija");
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
         // AuthenticationException
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(

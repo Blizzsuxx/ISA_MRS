@@ -17,10 +17,13 @@ import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import javax.persistence.*;
 import java.util.List;
 
+
+
 @Entity
 public class Apoteka {
 
-
+    @Version
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -204,5 +207,14 @@ public class Apoteka {
 
     public void setPretplaceniPacijenti(List<Pacijent> pretplaceniPacijenti) {
         this.pretplaceniPacijenti = pretplaceniPacijenti;
+    }
+
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

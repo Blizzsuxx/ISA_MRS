@@ -13,7 +13,7 @@ const getters = {
 
 const actions = {
     dobaviPenale (context) {
-        return axios.get('http://localhost:8080/api/v1/profil/dobaviPenale',{ headers: authHeader()})
+        return axios.get('profil/dobaviPenale',{ headers: authHeader()})
         .then(response => {
             let rSvi =response.data
             context.commit('postaviPenale',rSvi)
