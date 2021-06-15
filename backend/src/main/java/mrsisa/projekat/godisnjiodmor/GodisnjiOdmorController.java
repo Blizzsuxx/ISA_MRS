@@ -2,6 +2,7 @@ package mrsisa.projekat.godisnjiodmor;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
 import mrsisa.projekat.bezbjednost.UserTokenState;
+import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -70,10 +73,10 @@ public class GodisnjiOdmorController {
 
     @PostMapping("/zakaziGodisnji")
     public Boolean zakaziOdmor(@RequestBody Map<String, Object> data){
+        return this.godisnjiOdmorService.zakaziOdmor(data);
         //napravi Odmor i dodaj u bazu
         //setuj odobren na null
         //params od, do, radnik (string : id)
-        return true;
     }
 
     @GetMapping ("/potvrdiGodisnji")
