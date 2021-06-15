@@ -196,8 +196,11 @@ public class PacijentController {
 	public boolean izbRez( @RequestBody Map<String,Object> podaci){
 		System.out.println("carica milica");
 		System.out.println(podaci.get("a").getClass().getName());
-
-		return this.pacijentService.izbaciRezervaciju(podaci.get("a")+"");
+		System.out.println(podaci);
+		System.out.println(podaci.get("a"));
+		boolean dane=this.pacijentService.izbaciRezervaciju(podaci.get("a")+"");
+		System.out.println(dane+"/////////////////////////////");
+		return dane;
 	}
 
 	@GetMapping(value="/dobaviKandidateZaZalbu/{tipZalbe}")

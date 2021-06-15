@@ -11,9 +11,9 @@
           <el-table-column sortable prop="kraj" label="Zavrsetak" 
           :formatter="formirajDatum">
           </el-table-column>
-          <el-table-column sortable prop="radnik.firstName" label="Ime" >
+          <el-table-column sortable prop="radnik.ime" label="Ime" >
           </el-table-column>
-      <el-table-column sortable prop="radnik.lastName" label="Prezime" >
+      <el-table-column sortable prop="radnik.prezime" label="Prezime" >
           </el-table-column>
           <el-table-column sortable prop="apoteka.ime" label="Apoteka">
           </el-table-column>

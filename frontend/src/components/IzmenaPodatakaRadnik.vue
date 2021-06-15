@@ -145,8 +145,7 @@
         this.$router.push({ name: 'Prijava' })
         }
         }
-        //this.$alert("Unesene promene ce se zapamtiti sem mejla.");
-
+        
       },
        vrati() {
         this.form.ime=this.backup.ime
