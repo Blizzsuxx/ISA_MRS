@@ -65,7 +65,7 @@ export default {
       promjeniCijenu(){
       
           this.$store.dispatch("APlijekovi/promjeniCijenu",this.lijek).then(()=>{
-            this.$store.dispatch("APlijekovi/dobaviLijekove")
+            this.$store.dispatch("APlijekovi/dobaviLijekoveAdmin")
           })
       }
   },
