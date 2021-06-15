@@ -126,7 +126,7 @@ export default {
   },
   mounted() {
     this.$store.dispatch("Dermatolozi/dobaviDermatologeAdmin");
-    this.$store.dispatch("APlijekovi/dobaviLijekove");
+    this.$store.dispatch("APlijekovi/dobaviLijekoveAdmin");
     this.$store.dispatch("APApoteke/dobaviApoteku", 1).then(() => {
       this.apotekaUcitana = true;
       console.log(this.$store.state.APApoteke.apoteka);

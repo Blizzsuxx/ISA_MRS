@@ -1,6 +1,10 @@
 package mrsisa.projekat.lijek;
 
+import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.dobavljac.Dobavljac;
+import mrsisa.projekat.stanjelijeka.StanjeLijeka;
+import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -13,10 +17,14 @@ import java.util.List;
 @Service
 public class LijekService {
     private final LijekRepository lijekRepository;
-
+    private final ApotekaRepository apotekaRepository;
+    private final StanjeLijekaRepository stanjeLijekaRepository;
     @Autowired
-    public LijekService(LijekRepository lijekRepository){
+    public LijekService(LijekRepository lijekRepository,
+                        ApotekaRepository apotekaRepository, StanjeLijekaRepository stanjeLijekaRepository){
         this.lijekRepository = lijekRepository;
+        this.apotekaRepository = apotekaRepository;
+        this.stanjeLijekaRepository = stanjeLijekaRepository;
     }
 
     public Lijek save(Lijek l){
@@ -78,4 +86,13 @@ public class LijekService {
         return lijekoviDTO;
     }
 
+    @Transactional
+    public List<LijekApotekaDTO> dobaviSveApotekaLijekDTO(long id){
+        List<LijekApotekaDTO> lijekApoteka = new ArrayList<>();
+        for (Apoteka a : this.apotekaRepository.findAll())
+            for (StanjeLijeka sl : a.getLijekovi())
+                if (sl.getLijek().getId() == id)
+                    lijekApoteka.add(new LijekApotekaDTO(a.getIme(), sl.getCijena()));
+        return lijekApoteka;
+    }
 }

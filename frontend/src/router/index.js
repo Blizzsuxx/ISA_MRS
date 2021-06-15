@@ -248,7 +248,7 @@ const routes = [
     component: APPregled
   },
   {
-    path: '/',
+    path: '/ap/prijava',
     name: 'Prijava',
     component: Prijava
   },
@@ -377,13 +377,13 @@ const router = createRouter({
 })
 const DEFAULT_TITLE = 'Apoteka'
 router.beforeEach((to, from, next)=>{
-  const publicPages = ['/', '/ap/FormaKorisnika'];
+  const publicPages = ['/ap/prijava', '/ap/FormaKorisnika', '/ap/pocetnaStrana'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
   document.title = to.meta.title || DEFAULT_TITLE
   if (authRequired && !loggedIn){
     console.log('provjera');
-    return next('/');
+    return next('/ap/prijava');
   }
   next();
 })

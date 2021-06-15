@@ -45,7 +45,8 @@ public class FarmaceutService {
     public List<DermatologDTO> dobaviFarmaceuteAdmin(Long id) {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> farmaceuti =  new ArrayList<>();
-
+        if(apoteka==null)
+            return farmaceuti;
         DermatologDTO temp ;
         List<String>  apoteke;
         for(Farmaceut farmaceut: apoteka.getFarmaceuti()){
@@ -85,7 +86,7 @@ public class FarmaceutService {
         }
         for(Farmaceut farmaceut: apoteka.getFarmaceuti()){
             if(farmaceut.getId().equals(id)){
-                apoteka.getDermatolozi().remove(farmaceut);
+                apoteka.getFarmaceuti().remove(farmaceut);
                 apotekeRepository.save(apoteka);
                 return;
             }

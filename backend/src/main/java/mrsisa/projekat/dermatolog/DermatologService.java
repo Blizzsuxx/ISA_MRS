@@ -67,7 +67,11 @@ public class DermatologService {
     @Transactional
     public List<DermatologDTO> dobaviDermatologeAdmin(Long id) {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);
+
         List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        if(apoteka==null){
+            return dermatolozi;
+        }
         DermatologDTO temp;
         List<String> apoteke;
         for(Dermatolog dermatolog: apoteka.getDermatolozi()){
@@ -121,7 +125,11 @@ public class DermatologService {
     public List<DermatologDTO> dobaviNezaposleneDermatologeAdmin(Long id) {
         Apoteka apoteka =  this.apotekeRepository.findById(id).orElse(null);
         List<DermatologDTO> dermatolozi =  new ArrayList<>();
+        if(apoteka==null){
+            return dermatolozi;
+        }
         List<Dermatolog> zaposleni = apoteka.getDermatolozi();
+
         DermatologDTO temp;
         List<String> apoteke;
         for(Dermatolog dermatolog: this.dermatologRepository.findAll()){
@@ -140,6 +148,9 @@ public class DermatologService {
     @Transactional
     public void zaposliDermatologa(RadnoVrijemeDTO radnoVrijemeDTO, Long id_apoteke) {
         Apoteka apoteka = apotekeRepository.findById(id_apoteke).orElse(null);
+        if(apoteka==null){
+            return ;
+        }
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         Dermatolog dermatolog =  this.dermatologRepository.findById(radnoVrijemeDTO.getRadnik()).orElse(null);
         if (dermatolog!=null){

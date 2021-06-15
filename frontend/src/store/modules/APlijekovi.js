@@ -19,6 +19,12 @@ const state = {
 
 
 const actions = {
+    dobaviBasSveLijekove(){
+        return axios.get('lijekovi/dobaviBasSveLijekove',{ headers: authHeader()});
+    },
+    dobaviSveLijekoveApotekeDTO(context, id){
+        return axios.get(`lijekovi/dobaviSveLijekoveApotekeDTO/${id}`, { headers: authHeader()});
+    },
     dobaviSveLijekove(){
         return axios.get('lijekovi/DTOlijekovi',{ headers: authHeader()});
     },
@@ -55,6 +61,7 @@ const actions = {
     dobaviLijekove (context) {
         return axios.get('apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
+            console.log(response.data)
             context.commit('postaviSveLijekove',response.data)
         })
         

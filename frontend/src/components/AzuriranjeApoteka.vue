@@ -38,6 +38,8 @@
 </style>
 
 <template>
+
+      <NavAdminApoteke/>
   <div id="unos">
     <h2 class="text-center text-white pt-5">{{naslov}}</h2>
     <div class="container">
@@ -86,8 +88,12 @@
 </template>
 
 <script>
+import NavAdminApoteke from './NavAdminApoteke'
   export default {
     name: 'AzuriranjeApoteka',
+    components:{
+      NavAdminApoteke
+    },
     data() {
       return {
         naslov: 'Informacije apoteke',
