@@ -20,7 +20,7 @@
             <span>Apoteke i Lijekovi</span>
             </template>
             <el-menu-item index="2-1" @click="dobaviLijekove">Svi Lijekovi</el-menu-item>
-            <el-menu-item index="2-1" @click="dobaviApoteke">Sve Apoteke</el-menu-item>
+            <el-menu-item index="2-2" @click="dobaviSveLijekove">Dobavi Sve Lijekove</el-menu-item>
         </el-submenu>
         <el-submenu index="3" v-if='potvrda'>
             <template #title>
@@ -74,6 +74,9 @@
         <div v-else-if="indikator == 6">
             <FormaLijekova :izmjeniIndikator="izmjeniIndikator"/>
         </div>
+        <div v-else-if="indikator == 7">
+            <PregledBasSvihLijekova/>
+        </div>
         <div v-else-if="indikator == 8">
             <PotvrdaLozinke :izmjeniPotvrdu="izmjeniPotvrdu"/>
         </div>
@@ -101,6 +104,7 @@ import FormaLijekova from './FormaLijekova'
 import PotvrdaLozinke from './PotvrdaLozinke'
 import ZalbePregled from './ZalbePregled'
 import QRKod from './QRKod'
+import PregledBasSvihLijekova from './PregledBasSvihLijekova'
 
 export default {
     name: 'AdministratorSistema',
@@ -186,8 +190,8 @@ export default {
                 return response;
             })
         },
-        dobaviApoteke(){
-            
+        dobaviSveLijekove(){
+            this.indikator = 7;
         },
         registracija(){
             this.indikator = 5;
@@ -240,7 +244,7 @@ export default {
     },
     components:{
         DTOKorisniciTabela, DTOLijekoviTabela, LoyaltyPrograma, FormaApoteke, FormaKorisnika, FormaLijekova,
-        PotvrdaLozinke, ZalbePregled, QRKod
+        PotvrdaLozinke, ZalbePregled, QRKod, PregledBasSvihLijekova
     },
     
   }

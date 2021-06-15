@@ -43,7 +43,7 @@ public class LijekDTO {
 
         //this.ocijena = l.getOcijena();
         this.poeni = l.getPoeni();
-
+        this.preporuceniUnos = l.getPreporuceniUnos();
     }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
