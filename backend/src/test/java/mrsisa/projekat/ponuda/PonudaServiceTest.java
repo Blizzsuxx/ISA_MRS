@@ -58,7 +58,10 @@ public class PonudaServiceTest {
         d.setUsername("marko");
         assertFalse(ponudaService.kreirajPonudu(dto, d));
 
-        
+        Narudzbenica n2 = new Narudzbenica();
+        n2.setId(2L);
+        n2.setRok(LocalDateTime.parse("2021-06-14 00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        dto.setIdNarudzbenice(2L);
     }
 
 }

@@ -22,6 +22,9 @@ import java.util.List;
 @Table(name = "korisnici")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class  Korisnik implements UserDetails {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
 
     @Id
    // @SequenceGenerator(name = "korisnik_seq", sequenceName = "korisnik_seq", initialValue = 1, allocationSize = 1)
@@ -329,5 +332,13 @@ public abstract class  Korisnik implements UserDetails {
 
     public void setBrojTelefona(String brojTelefona) {
         this.brojTelefona = brojTelefona;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
