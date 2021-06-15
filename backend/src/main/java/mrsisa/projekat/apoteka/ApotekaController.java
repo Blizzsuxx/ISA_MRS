@@ -126,6 +126,10 @@ public class ApotekaController {
 
         return false;
     }
+    @GetMapping("/dobaviBasSveApoteke")
+    public List<ApotekaDTO> dobaviBasSveApoteke() {
+        return this.apotekaService.dobaviApoteke();
+    }
 
     @PostMapping(value="/proveriDostupnost")
     public Boolean proveriDostupnost(@RequestBody Map<String, Object> params){

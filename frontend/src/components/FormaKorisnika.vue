@@ -294,7 +294,10 @@ import moment from 'moment'
                 } else if (this.korisnik.uloga === 'ROLE_DOBAVLJAC'){
                   nesto = "Dobavljaci";
                 }
-                this.izmjeniIndikator(1, nesto);
+                if (this.korisnik.uloga !== 'ROLE_FARMACEUT'){
+                  this.izmjeniIndikator(1, nesto);
+                }
+                
 
               } else { // znaci ako je pacijent u pitanju
                 this.$router.push('/ap/prijava');
