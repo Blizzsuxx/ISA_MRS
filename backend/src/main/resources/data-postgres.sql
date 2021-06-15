@@ -224,7 +224,8 @@ insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
 values ('2021-05-14 04:40', 'aa', 'zarko', 'aaaa', 'Apoteka', '1');
 insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
  values ('2021-05-14 04:40', 'aab', 'zarko', 'aaaaaa', 'Dermatolog', '5');
-
+insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
+ values ('2021-05-14 04:40', 'aab', 'zarko', 'aabaaaa', 'Farmaceut', '5');
 -- ODGOVORI
 
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id)
@@ -368,15 +369,15 @@ insert into pacijenti_penali (pacijent_korisnik, penali_id) values (9,1);
 
 
 --SLOBODNE POSETE DERMATOLOZIMA
-insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (5,600,'2021-06-14 04:55','2021-06-14 04:40',1,5);
-insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (6,600,'2021-06-14 05:55','2021-06-14 05:40',1,5);
-insert into  slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (7,600,'2021-06-14 06:55','2021-06-14 06:40',1,5);
+insert into  slobodan_termin(cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (600,'2021-07-14 04:55','2021-07-14 04:40',1,5);
+insert into  slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (600,'2021-07-14 05:55','2021-07-14 05:40',1,5);
+insert into  slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (600,'2021-07-14 06:55','2021-07-14 06:40',1,5);
 
 --SLOBODAN TERMIN F
-insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (1,500,'2021-06-14 04:55','2021-06-14 04:40',1, 10);
-insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (2,500,'2021-06-14 05:55','2021-06-14 05:40',1, 10);
-insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (3,500,'2021-06-14 06:55','2021-06-14 06:40',1, 10);
-insert into slobodan_termin(id, cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (4,500,'2021-06-14 07:55','2021-06-14 07:40',1, 10);
+insert into slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (500,'2021-07-14 04:55','2021-07-14 04:40',1, 10);
+insert into slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (500,'2021-07-14 05:55','2021-07-14 05:40',1, 10);
+insert into slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (500,'2021-07-14 06:55','2021-07-14 06:40',1, 10);
+insert into slobodan_termin( cijena_termina,kraj_termina, pocetak_termina,apoteka_id,radnik_korisnik) values (500,'2021-07-14 07:55','2021-07-14 07:40',1, 10);
 
 
 

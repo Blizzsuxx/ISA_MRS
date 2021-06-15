@@ -193,7 +193,11 @@ export default {
       this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
       console.log(this.radnik.promenioSifru)
       if(!this.radnik.promenioSifru){
-        alert("Molimo vas da promenite sifru, kliknite na profil");
+      
+         this.$message({
+                
+                message: 'Molimo vas da promenite sifru, kliknite na profil'
+              });
       }   
     },
 

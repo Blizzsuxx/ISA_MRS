@@ -164,6 +164,10 @@ public class Lijek {
         this.preporuceniUnos = preporuceniUnos;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Lijek() {
 
     }
@@ -226,4 +230,7 @@ public class Lijek {
         this.dobavljac = dobavljac;
         this.zamenskiLijekovi = zamenskiLijekovi;
     }
-}
+
+    }
+
+

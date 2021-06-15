@@ -24,12 +24,17 @@ import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import mrsisa.projekat.tipPenala.Penal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.transaction.annotation.Propagation;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -45,6 +50,7 @@ public class PosetaService {
     private final PacijentService pacijentService;
     private final PopustService popustService;
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm,
                          ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR, PacijentService pacijentService, PopustService popustRepository)
@@ -403,6 +409,7 @@ public class PosetaService {
 
     }
 
+    @Transactional(propagation =Propagation.REQUIRES_NEW) //todo  isto kao slobodanTerminService fja zakazi
     public String zakaziPosetuD(String id) {
         String broj=id.split("=")[0];
         SlobodanTermin termin=this.slobodanTerminRepository.findOneById(Long.parseLong(broj.trim()));
@@ -411,29 +418,53 @@ public class PosetaService {
         p.setKraj(termin.getKrajTermina());
         p.setPocetak(termin.getPocetakTermina());
         List<Poseta> sve=this.posetaRepository.findAll();
-        Long id2=sve.get(sve.size()-1).getId()+1L;
-        p.setId(id2);
+
         p.setOtkazano(false);
         p.setApoteka(termin.getApoteka());
         Korisnik k=getTrenutnogKorisnika();
         Pacijent pacijent=this.pacijentRepository.findOneById(k.getId());
         p.setPacijent(pacijent);
-        this.posetaRepository.save(p);
-
-        return "Uspesno ste zakazali posetu kod dermatologa Sime.";
+        //this.posetaRepository.save(p); //todo mozda pacijentu setovati i cuvati?
+        sacuvajPosetu(p);
+        deleteTermin(termin.getId());
+        return "Uspesno ste zakazali posetu kod dermatologa";
     }
+
+    private Long pronadjiKljuc(List<Poseta> sve) {
+        Long kljuc=1L;
+        for(Poseta posete : sve){
+            if(posete.getId()>kljuc){
+                kljuc=posete.getId();
+            }
+        }
+        kljuc++;
+        System.out.println("Kljuc je: "+kljuc);
+        return kljuc;
+    }
+
+
+    @Transactional //(readOnly=false) todo //ovde je cuvanje posete, e sad, treba onemoguciti da se ovo desi 2 pputa
+    public void sacuvajPosetu(Poseta poseta){//kada se upisuje ide pessimistic //pazi na slobodan termin da se yakljuca nekako
+        logger.info("> create");
+        Poseta sacuvana=posetaRepository.save(poseta);
+        logger.info("< create");
+
+    }
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)//
+    public void deleteTermin(long id) {
+        System.out.println("doslo delete");
+        logger.info("> delete");
+        slobodanTerminRepository.deleteById(id);
+        logger.info("< delete");
+    }
+
     @Transactional
     public boolean izbaciPosetuF(String id) {
 
         for(Poseta poseta : this.posetaRepository.findAll()){
             if(poseta.getId()==Integer.parseInt(id.trim())){
-                List<SlobodanTermin> termini=new ArrayList<>();
-                Long id1;
-                if(termini.size()==0){
-                    id1=1L;
-                }else{
-                 id1=termini.get(termini.size()-1).getId()+1;}
-                SlobodanTermin sl=new SlobodanTermin(poseta, id1);//proveriti generisanje id
+                List<SlobodanTermin> termini=this.slobodanTerminRepository.findAll();
+                SlobodanTermin sl=new SlobodanTermin(poseta);//proveriti generisanje id
                 sl.setApoteka(poseta.getApoteka());
                 this.slobodanTerminRepository.save(sl);
                 this.posetaRepository.delete(poseta);
@@ -446,7 +477,21 @@ public class PosetaService {
         return true;
     }
 
-    
+
+    private Long izracunajKljuc(List<SlobodanTermin> termini) {
+        Long kljuc=1L;
+        for(SlobodanTermin posete : termini){
+            if(posete.getId()>kljuc){
+                kljuc=posete.getId();
+            }
+        }
+        kljuc++;
+        System.out.println("Kljuc je: "+kljuc);
+        return kljuc;
+
+    }
+
+
     @Transactional
     public void zabeleziOdsustvo(Long id) {
         Poseta poseta = this.posetaRepository.findById(id).orElse(null);

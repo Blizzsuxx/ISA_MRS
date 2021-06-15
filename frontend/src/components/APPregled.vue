@@ -118,7 +118,6 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
           });
       }      
         
-        console.log("");
     },
     setup() {
         return {
@@ -180,6 +179,7 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
             type: 'warning',
             message: 'Pacijent je alergican'
           });
+
           this.izabraniLijekovi = [];
           return;
         } else {
@@ -209,11 +209,13 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
             for(var i = 0; i < value.length; i++){
               rec += "\r\n" + value[i].sifra;
             }
+
             this.$message({
             type: 'info',
             message: rec
           });
           } 
+
 
           
           return;

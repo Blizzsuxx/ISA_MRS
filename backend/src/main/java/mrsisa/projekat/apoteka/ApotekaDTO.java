@@ -38,15 +38,19 @@ public class ApotekaDTO {
     public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat, int prosecnaOcena, String sifraErecepta){
         this.id = apoteka.getId();
         this.ime = apoteka.getIme();
-        this.mjesto = apoteka.getAdresa().getMesto();
-        this.ptt = apoteka.getAdresa().getPtt();
-        this.ulica = apoteka.getAdresa().getUlica();
-        this.broj = apoteka.getAdresa().getBroj();
+        if (apoteka.getAdresa() != null) {
+            this.mjesto = apoteka.getAdresa().getMesto();
+            this.ptt = apoteka.getAdresa().getPtt();
+            this.ulica = apoteka.getAdresa().getUlica();
+            this.broj = apoteka.getAdresa().getBroj();
+        }
         this.stanja = new ArrayList<>();
         this.ukupnaCijena = ukupnaCijena;
         for (StanjeLijeka sl : apoteka.getLijekovi())
             this.stanja.add(new StanjeLijekaDTO(sl));
         this.rezultat = rezultat;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
+
         this.prosecnaOcena = prosecnaOcena;
         this.sifraErecepta = sifraErecepta;
     }
@@ -59,6 +63,7 @@ public class ApotekaDTO {
         this.broj = apoteka.getAdresa().getBroj();
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
     public ApotekaDTO(Apoteka apoteka,double cena){
         this.id = apoteka.getId();
@@ -70,6 +75,7 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
         this.ukupnaCijena=cena;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
     public ApotekaDTO(Apoteka apoteka, int a){
         this.id = apoteka.getId();
@@ -86,6 +92,7 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
         this.pretplacen = pretplacen;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
 
     public void setAdresa(Adresa adresa){

@@ -1,5 +1,4 @@
-package mrsisa.projekat.ponuda;
-
+package mrsisa.projekat.zalba;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,11 +27,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WithMockUser(username="mika1", roles= {"DOBAVLJAC"})
+@WithMockUser(username="sulejman1", roles= {"ADMIN_SISTEMA"})
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PonudaControllerTest {
-    private static final String URL_PREFIX = "/api/v1/ponuda";
+public class OdgovorControllerTest {
+    private static final String URL_PREFIX = "/api/v1/odgovori";
 
     private MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
@@ -40,10 +39,10 @@ public class PonudaControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext webApplicationContext;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private WebApplicationContext webApplicationContext;
 
     @Before
     public void setup() {
@@ -53,24 +52,31 @@ public class PonudaControllerTest {
     @Test
     @Transactional
     @Rollback(true)
-    public void testKreirajPonudu() throws Exception {
+    public void testKreirajOdgovor() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                "mika1", "123"));
+                "sulejman1", "123"));
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        PonudaDTO ponudaDTO = new PonudaDTO();
-        ponudaDTO.setId(1L);
-        ponudaDTO.setIdNarudzbenice(1L);
-        ponudaDTO.setRokPonude("2022-12-12");
-        String json = mapper.writeValueAsString(ponudaDTO);
+        OdgovorDTO odgovorDTO = new OdgovorDTO();
+        odgovorDTO.setId(3);
+        odgovorDTO.setKorisnickoIme("sulejman1");
+        odgovorDTO.setText("nestoo");
+        odgovorDTO.setDatumVrijeme("2021-07-13");
+        String json = mapper.writeValueAsString(odgovorDTO);
 
-        this.mockMvc.perform(post(URL_PREFIX + "/kreirajPonudu").contentType(contentType).content(json))
+        this.mockMvc.perform(post(URL_PREFIX + "/kreirajOdgovor").contentType(contentType).content(json))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+
+        OdgovorDTO odgovorDTO2 = new OdgovorDTO();
+        odgovorDTO.setId(10);
+        String json2 = mapper.writeValueAsString(odgovorDTO);
+
+        this.mockMvc.perform(post(URL_PREFIX + "/kreirajOdgovor").contentType(contentType).content(json2))
                 .andExpect(status().isOk())
                 .andExpect(content().string("false"));
-
     }
-
 }

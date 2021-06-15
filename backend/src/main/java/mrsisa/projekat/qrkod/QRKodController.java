@@ -59,8 +59,8 @@ public class QRKodController {
                 return null;
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             Pacijent p = (Pacijent) auth.getPrincipal();
-            if (!p.getUsername().equals(tokeni[1]))  // ako ga koristi pacijent koji ne bi trebao
-                return null;
+           // if (!p.getUsername().equals(tokeni[1]))  // ako ga koristi pacijent koji ne bi trebao
+             //   return null;
             return this.qrKodService.vratiApotekeNaOsnovuKoda(tokeni);
         } catch(Exception e) {
             return null;
