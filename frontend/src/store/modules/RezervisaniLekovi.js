@@ -14,7 +14,7 @@ const getters = {
 const actions = {
     dobaviRezervacije (context) {
         
-        axios.get('http://localhost:8080/api/v1/profil/dobaviRezervacije',{ headers: authHeader()})
+        axios.get('profil/dobaviRezervacije',{ headers: authHeader()})
         .then(response => {
             //console.log("a")
            console.log(response.data)
@@ -24,7 +24,7 @@ const actions = {
   },
 
   postaviRezervacije(context, podaci){
-    axios.post('http://localhost:8080/api/v1/rezervacije/postaviRezervacije', podaci,{ headers: authHeader()}).then(response => {
+    axios.post('rezervacije/postaviRezervacije', podaci,{ headers: authHeader()}).then(response => {
 
             alert("Pregled uspesno zavrsen");
             return response;
@@ -43,7 +43,7 @@ const actions = {
               }else{return true;}
           })
           
-          axios.post("http://localhost:8080/api/v1/profil/izbaciRezervacije", {"a":state.rezervisani[index].id},{ headers: authHeader()})
+          axios.post("profil/izbaciRezervacije", {"a":state.rezervisani[index].id},{ headers: authHeader()})
         .then(response => {
             if(response){
             alert("Uspesno ste izbacili lek iz rezervacije");
@@ -73,7 +73,7 @@ const actions = {
 
     lekoviPoRezervaciji(context, data){
         // apoteka i id rezervacije su paramtetri
-        axios.post('http://localhost:8080/api/v1/rezervacije/dobaviRezervacijeId', data, {headers : authHeader()}).then(response => {
+        axios.post('rezervacije/dobaviRezervacijeId', data, {headers : authHeader()}).then(response => {
             context.commit('postaviLekovePoPoseti', response.data);
             if(response.data == ""){
                 alert("broj nije ispravan");
@@ -83,6 +83,19 @@ const actions = {
             console.log("BBBBBBBBBBBBBBBBB");
             return response.data;
         })
+    },
+
+    IzdajLek(context, data){
+
+
+        axios.post('http://localhost:8080/api/v1/rezervacije/IzdajLek', data, {headers : authHeader()}).then(response => {
+            
+            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
+            console.log(response.data);
+            console.log("BBBBBBBBBBBBBBBBB");
+            return response.data;
+        })
+
     }
 
     

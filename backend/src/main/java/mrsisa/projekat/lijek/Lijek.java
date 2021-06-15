@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -42,6 +43,8 @@ public class Lijek {
     private List<Ocena> ocene;
     @Column(name = "poeni", nullable = false)
     private int poeni;
+    @Column(name = "preporuceni_unos", nullable = false)
+    private String preporuceniUnos;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Dobavljac dobavljac;
 
@@ -153,6 +156,14 @@ public class Lijek {
         this.sifra = sifra;
     }
 
+    public String getPreporuceniUnos() {
+        return preporuceniUnos;
+    }
+
+    public void setPreporuceniUnos(String preporuceniUnos) {
+        this.preporuceniUnos = preporuceniUnos;
+    }
+
     public Lijek() {
 
     }
@@ -196,6 +207,8 @@ public class Lijek {
         this.proizvodjac = dummy.getProizvodjac();
         this.napomena = dummy.getNapomena();
         this.poeni = dummy.getPoeni();
+        this.preporuceniUnos = dummy.getPreporuceniUnos();
+        this.zamenskiLijekovi = new ArrayList<>();
     }
 
 

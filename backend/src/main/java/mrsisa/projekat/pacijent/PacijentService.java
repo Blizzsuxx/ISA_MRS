@@ -603,6 +603,7 @@ public class PacijentService {
 
 	@Transactional
     public Boolean proveriAlergije(Map<String, Object> params) {
+		System.out.println(params.get("korisnik"));
 		List<Map<String,Object>> lekovi = (List<Map<String,Object>>) params.get("lijekovi");
 		String id = (String) params.get("korisnik");
 		Pacijent p = findOne(id);
@@ -648,5 +649,36 @@ public class PacijentService {
 			pacijent1.setUsername("n");
 			return pacijent1;
 		}
+	}
+
+	@Transactional
+	public List<TempDTO> dobaviKandidateZaZalbu(String tipZalbe){
+		List<TempDTO> tempDTO = new ArrayList<>();
+		List<OcenaDTO> ocene;
+		if (tipZalbe.equals("Dermatolog")){
+			ocene = this.dobaviSvojeDermatologe();
+			for (OcenaDTO ocena: ocene){
+				Dermatolog d = this.dermatologRepository.
+						findById(Integer.parseInt(ocena.getId().substring(1))).orElseThrow();
+				tempDTO.add(new TempDTO(d.getId().toString(), d.getUsername()));
+			}
+
+		} else if (tipZalbe.equals("Farmaceut")) {
+			ocene = this.dobaviSvojeFarmaceute();
+			for (OcenaDTO ocena: ocene){
+				Farmaceut f = this.farmaceutRepository.
+						findById(Integer.parseInt(ocena.getId().substring(1))).orElseThrow();
+				tempDTO.add(new TempDTO(f.getId().toString(), f.getUsername()));
+			}
+		} else { // APOTEKA
+			ocene = this.dobaviSvojeApoteke();
+			for (OcenaDTO ocena: ocene){
+				Apoteka a = this.apotekaRepository.findOneById(Long.parseLong(ocena.getId().substring(1)));
+				tempDTO.add(new TempDTO(a.getId().toString(), a.getIme()));
+			}
+
+		}
+
+		return tempDTO;
 	}
 }

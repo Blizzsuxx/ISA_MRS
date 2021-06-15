@@ -19,30 +19,33 @@ const state = {
 
 
 const actions = {
+    dobaviSveLijekove(){
+        return axios.get('lijekovi/DTOlijekovi',{ headers: authHeader()});
+    },
     dobaviLijekoveDobavljaca(){
-        return axios.get('http://localhost:8080/api/v1/lijekovi/dobaviStanjeLijekovaDobavljaca', { headers: authHeader() });
+        return axios.get('lijekovi/dobaviStanjeLijekovaDobavljaca', { headers: authHeader() });
     },
 
     dodajLijek (context, lijek){
-        return axios.post("http://localhost:8080/api/v1/lijekovi/sacuvajLijek", lijek, { headers: authHeader()});
+        return axios.post("lijekovi/sacuvajLijek", lijek, { headers: authHeader()});
 
     },
 
     dobaviDTOLijek(context, naziv){
-        return axios.get(`http://localhost:8080/api/v1/lijekovi/dobaviDTOLijek/${naziv}`, { headers: authHeader()});
+        return axios.get(`lijekovi/dobaviDTOLijek/${naziv}`, { headers: authHeader()});
     },
 
     azurirajDTOLijek(context, lijek){
-        return axios.put('http://localhost:8080/api/v1/lijekovi/azurirajDTOLijek', 
+        return axios.put('lijekovi/azurirajDTOLijek', 
         lijek, { headers: authHeader()});
     },
 
     obrisiDTOLijek(context, naziv){
-        return axios.delete(`http://localhost:8080/api/v1/lijekovi/obrisiDTOLijek/${naziv}`, { headers: authHeader()});
+        return axios.delete(`lijekovi/obrisiDTOLijek/${naziv}`, { headers: authHeader()});
     },
 
     dobaviDTOLijekove (context) {
-        return axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi',{ headers: authHeader()})
+        return axios.get('lijekovi/DTOlijekovi',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviDTOLijekove', response.data);
         })
@@ -50,7 +53,7 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekove/1',{ headers: authHeader()})
+        return axios.get('apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
         })
@@ -58,14 +61,14 @@ const actions = {
         
     },
     dobaviLijekoveAdmin(context){
-        return axios.get('http://localhost:8080/api/v1/apoteka/lijekovi/admin',{ headers: authHeader()})
+        return axios.get('apoteka/lijekovi/admin',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
             console.log(response.data)
         })
     },
     dobaviLijekoveKorisnik(context,id){
-        return axios.get(`http://localhost:8080/api/v1/apoteka/${id}/lijekovi/profil`,{ headers: authHeader()})
+        return axios.get(`apoteka/${id}/lijekovi/profil`,{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
             return response
@@ -75,14 +78,14 @@ const actions = {
     },
     dobaviLijekoveN(context){
         
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviLijekoveN',{ headers: authHeader()})
+        return axios.get('apoteka/dobaviLijekoveN',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
             return response
         })
     },
     dobaviSveDostupneLijekove (context) {
-        return axios.get('http://localhost:8080/api/v1/apoteka/dobaviSveDostupneLijekove',{ headers: authHeader()})
+        return axios.get('apoteka/dobaviSveDostupneLijekove',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviDostupne',response.data)
             return response
@@ -92,7 +95,7 @@ const actions = {
     },
     rezervisiLek (context, lek) {//poslati datum i kolicinu
         
-        return axios.post('http://localhost:8080/api/v1/apoteka/rezervisiLek',lek,{ headers: authHeader()})
+        return axios.post('apoteka/rezervisiLek',lek,{ headers: authHeader()})
         .then(response => {
             let tf = response.data
             if(tf.startsWith("true")){
@@ -107,37 +110,40 @@ const actions = {
         })  
     },
 
-    async proveriAlergije (context, data){
-        axios.post('http://localhost:8080/api/v1/profil/proveriAlergije',data, {headers : authHeader()})
+    proveriAlergije (context, data){
+        return axios.post('profil/proveriAlergije',data, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return Promise.resolve(1);
-
+            
+            console.log("OVO JE ODMAH NAKON " + state.greska);
         })
     },
 
 
     async proveriDostupnost (context, params){
         console.log(params);
-        axios.post('http://localhost:8080/api/v1/posete/proveriDostupnost',params, {headers : authHeader()})
+        await axios.post('posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
+            console.log("ODMAH NAKON DOSTUPNOSTI " + state.greska);
+            if(response.data){
+                console.log("ODMAH NAKON DOSTUPNOSTI2222222222222 " + response.data);
+                return axios.post('posete/traziZamenu',params, {headers : authHeader()})
+                .then(response2 => {
+                console.log("ODMAH NAKON DOSTUPNOSTI3333333 " + response.data);
 
+                    context.commit('postaviZamenuLekove',response2.data)
+                    
+            });
+            }
         });
 
-        if(state.greska){
-            axios.post('http://localhost:8080/api/v1/posete/traziZamenu',params, {headers : authHeader()})
-            .then(response => {
-                context.commit('postaviZamenuLekove',response.data)
-
-        });
-        }
-        return Promise.resolve(1);
+        
     },
 
 
     dobaviLijekoveApoteke (context, radnik, korisnik) {
-        axios.post('http://localhost:8080/api/v1/apoteka/dobaviLijekoveApoteke',{"radnik" : radnik, "korisnik" : korisnik}, {headers : authHeader()})
+        axios.post('apoteka/dobaviLijekoveApoteke',{"radnik" : radnik, "korisnik" : korisnik}, {headers : authHeader()})
         .then(response => {
             context.commit('dobaviLijekoveApoteke',response.data)
             return response
@@ -171,7 +177,7 @@ const actions = {
         })
         let datum1 = moment(String(datum)).format('YYYY-MM-DD hh:mm').split(" ")[0]+" 23:59";
        
-        axios.post("http://localhost:8080/api/v1/narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
+        axios.post("narudzbenice/kreirajNarudzbenicu", {lijekovi:lijekovi,
                                                 datum: datum1},{ headers: authHeader()})
         .then(response => {
             context.commit('resetujLijekoveZaPorucivanje',[])
@@ -182,19 +188,19 @@ const actions = {
 
     dobaviPoruceneNepostojece(context){
 
-        axios.get('http://localhost:8080/api/v1/stanjeLijeka/dobaviZatrazene',{ headers: authHeader()}).then(response=>{
+        axios.get('stanjeLijeka/dobaviZatrazene',{ headers: authHeader()}).then(response=>{
             context.commit('postaviPoruceneNepostojece',response.data)
         })
     },
 
     oznaciPregledano(context,id){
 
-        axios.put(`http://localhost:8080/api/v1/stanjeLijeka/ocistiZatrazeni/${id}`,{},{ headers: authHeader()}).then(response=>{
+        axios.put(`stanjeLijeka/ocistiZatrazeni/${id}`,{},{ headers: authHeader()}).then(response=>{
             context.commit('postaviPoruceneNepostojece',response.data)
         })
     },
     setujPotraznju(context,id){
-        axios.put(`http://localhost:8080/api/v1/stanjeLijeka/setujPotraznju/${id}`,{},{ headers: authHeader()})
+        axios.put(`stanjeLijeka/setujPotraznju/${id}`,{},{ headers: authHeader()})
         console.log(context)
     },
 
@@ -203,7 +209,7 @@ const actions = {
     promjeniCijenu (contex,lijek){
        
 
-        return axios.put('http://localhost:8080/api/v1/stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.value}})
+        return axios.put('stanjeLijeka/promjeniCijenu',{},{ headers: authHeader(),params:{id:lijek.id,cijena:lijek.cijena,datumIstekaCijene:lijek.value}})
         .then(() => {
 
             return contex;
@@ -212,7 +218,7 @@ const actions = {
         
     },
     izbrisiLijekove (context,id){
-        return axios.delete(`http://localhost:8080/api/v1/stanjeLijeka/izbrisiLijekove/${id.id}`,{ headers: authHeader()})
+        return axios.delete(`stanjeLijeka/izbrisiLijekove/${id.id}`,{ headers: authHeader()})
         .then(response => {
             console.log(context)
             return response

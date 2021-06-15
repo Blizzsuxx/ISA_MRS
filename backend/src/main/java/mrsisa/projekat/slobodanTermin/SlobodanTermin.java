@@ -12,6 +12,8 @@ import java.util.List;
 
 @Entity
 public class SlobodanTermin {
+    @Version
+    private Long version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -104,4 +106,11 @@ public class SlobodanTermin {
     }
 
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }

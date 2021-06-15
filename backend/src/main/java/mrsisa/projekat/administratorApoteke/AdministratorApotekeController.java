@@ -41,10 +41,11 @@ public class AdministratorApotekeController {
         dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
         AdministratorApoteke aa = new AdministratorApoteke(dummy);
         this.administratorApotekeService.save(aa);
+
         ConfirmationToken confirmationToken = new ConfirmationToken(aa);
         confirmationTokenRepository.save(confirmationToken);
 
-        MailSender.sendmail("To confirm your account, please click here : " +
+        MailSender.sendmail("Da bi ste potvrdili prijavu, klknite da predloženi link : " +
                             "http://localhost:8080/api/korisnici/potvrda-registracije?token="+confirmationToken.getConfirmationToken(),
                 "dunjica.isa@gmail.com");
     }
@@ -59,5 +60,18 @@ public class AdministratorApotekeController {
             korisnici.add(new KorisnikDTO((Korisnik) ap));
 
         return korisnici;
+    }
+
+    @GetMapping(path = "/sviAdministratoriApotekeKorIme")
+    @PreAuthorize("hasRole('ADMIN_SISTEMA')")
+    public List<String> vratiKorisnikaImenaAdministratora() {
+        List<String> korImena = new ArrayList<>();
+
+        for (AdministratorApoteke aa : this.administratorApotekeService.findAll())
+        {
+            if (aa.getApoteka() == null)
+                korImena.add(aa.getUsername());
+        }
+        return korImena;
     }
 }

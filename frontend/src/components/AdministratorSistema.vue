@@ -78,9 +78,12 @@
             <PotvrdaLozinke :izmjeniPotvrdu="izmjeniPotvrdu"/>
         </div>
         <div v-else-if="indikator == 9">
-            <ZalbePregled/>
+            <ZalbePregled  v-bind:znak="znak"/>
         </div>
         <div v-else-if="indikator == 10">
+            <ZalbePregled  v-bind:znak="znak"/>
+        </div>
+         <div v-else-if="indikator == 11">
             <QRKod/>
         </div>
         <div v-else>
@@ -107,7 +110,8 @@ export default {
           lijekovi: [],
           indikator: 0,
           potvrda: false,  
-          zalbe: []
+          zalbe: [],
+          znak: 0
         }
         
     },
@@ -221,14 +225,16 @@ export default {
             }
         },
         pregledZalbi(){
+            this.znak = 1;
            this.indikator = 9;
 
         },
         istorijaZalbi(){
-            this.indikator = 9;
+            this.znak = 2;
+            this.indikator = 10;
         },
         ucitajQr(){
-            this.indikator = 10;
+            this.indikator = 11;
         }
 
     },

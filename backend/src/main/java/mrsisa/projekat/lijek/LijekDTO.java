@@ -16,17 +16,21 @@ public class LijekDTO {
     private double ocijena;
     private int kolicina;
     private int poeni;
+    private String preporuceniUnos;
+    private List<LijekDTO> zamenskiLekovi;
 
     public LijekDTO() {}
 
     public LijekDTO(Lijek l){
         this.id = l.getId();
+        this.sifra = l.getSifra();
         this.naziv = l.getNaziv();
         this.vrstaLijeka = l.getVrstaLijeka();
         this.oblikLijeka = l.getOblikLijeka();
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
+        this.sifra = l.getSifra();
 
         if(l.getOcene()==null){
             this.ocijena=0;
@@ -39,6 +43,7 @@ public class LijekDTO {
 
         //this.ocijena = l.getOcijena();
         this.poeni = l.getPoeni();
+
     }
 
     public LijekDTO(long id, String naziv, String vrstaLijeka) {
@@ -180,5 +185,21 @@ public class LijekDTO {
 
     public void setSifra(String sifra) {
         this.sifra = sifra;
+    }
+
+    public String getPreporuceniUnos() {
+        return preporuceniUnos;
+    }
+
+    public void setPreporuceniUnos(String preporuceniUnos) {
+        this.preporuceniUnos = preporuceniUnos;
+    }
+
+    public List<LijekDTO> getZamenskiLekovi() {
+        return zamenskiLekovi;
+    }
+
+    public void setZamenskiLekovi(List<LijekDTO> zamenskiLekovi) {
+        this.zamenskiLekovi = zamenskiLekovi;
     }
 }

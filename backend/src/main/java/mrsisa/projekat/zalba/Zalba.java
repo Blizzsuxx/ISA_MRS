@@ -9,6 +9,10 @@ import java.util.List;
 @Entity
 @Table(name="zalbe")
 public class Zalba {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -19,11 +23,17 @@ public class Zalba {
     @Column(name="text", nullable = false)
     private String text;
 
-    @Column(name="pacijent")
+    @Column(name="pacijent", nullable = false)
     private String pacijent;
 
-    @Column(name="datum_vrijeme")
+    @Column(name="datum_vrijeme", nullable = false)
     private String datumVrijeme;
+
+    @Column(name="tip_zalbe", nullable = false) // dermatologa, farmaceuta, apoteku
+    private String tipZalbe;
+
+    @Column(name="id_objekta", nullable = false) // na sta se tuzi
+    private String idObjekta;
 
     @JsonIgnore
     @OneToMany(mappedBy = "zalba", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -43,6 +53,16 @@ public class Zalba {
         this.text = text;
         this.pacijent = pacijent;
         this.datumVrijeme = datumVrijeme;
+        this.odgovori = odgovori;
+    }
+
+    public Zalba(String naslov, String text, String pacijent, String datumVrijeme, String tipZalbe, String idObjekta, List<Odgovor> odgovori) {
+        this.naslov = naslov;
+        this.text = text;
+        this.pacijent = pacijent;
+        this.datumVrijeme = datumVrijeme;
+        this.tipZalbe = tipZalbe;
+        this.idObjekta = idObjekta;
         this.odgovori = odgovori;
     }
 
@@ -92,5 +112,29 @@ public class Zalba {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getTipZalbe() {
+        return tipZalbe;
+    }
+
+    public void setTipZalbe(String tipZalbe) {
+        this.tipZalbe = tipZalbe;
+    }
+
+    public String getIdObjekta() {
+        return idObjekta;
+    }
+
+    public void setIdObjekta(String idObjekta) {
+        this.idObjekta = idObjekta;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }

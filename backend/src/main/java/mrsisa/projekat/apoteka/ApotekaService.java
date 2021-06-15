@@ -3,6 +3,7 @@ package mrsisa.projekat.apoteka;
 
 import com.sun.net.httpserver.HttpServer;
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.administratorApoteke.AdministratorApotekeRepository;
 import mrsisa.projekat.adresa.Adresa;
 import mrsisa.projekat.adresa.AdresaRepository;
 import mrsisa.projekat.akcija.Akcija;
@@ -52,10 +53,13 @@ public class ApotekaService {
     private final PosetaRepository posetaRepository;
     private final AkcijaRepository akcijaRepository;
     private final PopustRepository popustRepository;
+    private final AdministratorApotekeRepository administratorApotekeRepository;
 
     @Autowired
     public ApotekaService(ApotekaRepository apotekaRepository,AdresaRepository adresaRepository, LijekRepository l, PacijentRepository p,AkcijaRepository akcijaRepository,
-                          PopustRepository popustRepository,StanjeLijekaRepository stanjeLijekaRepository,  RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository){
+                          PopustRepository popustRepository,StanjeLijekaRepository stanjeLijekaRepository,
+                          RezervacijaRepository rezervacijaRepository,PosetaRepository posetaRepository,
+                          AdministratorApotekeRepository administratorApotekeRepository){
         this.apotekaRepository = apotekaRepository;
         this.adresaRepository = adresaRepository;
         this.lekRepository=l;
@@ -65,6 +69,7 @@ public class ApotekaService {
         this.posetaRepository =  posetaRepository;
         this.akcijaRepository=akcijaRepository;
         this.popustRepository=popustRepository;
+        this.administratorApotekeRepository = administratorApotekeRepository;
     }
 
     public Apoteka save(Apoteka a){
@@ -170,9 +175,7 @@ public class ApotekaService {
     public void azurirajApotekuAdmin(AdministratorApoteke adminApoteke, ApotekaDTO apotekaDTO) {
         Apoteka apoteka =  adminApoteke.getApoteka();
         apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);
-        System.out.println(apoteka.getIme());
         apoteka.setIme(apotekaDTO.getIme());
-        System.out.println(apoteka.getIme());
         apoteka.postaviAdresuIzDTO(apotekaDTO);
         adresaRepository.save(apoteka.getAdresa());
         apotekaRepository.save(apoteka);
@@ -271,6 +274,7 @@ public class ApotekaService {
         return false;
     }
 
+    @Transactional
     public void sacuvajApoteku(ApotekaDTO dummy) {
         Apoteka apoteka = new Apoteka(dummy);
         Adresa adresa =  new Adresa(dummy.getMjesto(),dummy.getPtt(), dummy.getUlica(), dummy.getBroj(),dummy.getDuzina(), dummy.getSirina());
@@ -278,7 +282,9 @@ public class ApotekaService {
         apoteka.setAdresa(adresa);
         this.apotekaRepository.save(apoteka);
 
-
+        AdministratorApoteke aa = this.administratorApotekeRepository.findByUsername(dummy.getKorisnickoImeAdmina());
+        aa.setApoteka(apoteka);
+        this.administratorApotekeRepository.save(aa);
     }
     @Transactional
     public List<StanjeLijekaDTO> dobaviStanjaLijekovaAdmin(Long id) {
@@ -439,5 +445,16 @@ public class ApotekaService {
 
 
 
+    }
+
+    @Transactional
+    public List<LijekDTO> dobaviSvaStanjaLijekova() {
+        List<Lijek> lekovi = this.lekRepository.findAll();
+        List<LijekDTO> dto = new ArrayList<>();
+        for(Lijek l : lekovi){
+            dto.add(new LijekDTO(l));
+        }
+
+        return dto;
     }
 }

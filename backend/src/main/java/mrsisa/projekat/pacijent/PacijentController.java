@@ -5,12 +5,15 @@ import mrsisa.projekat.apoteka.ApotekaDTO;
 import mrsisa.projekat.bezbjednost.ResourceConflictException;
 import mrsisa.projekat.erecept.Erecept;
 import mrsisa.projekat.erecept.EreceptDTO;
+import mrsisa.projekat.korisnik.ConfirmationToken;
+import mrsisa.projekat.korisnik.ConfirmationTokenRepository;
 import mrsisa.projekat.korisnik.Korisnik;
 import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.lijek.Lijek;
 import mrsisa.projekat.ocena.OcenaDTO;
 import mrsisa.projekat.rezervacija.RezervacijaDTO;
 import mrsisa.projekat.tipPenala.Penal;
+import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,9 +35,16 @@ import java.util.Map;
 @RequestMapping(path="api/v1/profil")
 public class PacijentController {
 	private final PacijentService pacijentService;
+	private final ConfirmationTokenRepository confirmationTokenRepository;
+
 	@Autowired
-	public PacijentController(PacijentService pacijentService){
+	private MailSender mailSender;
+
+	@Autowired
+	public PacijentController(PacijentService pacijentService,
+							  ConfirmationTokenRepository confirmationTokenRepository){
 		this.pacijentService = pacijentService;
+		this.confirmationTokenRepository = confirmationTokenRepository;
 	}
 
 	@Autowired
@@ -162,14 +175,22 @@ public class PacijentController {
 	}
 
 	@PostMapping("/registracija")
-	public ResponseEntity<Pacijent> sacuvajPacijenta(@RequestBody KorisnikDTO dummy, UriComponentsBuilder ucBuilder){
+	public void sacuvajPacijenta(@RequestBody KorisnikDTO dummy, UriComponentsBuilder ucBuilder)
+	throws IOException, MessagingException {
 		Korisnik k = this.pacijentService.findByUsername(dummy.getKorisnickoIme());
 		if (k != null)
 			throw new ResourceConflictException((long)k.getId(), "Username already exists");
 
 		dummy.setSifra(passwordEncoder.encode(dummy.getSifra()));
-		Pacijent p = this.pacijentService.save(new Pacijent(dummy));
-		return new ResponseEntity<>(p, HttpStatus.CREATED);
+		Pacijent p = new Pacijent(dummy);
+		this.pacijentService.save(p);
+		ConfirmationToken confirmationToken = new ConfirmationToken(p);
+		confirmationTokenRepository.save(confirmationToken);
+
+		MailSender.sendmail("Da bi ste potvrdili prijavu, kliknite na predloženi link : " +
+						"http://localhost:8080/api/korisnici/potvrda-registracije?token="+confirmationToken.getConfirmationToken(),
+				"dunjica.isa@gmail.com");
+
 	}
 	@RequestMapping(method = RequestMethod.POST, value = "/izbaciRezervacije")
 	public boolean izbRez( @RequestBody Map<String,Object> podaci){
@@ -180,5 +201,11 @@ public class PacijentController {
 		boolean dane=this.pacijentService.izbaciRezervaciju(podaci.get("a")+"");
 		System.out.println(dane+"/////////////////////////////");
 		return dane;
+	}
+
+	@GetMapping(value="/dobaviKandidateZaZalbu/{tipZalbe}")
+	@PreAuthorize("hasRole('PACIJENT')")
+	public List<TempDTO> dobaviKandidateZaZalbu(@PathVariable String tipZalbe){
+		return this.pacijentService.dobaviKandidateZaZalbu(tipZalbe);
 	}
 }

@@ -145,6 +145,7 @@ public class Poseta {
 
     public Apoteka getApoteka() {
         return apoteka;
+
     }
 
     public void setApoteka(Apoteka apoteka) {

@@ -29,6 +29,9 @@ public class Ponuda {
     @Column(name="cijenaPonude",nullable=false)
     private double cijenaPonude;
 
+    @Column(name="rok_ponude", nullable = false)
+    private String rokPonude;
+
     public Ponuda() {}
 
     public Ponuda(String nazivPonude, Dobavljac dobavljac) {
@@ -40,6 +43,7 @@ public class Ponuda {
         this.nazivPonude = ponudaDTO.getNazivPonude();
         this.status = ponudaDTO.getStatus();
         this.cijenaPonude = ponudaDTO.getCijenaPonude();
+        this.rokPonude = ponudaDTO.getRokPonude();
     }
 
     public Long getId() {
@@ -88,5 +92,13 @@ public class Ponuda {
 
     public void setCijenaPonude(double cijenaPonude) {
         this.cijenaPonude = cijenaPonude;
+    }
+
+    public String getRokPonude() {
+        return rokPonude;
+    }
+
+    public void setRokPonude(String rokPonude) {
+        this.rokPonude = rokPonude;
     }
 }

@@ -43,4 +43,10 @@ public class RezervacijaController {
 
     }
 
+    @PostMapping(value = "/IzdajLek")
+    public void IzdajLek(@RequestBody Map<String, Object> podaci){
+        this.rezervacijaService.IzdajLek(podaci);
+    }
+
+
 }

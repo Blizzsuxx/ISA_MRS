@@ -56,6 +56,10 @@
       label="Pacijent"
       prop="pacijent">
     </el-table-column>
+     <el-table-column
+      label="Tip Žalbe"
+      prop="tipZalbe">
+    </el-table-column>
     <el-table-column
       label="Datum i Vrijeme"
       prop="datumVrijeme">
@@ -74,10 +78,13 @@
           @click="sadrzaj(scope.$index, scope.row)">Sadrzaj</el-button>
         <el-button
           size="mini"
-          @click="odgovori(scope.$index, scope.row)">Odgovori</el-button>
+          @click="odgovori(scope.$index, scope.row)">Odgovor</el-button>
         <el-button
           size="mini"
           @click="dodajOdgovor(scope.$index, scope.row)">Dodaj Odgovor</el-button>
+        <el-button
+          size="mini"
+          @click="info(scope.$index, scope.row)">Info</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -185,6 +192,50 @@
     </template>
     </el-dialog>
 
+    <el-dialog
+    title="Info o Apoteci"
+    v-model="petiProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+        <h4>Sadržaj</h4>
+        <p>{{informacija.ime}}</p>
+        <p>{{informacija.mjesto}}</p>
+        <p>{{informacija.ulica}}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="petiProzor = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
+
+    <el-dialog
+    title="Info o Korisniku"
+    v-model="sestiProzor"
+    width="30%"
+    destroy-on-close
+    center>
+    <div style="display: flex;
+  justify-content: center;  padding-bottom: 20px;">
+    </div>
+    <div>
+        <h4>Sadržaj</h4>
+        <p>{{informacija.ime}} {{informacija.prezime}}</p>
+        <p>{{informacija.email}}</p>
+        <p>{{informacija.brojTelefona}}</p>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="sestiProzor = false">Izadji</el-button>
+      </span>
+    </template>
+    </el-dialog>
+
 </template>
 
 <script>
@@ -198,6 +249,8 @@
         drugiProzor: false,
         treciProzor: false,
         cetvrtiProzor: false,
+        petiProzor: false, // za apoteku
+        sestiProzor: false, // za korisnike
         zalba: {},
         odgovoriZalbe: [],
         searchOdgovori: '',
@@ -207,17 +260,26 @@
             text: "",
             korisnickoIme: "",
             datumVrijeme: ""
-        }
+        },
+        informacija: {}
       };
     },
+    props: ['znak'],
     components : {
      
     },
     mounted(){
+      if (this.znak === 1){
         this.$store.dispatch('APKorisnici/dobaviSveZalbe')
         .then(response => {
             this.zalbe = response.data;
         })
+      } else {
+          this.$store.dispatch('APKorisnici/dobaviZalbeAdministratora')
+          .then(response => {
+            this.zalbe = response.data;
+          })
+      }
     },
     methods: {
         open1() {
@@ -226,8 +288,13 @@
           message: 'Uspjesno kreiran odgovor.',
           type: 'success'
         })},
+        open2() {
+        this.$message({
+          showClose: true,
+          message: 'Neuspjesan odgovor.',
+          type: 'error'
+        })},
         sadrzaj(index, row) {
-            console.log(index);
             this.prviProzor = true;
             this.zalba = row;
         },
@@ -240,25 +307,36 @@
             })
         },
         sadrzajOdgovora(index, row){
-            console.log(index);
-            console.log(row);
             this.treciProzor = true;
             this.odgovor = row;
         },
         dodajOdgovor(index, row){
             this.zalba = row;
             this.cetvrtiProzor = true;
-            console.log(index);
-            console.log(row);
         },
         potvrdiOdgovor(){
             this.odgovorPoslat.id = this.zalba.id;
             this.$store.dispatch('APKorisnici/kreirajOdgovor', this.odgovorPoslat)
             .then(response => {
-                console.log(response);
                 this.cetvrtiProzor = false;
-                this.open1();
+                if (response.data){
+                  this.open1();
+                } else {
+                  this.open2();
+                }
             })
+        },
+        info(index, row){
+          this.zalba = row;
+          this.$store.dispatch('APKorisnici/dobaviInfoZalbe', 
+          {identifikator: this.zalba.idObjekta, tipZalbe: this.zalba.tipZalbe})
+          .then(response => {
+            this.informacija = response.data;
+            if (this.zalba.tipZalbe === 'Apoteka')
+              this.petiProzor = true;
+            else
+              this.sestiProzor = true;
+          })
         }
     }
   }
