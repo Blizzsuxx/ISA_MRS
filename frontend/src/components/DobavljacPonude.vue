@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="ponude.filter(data => !search || data.nazivPonude.toLowerCase().includes(search.toLowerCase()))"
+    :data="ponude.filter(data => !search || pretraga(data,search) ||  data.nazivPonude.toLowerCase().includes(search.toLowerCase()))"
     style="width: 100%">
     <el-table-column
       label="Sifra"
@@ -16,7 +16,7 @@
     </el-table-column>
     <el-table-column
       prop="status"
-      label="Status">
+      label="Status" :formatter="vratiStatus">
     </el-table-column>
     <el-table-column
       prop="cijenaPonude"
@@ -200,6 +200,22 @@
         });
     },
     methods: {
+      vratiStatus(row){
+        if (row.status === 0)
+          return 'čeka na odgovor';
+        else if (row.status === 1)
+          return 'odbijena';
+        else if (row.status === 2)
+          return 'prihvaćena';
+      },
+      pretraga(data, search){
+          if (data.status === 0)
+          return "ceka na odgovor".toLowerCase().includes(search.toLowerCase())
+        else if (data.status === 1)
+          return 'odbijena'.toLowerCase().includes(search.toLowerCase())
+        else if (data.status === 2)
+          return 'prihvacena'.toLowerCase().includes(search.toLowerCase())
+      },
       open1() {
         this.$message({
           showClose: true,
