@@ -41,6 +41,7 @@ public class StanjeLijekaDTO {
         this.kolicina  =stanjeLijeka.getKolicina();
         this.prodaja = stanjeLijeka.isProdaja();
         this.cijena = stanjeLijeka.getCijena();
+        if (stanjeLijeka.getDatumIstekaCijene() != null)
         this.datumIstekaCijene  = stanjeLijeka.getDatumIstekaCijene().format(format);
         this.zatrazen = stanjeLijeka.getZatrazen();
         if (stanjeLijeka.getZatrazenDatum() != null)
