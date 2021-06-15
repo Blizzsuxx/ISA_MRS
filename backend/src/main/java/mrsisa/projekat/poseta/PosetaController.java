@@ -103,9 +103,9 @@ public class PosetaController {
     }
 
     @PostMapping(value="/zakaziPosetu")
-    public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+    public Boolean zakaziPosetu( @RequestBody Map<String, Object> podaci){
 
-        this.posetaService.kreirajPosetu(podaci);
+        return this.posetaService.kreirajPosetu(podaci);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/otkazi")

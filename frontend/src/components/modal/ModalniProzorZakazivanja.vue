@@ -162,8 +162,22 @@ export default {
   methods: {
       promjeniCijenu(){
           console.log("andrija je najajci")
-          this.$store.dispatch("APPosete/zakaziPosetu",{'slobodan termin':this.value, 'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik, "pregledID" : this.pregledID})
+          this.$store.dispatch("APPosete/zakaziPosetu",{'slobodan termin':this.value, 'datetime': this.value2,'korisnik': this.korisnik,'radnik': this.radnik, "pregledID" : this.pregledID}).then(response => {
+            if(response){
+            this.$message({
+            type: 'warning',
+            message: 'Datum je zauzer'
+          });
+          } else {
           this.$store.dispatch("Mail/posaljiMail", {"text": "Zakazan vam je pregled za " + this.value2, "address" : "mahajiraaji@gmail.com"})
+          this.$message({
+            type: 'success',
+            message: 'Uspeh'
+          });
+          }
+          console.log(response)
+          })
+          
       }
   },
  

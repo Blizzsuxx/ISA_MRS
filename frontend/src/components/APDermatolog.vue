@@ -65,10 +65,6 @@
             <template #default="scope" v-if="this.radnik != null && this.radnik.promenioSifru">
               <el-button
                   size="mini"
-                  type="info"
-                  @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
-              <el-button
-                  size="mini"
                   type="danger"
                   @click="handleOdsustvo(scope.$index, scope.row)">Oznaci odsustvo</el-button>
               <el-button
@@ -128,9 +124,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
         console.log("A")
       },
 
-      handleInfo(index, row) {
-      console.log(index, row);
-    },
+
     handleOdsustvo(index, row) {
       console.log(index, row);
       this.$confirm('Da li ste sigurni?', 'Warning', {
@@ -160,6 +154,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
     },
     handlePregled(index, row) {
       console.log(index, row);
+      
       this.$confirm('Zelite da zapocnete pregled?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',

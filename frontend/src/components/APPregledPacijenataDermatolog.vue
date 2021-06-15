@@ -64,10 +64,7 @@
                     placeholder="Upisite ime i prezime pacijenta"/>
               </template>
               <template #default="scope">
-                <el-button
-                    size="mini"
-                    type="info"
-                    @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
+                
                 <el-button
                     size="mini"
                     type="danger"
@@ -114,20 +111,34 @@ export default {
 
 
 
-    handleInfo(index, row) {
-      console.log(index, row);
-    },
     handleOdsustvo(index, row) {
       console.log(index, row);
+      let now = new Date()
+      let klik = (new Date(Date.parse(row.pocetak)))
+      console.log(klik);
+      console.log(now);
+      if(klik - now < 0){
+        console.log(klik-now);
+        return;
+      }
       this.$confirm('Da li ste sigurni?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
+
+          this.$store.dispatch("APPosete/zabeleziOdsustvo", {"id" : row.id});
+          this.tableData.splice(index, 1);
+          console.log("BBBB");
+
+
           this.$message({
             type: 'success',
             message: 'Pacijent je zabelezen kao odsutan'
           });
+
+          
+
         }).catch(() => {
           this.$message({
             type: 'info',
@@ -137,6 +148,14 @@ export default {
     },
     handlePregled(index, row) {
       console.log(index, row);
+      let now = new Date()
+      let klik = (new Date(Date.parse(row.pocetak)))
+      console.log(klik);
+      console.log(now);
+      if(klik - now < 0){
+        console.log(klik-now);
+        return;
+      }
       this.$confirm('Zelite da zapocnete pregled?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
@@ -144,16 +163,25 @@ export default {
         }).then(() => {
           this.$message({
             type: 'success',
-            message: 'Pregled zapocet'
+            message: 'Pregled zapocet',
           });
-          this.$router.push({ name: 'APPregled' });
+
+          this.getPacijent(row);
+          console.log(row);
+          this.$router.push({ name: 'APPregled', params: {pacijentID: row.pacijent.username, pregledID: row.id} });
         }).catch(() => {
           this.$message({
             type: 'info',
             message: 'Prekid'
           });
         });
-    }
+    },
+
+    async getPacijent(row){
+
+      await this.$store.dispatch('APPacijenti/pacijentZaPrelged', row.pacijent);
+    },
+
   },
 
   async mounted(){

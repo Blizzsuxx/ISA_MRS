@@ -105,10 +105,11 @@ const actions = {
     })
    },
     zakaziPosetu(context, podaci){
-        axios.post('posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
+        return axios.post('posete/zakaziPosetu', podaci, {headers : authHeader()}).then(response => {
 
-            alert("Zakazan pregled");
-            return response;
+            
+            console.log("AAA " + response.data);
+            return response.data;
         })
     },
 

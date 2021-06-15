@@ -119,6 +119,9 @@ public class PosetaService {
             if(pocetak.isAfter(p.getPocetak()) && pocetak.isBefore(p.getKraj())){
                 return true;
             }
+            if(pocetak.isEqual(p.getPocetak())){
+                return true;
+            }
         }
         List<RadnoVrijeme> rvreme = apoteka.getRadnaVremena();
         for(RadnoVrijeme rv : rvreme){
@@ -452,11 +455,12 @@ public class PosetaService {
 
 
         if(poseta.getRadnik() instanceof Farmaceut) {
-            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 2);
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 2);
         } else{
-            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 3);
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 3);
 
         }
+        poseta.setOtkazano(true);
 
     }
 
