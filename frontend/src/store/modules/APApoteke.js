@@ -41,6 +41,9 @@ const actions = {
             context.commit('postaviApoteke',apotekeSve)
         })
     },
+    dobaviBasSveApoteke(){
+        return axios.get('apoteka/dobaviBasSveApoteke',{ headers: authHeader()});
+    },
 
     dodajApoteku (context, apoteka){
         return axios.post("apoteka/sacuvajApoteku", apoteka, { headers: authHeader()});
