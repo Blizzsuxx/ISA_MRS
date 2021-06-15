@@ -25,3 +25,8 @@ Prvo je potrebno se ima instaliran Postrgres. Zatim se ulazi u PgAdmin i kreira 
 spring.datasource.password=password 
   Nakon što je to podešeno potrebno je u terminalu pokrenuti komandu npm run install, zatim npm run serve.
   Potrebno je pokrenuti back deo iz InteliJ ili Eclipse okruženja.
+
+  
+  
+  #DevOps
+  Na heroku su kreirane dvije aplikacije , jedna za frontend i druga za backend. .travis.yml sadrzi skriptu za frontend kada se vrsi deploy frontenda i skriptu za backend kada se vrsi deploy backenda. Skripta ne sadrzi u isto vrijeme skripte za pokretanje obe aplikacije jer Heroku brani konkurentni deploy.
