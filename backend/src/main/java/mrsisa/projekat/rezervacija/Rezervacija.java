@@ -12,8 +12,7 @@ import java.util.List;
 
 @Entity
 public class Rezervacija {
-    @Version
-    private Long version;
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -117,11 +116,5 @@ public class Rezervacija {
         this.odustao = odustao;
     }
 
-    public Long getVersion() {
-        return version;
-    }
 
-    public void setVersion(Long version) {
-        this.version = version;
-    }
 }

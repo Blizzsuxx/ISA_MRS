@@ -78,9 +78,7 @@ const actions = {
             if(response.data == ""){
                 alert("broj nije ispravan");
             }
-            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
-            console.log(response.data);
-            console.log("BBBBBBBBBBBBBBBBB");
+          
             return response.data;
         })
     },
@@ -88,11 +86,8 @@ const actions = {
     IzdajLek(context, data){
 
 
-        axios.post('http://localhost:8080/api/v1/rezervacije/IzdajLek', data, {headers : authHeader()}).then(response => {
-            
-            console.log("AAAAAAAAAAAAAAAAAAAAAAA");
-            console.log(response.data);
-            console.log("BBBBBBBBBBBBBBBBB");
+        axios.post('rezervacije/IzdajLek', data, {headers : authHeader()}).then(response => {
+           
             return response.data;
         })
 
