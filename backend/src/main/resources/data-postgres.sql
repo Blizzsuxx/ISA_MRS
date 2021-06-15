@@ -224,7 +224,8 @@ insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
 values ('2021-05-14 04:40', 'aa', 'zarko', 'aaaa', 'Apoteka', '1');
 insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
  values ('2021-05-14 04:40', 'aab', 'zarko', 'aaaaaa', 'Dermatolog', '5');
-
+insert into zalbe(datum_vrijeme, naslov, pacijent, text, tip_zalbe, id_objekta)
+ values ('2021-05-14 04:40', 'aab', 'zarko', 'aabaaaa', 'Farmaceut', '5');
 -- ODGOVORI
 
 insert into odgovori(datum_vrijeme, administrator, text, zalba_id)
