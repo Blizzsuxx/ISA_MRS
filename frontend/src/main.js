@@ -7,5 +7,6 @@ import store from './store'
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8080/api/v1/'
+//axios.defaults.baseURL  = 'https://ap-tim-13.herokuapp.com/api/v1'
 
 createApp(App).use(store).use(ElementPlus).use(router).mount('#app')
