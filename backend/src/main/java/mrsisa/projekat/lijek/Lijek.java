@@ -231,7 +231,6 @@ public class Lijek {
         this.zamenskiLijekovi = zamenskiLijekovi;
     }
 
-    public void setId(Long id) {
-        this.id = id;
     }
-}
+
+
