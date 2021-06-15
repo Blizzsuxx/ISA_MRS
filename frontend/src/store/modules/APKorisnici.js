@@ -235,7 +235,7 @@ const actions = {
                 return true;
             })
         } else if (korisnik.uloga === "ROLE_FARMACEUT"){
-            return axios.post("dobavljac/sacuvajFarmaceuta", korisnik, 
+            return axios.post("farmaceut/sacuvajFarmaceuta", korisnik, 
             { headers: authHeader()})
             .then(response => {
                 console.log(response);

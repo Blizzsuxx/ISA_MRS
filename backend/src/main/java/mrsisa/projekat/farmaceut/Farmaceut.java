@@ -1,6 +1,7 @@
 package mrsisa.projekat.farmaceut;
 
 import mrsisa.projekat.apoteka.Apoteka;
+import mrsisa.projekat.korisnik.KorisnikDTO;
 import mrsisa.projekat.ocena.Ocena;
 import mrsisa.projekat.radnik.Radnik;
 
@@ -17,6 +18,9 @@ public class Farmaceut extends Radnik {
 
     public Farmaceut() {}
 
+    public Farmaceut(KorisnikDTO dummy){
+        super(dummy);
+    }
     @OneToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Ocena> ocene;
 

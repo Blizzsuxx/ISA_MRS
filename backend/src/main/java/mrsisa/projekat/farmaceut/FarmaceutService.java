@@ -41,6 +41,10 @@ public class FarmaceutService {
         this.radnoVrijemeRepository = radnoVrijemeRepository;
     }
 
+    public void save(Farmaceut f){
+        this.farmaceutRepository.save(f);
+    }
+
     @Transactional
     public List<DermatologDTO> dobaviFarmaceuteAdmin(Long id) {
         Apoteka apoteka = apotekeRepository.findById(id).orElse(null);

@@ -49,7 +49,7 @@ public class Lijek {
     private Dobavljac dobavljac;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Lijek> zamenskiLijekovi;
 
     public boolean isSamoRecept() {
