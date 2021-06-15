@@ -38,10 +38,12 @@ public class ApotekaDTO {
     public ApotekaDTO(Apoteka apoteka, double ukupnaCijena, String rezultat, int prosecnaOcena, String sifraErecepta){
         this.id = apoteka.getId();
         this.ime = apoteka.getIme();
-        this.mjesto = apoteka.getAdresa().getMesto();
-        this.ptt = apoteka.getAdresa().getPtt();
-        this.ulica = apoteka.getAdresa().getUlica();
-        this.broj = apoteka.getAdresa().getBroj();
+        if (apoteka.getAdresa() != null) {
+            this.mjesto = apoteka.getAdresa().getMesto();
+            this.ptt = apoteka.getAdresa().getPtt();
+            this.ulica = apoteka.getAdresa().getUlica();
+            this.broj = apoteka.getAdresa().getBroj();
+        }
         this.stanja = new ArrayList<>();
         this.ukupnaCijena = ukupnaCijena;
         for (StanjeLijeka sl : apoteka.getLijekovi())
