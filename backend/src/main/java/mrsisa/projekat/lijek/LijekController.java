@@ -45,6 +45,7 @@ public class LijekController {
         return this.lijekService.dobaviSveApotekaLijekDTO(id);
     }
 
+    @Transactional
     @PreAuthorize("hasAnyRole('ADMIN_SISTEMA','DOBAVLJAC')")
     @GetMapping(produces = "application/json", value = "/dobaviDTOLijek/{naziv}")
     public LijekDTO getLijekDTO(@PathVariable String naziv){
