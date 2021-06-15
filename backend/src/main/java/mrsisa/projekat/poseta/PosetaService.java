@@ -182,6 +182,7 @@ public class PosetaService {
         Dermatolog isDerm=null;
         for(Poseta p : svePosete){
             isDerm=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+            if(p.getOtkazano()==null){p.setOtkazano(false);}
             if(!p.getOtkazano() && p.getPocetak().isAfter(LocalDateTime.now()) && isDerm!=null ){
                 dto.add(new PosetaDTO(p.getId(), p.getRadnik(), p.getPocetak(), p.getKraj(),  p.getApoteka()));
             }
@@ -232,7 +233,7 @@ public class PosetaService {
         Farmaceut isFarm=null;
         for(Poseta p : svePosete){
             isFarm=this.farmaceutRepository.findByIdD(p.getRadnik().getId());
-
+            if(p.getOtkazano()==null){p.setOtkazano(false);}
             if(!p.getOtkazano() && p.getPocetak().isAfter(LocalDateTime.now()) && isFarm!=null ){
                 dto.add(new PosetaDTO(p.getId(), p.getRadnik(), p.getPocetak(), p.getKraj(),  p.getApoteka()));
             }
