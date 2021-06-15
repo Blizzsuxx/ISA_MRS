@@ -59,6 +59,7 @@ public class Poseta {
     private Apoteka apoteka;
 
     @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private Long version;
 
     public Long getVersion() {
