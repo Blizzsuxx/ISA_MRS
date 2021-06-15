@@ -20,7 +20,7 @@ Marko Bjelica | Student 4
 
 ## Installation
 Program se za lokal skida sa develop grane. Na main grani se nalazi projekat za produkciju.
-Prvo je potrebno se ima instaliran Postrgres. Zatim se ulazi u PgAdmin i kreira se baz. Nakon kreiranja baze Konfigurisati application.properties tako da u spring.datasource.url=jdbc:postgresql://localhost:5432/<naziv baze>
+Prvo je potrebno se ima instaliran Postrgres. Zatim se ulazi u PgAdmin i kreira se baza. Nakon kreiranja baze konfigurisati application.properties tako da u spring.datasource.url=jdbc:postgresql://localhost:5432/<naziv baze>
   Potrebno je podesiti username i password: spring.datasource.username=username
 spring.datasource.password=password 
   Nakon što je to podešeno potrebno je u terminalu pokrenuti komandu npm run install, zatim npm run serve.
