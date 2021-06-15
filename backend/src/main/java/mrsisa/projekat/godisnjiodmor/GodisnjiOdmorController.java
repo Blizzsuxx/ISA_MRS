@@ -1,8 +1,11 @@
 package mrsisa.projekat.godisnjiodmor;
 
 import mrsisa.projekat.administratorApoteke.AdministratorApoteke;
+import mrsisa.projekat.bezbjednost.UserTokenState;
 import mrsisa.projekat.util.MailSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,19 +43,27 @@ public class GodisnjiOdmorController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping("/admin/odobriZahtjev/{id}")
-    public void odobriZahtjev(@PathVariable Long id){
+    public ResponseEntity odobriZahtjev(@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        godisnjiOdmorService.odobriZahtjev(id);
+        boolean uredno = godisnjiOdmorService.odobriZahtjev(id);
+        if(uredno)
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
 
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @PutMapping("/admin/odbijZahtjev/{id}")
-    public void odbijZahtjev(@PathVariable Long id){
+    public ResponseEntity odbijZahtjev(@PathVariable Long id){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         AdministratorApoteke adminApoteke = (AdministratorApoteke)auth.getPrincipal();
-        godisnjiOdmorService.odbijZahtjev(id);
+        boolean uredno = godisnjiOdmorService.odbijZahtjev(id);
+        if(uredno)
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
 
 

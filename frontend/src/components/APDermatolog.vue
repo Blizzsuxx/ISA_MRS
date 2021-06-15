@@ -1,6 +1,7 @@
 
 
 <template>
+
   <el-container style="height: 600px; border: 1px solid #eee">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <el-menu :default-openeds="['1', '3']">
@@ -32,7 +33,7 @@
       <el-header style="text-align: right; font-size: 12px">
         <slot name="header-slot"></slot>
         
-        <Selecter options="Nedeljno;Mesecno;Godisnje" style="align: left" @change="promena"></Selecter>
+        <el-input placeholder="Pretrazi Po Apoteci" v-model="search" @keypress="pretraga()"></el-input>
 
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
@@ -48,6 +49,9 @@
 
 
       <el-main>
+        
+  
+
         <el-table :data="tableData">
           <el-table-column prop="pocetak" label="Pocinje" width="200">
           </el-table-column>
@@ -60,13 +64,10 @@
           <el-table-column prop="apoteka.ime" label="Apoteka" width="240">
           </el-table-column>
 
+
           <el-table-column
               align="right">
             <template #default="scope" v-if="this.radnik != null && this.radnik.promenioSifru">
-              <el-button
-                  size="mini"
-                  type="info"
-                  @click="handleInfo(scope.$index, scope.row)">Informacije</el-button>
               <el-button
                   size="mini"
                   type="danger"
@@ -80,6 +81,21 @@
 
 
         </el-table>
+
+      <el-calendar v-model="dan">
+
+    
+    <template #dateCell="{data}" >
+
+      <el-button @click="dogadjaj()" type="info"></el-button>
+    <p :class="data.isSelected ? 'is-selected' : ''">
+      {{ data.day.split('-').slice(1).join('-') }} {{ data.isSelected ? '✔️' : '' }}
+    </p>
+  </template>
+
+    </el-calendar>
+
+
         <APGodisnjiOdmor  ref="prozor" />
       </el-main>
     </el-container>
@@ -98,12 +114,11 @@
 </style>
 
 <script>
-import Selecter from './Selecter.vue';
+
 import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
   export default {
     name: 'APDermatolog',
     components : {
-        Selecter,
         APGodisnjiOdmor
     },
 
@@ -127,15 +142,26 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
     },
 
     methods: {
+
+      pretraga(){
+        this.tableData = this.$store.state.APPosete.svePosete.filter(data => !this.search || String(data.apoteka.ime).toLowerCase().includes(this.search.toLowerCase()))
+      },
       
       kliknut(){
         this.$refs.prozor.modalOpen = true;
         console.log("A")
       },
 
-      handleInfo(index, row) {
-      console.log(index, row);
-    },
+    dogadjaj(){
+      console.log(this.dan);
+      this.tableData = this.$store.state.APPosete.svePosete.filter((item) => {
+              
+                return this.dan.getFullYear() === (new Date(Date.parse(item.pocetak))).getFullYear() &&
+    this.dan.getMonth() === (new Date(Date.parse(item.pocetak))).getMonth() &&
+    this.dan.getDate() === (new Date(Date.parse(item.pocetak))).getDate();
+    })},
+
+
     handleOdsustvo(index, row) {
       console.log(index, row);
       this.$confirm('Da li ste sigurni?', 'Warning', {
@@ -165,6 +191,7 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
     },
     handlePregled(index, row) {
       console.log(index, row);
+      
       this.$confirm('Zelite da zapocnete pregled?', 'Warning', {
           confirmButtonText: 'OK',
           cancelButtonText: 'Cancel',
@@ -209,8 +236,11 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 
 
       return {
+        
         tableData: this.$store.state.APPosete.svePosete,
         radnik: this.$store.state.APKorisnici.trenutniRadnik,
+        dan: new Date(),
+        search : '',
         
       }
     }

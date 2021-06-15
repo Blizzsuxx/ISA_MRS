@@ -146,7 +146,7 @@ public class ApotekaService {
         for(Lijek l : sviLekovi) {
          a=0;
             for(Lijek lp : pacijent.getAlergije()){
-                if(lp.getId()==l.getId()){
+                if(lp.getId().equals(l.getId())){
                     a=1;
                     break;
                 }
@@ -175,6 +175,8 @@ public class ApotekaService {
     public void azurirajApotekuAdmin(AdministratorApoteke adminApoteke, ApotekaDTO apotekaDTO) {
         Apoteka apoteka =  adminApoteke.getApoteka();
         apoteka = apotekaRepository.findById(apoteka.getId()).orElse(null);
+        if(apoteka==null)
+            return;
         apoteka.setIme(apotekaDTO.getIme());
         apoteka.postaviAdresuIzDTO(apotekaDTO);
         adresaRepository.save(apoteka.getAdresa());
@@ -215,7 +217,7 @@ public class ApotekaService {
         List<StanjeLijeka> stanja=this.stanjeLijekaRepository.findAll();
         for(StanjeLijeka s: stanja){
             if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null
-                    && s.getId()==poslatId){
+                    && s.getId().equals(poslatId)){
                 if(s.getKolicina()-kolicina2>=0){
                     Korisnik k=getTrenutnogKorisnika();
                     Pacijent p=this.pacijentRepository.findOneById(k.getId());
@@ -239,8 +241,8 @@ public class ApotekaService {
                    // this.stanjeLijekaRepository.save(novo);
                     if(s.getAkcija()!=null){
                         if((s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()) || s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()))
-                                &&(s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))){
-                            novo.setCijena(novo.getCijena()*(1-(s.getAkcija().getProcenatPopusta()/100)));
+                                &&(s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()) || s.getAkcija().getDatumDo().isEqual(LocalDateTime.now()))){
+                            novo.setCijena(novo.getCijena()*(1-((float)s.getAkcija().getProcenatPopusta()/100)));
                         }
                     }
                     System.out.println("ovde popust1");
@@ -250,11 +252,11 @@ public class ApotekaService {
                     System.out.println("ovde popust2");
                     if(popust!=null){
                     if(p.getBrojPoena()<=popust.getDoRegular()){
-                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustRegular()/100)));}
+                    novo.setCijena(novo.getCijena()*(1-((float)popust.getPopustRegular()/100)));}
                     else if(p.getBrojPoena()<=popust.getDoSilver() && p.getBrojPoena()>popust.getDoRegular()){
-                        novo.setCijena(novo.getCijena()*(1-(popust.getPopustSilver()/100)));}
+                        novo.setCijena(novo.getCijena()*(1-((float)popust.getPopustSilver()/100)));}
                     else {
-                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustGold()/100)));
+                    novo.setCijena(novo.getCijena()*(1-((float)popust.getPopustGold()/100)));
                 }
 
                     System.out.println(rez.getDatumRezervacije());
@@ -269,7 +271,7 @@ public class ApotekaService {
 
     private boolean proveriAlergije(List<Lijek> alergije, Long id) {
         for(Lijek l: alergije){
-            if(l.getId()==id){return true;}
+            if(l.getId().equals(id)){return true;}
         }
         return false;
     }

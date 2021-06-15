@@ -61,6 +61,7 @@ const actions = {
     dobaviLijekove (context) {
         return axios.get('apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
+            console.log(response.data)
             context.commit('postaviSveLijekove',response.data)
         })
         

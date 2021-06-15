@@ -34,7 +34,7 @@ public class DermatologDTO {
             suma +=ocena.getOcena();
         }
         if(dermatolog.getOcene().size()!=0)
-            this.ocjena =  suma/dermatolog.getOcene().size();
+            this.ocjena =  (double)suma/dermatolog.getOcene().size();
         else
             this.ocjena = -1;
     }
@@ -52,7 +52,7 @@ public class DermatologDTO {
             suma +=ocena.getOcena();
         }
         if(farmaceut.getOcene().size()!=0)
-            this.ocjena =  suma/farmaceut.getOcene().size();
+            this.ocjena =  (double)suma/farmaceut.getOcene().size();
         else
             this.ocjena = -1;
     }

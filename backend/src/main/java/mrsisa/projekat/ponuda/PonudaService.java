@@ -107,6 +107,7 @@ public class PonudaService {
         p.setCijenaPonude(ponudaDTO.getCijenaPonude());
         this.ponudaRepository.save(p);
     }
+
     @Transactional
     public void prihvatiPonudu(Long id, Long narudzbenica_id, AdministratorApoteke administratorApoteke, ArrayList<StanjeLijekaDTO> stanjaLijekova) {
         boolean postoji = false;

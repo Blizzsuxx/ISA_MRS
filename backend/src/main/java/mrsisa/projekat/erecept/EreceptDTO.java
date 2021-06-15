@@ -87,13 +87,13 @@ public class EreceptDTO {
         this.prepisaniLijekovi2 = prepisaniLijekovi2;
     }
 
-    public EreceptDTO(long id, String sifra, Pacijent pacijent, String datumIzdavanja, List<StanjeLijeka> prepisaniLijekovi, Poseta poseta) {
+    public EreceptDTO(long id, String sifra, Pacijent pacijent, String datumIzdavanja, List<StanjeLijeka> prepisaniLijekovi, Poseta poseta1) {
         this.id = id;
         this.sifra = sifra;
         this.pacijent = pacijent;
         this.datumIzdavanja = datumIzdavanja;
         this.prepisaniLijekovi = prepisaniLijekovi;
-        this.poseta = poseta;
+        this.poseta = poseta1;
     }
     public EreceptDTO(long id, String sifra, Pacijent pacijent, LocalDateTime datumIzdavanja1, List<StanjeLijeka> prepisaniLijekovi, Poseta poseta) {
         this.id = id;
