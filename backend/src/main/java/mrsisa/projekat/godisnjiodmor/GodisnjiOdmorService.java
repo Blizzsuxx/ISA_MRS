@@ -29,10 +29,6 @@ public class GodisnjiOdmorService {
         List<GodisnjiOdmorDTO> godisnjiOdmori  =  new ArrayList<>();
         GodisnjiOdmorDTO temp;
         for(GodisnjiOdmor godisnjiOdmor: this.godisnjiOdmorRepository.findAll()){
-            System.out.println("--------");
-            System.out.println(godisnjiOdmor.getApoteka().getId());
-            System.out.println(id);
-            System.out.println("--------");
             if(godisnjiOdmor.getApoteka().getId().equals(id)){
                 temp = new GodisnjiOdmorDTO(godisnjiOdmor);
                 temp.setKorisnicko(godisnjiOdmor.getRadnik().getUsername());

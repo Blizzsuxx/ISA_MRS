@@ -230,4 +230,8 @@ public class Lijek {
         this.dobavljac = dobavljac;
         this.zamenskiLijekovi = zamenskiLijekovi;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
