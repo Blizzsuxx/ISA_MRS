@@ -430,7 +430,6 @@ public class ApotekaService {
             izvjestajDTO.getPrihodiPeriod().put(dtf2.format(datumOdParsiran.plusDays(i)),suma);
             i++;
         }
-        System.out.println("Sto ovo ne radi");
         return izvjestajDTO;
 
 
@@ -444,7 +443,6 @@ public class ApotekaService {
         for(Lijek l : lekovi){
             dto.add(new LijekDTO(l));
         }
-
         return dto;
     }
 }
