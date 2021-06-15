@@ -139,7 +139,7 @@ const actions = {
     },
     rezervisiPosetuD(context, id){
         axios.post('http://localhost:8080/api/v1/posete/rezervisiPosetuD',id, {headers : authHeader()}).then(response => {
-            if(response.data=="Uspesno ste zakazali posetu kod dermatologa Sime."){
+            if(response.data=="Uspesno ste zakazali posetu kod dermatologa"){
             alert(response.data);
             return true;}else{return false;}
         })

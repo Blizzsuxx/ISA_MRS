@@ -33,8 +33,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Propagation;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -192,13 +194,13 @@ public class ApotekaService {
         return zaSlanje;
 
     }
-    @Transactional
-    public boolean rezervisiLek(String lek) {
+    @Transactional//(propagation  = Propagation.REQUIRES_NEW)//(propagation = Propagation.REQUIRES_NEW)
+    public String rezervisiLek(String lek) {
         //todo  provera poena, akcija, pretplata,
         //Wed+Jun+16+2021+00%3A00%3A00+GMT+0200+%28Central+European+Summer+Time%29+1+undefined+3= ide id datum kolicina
         HashMap<String, Integer> meseci=new HashMap<>();
         meseci.put("Jun",6);meseci.put("Jul",7);meseci.put("Aug",8);meseci.put("Sep",9);meseci.put("Oct",10);
-        meseci.put("Nov",11);meseci.put("Dec",12);meseci.put("Jan",1);meseci.put("Feb",2);meseci.put("Mart",3); meseci.put("Apr",4);meseci.put("may",5);
+        meseci.put("Nov",11);meseci.put("Dec",12);meseci.put("Jan",1);meseci.put("Feb",2);meseci.put("Mart",3); meseci.put("Apr",4);meseci.put("May",5);
         //pazi salje se id stanja a ispisuje leka, to promeni ili ne?
         String podeljenTekst[]=lek.split("\\+");
         int mesec=meseci.get(podeljenTekst[1].trim()); //proveri da li i vreme treba da se zakaze
@@ -211,47 +213,55 @@ public class ApotekaService {
         for(StanjeLijeka s: stanja){
             if(s.getApoteka()!=null && s.getRezervacija()==null && s.geteRecept()==null && s.getNarudzbenica()==null
                     && s.getId()==poslatId){
-                Korisnik k=getTrenutnogKorisnika();
-                Pacijent p=this.pacijentRepository.findOneById(k.getId());
-                boolean alergija=proveriAlergije(p.getAlergije(), s.getLijek().getId());
+                if(s.getKolicina()-kolicina2>=0){
+                    Korisnik k=getTrenutnogKorisnika();
+                    Pacijent p=this.pacijentRepository.findOneById(k.getId());
+                    boolean alergija=proveriAlergije(p.getAlergije(), s.getLijek().getId());
 
-                if(alergija){
+                    if(alergija){
 
-                    return false;}
+                        return "false";}
 
-                Apoteka a=s.getApoteka();
-                ArrayList<StanjeLijeka> stanja2=new ArrayList<>();
-                List<Rezervacija> sveRez=this.rezervacijaRepository.findAll();
-                long novId=(long)(sveRez.size()+1);
-                Rezervacija rez=new Rezervacija(novId, p,a,stanja2, dan ); //promeni id
-                double cena=kolicina2*s.getCijena();
-                StanjeLijeka novo=new StanjeLijeka(s,kolicina2, rez,cena);
-                s.setKolicina(s.getKolicina()-kolicina2);
-                this.stanjeLijekaRepository.save(s);
-                p.getRezervacije().add(rez);
-                //this.pacijentRepository.save(p);
-               // this.stanjeLijekaRepository.save(novo);
-                if(s.getAkcija()!=null){
-                    if((s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()) || s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()))
-                            &&(s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))){
-                        novo.setCijena(novo.getCijena()*(1-(s.getAkcija().getProcenatPopusta()/100)));
+                    Apoteka a=s.getApoteka();
+                    ArrayList<StanjeLijeka> stanja2=new ArrayList<>();
+                    List<Rezervacija> sveRez=this.rezervacijaRepository.findAll();
+                    long novId=(long)(sveRez.size()+1);
+                    Rezervacija rez=new Rezervacija(novId, p,a,stanja2, dan ); //promeni id
+                    double cena=kolicina2*s.getCijena();
+                    StanjeLijeka novo=new StanjeLijeka(s,kolicina2, rez,cena);
+                    s.setKolicina(s.getKolicina()-kolicina2);
+                    this.stanjeLijekaRepository.save(s);
+                    p.getRezervacije().add(rez);
+                    //this.pacijentRepository.save(p);
+                   // this.stanjeLijekaRepository.save(novo);
+                    if(s.getAkcija()!=null){
+                        if((s.getAkcija().getDatumOd().isBefore(LocalDateTime.now()) || s.getAkcija().getDatumOd().isEqual(LocalDateTime.now()))
+                                &&(s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()) || s.getAkcija().getDatumDo().isAfter(LocalDateTime.now()))){
+                            novo.setCijena(novo.getCijena()*(1-(s.getAkcija().getProcenatPopusta()/100)));
+                        }
                     }
+                    System.out.println("ovde popust1");
+                    //Apoteka apoteka=this.apotekaRepository.findOneById(r.getApoteka().getId()).orElse(null)
+                    //List<Popust> popusti=//todo proveri da li samo 1 postojipopusti.get(0);
+                    Popust popust=this.popustRepository.findById(1);//. orElse(null);
+                    System.out.println("ovde popust2");
+                    if(popust!=null){
+                    if(p.getBrojPoena()<=popust.getDoRegular()){
+                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustRegular()/100)));}
+                    else if(p.getBrojPoena()<=popust.getDoSilver() && p.getBrojPoena()>popust.getDoRegular()){
+                        novo.setCijena(novo.getCijena()*(1-(popust.getPopustSilver()/100)));}
+                    else {
+                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustGold()/100)));
                 }
-                Popust popust=this.popustRepository.findById(1);//todo proveri da li samo 1 postoji
-                if(p.getBrojPoena()<=popust.getDoRegular()){
-                novo.setCijena(novo.getCijena()*(1-(popust.getPopustRegular()/100)));}
-                else if(p.getBrojPoena()<=popust.getDoSilver() && p.getBrojPoena()>popust.getDoRegular()){
-                    novo.setCijena(novo.getCijena()*(1-(popust.getPopustSilver()/100)));}
-                else {
-                novo.setCijena(novo.getCijena()*(1-(popust.getPopustGold()/100)));
+
+                    System.out.println(rez.getDatumRezervacije());
+                    System.out.println("rezervise se");
+                    this.rezervacijaRepository.save(rez); //todo sacuvaj kolicinu leka i proveri da li treba onako da ide save
+                    return "true "+rez.getId();
+                }}
             }
 
-                System.out.println(rez.getDatumRezervacije());
-                System.out.println("rezervise se");
-                this.rezervacijaRepository.save(rez);
-                return true;
-            }
-        }return false;
+        }return "false";
     }
 
     private boolean proveriAlergije(List<Lijek> alergije, Long id) {

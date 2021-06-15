@@ -154,7 +154,7 @@ public class SlobodanTerminService {
 
     }
 
-    @Transactional
+    @Transactional//(propagation =Propagation.REQUIRES_NEW) //ovde isto dode oznaka
     public void zakazi(Object dto) {
         System.out.println(dto);
         System.out.println(dto);
@@ -164,15 +164,14 @@ public class SlobodanTerminService {
 
         for(SlobodanTermin termin: this.slobodanTerminRepository.findAll()){
             if(Integer.parseInt(id.trim())==termin.getId()){
-                System.out.println("gggg");
+                //System.out.println("gggg");
                 List<Poseta> sve=this.posetaRepository.findAll();System.out.println("gggg");
                 Poseta p = new Poseta( );//proveri kako da generises id , proveri kako da dobijes pacijenta
                 p.setRadnik(termin.getRadnik());//dovoljno da poseta ima pacijenta
                 p.setKraj(termin.getKrajTermina());
                 p.setPocetak(termin.getPocetakTermina());
 
-                Long id2=sve.get(sve.size()-1).getId()+1L;
-                p.setId(id2);
+
                 Korisnik k=getTrenutnogKorisnika();
                 Pacijent pac=this.pacijentRepository.findOneById(k.getId());
                 p.setPacijent(pac);
@@ -191,9 +190,11 @@ public class SlobodanTerminService {
                     p.setCena(p.getCena()*(1-(popust.getPopustSilver()/100)));}
                 else {
                     p.setCena(p.getCena()*(1-(popust.getPopustGold()/100)));
-                }}
+                }} //todo sacuvaj i u posetiocu i u radniku?
+                //todo proveri sta treba sve da se sacuva, i proveri ko ne sme da ima istovremeno pristup bazi i za citanje i za pisanje
                 //this.posetaRepository.save(p);
                 sacuvajPosetu(p);
+                deleteTermin(termin.getId());//todo da li jos negde treba da obrisem ili se automatski brise svuda
                 break;
             }
         }
@@ -206,6 +207,13 @@ public class SlobodanTerminService {
         Poseta sacuvana=posetaRepository.save(poseta);
         logger.info("< create");
 
+    }
+    @Transactional//(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    public void deleteTermin(long id) {
+
+        logger.info("> delete");
+        slobodanTerminRepository.deleteById(id);
+        logger.info("< delete");
     }
 
 

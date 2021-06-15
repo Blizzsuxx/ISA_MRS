@@ -137,7 +137,11 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
 
 
       izdajLek(){
-        alert("uspesno ste izdali lek!");
+         this.$message({
+                
+                message: 'Uspesno ste izdali lek.'
+              })
+             
         this.$store.state.RezervisaniLekovi.rezervisaniZaId = "";
         this.$store.dispatch("Mail/posaljiMail", {"text": "pokupili ste lek broj " + this.num, "address" : "mahajiraaji@gmail.com"})
 

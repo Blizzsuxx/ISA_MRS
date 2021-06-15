@@ -42,12 +42,8 @@
       </el-table-column>
       <el-table-column  sortable property="ocena" label="Ocena" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column
-        property="udaljenost"
-        label="Udaljenost"
-        show-overflow-tooltip
-      >
-      </el-table-column>
+     
+     
       <el-table-column align="right">
         <template #default="scope">
           <el-popconfirm
@@ -171,6 +167,7 @@ export default defineComponent({
   async mounted() {
     await this.$store.dispatch("APApoteke/dobaviApotekePacijenta");
     this.zaTabelu = this.$store.state.APApoteke.sveApoteke;
+    
     this.view = new View({
       center: fromLonLat([19.83, 45.26]),
       zoom: 13,

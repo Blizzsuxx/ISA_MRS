@@ -115,7 +115,12 @@ import APGodisnjiOdmor from './modal/APGodisnjiOdmor'
       this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
       console.log(this.radnik.promenioSifru)
       if(!this.radnik.promenioSifru){
-        alert("Molimo vas da promenite sifru, kliknite na profil");
+        
+         this.$message({
+                type: 'danger',
+                message: 'Molimo vas da promenite sifru, kliknite na profil'
+              });
+              
       }      
     },
 

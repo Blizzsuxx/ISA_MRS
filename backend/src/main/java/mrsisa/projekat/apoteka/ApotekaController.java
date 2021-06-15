@@ -104,7 +104,7 @@ public class ApotekaController {
     }
     @PreAuthorize("hasRole('PACIJENT')")
     @PostMapping(value="/rezervisiLek")
-    public boolean rezervisiLek(@RequestBody String lek){
+    public String rezervisiLek(@RequestBody String lek){
 
         //return apotekaService.dobaviSveDostupneLijekove();
         System.out.println(lek);

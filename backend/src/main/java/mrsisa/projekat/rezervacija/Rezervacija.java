@@ -34,6 +34,18 @@ public class Rezervacija {
     @Column(nullable = false)
     private boolean odustao;
 
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     public Rezervacija(long id, Pacijent pacijent, Apoteka apoteka, ArrayList<StanjeLijeka> rezervisaniLijekovi, LocalDateTime datumRezervacije) {
         this.id = id;
         this.pacijent = pacijent;

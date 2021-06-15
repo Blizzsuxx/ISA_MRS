@@ -108,7 +108,12 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         }
         this.radnik = this.$store.state.APKorisnici.trenutniRadnik;
       if(!this.radnik.promenioSifru){
-        alert("Molimo vas da promenite sifru, kliknite na profil");
+       
+         this.$message({
+                type: 'danger',
+                message: 'Molimo vas da promenite sifru, kliknite na profil'
+              });
+              return;
       }      
         
         console.log("");
@@ -149,7 +154,11 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
         this.greska= this.$store.state.APlijekovi.greska;
         if(this.greska){
           this.poruka = "Pacijent je alergican!";
-          alert("pacijent je alergican!")
+         
+           this.$message({
+                type: 'danger',
+                message: 'pacijent je alergican!'
+              });
           this.izabraniLijekovi = [];
           return;
         } else {
@@ -170,7 +179,12 @@ import ModalniProzorZakazivanja from './modal/ModalniProzorZakazivanja'
             for(var i = 0; i < value.length; i++){
               rec += "\r\n" + value[i].naziv;
             }
-            alert(rec);
+           
+             this.$message({
+               
+                message: rec
+              });
+              return;
           }
 
           

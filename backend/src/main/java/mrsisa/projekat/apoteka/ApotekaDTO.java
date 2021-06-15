@@ -44,6 +44,7 @@ public class ApotekaDTO {
         for (StanjeLijeka sl : apoteka.getLijekovi())
             this.stanja.add(new StanjeLijekaDTO(sl));
         this.rezultat = rezultat;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
     public ApotekaDTO(Apoteka apoteka){
         this.id = apoteka.getId();
@@ -54,6 +55,7 @@ public class ApotekaDTO {
         this.broj = apoteka.getAdresa().getBroj();
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
     public ApotekaDTO(Apoteka apoteka,double cena){
         this.id = apoteka.getId();
@@ -65,6 +67,7 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
         this.ukupnaCijena=cena;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
     public ApotekaDTO(Apoteka apoteka, int a){
         this.id = apoteka.getId();
@@ -81,6 +84,7 @@ public class ApotekaDTO {
         this.duzina = apoteka.getAdresa().getgDuzina();
         this.sirina = apoteka.getAdresa().getgSirina();
         this.pretplacen = pretplacen;
+        this.ocena=izracunajOcenu(apoteka.getOcene());
     }
 
     public void setAdresa(Adresa adresa){
