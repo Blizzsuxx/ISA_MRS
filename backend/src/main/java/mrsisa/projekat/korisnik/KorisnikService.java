@@ -50,6 +50,8 @@ public class KorisnikService implements UserDetailsService {
     public void izmeni(Map<String, Object> info, RadnikDTO radnikDTO) {
 
         Radnik radnik = (Radnik) this.korisnikRepository.findById(radnikDTO.getId()).orElse(null);
+        if(radnik==null)
+            return;
         if(!(info.get("ime") == null) && !info.get("ime").toString().isEmpty()){
             radnik.setFirstName(info.get("ime").toString());
         }

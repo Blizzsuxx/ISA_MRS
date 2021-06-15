@@ -185,11 +185,11 @@ public class SlobodanTerminService {
                 System.out.println("lonly, just");
                 if(pac.getBrojPoena()!=0){
                 if(pac.getBrojPoena()<=popust.getDoRegular()){
-                    p.setCena(p.getCena()*(1-(popust.getPopustRegular()/100)));}
+                    p.setCena(p.getCena()*(1-((double)popust.getPopustRegular()/100)));}
                 else if(pac.getBrojPoena()<=popust.getDoSilver() && pac.getBrojPoena()>popust.getDoRegular()){
-                    p.setCena(p.getCena()*(1-(popust.getPopustSilver()/100)));}
+                    p.setCena(p.getCena()*(1-((double)popust.getPopustSilver()/100)));}
                 else {
-                    p.setCena(p.getCena()*(1-(popust.getPopustGold()/100)));
+                    p.setCena(p.getCena()*(1-((double)popust.getPopustGold()/100)));
                 }} //todo sacuvaj i u posetiocu i u radniku?
                 //todo proveri sta treba sve da se sacuva, i proveri ko ne sme da ima istovremeno pristup bazi i za citanje i za pisanje
                 //this.posetaRepository.save(p);

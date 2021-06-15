@@ -51,7 +51,6 @@ public class PosetaDTO {
         DateTimeFormatter df=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.pocetak = pocetak.format(df);
         this.kraj=kraj.format(df);
-        this.opis=opis;
         this.apoteka=new ApotekaDTO(apoteka);
 
 
