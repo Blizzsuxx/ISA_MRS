@@ -30,6 +30,7 @@ public class LijekDTO {
         this.sastav = l.getSastav();
         this.proizvodjac = l.getProizvodjac();
         this.napomena = l.getNapomena();
+        this.sifra = l.getSifra();
 
         if(l.getOcene()==null){
             this.ocijena=0;

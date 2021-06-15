@@ -46,6 +46,11 @@ public class ApotekaController {
         return apotekaService.dobaviStanjaLijekova(id);
     }
 
+    @GetMapping("/dobaviLijekove")
+    public List<LijekDTO> dobaviSveLijekove(){
+        return apotekaService.dobaviSvaStanjaLijekova();
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/lijekovi/admin")
     public List<StanjeLijekaDTO> dobaviLijekoveAdmin(){
@@ -66,6 +71,7 @@ public class ApotekaController {
 
         return apotekaService.dobaviSveDostupneLijekove();
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN_APOTEKA')")
     @GetMapping("/izvjestaj")
     public IzvjestajDTO izvjestaj(){

@@ -436,4 +436,15 @@ public class ApotekaService {
 
 
     }
+
+    @Transactional
+    public List<LijekDTO> dobaviSvaStanjaLijekova() {
+        List<Lijek> lekovi = this.lekRepository.findAll();
+        List<LijekDTO> dto = new ArrayList<>();
+        for(Lijek l : lekovi){
+            dto.add(new LijekDTO(l));
+        }
+
+        return dto;
+    }
 }

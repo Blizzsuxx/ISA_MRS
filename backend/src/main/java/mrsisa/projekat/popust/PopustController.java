@@ -3,6 +3,7 @@ package mrsisa.projekat.popust;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 
 @CrossOrigin
@@ -15,6 +16,7 @@ public class PopustController {
         this.popustService = popustService;
     }
 
+    @Transactional
     @PreAuthorize("hasRole('ADMIN_SISTEMA')")
     @PostMapping(consumes = "application/json", path = "/sacuvajPopust")
     public void sacuvajPopust(@RequestBody Popust dummy) {

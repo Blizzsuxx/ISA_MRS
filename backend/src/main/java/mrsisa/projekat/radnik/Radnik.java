@@ -15,6 +15,8 @@ import java.util.List;
 @Table(name = "radnici")
 @PrimaryKeyJoinColumn(name = "korisnik")
 public abstract class Radnik extends Korisnik {
+    @Version
+    private Long version;
 
     @OneToMany(mappedBy = "radnik", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
@@ -87,4 +89,12 @@ public abstract class Radnik extends Korisnik {
     }
 
     public void setPassword(String password){super.setPassword(password); this.promenioSifru = true;}
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 }

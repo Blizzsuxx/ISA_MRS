@@ -53,7 +53,7 @@ const actions = {
     },
 
     dobaviLijekove (context) {
-        return axios.get('apoteka/dobaviLijekove/1',{ headers: authHeader()})
+        return axios.get('apoteka/dobaviLijekove',{ headers: authHeader()})
         .then(response => {
             context.commit('postaviSveLijekove',response.data)
         })
@@ -109,32 +109,35 @@ const actions = {
         })  
     },
 
-    async proveriAlergije (context, data){
-        axios.post('profil/proveriAlergije',data, {headers : authHeader()})
+    proveriAlergije (context, data){
+        return axios.post('profil/proveriAlergije',data, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
-            return Promise.resolve(1);
-
+            
+            console.log("OVO JE ODMAH NAKON " + state.greska);
         })
     },
 
 
     async proveriDostupnost (context, params){
         console.log(params);
-        axios.post('posete/proveriDostupnost',params, {headers : authHeader()})
+        await axios.post('posete/proveriDostupnost',params, {headers : authHeader()})
         .then(response => {
             context.commit('postaviGresku',response.data)
+            console.log("ODMAH NAKON DOSTUPNOSTI " + state.greska);
+            if(response.data){
+                console.log("ODMAH NAKON DOSTUPNOSTI2222222222222 " + response.data);
+                return axios.post('posete/traziZamenu',params, {headers : authHeader()})
+                .then(response2 => {
+                console.log("ODMAH NAKON DOSTUPNOSTI3333333 " + response.data);
 
+                    context.commit('postaviZamenuLekove',response2.data)
+                    
+            });
+            }
         });
 
-        if(state.greska){
-            axios.post('posete/traziZamenu',params, {headers : authHeader()})
-            .then(response => {
-                context.commit('postaviZamenuLekove',response.data)
-
-        });
-        }
-        return Promise.resolve(1);
+        
     },
 
 
