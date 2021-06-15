@@ -4,17 +4,30 @@ install: true
  
 matrix:
   include:
-    - language: node_js
-      node_js:
-      - "node"
-      cache: npm
+    - language: java
+      jdk: oraclejdk15
+      services:
+        - postgresql
+ 
+      before_install:
+        - cd backend
+        - chmod +x mvnw
+
+      addons:
+        sonarcloud:
+          organization: vandrija
+          token: $SONAR_TOKEN
+
+
       script:
-        - cd frontend
+        - ./mvnw clean install -DskipTests=false -B
+        - ./mvnw sonar:sonar -Dsonar.projectKey=$PROJECT_KEY -Dsonar.organization=vandrija -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+
+      dist: trusty
+
       deploy:
         provider: heroku
         api_key: $HEROKU_API_KEY
         on:
           branch: main
-        app: ap-tim-13-fe 
- 
-    
+        app: ap-tim-13
