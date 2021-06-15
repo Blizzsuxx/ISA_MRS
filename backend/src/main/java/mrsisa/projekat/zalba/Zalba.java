@@ -9,6 +9,10 @@ import java.util.List;
 @Entity
 @Table(name="zalbe")
 public class Zalba {
+    @Version
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    private Long version;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -124,5 +128,13 @@ public class Zalba {
 
     public void setIdObjekta(String idObjekta) {
         this.idObjekta = idObjekta;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
