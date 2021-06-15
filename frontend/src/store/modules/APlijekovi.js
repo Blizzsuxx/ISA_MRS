@@ -20,7 +20,7 @@ const state = {
 
 const actions = {
     dobaviSveLijekove(){
-        return axios.get('http://localhost:8080/api/v1/lijekovi/DTOlijekovi',{ headers: authHeader()});
+        return axios.get('lijekovi/DTOlijekovi',{ headers: authHeader()});
     },
     dobaviLijekoveDobavljaca(){
         return axios.get('lijekovi/dobaviStanjeLijekovaDobavljaca', { headers: authHeader() });
