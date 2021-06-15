@@ -8,6 +8,7 @@ import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.lijek.LijekRepository;
 import mrsisa.projekat.radnik.Radnik;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
+import mrsisa.projekat.slobodanTermin.SlobodanTerminService;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class PosetaController {
     private final StanjeLijekaRepository stanjeLijekaRepository;
     private final ApotekaRepository apotekaRepository;
     private final LijekRepository lijekRepository;
+
     @Autowired
     public PosetaController(PosetaService apotekaService, StanjeLijekaRepository stanjeLijekaRepository, ApotekaRepository apotekaRepository, LijekRepository lijekRepository){
         this.posetaService = apotekaService;
@@ -101,9 +103,9 @@ public class PosetaController {
     }
 
     @PostMapping(value="/zakaziPosetu")
-    public void zakaziPosetu( @RequestBody Map<String, Object> podaci){
+    public Boolean zakaziPosetu( @RequestBody Map<String, Object> podaci){
 
-        this.posetaService.kreirajPosetu(podaci);
+        return this.posetaService.kreirajPosetu(podaci);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/otkazi")
@@ -141,6 +143,11 @@ public class PosetaController {
     public String rezervisiPosetuD( @RequestBody String id){
 
         return this.posetaService.zakaziPosetuD(id);
+    }
+
+    @PostMapping(path = "/nabaviSlobodneTermine")
+    public List<SlobodanTerminDTO> nabaviSlobodneTermine(@RequestBody Map<String, Object> data){
+        return posetaService.slobodniTermini(data);
     }
 
 }

@@ -15,6 +15,8 @@ import mrsisa.projekat.lijek.LijekDTO;
 import mrsisa.projekat.pacijent.Pacijent;
 import mrsisa.projekat.pacijent.PacijentRepository;
 import mrsisa.projekat.pacijent.PacijentService;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustService;
 import mrsisa.projekat.radnoVrijeme.RadnoVrijeme;
 import mrsisa.projekat.slobodanTermin.SlobodanTermin;
 import mrsisa.projekat.radnik.Radnik;
@@ -22,9 +24,11 @@ import mrsisa.projekat.slobodanTermin.SlobodanTerminDTO;
 import mrsisa.projekat.slobodanTermin.SlobodanTerminRepository;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import mrsisa.projekat.tipPenala.Penal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,11 +48,12 @@ public class PosetaService {
     private final PacijentRepository pacijentRepository;
     private final SlobodanTerminRepository slobodanTerminRepository;
     private final PacijentService pacijentService;
+    private final PopustService popustService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     public PosetaService(PosetaRepository posRepository, FarmaceutRepository farm, DermatologRepository derm,
-                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR, PacijentService pacijentService)
+                         ApotekaRepository apotekaRepository, PacijentRepository pacijentR, SlobodanTerminRepository slobodanR, PacijentService pacijentService, PopustService popustRepository)
     {
         this.posetaRepository = posRepository;
         this.farmaceutRepository=farm;
@@ -57,6 +62,7 @@ public class PosetaService {
         this.pacijentRepository=pacijentR;
         this.slobodanTerminRepository=slobodanR;
         this.pacijentService = pacijentService;
+        this.popustService = popustRepository;
     }
 
     public List<PosetaDTO> dobaviPosete(Long id) {
@@ -71,6 +77,14 @@ public class PosetaService {
         Poseta poseta = this.findId(id);
         poseta.setOpis(opis);
         poseta.setOtkazano(false);
+        Popust popust = this.popustService.findById(1);
+        Pacijent pacijent = poseta.getPacijent();
+        if(poseta.getRadnik() instanceof Farmaceut){
+            pacijent.setBrojPoena(pacijent.getBrojPoena() + popust.getBrojPoenaSavetovanja());
+        } else {
+            pacijent.setBrojPoena(pacijent.getBrojPoena() + popust.getBrojPoenaPregleda());
+
+        }
         this.posetaRepository.save(poseta);
     }
 
@@ -87,35 +101,45 @@ public class PosetaService {
         Pacijent pacijent = poseta.getPacijent();
         Apoteka apoteka = poseta.getApoteka();
         Radnik radnik = poseta.getRadnik();
-        ArrayList<String> dateTime = (ArrayList<String>)podaci.get("datetime");
-        LocalDateTime pocetak = LocalDateTime.parse(dateTime.get(0).substring(0,23));
-        LocalDateTime kraj = LocalDateTime.parse(dateTime.get(1).substring(0,23));
+        ArrayList<String> dateTime = null;
+        LocalDateTime pocetak = null;
+        LocalDateTime kraj = null;
+        if(podaci.get("datetime").toString().isEmpty()){
+            System.out.println(podaci.get("slobodan termin"));
+            SlobodanTermin sl = this.slobodanTerminRepository.findOneById(Long.parseLong(podaci.get("slobodan termin").toString()));
+            pocetak = (sl.getPocetakTermina());
+            kraj = (sl.getKrajTermina());
 
-
-
-        List<Poseta> posete = this.posetaRepository.findAllByPacijentId(pacijent.getId());
-        for(Poseta p : posete){
-            if(pocetak.isBefore(p.getPocetak()) && !kraj.isBefore(p.getPocetak())){
-                return true;
-            }
-            if(pocetak.isAfter(p.getPocetak()) && pocetak.isBefore(p.getKraj())){
-                return true;
-            }
+        } else {
+            dateTime = (ArrayList<String>) podaci.get("datetime");
+            pocetak = LocalDateTime.parse(dateTime.get(0).substring(0,23));
+            kraj = LocalDateTime.parse(dateTime.get(1).substring(0,23));
         }
 
 
-        posete = this.posetaRepository.findByRadnikAktivno(pacijent.getId());
+        List<Poseta> posete = this.posetaRepository.findByRadnikAktivno(radnik.getId());
         for(Poseta p : posete){
             if(pocetak.isBefore(p.getPocetak()) && !kraj.isBefore(p.getPocetak())){
                 return true;
             }
             if(pocetak.isAfter(p.getPocetak()) && pocetak.isBefore(p.getKraj())){
+                return true;
+            }
+            if(pocetak.isEqual(p.getPocetak())){
                 return true;
             }
         }
         List<RadnoVrijeme> rvreme = apoteka.getRadnaVremena();
         for(RadnoVrijeme rv : rvreme){
-
+            Radnik rad = rv.getDermatolog();
+            if(rad == null) rad = rv.getFarmaceuet();
+            if(rad.getId().equals(radnik.getId())){
+                if(rv.getPocetakRadnogVremena().isBefore(pocetak) && rv.getKrajRadnogVremena().isAfter(kraj)){
+                    break;
+                } else {
+                    return true;
+                }
+            }
         }
 
         Poseta novaPoseta = new Poseta();
@@ -129,6 +153,13 @@ public class PosetaService {
         radnik.getPosete().add(novaPoseta);
         this.posetaRepository.save(novaPoseta);
         System.out.println(podaci.get("korisnik"));
+
+        if(podaci.get("datetime").toString().isEmpty()){
+            System.out.println(podaci.get("slobodan termin"));
+            SlobodanTermin sl = this.slobodanTerminRepository.findOneById(Long.parseLong(podaci.get("slobodan termin").toString()));
+            this.slobodanTerminRepository.delete(sl);
+
+        }
         return  false;
     }
 
@@ -469,11 +500,12 @@ public class PosetaService {
 
 
         if(poseta.getRadnik() instanceof Farmaceut) {
-            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 2);
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 2);
         } else{
-            this.pacijentService.nijePreuzeolek(Math.toIntExact(id), 3);
+            this.pacijentService.nijePreuzeolek(Math.toIntExact(poseta.getPacijent().getId()), 3);
 
         }
+        poseta.setOtkazano(true);
 
     }
 
@@ -582,5 +614,28 @@ public class PosetaService {
 
 
 
+    }
+
+    @Transactional
+    public List<SlobodanTerminDTO> slobodniTermini(Map<String, Object> data) {
+        Long id = Long.parseLong(data.get("posetaId").toString());
+        Poseta poseta = this.posetaRepository.findOneById(id);
+
+        Long apotekaId = poseta.getApoteka().getId();
+        Long radnikId = Long.valueOf(poseta.getRadnik().getId());
+        List<SlobodanTermin> sviTermini=this.slobodanTerminRepository.findAll();
+
+        List<SlobodanTerminDTO> zaSlanje=new ArrayList<>();
+        for(SlobodanTermin p : sviTermini){
+
+            Dermatolog r=this.dermatologRepository.findByIdD(p.getRadnik().getId());
+            Apoteka a=this.apotekaRepository.findOneById(p.getApoteka().getId());
+
+            if(r!=null && a!=null && apotekaId.toString().equals(a.getId().toString()) && radnikId.toString().equals(r.getId().toString())){
+
+                zaSlanje.add(new SlobodanTerminDTO(p,r,a));}
+
+        }
+        return zaSlanje;
     }
 }

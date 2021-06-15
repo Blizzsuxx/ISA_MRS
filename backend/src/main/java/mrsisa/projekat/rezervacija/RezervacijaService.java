@@ -3,14 +3,13 @@ package mrsisa.projekat.rezervacija;
 import mrsisa.projekat.apoteka.Apoteka;
 import mrsisa.projekat.apoteka.ApotekaRepository;
 import mrsisa.projekat.farmaceut.Farmaceut;
+import mrsisa.projekat.popust.Popust;
+import mrsisa.projekat.popust.PopustService;
 import mrsisa.projekat.poseta.Poseta;
 import mrsisa.projekat.poseta.PosetaService;
 import mrsisa.projekat.stanjelijeka.StanjeLijeka;
 import mrsisa.projekat.stanjelijeka.StanjeLijekaRepository;
-import net.bytebuddy.agent.builder.AgentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.config.FixedRateTask;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,13 +26,15 @@ public class RezervacijaService {
     private final RezervacijaRepository repository;
     private final ApotekaRepository apotekaRepository;
     private final StanjeLijekaRepository stanjeLijekaRepository;
+    private final PopustService popustService;
 
 
     @Autowired
-    public RezervacijaService(RezervacijaRepository repository, ApotekaRepository apotekaRepository, StanjeLijekaRepository stanjeLijekaRepository) {
+    public RezervacijaService(RezervacijaRepository repository, ApotekaRepository apotekaRepository, StanjeLijekaRepository stanjeLijekaRepository, PopustService popustService) {
         this.repository = repository;
         this.apotekaRepository = apotekaRepository;
         this.stanjeLijekaRepository = stanjeLijekaRepository;
+        this.popustService = popustService;
     }
 
     @Transactional
@@ -66,7 +67,6 @@ public class RezervacijaService {
                     rezervacija.getRezervisaniLijekovi().add(lekIzApoteke);
                     lekIzApoteke.setKolicina(lekIzApoteke.getKolicina()- (Integer) lek.get("kolicina"));
 
-                    //TODO POSTAVI BODOVE
                     break;
                 }
             }
@@ -107,6 +107,8 @@ public class RezervacijaService {
         Long id = Long.parseLong(podaci.get("id").toString());
         Rezervacija r = this.repository.findById1(id);
         r.setIzdato(true);
+        String kategorija = r.getPacijent().getKategorija();
+        Popust p = this.popustService.findById(1);
         // TODO BODOVI
     }
 }
